@@ -20,8 +20,8 @@
 
 </template>
 <script>
-import MenuBar from '../components/MenuBarComp.vue'
-import SideBar from '../components/SideBarComp.vue'
+import MenuBar from '../components/components-MenuBarComp-left.vue'
+import SideBar from '../components/rightsidebars/SideBarComp.vue'
 
 export default {
   components: { MenuBar, SideBar }

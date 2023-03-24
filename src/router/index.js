@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+// import HomeView from '../views/HomeView.vue'
 import MainContents from '../views/MainContentsView.vue'
 import MainHomeView from '../views/MainHomeView.vue'
 import AboutView from '../views/ExamplePopoverTooltip.vue'
+import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
 
 const routes = [
   {
@@ -33,9 +35,22 @@ const routes = [
   },
   {
     path: '/',
-    name: 'home',
+    name: 'login',
+    alias: ['/', '/login'],
     components: {
-      rhome: HomeView
+      rhome: LoginView
+    }
+  },
+  {
+    path: '/googlelogin',
+    name: 'GoogleLogin',
+    component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    components: {
+      rhome: RegisterView
     }
   }
 
