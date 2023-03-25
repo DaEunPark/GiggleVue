@@ -1,12 +1,12 @@
 <template>
-    <div class="sticky-top">
+    <div class="sidebar">
 
-        <div id="search">
+        <div id="search" class="sticky-top">
             <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
-                        <input type="text" v-model="searchWords" class="form-control text-dark" @keydown.enter="enterSearch" placeholder="검색어를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
+                        <input type="text" v-model="searchWords" class="form-control text-dark bg-white" @keydown.enter="enterSearch" placeholder="검색어를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
                         data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
                     </div>
                 </div>
@@ -15,17 +15,17 @@
 
                 <div v-show="isExistSearchWord">
 
-                    <div class="card bg-light mb-3">
-                        <div class="list-group">
-                            <div class="list-group-item bg-primary d-flex justify-content-between align-items-center">
-                                최근 검색어
+                    <div class="card bg-light mb-3 border-round-radius" >
+                        <div class="list-group" style="border-radius: 1em;">
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="text-dark fw-bold">최근 검색어</span>
                                 <a href="#" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
                             <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="i in 3" :key="i">
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;"> Praeterea iter est quasdam res quas ex communi.</span>
                                 <a href="#" @click="deleteThisSearchWord(i)"><font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
-                            <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+
                         </div><!-- <div class="list-group"> -->
                     </div> <!-- <div class="card bg-light mb-3"> -->
                 </div> <!-- <div v-if="isExistSearchWord"> -->
@@ -41,14 +41,41 @@
             </div><!--<div class="collapse" id="collapseSearch" style="margin-top: -20px !important; padding-top: 0 !important;">-->
         </div> <!-- <div id="search"> -->
 
+        <!-- 트렌드 -->
+        <div id="trend">
+            <div class="card bg-light mb-3 border-round-radius" >
+                <div class="list-group" style="border-radius: 1em;">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-dark fw-bold">나를 위한 검색어</span>
+
+                    </div>
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 3" :key="i">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h5 class="mb-1 text-dark">FIFTY FIFTY</h5>
+
+                    </router-link>
+                    <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                </div><!-- <div class="list-group"> -->
+            </div> <!-- <div class="card bg-light mb-3"> -->
+        </div>
+
         <!-- 팔로우 추천 -->
-        <div class="card bg-light mb-3" style="max-width: 20rem;">
-            <div class="card-header">팔로우 추천</div>
-            <div class="card-body">
-                <h4 class="card-title">Light card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div> <!-- <div class="card bg-light mb-3" style="max-width: 20rem;"> -->
+        <div id="recommendfolow">
+            <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
+                <div class="card-header">팔로우 추천</div>
+                <div class="card-body">
+                    <h4 class="card-title">Light card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <div class="card-header">팔로우 추천</div>
+                <div class="card-body">
+                    <h4 class="card-title">Light card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+
+
+            </div> <!-- <div class="card bg-light mb-3" style="max-width: 20rem;"> -->
+        </div>
 
         <br/><br/>
         <br/>
@@ -88,6 +115,16 @@ export default {
 <style scoped>
     input::placeholder {
         color: darkgrey;
+    }
+
+    .border-round-radius {
+        border-radius: 1em;
+    }
+    .sidebar {
+        /* height: inherit; */
+        /* display: flex; */
+        top: o;
+        height: 100%;
     }
 
 </style>

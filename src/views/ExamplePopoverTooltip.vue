@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: palevioletred">
+  <div style="background-color: palevioletred"  class="overflow-auto">
     <div class="about">
       <h1>This is Bootstrap Test Page</h1>
       <br/><br/><br/>
