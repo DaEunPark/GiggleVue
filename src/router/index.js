@@ -15,13 +15,13 @@ const routes = [
     },
     children: [
       {
-        path: '/main/mainhome',
+        path: 'mainhome',
         components: {
           rmain: MainContents
         }
       },
       {
-        path: '/main/about',
+        path: 'about',
         name: 'about',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
