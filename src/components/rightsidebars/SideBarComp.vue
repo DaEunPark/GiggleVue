@@ -14,23 +14,19 @@
             <div class="collapse" id="collapseSearch" style="margin-top: -20px !important; padding-top: 0 !important;">
 
                 <div v-show="isExistSearchWord">
-                    <div class="card bg-light mb-3">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            최근 검색어
-                            <a href="#" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
-                        </div>
 
-                        <ul class="list-group list-group-flush" v-for="i in 5" :key="i" >
-                            <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center text-dark">
-                                <span class="d-inline-block text-truncate"> Praeterea iter est quasdam res quas ex communi.</span>
-                                &nbsp;&nbsp;&nbsp;
+                    <div class="card bg-light mb-3">
+                        <div class="list-group">
+                            <div class="list-group-item bg-primary d-flex justify-content-between align-items-center">
+                                최근 검색어
+                                <a href="#" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
+                            </div>
+                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="i in 3" :key="i">
+                                <span class="d-inline-block text-truncate" style="margin-right: 20px;"> Praeterea iter est quasdam res quas ex communi.</span>
                                 <a href="#" @click="deleteThisSearchWord(i)"><font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
-                            </li>
-                        </ul>
-                        <div class="card-footer text-muted">
-                            <router-link to="bootstraptest" class="text-info" style="text-decoration: none;">더 보기</router-link>
-                            <!-- <a href="#" class="text-info" style="text-decoration: none;">더 보기</a> -->
-                        </div>
+                            </router-link>
+                            <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                        </div><!-- <div class="list-group"> -->
                     </div> <!-- <div class="card bg-light mb-3"> -->
                 </div> <!-- <div v-if="isExistSearchWord"> -->
 
@@ -54,6 +50,9 @@
             </div>
         </div> <!-- <div class="card bg-light mb-3" style="max-width: 20rem;"> -->
 
+        <br/><br/>
+        <br/>
+
     </div> <!-- <div class="sticky-top"> -->
 </template>
 
@@ -68,7 +67,12 @@ export default {
   },
   methods: {
     enterSearch () {
-      alert(this.searchWords)
+      // eslint-disable-next-line eqeqeq
+      if (this.searchWords == '' || this.searchWords == null) {
+        alert('검색어를 입력하세요')
+      } else {
+        alert(this.searchWords)
+      }
     },
     clearAllSearchWords () {
     //   alert('clearAllSearchWords')
@@ -85,4 +89,5 @@ export default {
     input::placeholder {
         color: darkgrey;
     }
+
 </style>
