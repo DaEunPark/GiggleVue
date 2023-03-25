@@ -28,7 +28,7 @@
                             </li>
                         </ul>
                         <div class="card-footer text-muted">
-                            <router-link to="about" class="text-info" style="text-decoration: none;">더 보기</router-link>
+                            <router-link to="bootstraptest" class="text-info" style="text-decoration: none;">더 보기</router-link>
                             <!-- <a href="#" class="text-info" style="text-decoration: none;">더 보기</a> -->
                         </div>
                     </div> <!-- <div class="card bg-light mb-3"> -->
@@ -45,6 +45,7 @@
             </div><!--<div class="collapse" id="collapseSearch" style="margin-top: -20px !important; padding-top: 0 !important;">-->
         </div> <!-- <div id="search"> -->
 
+        <!-- 팔로우 추천 -->
         <div class="card bg-light mb-3" style="max-width: 20rem;">
             <div class="card-header">팔로우 추천</div>
             <div class="card-body">
