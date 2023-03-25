@@ -19,11 +19,11 @@
                         <div class="list-group" style="border-radius: 1em;">
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <span class="text-dark fw-bold">최근 검색어</span>
-                                <a href="#" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
+                                <a href="#" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
                             <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="i in 3" :key="i">
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;"> Praeterea iter est quasdam res quas ex communi.</span>
-                                <a href="#" @click="deleteThisSearchWord(i)"><font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                                <a href="#" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
 
                         </div><!-- <div class="list-group"> -->
@@ -62,19 +62,26 @@
         <!-- 팔로우 추천 -->
         <div id="recommendfolow">
             <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
-                <div class="card-header">팔로우 추천</div>
-                <div class="card-body">
-                    <h4 class="card-title">Light card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <div class="card-header">팔로우 추천</div>
-                <div class="card-body">
-                    <h4 class="card-title">Light card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
+                <div class="list-group" style="border-radius: 1em;">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-dark fw-bold">팔로우 추천</span>
+                    </div>
+                    <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
+                        <div class="profile-wrapper">
+                            <div class="profile-box">
+                                <img src="../../assets/logo.png" class="profile-img" >
+                            </div>
+                        </div>
+                        <div class="profile-user-name">
+                            <div class="mb-1 text-dark d-inline-block text-nowrap fw-bold text-size-custom" >FIFTY FIFTY + {{ i }}</div>
+                        </div>
+                        <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                        <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
 
-
-            </div> <!-- <div class="card bg-light mb-3" style="max-width: 20rem;"> -->
+                    </router-link>
+                    <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                </div><!-- <div class="list-group"> -->
+            </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
         <br/><br/>
@@ -112,6 +119,9 @@ export default {
     },
     deleteThisSearchWord (item) {
       alert('this is ' + item)
+    },
+    followThisUser (item) {
+      alert('follow this user: ' + item)
     }
   }
 }
@@ -123,12 +133,41 @@ export default {
 
     .border-round-radius {
         border-radius: 1em;
+
     }
     .sidebar {
         /* height: inherit; */
         /* display: flex; */
         top: o;
         height: 100%;
+    }
+    .profile-wrapper {
+        width: 50px;
+        height: 50px;
+
+    }
+    .profile-box {
+        overflow: hidden;
+        border-radius: 100%;
+        border: 2px solid whitesmoke !important;
+    }
+    .profile-img{
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 100%;
+        height: auto;
+    }
+    .text-size-custom {
+        text-size-adjust: auto;
+    }
+    .profile-user-name {
+        margin: 0 20px 0 10px;
+    }
+    .hover-change-color:hover span {
+        /* color:orangered; */
+        background-color: deeppink !important;
     }
 
 </style>
