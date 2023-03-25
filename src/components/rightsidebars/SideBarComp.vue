@@ -1,7 +1,8 @@
 <template>
     <div class="sidebar">
 
-        <div id="search" class="sticky-top">
+        <div id="search" class="  sticky-top">
+
             <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;">
                 <div class="form-group">
                     <div class="input-group mb-3">
@@ -59,37 +60,47 @@
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <!-- 팔로우 추천 -->
-        <div id="recommendfolow">
-            <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
-                <div class="list-group" style="border-radius: 1em;">
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <span class="text-dark fw-bold">팔로우 추천</span>
-                    </div>
-                    <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
-                        <div class="profile-wrapper">
-                            <div class="profile-box">
-                                <img src="../../assets/logo.png" class="profile-img" >
+        <div id="test1" class="sticky-top" style="z-index: -10;">
+            <!-- 팔로우 추천 -->
+            <div id="recommendfolow">
+                <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
+                    <div class="list-group" style="border-radius: 1em;">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-dark fw-bold">팔로우 추천</span>
+                        </div>
+                        <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
+                            <div class="profile-wrapper">
+                                <div class="profile-box">
+                                    <img src="../../assets/logo.png" class="profile-img" >
+                                </div>
                             </div>
-                        </div>
-                        <div class="profile-user-name">
-                            <div class="mb-1 text-dark d-inline-block text-nowrap fw-bold text-size-custom" >FIFTY FIFTY + {{ i }}</div>
-                        </div>
-                        <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
-                        <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
+                            <div class="profile-user-name">
+                                <div class="mb-1 text-dark d-inline-block text-nowrap fw-bold text-size-custom" >FIFTY FIFTY + {{ i }}</div>
+                            </div>
+                            <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
 
-                    </router-link>
-                    <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
-                </div><!-- <div class="list-group"> -->
-            </div> <!-- <div class="card bg-light mb-3"> -->
-        </div>
+                        </router-link>
+                        <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                    </div><!-- <div class="list-group"> -->
+                </div> <!-- <div class="card bg-light mb-3"> -->
+            </div>
 
-        <br/><br/>
-        <br/>
-        <br/><br/>
-        <br/>
-        <br/><br/>
-        <br/>
+            <footer class="text-dark text-nowrap text-size-custom" style="font-size: xx-small;">
+                <div class="d-flex flex-row">
+                    <div class="p-2">이용약관</div>
+                    <div class="p-2">개인정보 처리방침</div>
+                    <div class="p-2">쿠키 정책</div>
+                    <div class="p-2">접근성</div>
+                </div>
+                <div class="d-flex flex-row" style="margin-top: -30px;">
+                    <div class="p-2">광고 정보</div>
+                    <div class="p-2">더보기 ...</div>
+                    <div class="p-2">@2023 Giggle</div>
+                </div>
+            </footer>
+
+        </div> <!-- test1 -->
 
     </div> <!-- <div class="sticky-top"> -->
 </template>
@@ -168,6 +179,9 @@ export default {
     .hover-change-color:hover span {
         /* color:orangered; */
         background-color: deeppink !important;
+    }
+    #test1 {
+        top: 4em;
     }
 
 </style>
