@@ -6,9 +6,12 @@ import axios from 'axios'
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 // import 'bootswatch/dist/quartz/bootstrap.min.css'
-import 'bootstrap'
+// import 'bootstrap'
 import './assets/bootswatch/dist/custom/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
+// import 'bootstrap/dist/js/bootstrap.esm.min.js'
+// import 'jquery/src/jquery.js'
+// import 'bootstrap/dist/js/bootstrap.min.js'
+// import 'bootstrap/dist/js/bootstrap.bundle.js'
 // import Popper from 'vue-popperjs'
 // import 'vue-popperjs/dist/vue-popper.css'
 // import { createPopper } from '@popperjs/core'
@@ -24,7 +27,6 @@ import './assets/css/common.css'
 // createApp(App).use(store).use(router).mount('#app')
 const app = createApp(App).use(router)
 const emitter = mitt()
-
 library.add(fas, far, fab)
 
 app.config.globalProperties.$axios = axios

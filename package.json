@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 2727",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -21,6 +21,7 @@
     "bootswatch": "^5.2.3",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.7",
+    "jquery": "^3.6.4",
     "mitt": "^3.0.0",
     "vue": "^3.2.13",
     "vue-popperjs": "^2.3.0",
