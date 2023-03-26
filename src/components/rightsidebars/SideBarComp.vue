@@ -47,12 +47,12 @@
             <div class="card bg-light mb-3 border-round-radius" >
                 <div class="list-group" style="border-radius: 1em;">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <span class="text-dark fw-bold">나를 위한 검색어</span>
+                        <span class="text-dark fw-bold">나를 위한 트렌드</span>
 
                     </div>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 3" :key="i">
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 10" :key="i">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h5 class="mb-1 text-dark">FIFTY FIFTY</h5>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">0X1=LOVESONG (I Know I Love You) </h6>
 
                     </router-link>
                     <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
@@ -60,7 +60,7 @@
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <div id="test1" class="sticky-top" style="z-index: -10;">
+        <div id="test1" class="sticky-top" style="z-index: 0;">
             <!-- 팔로우 추천 -->
             <div id="recommendfolow">
                 <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
@@ -71,11 +71,11 @@
                         <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
                             <div class="profile-wrapper">
                                 <div class="profile-box">
-                                    <img src="../../assets/logo.png" class="profile-img" >
+                                    <img src="../../assets/profile.jpg" class="profile-img" >
                                 </div>
                             </div>
                             <div class="profile-user-name">
-                                <div class="mb-1 text-dark d-inline-block text-nowrap fw-bold text-size-custom" >FIFTY FIFTY + {{ i }}</div>
+                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">FIFTY FIFTY  FIFTY + {{ i }}</div>
                             </div>
                             <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
                             <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
