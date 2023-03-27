@@ -293,7 +293,7 @@ import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 export default {
   data: function () {
     return {
-      youtubeSrc: 'https://youtu.be/cbuZfY2S2UQ?t=5',
+      youtubeSrc: 'https://youtu.be/ZwDHSVYZuTc',
       rightYTID: false
     }
   },
@@ -338,7 +338,7 @@ export default {
         return `https://www.youtube.com/embed/${matchResult[2]}`
       } else {
         this.rightYTID = false
-        return 'error'
+        return url
       }
     }
   }
