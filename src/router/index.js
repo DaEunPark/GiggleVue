@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import MainContents from '../views/MainContentsView.vue'
 import MainHomeView from '../views/MainHomeView.vue'
-import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
+import AboutView from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
 
 const routes = [
   {
@@ -15,41 +13,43 @@ const routes = [
     },
     children: [
       {
-        path: 'mainhome',
+        path: '/main/mainhome',
         components: {
           rmain: MainContents
         }
       },
       {
-        path: 'bootstraptest',
-        name: 'bootstraptest',
+        path: '/main/about',
+        name: 'about',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
         components: {
-          rmain: BootstrapTestVue
+          rmain: AboutView
         }
       }
+
     ]
   },
+
   {
     path: '/',
     name: 'login',
-    alias: ['/', '/login'],
     components: {
       rhome: LoginView
-    }
+    },
   },
+
   {
     path: '/googlelogin',
     name: 'GoogleLogin',
-    component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
+    component: () => import (/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
   {
-    path: '/register',
-    name: 'register',
-    components: {
-      rhome: RegisterView
-    }
-  }
-
+    path: '/kakaologin',
+    name: 'KakaoLogin',
+    component: () => import( /* webpackChunkName: "LoginGroup" */ '../views/KakaoLogin.vue')
+  },
 ]
 
 const router = createRouter({
