@@ -45,11 +45,7 @@ const routes = [
     name: 'GoogleLogin',
     component: () => import (/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
-  {
-    path: '/kakaologin',
-    name: 'KakaoLogin',
-    component: () => import( /* webpackChunkName: "LoginGroup" */ '../views/KakaoLogin.vue')
-  },
+
 ]
 
 const router = createRouter({
