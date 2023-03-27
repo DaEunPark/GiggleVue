@@ -3,6 +3,7 @@ import MainContents from '../views/MainContentsView.vue'
 import MainHomeView from '../views/MainHomeView.vue'
 import AboutView from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
+import UpLoad from '../views/UpLoad.vue'
 
 const routes = [
   {
@@ -45,6 +46,13 @@ const routes = [
     name: 'GoogleLogin',
     component: () => import (/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
+  {
+    path: '/upload',
+    name: 'UpLoad',
+    components: {
+      rhome:  UpLoad
+    }
+  }
 
 ]
 

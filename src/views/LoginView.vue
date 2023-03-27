@@ -1,6 +1,4 @@
 
-import KakaoLogin from './KakaoLogin.vue';
-
 <template>
     <router-link to="/"></router-link>
     <div class="background">
