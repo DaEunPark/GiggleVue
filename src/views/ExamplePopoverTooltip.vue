@@ -4,6 +4,21 @@
       <h1>This is Bootstrap Test Page</h1>
       <br/><br/><br/>
     </div>
+    <!-- video-embed start -->
+    <div>
+      <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+      <div v-if="rightYTID" style="height: 360px;">
+        <iframe id="yotube-frame" :src="getYoutubeVideoURL" title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div v-else>
+        <a :href="getYoutubeVideoURL">{{ getYoutubeVideoURL }}</a>
+      </div>
+    </div>
+    <br/><br/><br/><hr/><br/>
+    <!-- video-embed End -->
+
     <!-- Alert Start -->
     <div class="alert alert-dismissible alert-warning">
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -276,6 +291,17 @@
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
+  data: function () {
+    return {
+      youtubeSrc: 'https://youtu.be/cbuZfY2S2UQ?t=5',
+      rightYTID: false
+    }
+  },
+  computed: {
+    getYoutubeVideoURL () {
+      return this.parseYoutubeUrl(this.youtubeSrc)
+    }
+  },
   mounted () {
   // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
@@ -300,6 +326,26 @@ export default {
       modalTitle.textContent = 'New message to ' + recipient
       modalBodyInput.value = recipient
     })
+  },
+  methods: {
+    parseYoutubeUrl (url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const matchResult = url.match(regExp)
+      if (matchResult && (matchResult[2].length === 11)) {
+        // console.log(`${matchResult[2]}`)
+        this.rightYTID = true
+        return `https://www.youtube.com/embed/${matchResult[2]}`
+      } else {
+        this.rightYTID = false
+        return 'error'
+      }
+    }
   }
 }
 </script>
+<style scoped>
+ #yotube-frame {
+  width: 100%;
+  height: 100%;
+ }
+</style>
