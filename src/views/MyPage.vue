@@ -1,32 +1,48 @@
 <template>
-  <div style="background-color: palevioletred"  class="overflow-auto">
-    <div class="about">
-      <h1>This is Bootstrap Test Page</h1>
+  <div style="background-color: #eeeeeede;"  class="overflow-auto">
+    <div class="logo"  style="text-align:center;">
+        <img src="../assets/Glogo.png" alt="logo" width="200" height="120" >
+    </div>
+
       <br/><br/><br/>
-    </div>
-    <!-- video-embed start -->
-    <div>
-      <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+               <!--프로필 부분-->
+                      <div class="user_profile_box">
+            <div class="user_img_box">
+                <img class="img_circle user_img" name="프로필" src="../assets/profile.jpg">
+            </div>
+            <div class="user_info_box">
+                <div class="user_name">
+                    <p id="user_name_title">Nick_name</p>
+                    <div class="user_setting_box">
 
-      <div v-if="rightYTID" style="height: 360px;">
-        <iframe id="yotube-frame" :src="getYoutubeVideoURL" title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-      </div>
-      <div v-else>
-        <a :href="getYoutubeVideoURL">{{ getYoutubeVideoURL }}</a>
-      </div>
-    </div>
-    <br/><br/><br/><hr/><br/>
-    <!-- video-embed End -->
+                        <div class="user_follow_btn" onclick="user_follow_create()">팔로우</div>
+                        <div onclick="user_setting_modal_on()">
+                        <img width="24px" align="left" src="../assets/icon_setting.png"/>
+                        </div>
 
-    <!-- Alert Start -->
-    <div class="alert alert-dismissible alert-warning">
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      <h4 class="alert-heading">Warning!</h4>
-      <p class="mb-0">Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, <a href="#" class="alert-link">vel scelerisque nisl consectetur et</a>.</p>
+                    </div>
+                </div>
+                <div class="item_cnt">
+                    <div class="item">게시물 <span style="font-weight: 500;">user_info</span></div>
+                    <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">user_info</span></div>
+                    <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">user_info</span></div>
+                </div>
+                <div class="user_nickname">
+                    <!-- {{user_info['Name']}} -->
+                </div>
+            </div>
+        </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Card</h4>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
     </div>
-    <br/><br/><br/><hr/><br/>
-    <!-- Alert End -->
+
     <div class="container">
       <!-- Popover Start -->
       <h3 class="text-light">Popovers</h3>
@@ -291,17 +307,6 @@
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
-  data: function () {
-    return {
-      youtubeSrc: 'https://youtu.be/ZwDHSVYZuTc',
-      rightYTID: false
-    }
-  },
-  computed: {
-    getYoutubeVideoURL () {
-      return this.parseYoutubeUrl(this.youtubeSrc)
-    }
-  },
   mounted () {
   // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
@@ -326,27 +331,108 @@ export default {
       modalTitle.textContent = 'New message to ' + recipient
       modalBodyInput.value = recipient
     })
-  },
-  methods: {
-    parseYoutubeUrl (url) {
-      // eslint-disable-next-line no-useless-escape
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
-      const matchResult = url.match(regExp)
-      if (matchResult && (matchResult[2].length === 11)) {
-        // console.log(`${matchResult[2]}`)
-        this.rightYTID = true
-        return `https://www.youtube.com/embed/${matchResult[2]}`
-      } else {
-        this.rightYTID = false
-        return url
-      }
-    }
   }
 }
 </script>
 <style scoped>
- #yotube-frame {
-  width: 100%;
-  height: 100%;
- }
+* {-webkit-text-fill-color: black;}
+
+.user_main_body{
+    width: 975px;
+    height: 1000px;
+    margin: 90px auto 0 auto;
+    padding: 30px 20px 0px;
+}
+
+.user_profile_box {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 44px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+    justify-content: space-between;
+}
+
+.user_img_box {
+    width: 30%;
+    height: 100%;
+
+}
+
+.user_img_box > .user_img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin: auto;
+    display: block;
+      border-radius: 50%;
+}
+
+.user_follow_btn {
+    width: 100%;
+    height: 30px;
+
+    padding: 5px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.user_info_box {
+    width: 65%;
+    height: 100%;
+}
+
+.user_info_box > .user_name {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+
+    font-size: 28px;
+    font-weight: 300;
+
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+}
+
+.user_info_box > .user_name  > .user_setting_box {
+    width: 80px;
+    margin-left: 15%;
+    padding-top: 10px;
+
+    cursor: pointer;
+}
+
+.user_info_box > .item_cnt {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+    justify-content: left;
+}
+
+.user_info_box > .item_cnt > .item {
+    width: 72px;
+    font-size: 16px;
+    margin-right: 40px;
+}
+
+.user_info_box > .user_nickname {
+    width: 100%;
+    height: 20px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
 </style>

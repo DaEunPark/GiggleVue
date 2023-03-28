@@ -1,6 +1,6 @@
 <template>
     <div></div>
-    <div class="container bd-layout">
+    <div class="container-fluid bd-layout">
         <!-- <div class="row">
             <div class="col-sm-3">
                 <MenuBar></MenuBar>
@@ -27,6 +27,9 @@
                 <MenuBar></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
+                <div class="sticky-top" style="height: 100px; background-color: darkorange;">
+
+                </div>
                 <div>
                     <router-view name="rmain"></router-view>
                 </div>
