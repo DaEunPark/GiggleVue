@@ -1,8 +1,5 @@
 <template>
     <div class="card" id="card">
-    <div class="card-title">
-        <img src="../assets/profic.jpeg" id="profic">
-    </div>
         <div class="card-body" id="body">
             <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘"></textarea>
         </div>
@@ -21,7 +18,7 @@
 
 <style scoped>
 #card {
-    width:  850px;
+    width:  750px;
     height: auto;
     min-height: 200px;
     margin: 5% 25%;
@@ -29,7 +26,7 @@
 #addImage, #addYoutube, #addLink, #statistics {
     width:  23px;
     height: 23px;
-    margin:0 0 0 15%;
+    margin:0 0 0 10%;
 }
 #footer {
     float:  left;
@@ -39,15 +36,6 @@
     background-color:    white;
     border: none;
     width:  680px;
-}
-#profic {
-    width:  100px;
-    height: 100px;
-    position:absolute;
-    margin-top: 40px;
-    margin-left: 20px;
-    border-radius: 70%;
-    overflow: hidden;
 }
 .card{
     float:  left;
