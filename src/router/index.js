@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import MainContents from '../views/MainContentsView.vue'
 import MainHomeView from '../views/MainHomeView.vue'
 import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
@@ -8,6 +7,8 @@ import RegisterView from '../views/RegisterView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
+import UpLoad from '../views/UpLoad.vue'
+import GoogleLoginView from '../views/GoogleLogin.vue'
 
 const routes = [
   {
@@ -31,7 +32,7 @@ const routes = [
         }
       },
       {
-        path: '/mypage',
+        path: 'mypage',
         name: 'MyPage',
         components: {
           rmain: Mypage
@@ -51,10 +52,18 @@ const routes = [
         components: {
           rmain: SearchResultView
         }
+      },
+      {
+        path: 'upload',
+        name: 'UpLoad',
+        components: {
+          rmain: UpLoad
+        }
       }
 
-    ]
+    ] // MainHomeView children
   },
+
   {
     path: '/',
     name: 'login',
@@ -63,10 +72,12 @@ const routes = [
       rhome: LoginView
     }
   },
+
   {
     path: '/googlelogin',
     name: 'GoogleLogin',
-    component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
+    component: GoogleLoginView
+    // component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
   {
     path: '/register',

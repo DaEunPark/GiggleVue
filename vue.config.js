@@ -10,5 +10,10 @@ module.exports = defineConfig({
         chunks: 'all'
       }
     }
+  },
+  devServer: {
+    client: {
+      overlay: false
+    }
   }
 })

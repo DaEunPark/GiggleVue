@@ -55,7 +55,7 @@
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">0X1=LOVESONG (I Know I Love You) </h6>
 
                     </router-link>
-                    <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                    <router-link to="search" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
                 </div><!-- <div class="list-group"> -->
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>

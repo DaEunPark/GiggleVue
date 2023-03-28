@@ -5,11 +5,11 @@
         <div class="user_img_box">
             <img class="img_circle user_img a" name="프로필" src="../assets/profile02.jpg">
         </div><br>
-        <a link to="/mypage" class="user_hover" style="text-align:center;">
+        <a link to="/main/mypage" class="user_hover" style="text-align:center;">
             <span class="badge rounded-pill bg-success text-nowrap" style="padding: 8px 20px 8px 20px; font-size:25px;">USER</span></a>
     <hr>
       <router-link to="/main/mainhome" class="list-group-item list-group-item-action fw-bold" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home  </router-link><br>
-      <router-link to="/mypage" class="list-group-item list-group-item-action fw-bold" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Notification <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">4</span> </router-link><br>
+      <router-link to="/main/mypage" class="list-group-item list-group-item-action fw-bold" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Notification <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">4</span> </router-link><br>
       <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">5</span> </router-link><br>
       <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings </router-link><br>
     </div>
