@@ -9,7 +9,6 @@ import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
 
-
 const routes = [
   {
     path: '/main',
@@ -32,13 +31,13 @@ const routes = [
         }
       },
       {
-      path: '/mypage',
-      name: 'MyPage',
-      components: {
-        rmain: Mypage
-      }
-    },
-    {
+        path: '/mypage',
+        name: 'MyPage',
+        components: {
+          rmain: Mypage
+        }
+      },
+      {
 
         path: 'search',
         name: 'search',
@@ -53,7 +52,6 @@ const routes = [
           rmain: SearchResultView
         }
       }
-
 
     ]
   },
@@ -76,9 +74,7 @@ const routes = [
     components: {
       rhome: RegisterView
     }
-  },
-  
-  
+  }
 
 ]
 

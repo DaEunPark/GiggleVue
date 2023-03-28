@@ -13,13 +13,13 @@
             <div class="user_info_box">
                 <div class="user_name">
                     <p id="user_name_title">Nick_name</p>
-                    <div class="user_setting_box">  
-                                           
+                    <div class="user_setting_box">
+
                         <div class="user_follow_btn" onclick="user_follow_create()">팔로우</div>
                         <div onclick="user_setting_modal_on()">
                         <img width="24px" align="left" src="../assets/icon_setting.png"/>
-                        </div>         
-                       
+                        </div>
+
                     </div>
                 </div>
                 <div class="item_cnt">
@@ -32,7 +32,6 @@
                 </div>
             </div>
         </div>
-
 
       <div class="card">
         <div class="card-body">
@@ -336,10 +335,8 @@ export default {
 }
 </script>
 <style scoped>
-* {-webkit-text-fill-color: black;} 
-  
-  
-  
+* {-webkit-text-fill-color: black;}
+
 .user_main_body{
     width: 975px;
     height: 1000px;
@@ -351,7 +348,7 @@ export default {
     width: 100%;
     height: 150px;
     margin-bottom: 44px;
-   
+
     display: flex;
     flex-direction: row;
     align-items: normal;
@@ -361,7 +358,7 @@ export default {
 .user_img_box {
     width: 30%;
     height: 100%;
-    
+
 }
 
 .user_img_box > .user_img {
@@ -413,7 +410,6 @@ export default {
     cursor: pointer;
 }
 
-
 .user_info_box > .item_cnt {
     width: 100%;
     height: 20px;
@@ -425,15 +421,11 @@ export default {
     justify-content: left;
 }
 
-
-
 .user_info_box > .item_cnt > .item {
     width: 72px;
     font-size: 16px;
     margin-right: 40px;
 }
-
-
 
 .user_info_box > .user_nickname {
     width: 100%;
