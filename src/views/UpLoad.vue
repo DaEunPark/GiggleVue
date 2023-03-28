@@ -1,5 +1,5 @@
 <template>
-        <EditorView></EditorView>
+  <EditorView></EditorView>
 </template>
 
 <script>
