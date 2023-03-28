@@ -15,7 +15,6 @@ import SearchResultView from '../views/SearchResultView.vue'
 import UpLoad from '../views/UpLoad.vue'
 import GoogleLoginView from '../views/GoogleLogin.vue'
 
-
 const routes = [
   {
     path: '/main',
@@ -65,13 +64,14 @@ const routes = [
         components: {
           rmain: SettingFriendView
         }
-      }
-      ,{
+      },
+      {
         path: 'setting/analitics',
         name: 'analitics',
         components: {
           rmain: SettingAnaliticsView
-}},
+        }
+      }, {
         path: 'mypage',
         name: 'MyPage',
         components: {

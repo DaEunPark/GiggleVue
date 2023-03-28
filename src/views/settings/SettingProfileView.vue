@@ -1,3 +1,4 @@
+<!-- eslint-disable no-var -->
 <template>
     <div class="container">
         <form class="card bg-primary border-round-radious">
@@ -39,13 +40,8 @@
     </div>
 </template>
 <script>
-import MenuBar from '../../components/components-MenuBarComp-left.vue'
-import SideBar from '../../components/rightsidebars/SideBarComp.vue'
-import $ from 'jquery'
 
-export default {
-  components: { MenuBar, SideBar }
-}
+import $ from 'jquery'
 
 $(document).ready(function () {
   const now = new Date()
@@ -53,17 +49,20 @@ $(document).ready(function () {
   const mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1) : '0' + (now.getMonth() + 1)
   const day = (now.getDate()) > 9 ? '' + (now.getDate()) : '0' + (now.getDate())
   // 년도 selectbox만들기
+  // eslint-disable-next-line no-var
   for (var i = 1900; i <= year; i++) {
     $('#year').append('<option value="' + i + '">' + i + '년</option>')
   }
 
   // 월별 selectbox 만들기
+  // eslint-disable-next-line no-var, no-redeclare
   for (var i = 1; i <= 12; i++) {
     const mm = i > 9 ? i : '0' + i
     $('#month').append('<option value="' + mm + '">' + mm + '월</option>')
   }
 
   // 일별 selectbox 만들기
+  // eslint-disable-next-line no-var, no-redeclare
   for (var i = 1; i <= 31; i++) {
     const dd = i > 9 ? i : '0' + i
     $('#day').append('<option value="' + dd + '">' + dd + '일</option>')
