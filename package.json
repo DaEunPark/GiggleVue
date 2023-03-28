@@ -23,6 +23,8 @@
     "dayjs": "^1.11.7",
     "jquery": "^3.6.4",
     "mitt": "^3.0.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "v-video-embed": "^1.0.8",
     "vue": "^3.2.13",
     "vue-popperjs": "^2.3.0",
     "vue-router": "^4.0.3",
