@@ -112,8 +112,7 @@ export default {
     return {
       searchWords: '',
       isExistSearchWord: true,
-      thisURL: window.location.href,
-      showSideSearchBar: true
+      thisURL: window.location.href
     }
   },
   computed: {
@@ -123,19 +122,10 @@ export default {
   },
   watch: {
     $route (to, from) {
-    //   console.log(`to: ${to}`)
       console.log(to)
-      //   console.log(`from: ${from}`)
       console.log(from)
       this.thisURL = window.location.href
-      console.log(this.thisURL)
-    //   if (this.thisURL.includes('search')) {
-    //     this.showSideSearchBar = false
-    //     // this.showURL = false
-    //   } else {
-    //     this.showSideSearchBar = true
-    //     // this.showURL = true
-    //   }
+    //   console.log(this.thisURL)
     }
   },
   methods: {
