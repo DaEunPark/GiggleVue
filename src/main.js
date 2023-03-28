@@ -9,7 +9,7 @@ import axios from 'axios'
 // import 'bootstrap'
 import './assets/bootswatch/dist/custom/bootstrap.min.css'
 // import 'bootstrap/dist/js/bootstrap.esm.min.js'
-// import 'jquery/src/jquery.js'
+import 'jquery/src/jquery.js'
 // import 'bootstrap/dist/js/bootstrap.min.js'
 // import 'bootstrap/dist/js/bootstrap.bundle.js'
 // import Popper from 'vue-popperjs'
@@ -35,3 +35,4 @@ app.config.globalProperties.$emitter = emitter
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(store).use(router).mount('#app')
+
