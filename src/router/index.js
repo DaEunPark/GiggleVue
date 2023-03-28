@@ -5,6 +5,11 @@ import MainHomeView from '../views/MainHomeView.vue'
 import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import SettingView from '../views/settings/SettingView.vue'
+import SettingProfileView from '../views/settings/SettingProfileView.vue'
+import SettingSecurityView from '../views/settings/SettingSecurityView.vue'
+import SettingFriendView from '../views/settings/SettingFriendView.vue'
+import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 
 const routes = [
   {
@@ -25,6 +30,41 @@ const routes = [
         name: 'bootstraptest',
         components: {
           rmain: BootstrapTestVue
+        }
+      },
+      {
+        path: 'setting',
+        name: 'setting',
+        components: {
+          rmain: SettingView
+        }
+      },
+      {
+        path: 'setting/profile',
+        name: 'profile',
+        components: {
+          rmain: SettingProfileView
+        }
+      },
+      {
+        path: 'setting/security',
+        name: 'security',
+        components: {
+          rmain: SettingSecurityView
+        }
+      },
+      {
+        path: 'setting/friend',
+        name: 'friend',
+        components: {
+          rmain: SettingFriendView
+        }
+      }
+      ,{
+        path: 'setting/analitics',
+        name: 'analitics',
+        components: {
+          rmain: SettingAnaliticsView
         }
       }
     ]
