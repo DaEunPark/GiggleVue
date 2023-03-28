@@ -8,7 +8,6 @@ import RegisterView from '../views/RegisterView.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
 
-
 const routes = [
   {
     path: '/main',
@@ -35,7 +34,7 @@ const routes = [
         name: 'search',
         components: {
           rmain: SearchView
-        } 
+        }
       },
       {
         path: 'search/:id',
@@ -44,11 +43,6 @@ const routes = [
           rmain: SearchResultView
         }
       }
-
-
-
-
-
 
     ]
   },
@@ -71,8 +65,7 @@ const routes = [
     components: {
       rhome: RegisterView
     }
-  },
-
+  }
 
 ]
 

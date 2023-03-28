@@ -1,5 +1,5 @@
 <template>
-    <div>  
+    <div>
         <section id="components">
             <div class="Sbackground">
 
@@ -8,7 +8,7 @@
                         <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
                         <input type="text" v-model="searchWords" class="form-control" placeholder="검색어를 입력하세요" @keydown.enter="enterSearch">
-                        
+
                     </div>
 
                     <div class="searchtd">
@@ -24,71 +24,69 @@
                         </a>
                      </div>
                 </article>
-        </div>  
-     </section>  
+        </div>
+     </section>
     </div>
 </template>
 
-
-<script> 
+<script>
 export default {
-    data() {  
-        return {
-            //responseBody : {},
-            Trendlist : {},
-            searchWords: '',
-        };
-    },
-    mounted() {
-        this.fnGetList()
-    },
-    methods: {
-        enterSearch () {
-            if (this.searchWords == '' || this.searchWords == null) {
-                alert('검색어를 입력하세요')
-            } else {
-                alert(this.searchWords)
-                const url = window.location.href;
-                location.href = url + "/"+ (this.searchWords);  // /search/:id 의 id==변수부분
-            }
-            },
-        fnGetList() {
-           this.Trendlist = [
-            {  
-            "title" : "얼그레이티 라떼",
-            "readCount" : "1231111"
-            },
-            {     
-            "title" : "퇴근",
-            "readCount" : "30220"
-            },
-            {    
-            "title" : "비가오는날엔귀가원츄",
-            "readCount" : "104440"
-            },
-            {    
-            "title" : "맛점",
-            "readCount" : "133404"
-            },
-            {    
-            "title" : "종각역스터디카페",
-            "readCount" : "133402"
-            },
-            {    
-            "title" : "블랙 글레이즈드",
-            "readCount" : "133402"
-            },
-            {    
-            "title" : "아아",
-            "readCount" : "133402"
-            }
-        ] 
-      }
+  data () {
+    return {
+      // responseBody : {},
+      Trendlist: {},
+      searchWords: ''
     }
+  },
+  mounted () {
+    this.fnGetList()
+  },
+  methods: {
+    enterSearch () {
+      // eslint-disable-next-line eqeqeq
+      if (this.searchWords == '' || this.searchWords == null) {
+        alert('검색어를 입력하세요')
+      } else {
+        alert(this.searchWords)
+        const url = window.location.href
+        location.href = url + '/' + (this.searchWords) // /search/:id 의 id==변수부분
+      }
+    },
+    fnGetList () {
+      this.Trendlist = [
+        {
+          title: '얼그레이티 라떼',
+          readCount: '1231111'
+        },
+        {
+          title: '퇴근',
+          readCount: '30220'
+        },
+        {
+          title: '비가오는날엔귀가원츄',
+          readCount: '104440'
+        },
+        {
+          title: '맛점',
+          readCount: '133404'
+        },
+        {
+          title: '종각역스터디카페',
+          readCount: '133402'
+        },
+        {
+          title: '블랙 글레이즈드',
+          readCount: '133402'
+        },
+        {
+          title: '아아',
+          readCount: '133402'
+        }
+      ]
+    }
+  }
 }
 </script>
-
-
 
 <style>
 /* 임시배경
@@ -108,15 +106,14 @@ export default {
     border-radius: 12.5rem;
     border: 2px solid #e83283;
     color: #000;
-} 
-
+}
 
 .searchtd{
     color:black;
     margin-left: 35px;
     margin-top: 2%;
     margin-bottom: -20px;
-}   
+}
 #Slistgroup:hover {
     background-color: #efefef;
 }
