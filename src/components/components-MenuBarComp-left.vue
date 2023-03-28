@@ -5,19 +5,31 @@
         <div class="user_img_box">
             <img class="img_circle user_img a" name="프로필" src="../assets/profile02.jpg">
         </div><br>
-        <a link to="/mypage" class="user_hover" style="text-align:center;">
-            <span class="badge rounded-pill bg-success text-nowrap" style="padding: 8px 20px 8px 20px; font-size:25px;">USER</span></a>
+        <router-link to="/mypage" style="text-align:center;">
+            <span class="badge rounded-pill bg-success text-nowrap" style="padding: 8px 20px 8px 20px; font-size:25px;">USER</span></router-link>
     <hr>
       <router-link to="/main/mainhome" class="list-group-item list-group-item-action fw-bold" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home  </router-link><br>
       <router-link to="/mypage" class="list-group-item list-group-item-action fw-bold" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Notification <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">4</span> </router-link><br>
       <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">5</span> </router-link><br>
       <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings </router-link><br>
+    <br>
+
+    <router-link to="/editor" class="hover-change-color" style="text-align:center;">
+    
+    <span class="badge rounded-pill bg-success text-nowrap" style="padding: 20px 20px 20px 20px; font-size:25px;">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-pencil-square " viewBox="0 0 16 16">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+</svg>
+
+    </span>
+    </router-link>
+ <br>
     </div>
   
   
 </div>
-
-
 
 <!-- <div class="bg-light sticky-top" id="menubar" style="text-align: center; border-radius: 2rem;">
     <hr>
@@ -91,5 +103,10 @@ span {-webkit-text-fill-color: white;}
     display: block;
       border-radius: 50%;
       
+}
+
+.hover-change-color:hover span {
+    /* color:orangered; */
+    background-color: deeppink !important;
 }
 </style>

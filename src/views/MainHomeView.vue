@@ -23,7 +23,7 @@
 
         </div> -->
         <div class="row">
-            <div class="col-3">
+            <div id=MenuBar class="col-3">
                 <MenuBar></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
@@ -45,6 +45,7 @@
 import MenuBar from '../components/components-MenuBarComp-left.vue'
 import SideBar from '../components/rightsidebars/SideBarComp.vue'
 
+
 export default {
   components: { MenuBar, SideBar }
 
@@ -52,7 +53,7 @@ export default {
 </script>
 <style scoped>
     @media screen and (max-width: 1320px) {
-        #side_bar {
+        #side_bar, #MenuBar {
             display: none;
 
             padding: 0;
