@@ -6,6 +6,8 @@ import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import Mypage from '../views/MyPage.vue'
+import SearchView from '../views/SearchView.vue'
+import SearchResultView from '../views/SearchResultView.vue'
 
 
 const routes = [
@@ -35,8 +37,24 @@ const routes = [
       components: {
         rmain: Mypage
       }
-    }
-     
+    },
+    {
+
+        path: 'search',
+        name: 'search',
+        components: {
+          rmain: SearchView
+        }
+      },
+      {
+        path: 'search/:id',
+        name: 'searchresult',
+        components: {
+          rmain: SearchResultView
+        }
+      }
+
+
     ]
   },
   {

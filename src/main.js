@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import Embed from 'v-video-embed'
 
 import './assets/css/common.css'
 
@@ -34,4 +35,4 @@ app.config.globalProperties.$serverUrl = '//localhost:8086'
 app.config.globalProperties.$emitter = emitter
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.use(store).use(router).mount('#app')
+app.use(store).use(router).use(Embed).mount('#app')
