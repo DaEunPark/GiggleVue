@@ -5,6 +5,8 @@ import MainHomeView from '../views/MainHomeView.vue'
 import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import Mypage from '../views/MyPage.vue'
+
 
 const routes = [
   {
@@ -26,7 +28,15 @@ const routes = [
         components: {
           rmain: BootstrapTestVue
         }
+      },
+      {
+      path: '/mypage',
+      name: 'MyPage',
+      components: {
+        rmain: Mypage
       }
+    }
+     
     ]
   },
   {
@@ -48,7 +58,9 @@ const routes = [
     components: {
       rhome: RegisterView
     }
-  }
+  },
+  
+  
 
 ]
 
