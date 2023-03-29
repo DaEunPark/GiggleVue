@@ -1,19 +1,84 @@
 <template>
 
-<div class="sidebar-left sticky-top">
+<div class="sidebar-left">
    <div class="list-group list-group-flush" id="list-tab" role="tablist" ><hr><hr>
         <div class="user_img_box">
             <img class="img_circle user_img a" name="프로필" src="../assets/profile02.jpg">
         </div><br>
         <a link to="/main/mypage" class="user_hover" style="text-align:center;">
             <span class="badge rounded-pill bg-success text-nowrap" style="padding: 8px 20px 8px 20px; font-size:25px;">USER</span></a>
-    <hr>
+        <hr>
       <router-link to="/main/mainhome" class="list-group-item list-group-item-action fw-bold" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home  </router-link><br>
-      <router-link to="/main/mypage" class="list-group-item list-group-item-action fw-bold" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Notification <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">4</span> </router-link><br>
-      <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">5</span> </router-link><br>
+      <a href="#notification" data-bs-toggle="modal" data-bs-target="#notification"  class="nav-link list-group-item list-group-item-action fw-bold" id="list-profile-list" data-toggle="list" role="tab" aria-controls="profile">Notification <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">4</span> </a><br>
+      <a href="#directMessage" data-bs-toggle="modal" data-bs-target="#directMessage" class="nav-link list-group-item list-group-item-action fw-bold" id="list-messages-list" data-toggle="list"  role="tab" aria-controls="messages">Messages <span class="badge badge-primary badge-pill" style="background-color:#B00D23;">5</span> </a><br>
       <router-link to="#" class="list-group-item list-group-item-action fw-bold" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings </router-link><br>
+    
     </div>
 
+    <!-- 알림 Modal -->
+    <div
+      class="modal fade"
+      id="notification"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+            </svg>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+            <AlarmBody/>
+        </div>
+      </div>
+    </div>
+
+    <!-- DM Modal -->
+    <div
+      class="modal fade"
+      id="directMessage"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+  <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+            <!--modal body-->
+            <DMBody></DMBody>
+        </div>
+        </div>
+    </div>
 </div>
 
 <!-- <div class="bg-light sticky-top" id="menubar" style="text-align: center; border-radius: 2rem;">
@@ -67,6 +132,14 @@
 <!-- </div> -->
 
 </template>
+<script>
+import DMBody from './DirectMessage.vue'
+import AlarmBody from './AlarmMessage.vue'
+export default {
+  components: { DMBody, AlarmBody }
+
+}
+</script>
 <style scoped>
 .sidebar-left {border-radius: 0%; background-color: #eeeeeede;}
 * {-webkit-text-fill-color: black; }
@@ -87,5 +160,39 @@ span {-webkit-text-fill-color: white;}
     display: block;
       border-radius: 50%;
 
+}
+/* 알람, DM modal 공통 css */
+.modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-backdrop {
+  position: unset !important;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+}
+.modal-header {
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+.modal-header > svg {
+  margin: auto;
+  margin-left: 338px;
+}
+.modal-header > button {
+  margin: 0;
+}
+.modal-body {
+  padding: 0px 20px 10px 20px;
+  height: 100%;
 }
 </style>
