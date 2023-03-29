@@ -66,7 +66,7 @@
   height: 80%;
 }
 .card-header {
-    height:100px;
+    height:130px;
     background-image: url("../assets/Glogo.png");
     background-size:150px;
     background-repeat: no-repeat;
@@ -111,11 +111,11 @@ h5 {
 }
 #registerSec02 p {
   display: inline-block;
-  font-size: 15px;
+  font-size: 16px;
 }
 #registerSec02 a {
   display: inline-block;
-  font-size: 15px;
+  font-size: 16px;
   margin-left: 10px;
   color: #4cb5f9;
 }
