@@ -1,148 +1,122 @@
 <template>
-  <div id="registerBox">
-    <div class="container register">
-      <div id="registerSec01">
-        <div id="registerTitle">
-          <a href="/"><img alt="Vue logo" src="../assets/Glogo.png" /></a>
-          <h5>지금 가입해서 나에게 맞춤 설정된</h5>
-          <h5>타임라인을 만들어 보세요!</h5>
+  <div class="background">
+    <div class="card border-primary mb-3" style="max-width: 400px;">
+            <div class="card-header"></div>
+                <div class="card-body">
+                  <div id="registerTitle">
+                    <h5>지금 가입해서 나에게 맞춤 설정된</h5>
+                    <h5>타임라인을 만들어 보세요!</h5>
+                  </div>
+                  <div class="form">
+                      <form>
+                          <div class="sm-3">
+                              <div class="form-floating">
+                                <input type="email" class="form-control"  id="user_email" placeholder="name@example.com"/>
+                                <label for="user_email">Email</label>
+                              </div>
+                          </div>
+                          <div class="sm-3">
+                              <div class="form-floating">
+                                <input type="password" class="form-control" id="user_pwd" placeholder="비밀번호"/>
+                                <label for="user_pwd">Password</label>
+                              </div>
+                          </div>
+                          <div class="sm-3">
+                              <div class="form-floating">
+                                <input type="text" class="form-control" id="user_nick" placeholder="닉네임"/>
+                                <label for="user_nick">Nickname</label>
+                              </div>
+                          </div>
+                          <div class="sm-3">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="user_birth" placeholder="생년월일"/>
+                              <label for="user_birth">Birthday</label>
+                            </div>
+                          </div>
+                          <p id="agreeLine">
+                            가입하기 버튼을 클릭하면 Giggle의 약관, 개인정보처리방침 및 쿠키
+                            정책에 동의하게 됩니다. Giggle로부터 SMS 알림을 받을 수 있으며 알림은
+                            언제든지 옵트 아웃할 수 있습니다.
+                          </p>
+                          <button type="submit" class="btn btn-primary" id="submit">가입</button>
+                      </form>
+                      
+                      <hr/>
+                      <div class="g-signin2" data-onsuccess="onSignIn" id="google" data-width="340" data-height="50" data-longtitle="true"></div>
+                      <div id="registerSec02">
+                        <p>계정이 있으신가요?</p>
+                        <a href="/login">로그인</a>
+                      </div>
+                  </div>
+                </div>
         </div>
-        <div class="form-floating">
-          <input
-            type="email"
-            class="form-control"
-            id="user_email"
-            placeholder="name@example.com"
-          />
-          <label for="user_email">이메일 주소</label>
-        </div>
-
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="user_pwd"
-            placeholder="비밀번호"
-          />
-          <label for="user_pwd">비밀번호</label>
-        </div>
-
-        <div class="form-floating">
-          <input
-            type="text"
-            class="form-control"
-            id="user_nick"
-            placeholder="닉네임"
-          />
-          <label for="user_nick">닉네임</label>
-        </div>
-
-        <div class="form-floating">
-          <input
-            type="text"
-            class="form-control"
-            id="user_birth"
-            placeholder="생년월일"
-          />
-          <label for="user_birth">생년월일</label>
-        </div>
-
-        <p id="agreeLine">
-          가입하기 버튼을 클릭하면 Giggle의 약관, 개인정보처리방침 및 쿠키
-          정책에 동의하게 됩니다. Giggle로부터 SMS 알림을 받을 수 있으며 알림은
-          언제든지 옵트 아웃할 수 있습니다.
-        </p>
-        <button type="button" class="btn btn-info">가입</button>
-      </div>
-      <div id="registerSec02">
-        <p>계정이 있으신가요?</p>
-        <a href="/login">로그인</a>
-      </div>
-    </div>
   </div>
 </template>
 
 <style scoped>
-#registerBox {
-  width: 100%;
-  height: 100vh;
-  background-image: url("../assets/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 50px;
-  padding-bottom: 50px;
+.background{
+    height: 100vh;
+    overflow: hidden;
+    margin:0;
+    background-image: url("../assets/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
-.register {
-  width: 23%;
-  margin: auto;
-  text-align: center;
+.card {
+  height: 80%;
 }
-#registerSec01 {
-  border: 1px solid #ccc;
-  padding: 20px 40px 30px 40px;
-  background-color: #fff;
+.card-header {
+    height:100px;
+    background-image: url("../assets/Glogo.png");
+    background-size:150px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.card-body {
+  overflow-y: scroll;
+}
+.card-body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+.card-body::-webkit-scrollbar {
+  width: 1px;
+  background-color: #f5f5f5;
 }
 #registerTitle {
   margin-bottom: 20px;
+  text-align: center;
 }
-#registerTitle img {
-  width: 70%;
-  margin-bottom: 15px;
+.form input {
+  margin-bottom: 10px;
 }
 h5 {
   margin: 0px;
-  color: #8e8e8e;
   font-size: 15px;
   font-weight: bold;
-}
-.form-floating > input {
-  width: 100%;
-  margin-top: 8px;
-  height: 40px;
-  padding: 13px 20px 24px 24px;
-  border: 1px solid #a8a8a8;
-  border-radius: 3px;
-  background-color: #fafafa;
-  color: #000;
-}
-.form-floating > label {
-  font-size: 12px;
-  color: #a8a8a8;
-  padding-top: 13px;
-}
-input:focus {
-  outline: none;
 }
 #agreeLine {
-  margin: 5px auto;
-  font-size: 5px;
-  color: #8e8e8e;
+  margin: 10px;
+  font-size: 10px;
 }
-button {
+.card-body button {
   font-size: 15px;
   font-weight: bold;
   width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin-top: 10px;
+  padding: 5px !important;
 }
 #registerSec02 {
-  border: 1px solid #ccc;
-  padding: 15px 30px;
-  margin-top: 10px;
-  background-color: #fff;
+  text-align: center;
 }
-p {
+#registerSec02 p {
   display: inline-block;
   font-size: 15px;
-  margin: 0;
-  color: #000;
 }
-a {
+#registerSec02 a {
   display: inline-block;
   font-size: 15px;
-  margin-left: 5px;
+  margin-left: 10px;
   color: #4cb5f9;
 }
 </style>
-
-<script></script>
