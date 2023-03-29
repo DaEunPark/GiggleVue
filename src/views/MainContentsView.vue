@@ -1,6 +1,8 @@
 <template>
     <div>
-        <section id="components">
+        <editor-view></editor-view >
+        <!-- <div id="blank" style="height: 20em;"></div>
+        <section id="components" >
             <article class="my-3" id="badge">
             <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
                 <h3>Badge</h3>
@@ -178,6 +180,12 @@
                 </div>
             </div>
             </article>
-        </section>
+        </section> -->
     </div>
 </template>
+<script>
+import EditorView from './EditorView.vue'
+export default {
+  components: { EditorView }
+}
+</script>

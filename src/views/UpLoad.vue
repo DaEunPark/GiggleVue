@@ -1,5 +1,8 @@
 <template>
-        <EditorView></EditorView>
+  <div id="editor-view">
+    <EditorView></EditorView>
+  </div>
+
 </template>
 
 <script>
@@ -16,3 +19,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  #editor-view {
+    margin: 5% 25%;
+  }
+</style>
