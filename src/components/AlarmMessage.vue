@@ -1,10 +1,7 @@
 <template>
     <div class="modal-body" id="alarmBody">
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Follow</p>
-              </div>
-              <div class="alert alert-dismissible alert-success">
+              <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
@@ -33,7 +30,7 @@
                   </table>
                 </a>
               </div>
-              <div class="alert alert-dismissible alert-success">
+              <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
@@ -64,9 +61,6 @@
               </div>
             </div>
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Like</p>
-              </div>
               <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
@@ -90,10 +84,7 @@
               </div>
             </div>
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Comment</p>
-              </div>
-              <div class="alert alert-dismissible alert-warning">
+              <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
@@ -124,6 +115,7 @@
 <style scoped>
 /* 알람 css */
 #alarmBody {
+  padding-top: 10px;
   overflow-y: scroll;
 }
 #alarmBody::-webkit-scrollbar-track {
@@ -134,12 +126,9 @@
   width: 3px;
   background-color: #f5f5f5;
 }
-.alarmTitle {
-  text-align: left;
-}
 .alert-dismissible {
   padding: 10px 20px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 .alarmTitle p {
   font-weight: lighter;
@@ -193,7 +182,7 @@
   padding: 1px 10px;
   margin-top: 15px;
   border-radius: 5px;
-  color: #FFF;
+  color: #FFF !important;
   border: none;
 }
 #alarmMoreDiv button:hover {

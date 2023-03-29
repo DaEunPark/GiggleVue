@@ -141,8 +141,16 @@ export default {
 }
 </script>
 <style scoped>
-.sidebar-left {border-radius: 0%; background-color: #eeeeeede;}
-* {-webkit-text-fill-color: black; }
+.sidebar-left {
+  border-radius: 0%; 
+  background-color: #eeeeeede;
+  }
+.list-group > * {
+  color: #000;
+}
+.list-group-item-action:focus, .list-group-item-action:hover {
+  color: #000;
+}
 span {-webkit-text-fill-color: white;}
 
 .user_img_box {
