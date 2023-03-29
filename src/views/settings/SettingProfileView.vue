@@ -40,8 +40,13 @@
     </div>
 </template>
 <script>
-
+import MenuBar from '../../components/components-MenuBarComp-left.vue'
+import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 import $ from 'jquery'
+
+export default {
+  components: { MenuBar, SideBar }
+}
 
 $(document).ready(function () {
   const now = new Date()
