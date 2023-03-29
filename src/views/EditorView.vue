@@ -27,6 +27,8 @@
     min-height: 200px;
     margin: 5% 25%;
 } */
+
+
 #addImage, #addYoutube, #addLink, #statistics {
     width:  23px;
     height: 23px;
