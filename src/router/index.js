@@ -4,6 +4,11 @@ import MainHomeView from '../views/MainHomeView.vue'
 import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import SettingView from '../views/settings/SettingView.vue'
+import SettingProfileView from '../views/settings/SettingProfileView.vue'
+import SettingSecurityView from '../views/settings/SettingSecurityView.vue'
+import SettingFriendView from '../views/settings/SettingFriendView.vue'
+import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
@@ -32,6 +37,41 @@ const routes = [
         }
       },
       {
+
+        path: 'setting',
+        name: 'setting',
+        components: {
+          rmain: SettingView
+        }
+      },
+      {
+        path: 'setting/profile',
+        name: 'profile',
+        components: {
+          rmain: SettingProfileView
+        }
+      },
+      {
+        path: 'setting/security',
+        name: 'security',
+        components: {
+          rmain: SettingSecurityView
+        }
+      },
+      {
+        path: 'setting/friend',
+        name: 'friend',
+        components: {
+          rmain: SettingFriendView
+        }
+      },
+      {
+        path: 'setting/analitics',
+        name: 'analitics',
+        components: {
+          rmain: SettingAnaliticsView
+        }
+      }, {
         path: 'mypage',
         name: 'MyPage',
         components: {
@@ -58,6 +98,7 @@ const routes = [
         name: 'UpLoad',
         components: {
           rmain: UpLoad
+
         }
       }
 

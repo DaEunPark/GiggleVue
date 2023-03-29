@@ -1,9 +1,8 @@
 <template>
     <div class="sidebar">
-
-        <div id="search" class="  sticky-top">
-
-            <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;">
+        <div id="blank" style="height: 6.3em;"></div>
+        <div id="search" class="sticky-top">
+            <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
@@ -12,7 +11,8 @@
                     </div>
                 </div>
             </div>
-            <div class="collapse" id="collapseSearch" style="margin-top: -20px !important; padding-top: 0 !important;">
+
+            <div class="collapse" id="collapseSearch" >
 
                 <div v-show="isExistSearchWord">
 
@@ -43,27 +43,27 @@
         </div> <!-- <div id="search"> -->
 
         <!-- 트렌드 -->
-        <div id="trend">
+        <div id="trend" v-show="showURL">
             <div class="card bg-light mb-3 border-round-radius" >
-                <div class="list-group" style="border-radius: 1em;">
+                <div class="list-group">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-dark fw-bold">나를 위한 트렌드</span>
 
                     </div>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 10" :key="i">
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">0X1=LOVESONG (I Know I Love You) </h6>
 
                     </router-link>
-                    <router-link to="search" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                    <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <div id="test1" class="sticky-top" style="z-index: 0;">
+        <div id="test1" class="sticky-top">
             <!-- 팔로우 추천 -->
             <div id="recommendfolow">
-                <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
+                <div class="card bg-light mb-3 border-round-radius">
                     <div class="list-group" style="border-radius: 1em;">
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="text-dark fw-bold">팔로우 추천</span>
@@ -81,7 +81,7 @@
                             <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
 
                         </router-link>
-                        <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                        <a href="#" @click="replaceTo('/main/bootstraptest')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                     </div><!-- <div class="list-group"> -->
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
@@ -111,7 +111,21 @@ export default {
   data () {
     return {
       searchWords: '',
-      isExistSearchWord: true
+      isExistSearchWord: true,
+      thisURL: window.location.href
+    }
+  },
+  computed: {
+    showURL () {
+      return !this.thisURL.includes('search')
+    }
+  },
+  watch: {
+    $route (to, from) {
+      console.log(to)
+      console.log(from)
+      this.thisURL = window.location.href
+    //   console.log(this.thisURL)
     }
   },
   methods: {
@@ -133,6 +147,13 @@ export default {
     },
     followThisUser (item) {
       alert('follow this user: ' + item)
+    },
+    replaceTo (path) {
+      // this.$route.replaceTo(path)
+    //   if()
+    //   console.log(`url test ${window.location.href}`)
+    //   console.log(`includes test ${path.includes('search')}`)
+      this.$router.replace(path)
     }
   }
 }
@@ -149,8 +170,9 @@ export default {
     .sidebar {
         /* height: inherit; */
         /* display: flex; */
-        top: o;
+        top: 0;
         height: 100%;
+        max-width: 20em;
     }
     .profile-wrapper {
         width: 50px;
@@ -181,7 +203,17 @@ export default {
         background-color: deeppink !important;
     }
     #test1 {
-        top: 4em;
+        top: 3.5em;
+        z-index: 0;
+    }
+
+    #collapseSearch {
+        margin-top: -20px !important;
+        padding-top: 0 !important;
+    }
+
+    .list-group {
+        border-radius: 1em;
     }
 
 </style>

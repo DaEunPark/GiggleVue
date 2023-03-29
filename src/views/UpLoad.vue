@@ -1,4 +1,5 @@
 <template>
+
     <article>
           <div class="EditorView">
             <EditorView></EditorView>    
@@ -7,6 +8,7 @@
           </div>
         </div>
    </article>
+
 </template>
 
 <script>
@@ -85,6 +87,7 @@ export default {
 
 </script>
 
+
 <style>
 .EditorView #cardarticle #card {
     margin-top: -35px;
@@ -96,3 +99,4 @@ export default {
 }
 
 </style>
+
