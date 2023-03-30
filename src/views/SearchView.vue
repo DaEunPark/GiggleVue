@@ -87,7 +87,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* 임시배경
 .Sbackground{
      background: slategray;
