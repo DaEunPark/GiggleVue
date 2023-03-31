@@ -1,24 +1,19 @@
 <template>
     <div class="modal-body" id="alarmBody">
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Follow</p>
-              </div>
               <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
                       <td class="alarmListImg">
-                        <img
-                          src="https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png"
-                        />
+                        <img src="../assets/profile02.jpg"/>
                       </td>
                       <td class="alarmListNick">닉네임</td>
                       <td>님이 회원님에게 팔로우를 요청했습니다.</td>
                       <td>
                         <button
                           type="button"
-                          class="btn btn-primary alarmFollow"
+                          class="btn btn-success alarmFollow"
                         >
                           팔로우
                         </button>
@@ -40,16 +35,14 @@
                   <table>
                     <tr>
                       <td class="alarmListImg">
-                        <img
-                          src="https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png"
-                        />
+                        <img src="../assets/profile02.jpg"/>
                       </td>
                       <td class="alarmListNick">닉네임</td>
                       <td>님이 회원님에게 팔로우를 요청했습니다.</td>
                       <td>
                         <button
                           type="button"
-                          class="btn btn-primary alarmFollow"
+                          class="btn btn-success alarmFollow"
                         >
                           팔로우
                         </button>
@@ -68,17 +61,12 @@
               </div>
             </div>
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Like</p>
-              </div>
               <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
                       <td class="alarmListImg">
-                        <img
-                          src="https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png"
-                        />
+                        <img src="../assets/profile02.jpg"/>
                       </td>
                       <td class="alarmListNick">닉네임</td>
                       <td>님이 회원님의 게시물을 좋아합니다.</td>
@@ -96,17 +84,12 @@
               </div>
             </div>
             <div v-if="true">
-              <div class="alarmTitle">
-                <p>Comment</p>
-              </div>
               <div class="alert alert-dismissible alert-primary">
                 <a href="#" class="alert-link">
                   <table>
                     <tr>
                       <td class="alarmListImg">
-                        <img
-                          src="https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png"
-                        />
+                        <img src="../assets/profile02.jpg" />
                       </td>
                       <td class="alarmListNick">닉네임</td>
                       <td>님이 회원의 게시물에 댓글을 달았습니다.</td>
@@ -125,13 +108,24 @@
             </div>
             <!--더보기 버튼-->
             <div v-if="true" id="alarmMoreDiv">
-              <button type="button" class="btn btn-primary">더보기</button>
+              <button type="button" class="btn btn-success">더보기</button>
             </div>
           </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      alarmList: []
+    }
+  }
+}
+</script>
+
 <style scoped>
 /* 알람 css */
 #alarmBody {
+  padding-top: 10px;
   overflow-y: scroll;
 }
 #alarmBody::-webkit-scrollbar-track {
@@ -142,12 +136,9 @@
   width: 3px;
   background-color: #f5f5f5;
 }
-.alarmTitle {
-  text-align: left;
-}
 .alert-dismissible {
   padding: 10px 20px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 .alarmTitle p {
   font-weight: lighter;
@@ -180,6 +171,7 @@
 .alarmFollow {
   padding: 1px 10px;
   border-radius: 15px;
+  color: #FFF;
 }
 .alarmTime {
   text-align: center;
@@ -193,9 +185,18 @@
 .alarmClose button {
   padding: 35px 20px;
 }
+#alarmMoreDiv {
+  text-align: center;
+}
 #alarmMoreDiv button {
   padding: 1px 10px;
   margin-top: 15px;
   border-radius: 5px;
+  color: #FFF !important;
+  border: none;
+}
+#alarmMoreDiv button:hover {
+  background-color: #ed5c9d;
+  transition: 1ms;
 }
 </style>
