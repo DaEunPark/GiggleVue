@@ -45,7 +45,8 @@
         <button>
           <span>
             <i class="uil uil-bars"> </i>
-            <span>More</span>
+            <p><button type="button" class="btn btn-sm btn-light" color="black">로그아웃</button></p>
+            <p><span>More</span></p>
           </span>
         </button>
       </nav>
