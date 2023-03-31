@@ -112,6 +112,16 @@
             </div>
           </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      alarmList: []
+    }
+  }
+}
+</script>
+
 <style scoped>
 /* 알람 css */
 #alarmBody {
