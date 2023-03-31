@@ -9,10 +9,18 @@
                             <form>
                                 <div class="sm-3">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                     <input type="email" class="form-control" id="email" v-model="email" aria-describedby="email" placeholder="Email">
                                 </div>
                                 <div class="sm-3">
                                     <input type="password" class="form-control" id="pwd" v-model="pwd" aria-describedby="password" placeholder="Password">
+=======
+                                    <input type="email" class="form-control" id="email" v-model="user_email" aria-describedby="email" placeholder="ex)giggle@giggle.com" maxlength="45" @keydown="checkEmail()" required >
+                                    <p v-if="!checkEmail()" id="errorMsg">{{ errorMsgEmail }}</p>
+                                </div>
+                                <div class="sm-3">
+                                    <input type="password" class="form-control" id="pwd" v-model="user_pwd" aria-describedby="password" placeholder="영문, 숫자, 특수문자 4-15글자" maxlength="15" v-on:keydown.enter="login()" required>
+>>>>>>> Stashed changes
 =======
                                     <input type="email" class="form-control" id="email" v-model="user_email" aria-describedby="email" placeholder="ex)giggle@giggle.com" maxlength="45" @keydown="checkEmail()" required >
                                     <p v-if="!checkEmail()" id="errorMsg">{{ errorMsgEmail }}</p>
@@ -40,6 +48,7 @@
 
 export default {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   methods: {
     login () {
       this.$axios.post(this.$serverUrl + '/login', {
@@ -47,6 +56,8 @@ export default {
           email: document.getElementById('email'),
           pwd: document.getElementById('pwd')
 =======
+=======
+>>>>>>> Stashed changes
     data() {
         return {
             errorMsg: '',
@@ -135,7 +146,10 @@ export default {
     text-decoration: none;
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 #errorMsg {
     color:  red;
     font-weight:    bold;
