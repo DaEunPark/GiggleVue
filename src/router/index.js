@@ -13,7 +13,7 @@ import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
 import UpLoad from '../views/UpLoad.vue'
-import GoogleLoginView from '../views/GoogleLogin.vue'
+import GoogleLogin from '../views/GoogleLogin.vue'
 
 const routes = [
   {
@@ -117,7 +117,7 @@ const routes = [
   {
     path: '/googlelogin',
     name: 'GoogleLogin',
-    component: GoogleLoginView
+    component: GoogleLogin
     // component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
   {
