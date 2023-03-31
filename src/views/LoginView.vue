@@ -30,22 +30,22 @@
 </template>
 <script>
 export default {
-    methods: {
-        login() {
-            this.$axios.post(this.$serverUrl + "/login", {
-                params:{
-                    email : document.getElementById("email"),
-                    pwd : document.getElementById("pwd")
-                },
-
-            }).then((res)=>{
-                console.log(res);
-            }).catch(error=>{
-                console.log(error);
-                throw new Error(error);
-            });
+  methods: {
+    login () {
+      this.$axios.post(this.$serverUrl + '/login', {
+        params: {
+          email: document.getElementById('email'),
+          pwd: document.getElementById('pwd')
         }
+
+      }).then((res) => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+        throw new Error(error)
+      })
     }
+  }
 }
 </script>
 

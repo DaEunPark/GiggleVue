@@ -16,5 +16,7 @@ export default createStore({
   },
   modules: {
   },
-  plugins: []
+  plugins: [createPersistedState({
+    paths: ['loginUserDTO']
+  })]
 })

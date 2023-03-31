@@ -116,7 +116,6 @@ textarea {
 
 }
 
-
 #addImage, #addYoutube, #addLink, #statistics {
     width:  23px;
     height: 23px;
@@ -152,8 +151,3 @@ textarea {
     bottom: 3%;
 }
 </style>
-
-
-
-
-

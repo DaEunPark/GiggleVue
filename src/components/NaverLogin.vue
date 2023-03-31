@@ -37,9 +37,9 @@ export default {
           // 재동의를 위해 다시 동의 페이지로 이동
           this.naverLogin.reprompt()
         } else {
-          //회원가입이면 토큰을 db에 저장해준다.
+          // 회원가입이면 토큰을 db에 저장해준다.
 
-          //로그인이면 해당 토큰으로 userDTO를 가져와서 vuex에 담아준다.
+          // 로그인이면 해당 토큰으로 userDTO를 가져와서 vuex에 담아준다.
         }
       } else { // 연동 상태가 정상이 아닐 때
         console.log('collback 처리에 실패하였습니다.')

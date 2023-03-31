@@ -1,6 +1,6 @@
 <template>
     <div class="modal-body" id="cardBody">
-        
+
             <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘"></textarea>
         </div>
         <div class="card-footer" id="footer">
@@ -10,7 +10,7 @@
             <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon">
             <button class="btn btn-primary btn-mb" @click="submit" id="upload" v-on:click="fnSave" >등록</button>
         </div>
-    
+
 </template>
 
 <script>

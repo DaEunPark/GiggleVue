@@ -54,7 +54,7 @@
                           </p>
                           <button type="button" id="submitBtn" class="btn btn-primary" @click="register">가입</button>
                       </form>
-                      
+
                       <hr/>
                       <div class="g-signin2" data-onsuccess="onSignIn" id="google" data-width="340" data-height="50" data-longtitle="true"></div>
                       <div id="registerSec02">
@@ -67,154 +67,161 @@
   </div>
 </template>
 <script>
-import axios from "axios"
+import axios from 'axios'
 export default {
-  data() {
+  data () {
     return {
       user_email: '',
       user_pwd: '',
       user_nick: '',
       user_birth: '',
-      emailChecked: "N",
-      nickChecked: "N",
+      emailChecked: 'N',
+      nickChecked: 'N'
     }
   },
   methods: {
-    emailCheck() {
-      //해당 이메일 중복 확인을 한다.
-      axios.get(this.$serverUrl + "/mj/emailCheck/" + this.user_email)
-      .then(res => {
-        console.log(res.data)
-        if(res.data > 0) {
-          //이메일에 해당하는 건수가 0이상이면
-          alert("이미 가입된 이메일입니다.\n다른 이메일을 사용해주시거나 로그인을 해주세요.")
-          this.user_email = "";
-          this.emailChecked = "N";
-          this.$refs.email.focus();
-          return false
-        } else {
-          //emailChecked의 값을 Y로 바꿔준다.
-          this.emailChecked = "Y";
-        }
-      })
+    emailCheck () {
+      // 해당 이메일 중복 확인을 한다.
+      axios.get(this.$serverUrl + '/mj/emailCheck/' + this.user_email)
+        .then(res => {
+          console.log(res.data)
+          if (res.data > 0) {
+          // 이메일에 해당하는 건수가 0이상이면
+            alert('이미 가입된 이메일입니다.\n다른 이메일을 사용해주시거나 로그인을 해주세요.')
+            this.user_email = ''
+            this.emailChecked = 'N'
+            this.$refs.email.focus()
+            return false
+          } else {
+          // emailChecked의 값을 Y로 바꿔준다.
+            this.emailChecked = 'Y'
+          }
+        })
     },
-    nickCheck() {
-      //해당 닉네임 중복 확인을 한다.
-      axios.get(this.$serverUrl + "/mj/nickCheck/" + this.user_nick)
-      .then(res => {
-        console.log(res.data)
-        if(res.data > 0) {
-          //닉네임에 해당하는 건수가 0이상이면
-          alert("중복된 닉네임입니다. \n다른 닉네임을 사용해주세요.")
-          this.user_nick = "";
-          this.nickChecked = "N";
-          this.$refs.nick.focus();
-          return false
-        } else {
-          //nickChecked의 값을 Y로 바꿔준다.
-          this.nickChecked = "Y";
-        }
-      })
+    nickCheck () {
+      // 해당 닉네임 중복 확인을 한다.
+      axios.get(this.$serverUrl + '/mj/nickCheck/' + this.user_nick)
+        .then(res => {
+          console.log(res.data)
+          if (res.data > 0) {
+          // 닉네임에 해당하는 건수가 0이상이면
+            alert('중복된 닉네임입니다. \n다른 닉네임을 사용해주세요.')
+            this.user_nick = ''
+            this.nickChecked = 'N'
+            this.$refs.nick.focus()
+            return false
+          } else {
+          // nickChecked의 값을 Y로 바꿔준다.
+            this.nickChecked = 'Y'
+          }
+        })
     },
-    register() {
+    register () {
       console.log(this.user_email)
-      //필수 입력 항목과 유효성 검사를 진행한다.
-      if(this.user_email == '') {
+      // 필수 입력 항목과 유효성 검사를 진행한다.
+      // eslint-disable-next-line eqeqeq
+      if (this.user_email == '') {
         alert('이메일은 필수 입력 항목입니다.')
-        this.$refs.email.focus();
+        this.$refs.email.focus()
         return false
       } else {
-        //이메일 유효성 검사를 한다.
-        if(!this.checkEmail(this.user_email)) {
-          alert("이메일 형식이 올바르지 않습니다.")
-          this.$refs.email.focus();
+        // 이메일 유효성 검사를 한다.
+        if (!this.checkEmail(this.user_email)) {
+          alert('이메일 형식이 올바르지 않습니다.')
+          this.$refs.email.focus()
           return false
         } else {
-          //이메일 중복 검사를 했는지 확인한다.
-          if(this.emailChecked == "N") {
-            alert("이메일 중복 검사를 해주세요.")
+          // 이메일 중복 검사를 했는지 확인한다.
+          // eslint-disable-next-line eqeqeq
+          if (this.emailChecked == 'N') {
+            alert('이메일 중복 검사를 해주세요.')
             return false
           }
         }
       }
 
-      if(this.user_pwd == '') {
+      // eslint-disable-next-line eqeqeq
+      if (this.user_pwd == '') {
         alert('비밀번호는 필수 입력 항목입니다.')
-        this.$refs.pwd.focus();
+        this.$refs.pwd.focus()
         return false
       } else {
-        //비밀번호 유효성 검사를 한다.
-        if(!this.checkPwd(this.user_pwd)) {
-          alert("비밀번호는 영문, 숫자, 특수문자 포함 8자 이상이어야 합니다.")
-          this.$refs.pwd.focus();
+        // 비밀번호 유효성 검사를 한다.
+        if (!this.checkPwd(this.user_pwd)) {
+          alert('비밀번호는 영문, 숫자, 특수문자 포함 8자 이상이어야 합니다.')
+          this.$refs.pwd.focus()
           return false
         }
       }
 
-      if(this.user_nick == '') {
+      // eslint-disable-next-line eqeqeq
+      if (this.user_nick == '') {
         alert('Giggle에서 사용할 닉네임을 입력해주세요.')
-        this.$refs.nick.focus();
+        this.$refs.nick.focus()
         return false
       } else {
-        //닉네임 중복 검사를 했는지 확인한다.
-          if(this.nickChecked == "N") {
-            alert("닉네임 중복 검사를 해주세요.")
-            return false
-          }
-      }
-
-      if(this.user_birth == '') {
-        alert('생년월일을 입력해주세요.')
-        this.$refs.birth.focus();
-        return false
-      } else {
-        //현재 연도를 기준으로 10살 미만은 가입 불가 하도록 한다.
-        let now = new Date()
-        let nowYear = now.getFullYear()
-        let maxYear = nowYear - 10
-        let birthYear = this.user_birth.substr(0, 4)
-        if(birthYear > maxYear) {
-          alert("최소 가입 연령은 만 10세 입니다.")
-          this.$refs.birth.focus();
+        // 닉네임 중복 검사를 했는지 확인한다.
+        // eslint-disable-next-line eqeqeq
+        if (this.nickChecked == 'N') {
+          alert('닉네임 중복 검사를 해주세요.')
           return false
         }
       }
 
-      //서버와 통신 한다.
-      axios.post(this.$serverUrl + "/mj/register", {
-        "user_email": this.user_email,
-        "user_pwd": this.user_pwd,
-        "user_nick": this.user_nick,
-        "user_birth": this.user_birth,
-      })
-      .then(res => {
-        console.log(res.data.user_birth)
-        //반환값이 null 아니라면 회원 정보 등록에 성공!
-        if(res.data !== null) {
-          alert("회원 가입에 성공하셨습니다.")
-
-          //메인으로 이동 하기 전 해당 정보를 vuex에 저장해준다.
-          this.$store.commit('addLoginUser', res.data)
-          console.log(this.$store.state.loginUserDTO)
-          this.$router.push({
-            name: 'main', 
-            params: {
-              user_no: res.data.user_no
-          }})
-        } else {
-          alert("회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.")
+      // eslint-disable-next-line eqeqeq
+      if (this.user_birth == '') {
+        alert('생년월일을 입력해주세요.')
+        this.$refs.birth.focus()
+        return false
+      } else {
+        // 현재 연도를 기준으로 10살 미만은 가입 불가 하도록 한다.
+        const now = new Date()
+        const nowYear = now.getFullYear()
+        const maxYear = nowYear - 10
+        const birthYear = this.user_birth.substr(0, 4)
+        if (birthYear > maxYear) {
+          alert('최소 가입 연령은 만 10세 입니다.')
+          this.$refs.birth.focus()
+          return false
         }
+      }
+
+      // 서버와 통신 한다.
+      axios.post(this.$serverUrl + '/mj/register', {
+        user_email: this.user_email,
+        user_pwd: this.user_pwd,
+        user_nick: this.user_nick,
+        user_birth: this.user_birth
       })
+        .then(res => {
+          console.log(res.data.user_birth)
+          // 반환값이 null 아니라면 회원 정보 등록에 성공!
+          if (res.data !== null) {
+            alert('회원 가입에 성공하셨습니다.')
+
+            // 메인으로 이동 하기 전 해당 정보를 vuex에 저장해준다.
+            this.$store.commit('addLoginUser', res.data)
+            console.log(this.$store.state.loginUserDTO)
+            this.$router.push({
+              name: 'main',
+              params: {
+                user_no: res.data.user_no
+              }
+            })
+          } else {
+            alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
+          }
+        })
     },
-    checkEmail(email) {
-      //이메일 유효성 검사하는 함수
-      const checkEmailTool = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-      return checkEmailTool.test(email);
+    checkEmail (email) {
+      // 이메일 유효성 검사하는 함수
+      const checkEmailTool = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
+      return checkEmailTool.test(email)
     },
-    checkPwd(pwd) {
-      //비밀번호 유효성 검사하는 함수
+    checkPwd (pwd) {
+      // 비밀번호 유효성 검사하는 함수
       const checkPwdTool = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/
-      return checkPwdTool.test(pwd);
+      return checkPwdTool.test(pwd)
     }
   }
 }

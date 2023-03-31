@@ -21,7 +21,7 @@
                             <div class="FeedList_contents">
                                 <p style="color: black;" class="mb-1">{{item.text_content}} </p>
                             </div>
-                            
+
                             <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
                             <div class="FeedList_activeicont">
                                 <div class="row">
@@ -62,10 +62,10 @@
 
 <script>
 export default {
-    props: {
-        items : {type: Object , default:null }
-        }
-    }
+  props: {
+    items: { type: Object, default: null }
+  }
+}
 </script>
 
 <style>
@@ -82,8 +82,6 @@ export default {
     background-color: #efefef;
 }
 
-
-
 #GoUserprofile a:hover .FeedList_username {
     /* text-decoration:underline; */
     color: #ed5c9d;
@@ -98,14 +96,12 @@ export default {
 .FeedList_regdate {
     color:rgb(126, 126, 126);
     font-size: small;
-    
+
 }
 .FeedList_contents {
     margin-top: 10px;
     margin-left: 6%;
 }
-
-
 
 .FeedList_activeicont #FL_spancomment,
 .FeedList_activeicont #FL_spanlike,
@@ -123,7 +119,7 @@ export default {
     border-style:none;
     color: #b0b0b0;
     margin-left: -20px;
-    
+
 }
 .FeedList_activeicont span {
     color: #b0b0b0;

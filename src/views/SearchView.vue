@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     enterSearch () {
+      // eslint-disable-next-line eqeqeq
       if (this.searchWords == '' || this.searchWords == null) {
         alert('검색어를 입력하세요')
       } else {

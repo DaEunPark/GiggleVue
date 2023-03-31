@@ -45,6 +45,7 @@ import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 import $ from 'jquery'
 
 export default {
+  // eslint-disable-next-line vue/no-unused-components
   components: { MenuBar, SideBar }
 }
 

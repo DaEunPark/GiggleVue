@@ -1,7 +1,7 @@
 <template>
   <article>
         <div class="EditorView">
-          <EditorView></EditorView>    
+          <EditorView></EditorView>
         <div class="FeedStatus">
           <FeedStatus :items="allfeedList"></FeedStatus>
         </div>
@@ -13,36 +13,33 @@
 import EditorView from '../views/EditorView.vue'
 import FeedStatus from '@/components/FeedStatus.vue'
 
-
 export default {
-components: {
-  EditorView,
-  FeedStatus,
-},
-data () {
-  return {
-      requestBody: {},  // 리스트 페이지 데이터 전송
-      allfeedList: {},  // 리스트 데이터
-      no:          '',  // 숫자 처리
-      
-    };
+  components: {
+    EditorView,
+    FeedStatus
   },
-  mounted() {
+  data () {
+    return {
+      requestBody: {}, // 리스트 페이지 데이터 전송
+      allfeedList: {}, // 리스트 데이터
+      no: '' // 숫자 처리
+
+    }
+  },
+  mounted () {
     this.fnGetList()
   },
   methods: {
-    fnGetList() {
+    fnGetList () {
       this.requestBody = { // 데이터 전송
 
       }
 
-      this.$axios.get(this.$serverUrl + "/main/upload", {
+      this.$axios.get(this.$serverUrl + '/main/upload', {
         params: this.requestBody,
         headers: {}
-      }).then((res) => {      
-
-        this.allfeedList = res.data 
-
+      }).then((res) => {
+        this.allfeedList = res.data
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
