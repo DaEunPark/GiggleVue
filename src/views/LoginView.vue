@@ -8,16 +8,16 @@
                         <div class="form">
                             <form>
                                 <div class="sm-3">
-                                    <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Email">
+                                    <input type="email" class="form-control" id="email" v-model="email" aria-describedby="email" placeholder="Email">
                                 </div>
                                 <div class="sm-3">
-                                    <input type="password" class="form-control" id="password" aria-describedby="password" placeholder="Passworld">
+                                    <input type="password" class="form-control" id="pwd" v-model="pwd" aria-describedby="password" placeholder="Password">
                                 </div>
                                 <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="remember">
                                     <label class="form-check-label" for="check">remember</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary" id="submit">Login</button>
+                                <button type="button" @click="login()" class="btn btn-primary" id="submit">Login</button>
                                 <router-link class="text-info" to="/main/mainhome">(임시)메인화면으로</router-link>
                             </form>
                             <hr/>
@@ -28,6 +28,27 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    methods: {
+        login() {
+            this.$axios.post(this.$serverUrl + "/login", {
+                params:{
+                    email : document.getElementById("email"),
+                    pwd : document.getElementById("pwd")
+                },
+
+            }).then((res)=>{
+                console.log(res);
+            }).catch(error=>{
+                console.log(error);
+                throw new Error(error);
+            });
+        }
+    }
+}
+</script>
+
 <style>
 .background{
     height: 100vh;
