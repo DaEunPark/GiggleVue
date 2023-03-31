@@ -27,6 +27,7 @@
                 <MenuBar></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
+                <!-- 메인로고 들어갈 부분 100픽셀 높이를 오렌지 색 바탕으로 표시만 해놓음 이걸 로고로 수정하면 될듯 -->
                 <div class="sticky-top" style="height: 100px; background-color: darkorange;">
 
                 </div>

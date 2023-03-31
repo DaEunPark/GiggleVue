@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-body" id="cardBody">
+    <!-- <div class="modal-body" id="cardBody">
 
             <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘"></textarea>
         </div>
@@ -9,14 +9,19 @@
             <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
             <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon">
             <button class="btn btn-primary btn-mb" @click="submit" id="upload" v-on:click="fnSave" >등록</button>
-        </div>
-
+        </div> -->
+        <editor-view></editor-view>
 </template>
 
 <script>
+import EditorView from '../views/EditorView.vue'
+
+export default {
+  components: { EditorView }
+}
 </script>
 
-<style scoped>
+<!-- <style scoped>
 #editoryBody {
   overflow-y: scroll;
 }
@@ -61,4 +66,4 @@
     right: 5%;
     bottom: 3%;
 }
-</style>
+</style> -->

@@ -169,7 +169,7 @@
  </div> -->
 <!-- 예전 왼쪽 사이드바 끝 -->
 
-    <!-- 알림 Modal -->
+    <!-- 알림 Modal 시작 -->
     <div
       class="modal fade"
       id="notification"
@@ -199,8 +199,9 @@
         </div>
       </div>
     </div>
+    <!-- 알림 Modal 끝 -->
 
-    <!-- DM Modal -->
+    <!-- DM Modal 시작 -->
     <div
       class="modal fade"
       id="directMessage"
@@ -231,8 +232,9 @@
         </div>
         </div>
     </div>
+    <!-- DM Modal 끝 -->
 
-<!-- Editor Modal -->
+<!-- Editor Modal 시작 -->
       <div
       class="modal fade"
       id="editorview"
@@ -241,28 +243,30 @@
       tabindex="-1"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true">
-      <div
-        class="modal-dialog modal-dialog-centered"
-        role="document"
-      >
-      <div class="modal-content">
-      <div class="modal-header">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
-      <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-  </svg>
-  <button
-    type="button"
-    class="btn-close btn-close-white"
-    data-bs-dismiss="modal"
-    aria-label="Close"
-  ></button>
-            <!--modal body-->
-            <EditorBody></Editorbody>
-        </div>
-        </div>
-    </div>
+        <div
+          class="modal-dialog modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+              </svg>
+              <button
+                type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+              </button>
+                <!--modal body-->
+                <EditorBody></Editorbody>
+            </div>
+          </div>
+      </div>
 
   </div>
+  <!-- Editor Modal 끝 -->
 </template>
 
 <script>
