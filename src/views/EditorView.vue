@@ -29,7 +29,7 @@
                     </div> <!-- 유튜브 링크 등록 끝 -->
                     <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
                     <!-- <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon"> -->
-                    <button class="btn btn-primary btn-mb" @click="submit" id="upload" v-on:click="fnSave"  >등록</button>
+                    <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">등록</button>
                 </div>
         </div>
     </article>
@@ -41,9 +41,9 @@ export default {
   data () {
     return {
       post: {
-        user_no: 6,
+        user_no: 3,
         text_content: '',
-        post_link: 'https://www.youtube.com/watch?v=ODZCCcH5tjw'
+        post_link: ''
       },
       addedYTLink: false
 
@@ -54,7 +54,21 @@ export default {
   },
   methods: {
     fnSave () {
-
+      if (this.post.text_content === '' || this.post.text_content === null || this.post.text_content === undefined) {
+        alert('내용 입력은 필수입니다.')
+      } else {
+        //   alert('등록 가능')
+        this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
+          .then(res => {
+            if (res.data === 'Y') {
+              alert('새로운 게시글이 등록되었습니다. ' + res.data)
+            }
+          }).catch(err => {
+            if (err.message.indexOf('Network Error') > -1) {
+              alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+            }
+          })
+      }
     },
     addYoutube () {
       if (this.post.post_link === '' || this.post.post_link === null || this.post.post_link === undefined) {
@@ -111,7 +125,7 @@ textarea {
     background-color:    white;
     border: none;
     width: 90%;
-    margin: -10px 35px -30px;
+    margin: -10px 35px -10px;
     padding : 20px 20px 20px
 
 }
