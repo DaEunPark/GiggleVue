@@ -8,7 +8,6 @@
                         <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
                         <input type="text" v-model="searchWords" class="form-control" placeholder="검색어를 입력하세요" @keydown.enter="enterSearch">
-
                     </div>
 
                     <div class="searchtd">
@@ -18,7 +17,7 @@
 
                 <article class="my-3" id="trend-list">
                     <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
-                        <a href='/main/search/(row.title)' class="list-group-item" id="Slistgroup">
+                        <a href="search/{row.title}" class="list-group-item" id="Slistgroup">
                             <h5 class="TLtitle">{{row.title}}</h5>
                             <small class="TLsmall">게시물수: {{row.readCount}}</small>
                         </a>

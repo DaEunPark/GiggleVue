@@ -1,15 +1,16 @@
 <template>
     <article class="my-3" id="cardarticle">
         <div class="card" id="card">
-            <!-- <div class="card-body" id="body"> -->
                 <article class="my-3" id="textcardarticle">
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>
+
                 <div id="youtubelinkarea" class="d-flex justify-content-between align-items-center" v-if="addedYTLink">
                     <a class="text-success d-inline-block text-truncate" id="youtubelink">{{ post.post_link }}</a>
                     <a class="button hover-change-color" @click="clearYoutube" role="button"><font-awesome-icon icon="fa-solid fa-xmark" size="lg" style="color: #ff0000;" /></a>
                 </div>
             <!-- </div> -->
+
                 <div class="card-footer" id="footer">
                     <img src="../assets/image.png" onclick="addImage()" id="addImage" class="icon">
                     <!-- 유튜브 링크 등록 시작 -->
@@ -28,8 +29,10 @@
                         </form>
                     </div> <!-- 유튜브 링크 등록 끝 -->
                     <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
+
                     <!-- <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon"> -->
                     <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">등록</button>
+
                 </div>
         </div>
     </article>
@@ -89,6 +92,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* #card {
     width:  750px;
     height: auto;
@@ -112,14 +116,17 @@ textarea {
 
 }
 
+
 #addImage, #addYoutube, #addLink, #statistics {
     width:  23px;
     height: 23px;
     margin:0 0 0 10%;
 }
+
  #footer {
     float:  left;
 }
+
 #textcardarticle #text {
     color:black;
     background-color:    white;
@@ -139,16 +146,14 @@ textarea {
     margin-right: 10px;
     pointer-events: none;
 }
-/* .card{
-    float:  left;
-} */
-/* #body {
-    position:relative;
-    margin-left:auto;
-} */
 #upload {
     position:   fixed;
     right: 5%;
     bottom: 3%;
 }
 </style>
+
+
+
+
+
