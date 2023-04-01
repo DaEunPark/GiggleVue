@@ -118,7 +118,6 @@ const routes = [
     path: '/googlelogin',
     name: 'GoogleLogin',
     component: GoogleLogin
-    // component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
   },
   {
     path: '/register',
@@ -126,7 +125,7 @@ const routes = [
     components: {
       rhome: RegisterView
     }
-  }
+  },
 
 ]
 

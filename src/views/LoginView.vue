@@ -2,6 +2,46 @@
 <template>
     <router-link to="/"></router-link>
     <div class="background">
+
+<!-- 아이디찾기 Modal 시작 -->
+<div class="modal fade" id="findId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" background-color="white">
+            <div class="modal-header">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!--modal body-->
+        <findIdBody>
+            <input type="text" class="form-control-modal" v-model="user_name" ref="name" maxlength="8" placeholder="이름"/>
+            <!-- <input type="text" class="form-control-modal" v-model="user_phone" ref="phone" maxlength="20" placeholder="핸드폰번호"/> -->
+            <div class="form-floating">
+                <input type="date" class="form-control" v-model="user_birth" ref="birth" placeholder="생년월일" id="date"/>
+                <label for="user_birth">Birthday</label>
+            </div>
+            <button type="submit" class="btn btn-m btn-success" id="findIdBtn" @click="searchId()">확인</button>
+        </findIdBody>
+        </div>
+    </div>
+</div>
+<!-- 아이디찾기 Modal 끝 -->
+
+<!-- 비밀번호찾기 Modal 시작 -->
+<div class="modal fade" id="findPwd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" background-color="white">
+            <div class="modal-header">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!--modal body-->
+        <findPwdBody></findPwdBody>
+        </div>
+    </div>
+</div>
+<!-- 비밀번호찾기 Modal 끝 -->
+
+
         <div class="card border-primary mb-3" style="max-width: 400px;">
             <div class="card-header"></div>
                 <div class="card-body">
@@ -9,13 +49,13 @@
                             <form>
                                 <div class="sm-3">
                                     <input type="email" class="form-control" id="email" v-model.trim="user_email" aria-describedby="email" placeholder="ex)giggle@giggle.com" 
-                                    maxlength="45" v-on:keydown.enter="login()" @keydown="checkEmail()" required >
+                                    maxlength="45" v-on:keydown.enter="login()" @keydown="checkEmail()" @input="user_email" required >
                                     <p v-if="!checkEmail()" id="emailErrorMsg">{{ emailErrorMsg }}</p>
                                     <!-- <i class="fa fa-exclamation-circle" aria-hidden="true" color="red"></i> -->
                                 </div>
                                 <div class="sm-3">
                                     <input type="password" class="form-control" id="pwd" v-model.trim="user_pwd" aria-describedby="password" placeholder="영문, 숫자, 특수문자 4-15글자" 
-                                    maxlength="15" v-on:keydown.enter="login()" @keydown="checkPwd()" required>
+                                    maxlength="15" v-on:keydown.enter="login()" @keydown="checkPwd()" @input="user_pwd" required>
                                     <p id="pwdErrorMsg">{{ pwdErrorMsg }}</p>
                                 </div>
                                 <div class="mb-3 form-check">
@@ -28,24 +68,40 @@
                             </form>
                             <hr/>
                             <div class="g-signin2" data-onsuccess="onSignIn" id="google" data-width="340" data-height="50" data-longtitle="true"></div>
-                            <a href="#" id="findId">아이디찾기</a>
-                            <font-awesome-icon icon="fa-regular fa-circle-exclamation" style="color: #e01515;" />
-                            <a href="#" id="findPwd">비밀번호찾기</a>
-                            <router-link class="text-info" to="/register">회원가입</router-link>
+                            <!-- <a @click="findId()" id="findId">아이디찾기</a> -->
+                            <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
+                                data-bs-toggle="modal"
+                                data-bs-target="#findId">
+                                <span>아이디찾기</span>
+                            </button>
+                            <button type="button" id="findPwd" class="btn btn-sm" onclick="location.href='#findPwd'"
+                                data-bs-toggle="modal"
+                                data-bs-target="#findPwd">
+                                <span>비밀번호찾기</span>
+                            </button>
+                            <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
+                                <span>회원가입</span>
+                            </button>
                         </div>
                 </div>
         </div>
     </div>
+
+
+
 </template>
+
+
 <script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 export default {
     data() {
         return {
             emailErrorMsg: '',
             pwdErrorMsg: '',
             user_email : '',
-            user_pwd : ''
+            user_pwd : '',
+            user_name : '',
+            user_birth: ''
         }
     },
     methods: {
@@ -70,29 +126,30 @@ export default {
                 this.pwdErrorMsg="";
             } else if(this.user_pwd.length == 0) {
                 this.pwdErrorMsg="";
-            } 
+            }
         },
         login() {
                 let data = { email: this.user_email, pwd: this.user_pwd };
 
-                if(this.user_email != "" && this.user_pwd != "") {
-                    if(this.user_email.includes("@") && this.user_email.includes(".") && this.user_pwd.length >= 4) {
-                        this.$axios.post(this.$serverUrl + "/login", JSON.stringify(data), {
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }).then((res)=>{
-                            console.log(res);
-                            if(res.data.user_email != null) {
-                                this.$router.push({
-                                    path: '/main/mainhome'
-                                })
+            if(this.user_email != "" && this.user_pwd != "") {
+                if(this.user_email.includes("@") && this.user_email.includes(".") && this.user_pwd.length >= 4) {
+                    this.$axios.post(this.$serverUrl + "/login", JSON.stringify(data), {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((res)=>{
+                        this.$store.commit('addLoginUser', res.data)
+                        console.log(this.$store.state.loginUserDTO)
+
+                        if(res.data.user_email != null) {
+                            this.$router.push({
+                                path: '/main/mainhome'
+                            })
                         } else if(res.data.user_email == null) {
                             alert('일치하는 회원 정보가 없습니다.');
                         }
                     }).catch(error=>{
                         console.log(error);
-                        throw new Error(error);
                     });
                 } else {
                     stop;
@@ -104,9 +161,17 @@ export default {
             } else if(this.user_email != "" && this.user_pwd == "") {
                 stop;
             }
-        }
+        },
+        join() {
+            this.$router.push ({
+                path: "/register"
+            })
+        },
+        searchId() {
+
         }
     }
+}
 </script>
 
 <style>
@@ -129,7 +194,7 @@ export default {
     border-color: black;
 }
 .card {
-    margin:5% auto;
+    margin:6% auto;
 }
 #email, #password, #loginService, #google {
     margin:    5% 0%;
@@ -139,8 +204,13 @@ export default {
 }
 #findId, #findPwd, #join {
     color:  black;
-    margin: 5%  5%;
     text-decoration: none;
+    font-weight: bold;
+    font-size: 17px;
+    margin:auto 3%;
+}
+#findId:hover, #findPwd:hover, #join:hover {
+    color:  #ed5c9d ;
 }
 #emailErrorMsg {
     color:  black;
@@ -150,4 +220,58 @@ export default {
     color:  black;
     font-weight:    bold;
 }
+.black-bg {
+    width: 100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    position: fixed; padding: 20px;
+}
+.white-bg {
+    width: 30%;
+    height: 40%;
+    background: white;
+    border-radius: 8px;
+    margin: 10% 33%;
+}
+.modal {
+    --bs-modal-width: 100%;
+    --bs-modal-height: 50%;
+}
+.modal-backdrop {
+    position: unset !important;
+}
+.modal-dialog {
+    width: 50%;
+    height: 90%;
+}
+.modal-content {
+    background-color: #fff;
+    color: #000;
+    width: 100%;
+    height: 70%;
+    z-index: 7;
+}
+.modal-header {
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.modal-header > button {
+    margin: 0;
+}
+.modal-body {
+    padding: 0px 20px 10px 20px;
+    height: 100%;
+}
+.form-control-modal {
+    background-color:#fff;
+    border:    none;
+    border-radius: 6px;
+    margin: 2% 10%;
+    width:  380px;
+    height: 40px;
+    color:  black;
+}
+#findIdBtn {
+    margin: 4% 40%;
+}
+
 </style>
