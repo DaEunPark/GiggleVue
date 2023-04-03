@@ -6,10 +6,14 @@ export default createStore({
     loginUserDTO: null
   },
   getters: {
+    loginUserDTO: state => state.loginUserDTO
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
       state.loginUserDTO = userDTO
+    },
+    logoutUser: (state, userDTO) => {
+      state.loginUserDTO = null
     }
   },
   actions: {

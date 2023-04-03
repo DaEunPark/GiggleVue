@@ -7,19 +7,36 @@
 <div class="modal fade" id="findId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" background-color="white">
+        <div class="modal-content">
             <div class="modal-header">
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="location.href='/'"></button>
             </div>
             <!--modal body-->
         <findIdBody>
-            <input type="text" class="form-control-modal" v-model="user_name" ref="name" maxlength="8" placeholder="이름"/>
-            <!-- <input type="text" class="form-control-modal" v-model="user_phone" ref="phone" maxlength="20" placeholder="핸드폰번호"/> -->
+            <input type="text" class="form-control" v-model="find_phone" ref="phone" maxlength="20" placeholder="핸드폰번호"
+            @keyup="this.find_phone=this.find_phone.replace(/[^0-9]/g,'');"/>
             <div class="form-floating">
-                <input type="date" class="form-control" v-model="user_birth" ref="birth" placeholder="생년월일" id="date"/>
-                <label for="user_birth">Birthday</label>
+                <input type="date" class="form-control" v-model="find_birth" ref="birth" placeholder="생년월일" id="date"/>
+                <label for="find_birth">Birthday</label>
             </div>
-            <button type="submit" class="btn btn-m btn-success" id="findIdBtn" @click="searchId()">확인</button>
+            <button type="submit" class="btn btn-m btn-success" id="findIdBtn" @click="searchId()"
+            v-bind:disabled="(this.find_phone.length < 8 || this.find_birth == '')">확인</button>
+            <hr/>
+            <!-- <p v-if="findId" class="idInfo">{{ this.user_joindate }}에 가입하신 아이디가 있습니다.</p> -->
+            <p v-if="this.findId == 1" id="idInfo">가입 하신 이메일 아이디</p>
+            <p v-if="this.findId == 1" id="idInfo2"> {{ this.find_email }}</p>
+            <p v-if="this.findId == 2" id="idInfo">가입 정보가 없습니다.</p>
+            <p v-if="this.findId == 2" id="idInfo">회원 가입을 진행해주세요.</p>
+            <p v-if="this.findId == 2" id="idInfo">
+                <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
+                    <span>회원가입</span>
+                </button>            
+            </p>
+            <!-- <p v-if="this.findId == 2" id="idInfo2">                             
+                <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
+                    <span>회원가입</span>
+                </button>
+            </p> -->
         </findIdBody>
         </div>
     </div>
@@ -30,12 +47,28 @@
 <div class="modal fade" id="findPwd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" background-color="white">
+        <div class="modal-content">
             <div class="modal-header">
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="location.href='/'"></button>
             </div>
             <!--modal body-->
-        <findPwdBody></findPwdBody>
+        <findPwdBody>
+            <input type="email" class="form-control" id="email" v-model.trim="find_email" aria-describedby="email" placeholder="ex)giggle@giggle.com" 
+            maxlength="45" @input="find_email" required >
+            <input type="text" class="form-control" v-model="find_phone" ref="phone" maxlength="20" placeholder="핸드폰번호"
+            @keyup="this.find_phone=this.find_phone.replace(/[^0-9]/g,'');"/>
+            <div class="form-floating">
+                <input type="date" class="form-control" v-model="find_birth" ref="birth" placeholder="생년월일" id="date"/>
+                <label for="find_birth">Birthday</label>
+            </div>
+            <button type="submit" class="btn btn-m btn-success" id="findIdBtn" @click="searchPwd()"
+            v-bind:disabled="(this.find_phone.length < 8 || this.find_birth == '' || !this.find_email.includes('@')
+            || !this.find_email.includes('.'))">확인</button>
+            <hr/>
+            <p v-if="this.findPwd == 1" id="idInfo">가입 하신 계정의 비밀번호</p>
+            <p v-if="this.findPwd == 1" id="idInfo2"> {{ this.find_pwd }}</p>
+            <p v-if="this.findPwd == 2" id="idInfo">가입 정보가 없습니다.</p>
+        </findPwdBody>
         </div>
     </div>
 </div>
@@ -91,7 +124,6 @@
 
 </template>
 
-
 <script>
 export default {
     data() {
@@ -101,7 +133,17 @@ export default {
             user_email : '',
             user_pwd : '',
             user_name : '',
-            user_birth: ''
+            user_birth: '',
+            user_phone: '',
+            user_joindate: '',
+            findId : '',
+            findPwd : '',
+            find_email :'',
+            find_pwd : '',
+            find_name : '',
+            find_birth: '',
+            find_phone : '',
+            find_joindate : ''
         }
     },
     methods: {
@@ -110,9 +152,9 @@ export default {
             if (this.user_email.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {
                 this.user_email = this.user_email.substring(1, 2);
             // email이 공백이거나 '@', '.'을 포함하지 않을 시 errorMsg보여주기
-            } else if((!this.user_email.includes("@") || !this.user_email.includes(".")) && this.user_email != '') {
-                this.emailErrormsg="형식을 올바르게 입력해주세요.";
-
+            } else if((!this.user_email.includes("@") || !this.user_email.includes(".")) &&
+                        this.user_email.length > 0) {
+                this.emailErrorMsg="형식을 올바르게 입력해주세요.";
             } else if(this.user_email.includes("@") && this.user_email.includes(".")) {
                 this.emailErrorMsg="";
             } else if(this.user_email == '') {
@@ -121,7 +163,7 @@ export default {
         },
         checkPwd() {
             if(0 < this.user_pwd.length && this.user_pwd.length < 4) {
-                this.pwdErrorMsg="❗️비밀번호를 4자리 이상 입력해주세요.";
+                this.pwdErrorMsg="비밀번호를 4자리 이상 입력해주세요.";
             } else if((4<=this.user_pwd.length && this.user_pwd.length <=15)) {
                 this.pwdErrorMsg="";
             } else if(this.user_pwd.length == 0) {
@@ -138,8 +180,7 @@ export default {
                             'Content-Type': 'application/json'
                         }
                     }).then((res)=>{
-                        this.$store.commit('addLoginUser', res.data)
-                        console.log(this.$store.state.loginUserDTO)
+                        this.$store.commit('addLoginUser', res.data);
 
                         if(res.data.user_email != null) {
                             this.$router.push({
@@ -168,7 +209,60 @@ export default {
             })
         },
         searchId() {
+            let data = { phone: this.find_phone, birth: this.find_birth };
 
+            if(this.find_phone.includes("-")) {
+                this.find_phone = this.find_phone.replaceAll("-", "");
+            } else if(this.find_phone.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {
+                this.find_phone = this.find_phone.substring(1,2);
+            } else if(this.find_phone.match()) {
+
+            }
+
+            this.$axios.post(this.$serverUrl + "/searchId", JSON.stringify(data), {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((res)=>{
+                        if(res.data.user_email != null) {
+                            this.find_email = res.data.user_email;
+                            // this.user_joindate = res.data.user_joindate;
+                            this.findId = 1;
+                        } else if(res.data.user_email == null) {
+                            this.findId = 2;
+                        }
+                        
+                    }).catch(error=>{
+                        console.log(error);
+            });
+        },
+        searchPwd() {
+            let data = { email: this.find_email, phone: this.find_phone, birth: this.find_birth };
+
+            if(this.find_phone.includes("-")) {
+                this.find_phone = this.find_phone.replaceAll("-", "");
+            } else if(this.find_phone.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {
+                this.find_phone = this.find_phone.substring(1,2);
+            } else if(this.find_phone.match()) {
+
+            }
+
+            this.$axios.post(this.$serverUrl + "/searchPwd", JSON.stringify(data), {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((res)=>{
+                        if(res.data.user_pwd != null) {
+                            this.find_pwd = res.data.user_pwd;
+                            // this.user_joindate = res.data.user_joindate;
+                            this.findPwd = 1;
+                        } else if(res.data.user_pwd == null) {
+                            this.findPwd = 2;
+                        }
+                        
+                    }).catch(error=>{
+                        console.log(error);
+            });           
         }
     }
 }
@@ -191,7 +285,8 @@ export default {
     background-position: center;
 }
 .form-control {
-    border-color: black;
+    border-color: #fff;
+    color:  #000;
 }
 .card {
     margin:6% auto;
@@ -227,17 +322,18 @@ export default {
 }
 .white-bg {
     width: 30%;
-    height: 40%;
+    height: 80%;
     background: white;
     border-radius: 8px;
     margin: 10% 33%;
 }
 .modal {
     --bs-modal-width: 100%;
-    --bs-modal-height: 50%;
+    --bs-modal-height: 80%;
+    color:  black;
 }
 .modal-backdrop {
-    position: unset !important;
+    position: 50% !important;
 }
 .modal-dialog {
     width: 50%;
@@ -245,11 +341,10 @@ export default {
 }
 .modal-content {
     background-color: #fff;
-    color: #000;
     width: 100%;
     height: 70%;
     z-index: 7;
-}
+} 
 .modal-header {
     border-bottom: 1px solid #ccc;
     text-align: center;
@@ -273,5 +368,14 @@ export default {
 #findIdBtn {
     margin: 4% 40%;
 }
-
+#idInfo {
+    color:  black;
+    font-size:25px;
+    text-align:center;
+}
+#idInfo2 {
+    color:  black;
+    font-size:30px;
+    text-align:center;
+}
 </style>

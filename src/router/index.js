@@ -113,7 +113,6 @@ const routes = [
       rhome: LoginView
     }
   },
-
   {
     path: '/googlelogin',
     name: 'GoogleLogin',

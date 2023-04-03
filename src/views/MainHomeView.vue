@@ -50,6 +50,7 @@ import MenuBar from '../components/components-MenuBarComp-left.vue'
 import SideBar from '../components/rightsidebars/SideBarComp.vue'
 
 export default {
+
   components: { MenuBar, SideBar }
 
 }
