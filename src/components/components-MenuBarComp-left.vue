@@ -3,7 +3,7 @@
     <aside class="sidebar">
       <header class="sidebar-header">
         <div class="user_img_box">
-            <img class="img_circle user_img" name="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`">
+            <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`">
         </div>
       </header>
       <nav>
@@ -40,7 +40,7 @@
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg></span></a>
 
-<button type="button" onclick="test()">
+<button type="button" @click="logout()">
           <span>
             <span>Logout</span>
           </span>
@@ -288,6 +288,16 @@ export default {
   },
   components: { DMBody, AlarmBody, EditorBody },
   methods: {
+    logout() {
+      if (confirm('로그아웃 하시겠습니까?') == true) {
+        this.$router.push ({
+          path: '/'
+        })
+        this.$store.commit('logoutUser', res.data);
+      } else {
+        stop;
+      }
+    }
   },
   computed: {
     ...mapGetters(["loginUserDTO"])
@@ -538,5 +548,7 @@ span {-webkit-text-fill-color: black;}
   padding: 0px 20px 10px 20px;
   height: 100%;
 }
-
+#profic {
+  margin-left: 100%;
+}
 </style>
