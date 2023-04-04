@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div class="collapse" id="collapseSearch" >
+            <div class="collapse" id="collapseSearch"  v-show="showURL">
 
                 <div v-show="isExistSearchWord">
 

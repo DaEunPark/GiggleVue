@@ -15,6 +15,22 @@
                 </div>
 
             <div class="FeedList_contents">
+                <!-- video-embed start -->
+                <div v-show=showYoutube>
+                    <div class="ratio ratio-16x9">
+                        <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+                        <div v-if="rightYTID">
+                            <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div v-else>
+                            <a :href="youtubeURL">{{ youtubeURL }}</a>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+                <!-- video-embed end -->
                 <p style="color: black;" class="mb-1">{{item.text_content}} </p>
             </div>
 
@@ -64,10 +80,14 @@ export default {
   data () {
     return {
       post_no: this.$route.query.post_no,
-      item: {}
+      item: {},
+      rightYTID: false,
+      youtubeURL: '',
+      showYoutube: false
     }
   },
   mounted () {
+    window.scrollTo(0, 0)
     this.getThisPostDetail()
   },
   methods: {
@@ -80,11 +100,30 @@ export default {
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data
+        if (this.item.post_link === '' || this.item.post_link === null === this.item.post_link === undefined) {
+          this.showYoutube = false
+        } else {
+          this.showYoutube = true
+          this.youtubeURL = this.parseYoutubeUrl(this.item.post_link)
+        }
       }).catch(err => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
+    },
+    parseYoutubeUrl (url) {
+      // eslint-disable-next-line no-useless-escape
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const matchResult = url.match(regExp)
+      if (matchResult && (matchResult[2].length === 11)) {
+        // console.log(`${matchResult[2]}`)
+        this.rightYTID = true
+        return `https://www.youtube.com/embed/${matchResult[2]}`
+      } else {
+        this.rightYTID = false
+        return url
+      }
     }
   }
 }
@@ -162,4 +201,8 @@ export default {
 .FeedList_activeicont #FL_spanchart a:hover {
     color:  #a532e8;
 }
+#yotube-frame {
+  width: 90%;
+  height: 100%;
+ }
 </style>
