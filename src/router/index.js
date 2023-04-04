@@ -87,12 +87,13 @@ const routes = [
         }
       },
       {
-        path: 'search/:id',
+        path: 'search/:keyword',
         name: 'searchresult',
         components: {
           rmain: SearchResultView
         }
       },
+
       {
         path: 'postdetail',
         name: 'postdetail',
