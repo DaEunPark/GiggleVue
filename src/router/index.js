@@ -87,13 +87,13 @@ const routes = [
         }
       },
       {
-        path: 'search/:id',
+        path: 'search/:keyword',
         name: 'searchresult',
         components: {
           rmain: SearchResultView
         }
       },
-      {
+      {  //upload.vue 파일 miancontentsview.vue 로 옮겨짐 삭제해도됨 
         path: 'upload',
         name: 'UpLoad',
         components: {
