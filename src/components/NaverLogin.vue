@@ -1,7 +1,5 @@
 <template>
-    <div id="naverLoginDiv">
         <div id="naverIdLogin"></div>
-    </div>
 </template>
 <script>
 // import axios from 'axios'
@@ -17,7 +15,7 @@ export default {
       callbackUrl: 'http://localhost:8080/naverLoginCallback', // 등록한 callback Url
       isPopup: false, // 팝업을 통한 연동처리 여부
       loginButton: {
-        color: 'white', type: 3, height: 45
+        color: 'white', type: 1, height: 40
       } // 로그인 버튼의 타입 지정
     })
 
@@ -49,9 +47,7 @@ export default {
 }
 </script>
 <style scoped>
-#naverLoginDiv {
-  text-align: center;
-  width: 100%;
-  margin-bottom: 20px;
+#naverIdLogin {
+  display: inline-block;
 }
 </style>

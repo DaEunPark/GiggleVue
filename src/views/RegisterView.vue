@@ -62,8 +62,11 @@
                       </form>
 
                       <hr/>
-                      <div class="g-signin2" data-onsuccess="onSignIn" id="google" data-width="340" data-height="50" data-longtitle="true"></div>
-                      <NaverLogin/>
+                      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                      <div id="socialLoginDiv">
+                        <GoogleLogin/>
+                        <NaverLogin/>
+                      </div>
                       <div id="registerSec02">
                         <p>계정이 있으신가요?</p>
                         <a href="/login">로그인</a>
@@ -77,10 +80,10 @@
 <script>
 import axios from 'axios'
 import NaverLogin from '../components/NaverLogin.vue'
-
+import GoogleLogin from '../views/GoogleLogin.vue'
 export default {
   components: {
-    NaverLogin
+    NaverLogin, GoogleLogin
   },
   props: {
     naver_token : String
@@ -341,5 +344,8 @@ h5 {
   font-size: 16px;
   margin-left: 10px;
   color: #4cb5f9;
+}
+#socialLoginDiv {
+  height: 36px;
 }
 </style>
