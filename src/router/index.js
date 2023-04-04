@@ -12,8 +12,8 @@ import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
-import UpLoad from '../views/UpLoad.vue'
 import GoogleLogin from '../views/GoogleLogin.vue'
+import PostDetailView from '../views/PostDetailView.vue'
 
 const routes = [
   {
@@ -93,11 +93,12 @@ const routes = [
           rmain: SearchResultView
         }
       },
-      {  //upload.vue 파일 miancontentsview.vue 로 옮겨짐 삭제해도됨 
-        path: 'upload',
-        name: 'UpLoad',
+
+      {
+        path: 'postdetail',
+        name: 'postdetail',
         components: {
-          rmain: UpLoad
+          rmain: PostDetailView
 
         }
       }
