@@ -1,29 +1,21 @@
 <!-- eslint-disable camelcase -->
 <template>
-    <div>
-        <div id="google-signin-btn"></div>
-    </div>
+        <button class="btn btn-link btn-sm" type="button" id="googleSign" 
+        onclick="location.href=`https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=196854062269-nl9v00805p2kt359tpaqb0lrjtt8lrch.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fgoogle-login&response_type=code&scope=email&service=lso&o2v=2&flowName=GeneralOAuthFlow`"><img src="../assets/btn_google2.svg" id="google"/></button>
 </template>
 <script>
 export default ({
-  mounted () {
-    window.gapi.signin2.render('google-signin-btn', { onsuccess: this.onSignIn })
-  },
-  methods: {
-    onSignIn (googleUser) {
-      const profile = googleUser.getBasicProfile()
-      console.log('ID: ' + profile.getId())
-      console.log('Full Name: ' + profile.getName())
-      console.log('Given Name: ' + profile.getGivenName())
-      console.log('Family Name: ' + profile.getFamilyName())
-      console.log('Image URL: ' + profile.getImageUrl())
-      console.log('Email: ' + profile.getEmail())
-
-      // eslint-disable-next-line camelcase
-      const id_token = googleUser.getAuthResponse().id_token
-      // eslint-disable-next-line camelcase
-      console.log('ID Token: ' + id_token)
-    }
-  }
+methods: {
+  
+}
 })
+
 </script>
+<style scoped>
+.btn-group-sm>.btn, .btn-sm {
+    --bs-btn-padding-y: 0.0;
+    --bs-btn-padding-x: 0.0;
+    --bs-btn-font-size: 0.875rem;
+    --bs-btn-border-radius: 0.6rem;
+}
+</style>

@@ -3,7 +3,8 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-    loginUserDTO: null
+    loginUserDTO: null,
+    
   },
   getters: {
     loginUserDTO: state => state.loginUserDTO

@@ -13,7 +13,8 @@ import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
 import UpLoad from '../views/UpLoad.vue'
-import GoogleLogin from '../views/GoogleLogin.vue'
+import GoogleLoginCallback from '../views/GoogleLoginCallback.vue'
+import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 
 const routes = [
   {
@@ -114,17 +115,27 @@ const routes = [
     }
   },
   {
-    path: '/googlelogin',
-    name: 'GoogleLogin',
-    component: GoogleLogin
+    path: '/google-login',
+    name: 'GoogleLoginCallback',
+    component: {
+      rhome: GoogleLoginCallback
+    }
   },
   {
     path: '/register',
     name: 'register',
+    props: true,
     components: {
       rhome: RegisterView
     }
   },
+  {
+    path: '/naverLoginCallback',
+    name: 'naverLoginCallback',
+    components: {
+      rhome: NaverLoginCallback
+    }
+  }
 
 ]
 

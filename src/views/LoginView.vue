@@ -99,22 +99,23 @@
                                 v-bind:disabled="!this.user_email.includes('@') || !this.user_email.includes('.')
                                                 || this.user_pwd.length<4">Login</button>
                             </form>
-                            <hr/>
-                            <div class="g-signin2" data-onsuccess="onSignIn" id="google" data-width="340" data-height="50" data-longtitle="true"></div>
-                            <!-- <a @click="findId()" id="findId">아이디찾기</a> -->
-                            <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
-                                data-bs-toggle="modal"
-                                data-bs-target="#findId">
-                                <span>아이디찾기</span>
-                            </button>
-                            <button type="button" id="findPwd" class="btn btn-sm" onclick="location.href='#findPwd'"
-                                data-bs-toggle="modal"
-                                data-bs-target="#findPwd">
-                                <span>비밀번호찾기</span>
-                            </button>
-                            <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
-                                <span>회원가입</span>
-                            </button>
+                            <div class="social"><GoogleLogin></GoogleLogin>
+                            <NaverLogin></NaverLogin></div>
+                            <div>
+                                <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#findId">
+                                    <span>아이디찾기</span>
+                                </button>
+                                <button type="button" id="findPwd" class="btn btn-sm" onclick="location.href='#findPwd'"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#findPwd">
+                                    <span>비밀번호찾기</span>
+                                </button>
+                                <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
+                                    <span>회원가입</span>
+                                </button>
+                            </div>
                         </div>
                 </div>
         </div>
@@ -125,6 +126,9 @@
 </template>
 
 <script>
+import GoogleLogin from './GoogleLogin.vue'
+import NaverLogin from '../components/NaverLogin.vue'
+
 export default {
     data() {
         return {
@@ -145,6 +149,9 @@ export default {
             find_phone : '',
             find_joindate : ''
         }
+    },
+    components: {
+        GoogleLogin, NaverLogin
     },
     methods: {
         checkEmail() {
@@ -276,13 +283,13 @@ export default {
     background-image: url("../assets/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: fixed;
 }
 .card-header {
     height:100px;
     background-image: url("../assets/Glogo.png");
     background-size:150px;
     background-repeat: no-repeat;
-    background-position: center;
 }
 .form-control {
     border-color: #fff;
@@ -377,5 +384,9 @@ export default {
     color:  black;
     font-size:30px;
     text-align:center;
+}
+.social {
+    margin:0 30%;
+    padding: 5% 5%;
 }
 </style>
