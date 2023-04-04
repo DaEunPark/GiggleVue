@@ -12,8 +12,8 @@ import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
-import UpLoad from '../views/UpLoad.vue'
 import GoogleLogin from '../views/GoogleLogin.vue'
+import PostDetailView from '../views/PostDetailView.vue'
 
 const routes = [
   {
@@ -94,10 +94,10 @@ const routes = [
         }
       },
       {
-        path: 'upload',
-        name: 'UpLoad',
+        path: 'postdetail',
+        name: 'postdetail',
         components: {
-          rmain: UpLoad
+          rmain: PostDetailView
 
         }
       }

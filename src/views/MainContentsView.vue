@@ -6,7 +6,7 @@
           <div class="FeedStatus">
             <FeedStatus :items="allfeedList"></FeedStatus>
           </div>
-        
+
    </article>
   </template>
 
