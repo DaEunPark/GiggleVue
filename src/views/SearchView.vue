@@ -7,7 +7,11 @@
                     <div class="input-group mb-3" style="margin-top:10px;">
                         <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
-                        <input type="text" v-model="searchWords" class="form-control" placeholder="검색어를 입력하세요" @keydown.enter="enterSearch">
+                            <input type="text" 
+                            v-model="keyword" 
+                            class="form-control" 
+                            placeholder="검색어를 입력하세요" 
+                            @keydown.enter="searchresultshow(keyword)">
                     </div>
 
                     <div class="searchtd">
@@ -17,7 +21,7 @@
 
                 <article class="my-3" id="trend-list">
                     <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
-                        <a href="search/{row.title}" class="list-group-item" id="Slistgroup">
+                        <a :href="row.post_no" class="list-group-item" id="Slistgroup">
                             <h5 class="TLtitle">{{row.title}}</h5>
                             <small class="TLsmall">게시물수: {{row.readCount}}</small>
                         </a>
@@ -28,61 +32,84 @@
     </div>
 </template>
 
+
+
 <script>
 export default {
   data () {
     return {
-      // responseBody : {},
-      Trendlist: {},
-      searchWords: ''
+      requestBody: {}, 
+      allfeedList: {}, 
+      no: '', 
+      keyword : ''
     }
   },
   mounted () {
-    this.fnGetList()
+    this.fnGetList(),  //나중에 this.Trendlist 가져올때 사용할 메서드
+    this.searchresultshow()  // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
-    enterSearch () {
-      // eslint-disable-next-line eqeqeq
-      if (this.searchWords == '' || this.searchWords == null) {
-        alert('검색어를 입력하세요')
-      } else {
-        alert(this.searchWords)
-        const url = window.location.href
-        location.href = url + '/' + (this.searchWords) // /search/:id 의 id==변수부분
-      }
-    },
     fnGetList () {
       this.Trendlist = [
         {
+          post_no :1,
           title: '얼그레이티 라떼',
           readCount: '1231111'
         },
         {
+          post_no :2,
           title: '퇴근',
           readCount: '30220'
         },
         {
+          post_no :3,
           title: '비가오는날엔귀가원츄',
           readCount: '104440'
         },
         {
+          post_no :4,
           title: '맛점',
           readCount: '133404'
         },
         {
+          post_no :5,
           title: '종각역스터디카페',
           readCount: '133402'
         },
         {
+          post_no :6,
           title: '블랙 글레이즈드',
           readCount: '133402'
         },
         {
+          post_no :7,
           title: '아아',
           readCount: '133402'
         }
       ]
-    }
+    },
+    searchresultshow (keyword) {
+      //console.log("searchresultshow 결과화면으로 이동");
+      this.keyword = keyword
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+        if (keyword !== ''){ 
+          this.$router.push({
+            name: 'searchresult',
+          params: {
+            keyword: this.keyword,
+          }
+          })
+          console.log('"',keyword,'"' + '검색')
+        //console.log(res)
+        this.allfeedList = res.data  
+      }
+    }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          //alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          alert('검색어를 입력해주세요')
+        }
+      })
+    },  
   }
 }
 </script>

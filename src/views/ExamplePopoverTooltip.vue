@@ -5,10 +5,10 @@
       <br/><br/><br/>
     </div>
     <!-- video-embed start -->
-    <div>
+    <div class="ratio ratio-16x9">
       <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
 
-      <div v-if="rightYTID" style="height: 360px;">
+      <div v-if="rightYTID">
         <iframe id="yotube-frame" :src="getYoutubeVideoURL" title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
