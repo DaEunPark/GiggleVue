@@ -44,7 +44,7 @@ export default {
   data () {
     return {
       post: {
-        user_no: 3,
+        user_no: this.$store.state.loginUserDTO.user_no,
         text_content: '',
         post_link: ''
       },

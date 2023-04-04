@@ -256,12 +256,13 @@ export default {
             // 메인으로 이동 하기 전 해당 정보를 vuex에 저장해준다.
             this.$store.commit('addLoginUser', res.data)
             console.log(this.$store.state.loginUserDTO)
-            this.$router.push({
-              name: 'main',
-              params: {
-                user_no: this.$store.state.loginUserDTO.user_no
-              }
-            })
+            // this.$router.push({
+            //   name: 'main',
+            //   params: {
+            //     user_no: this.$store.state.loginUserDTO.user_no
+            //   }
+            // })
+            this.$router.replace('/main/mainhome')
           } else {
             alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
           }
