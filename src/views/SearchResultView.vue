@@ -7,10 +7,10 @@
                   <div class="input-group mb-3" style="margin-top:10px;">
                       <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
                           <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
-                          <input type="text" 
-                            v-model="keyword" 
-                            class="form-control" 
-                            placeholder="검색어를 입력하세요" 
+                          <input type="text"
+                            v-model="keyword"
+                            class="form-control"
+                            placeholder="검색어를 입력하세요"
                             @keydown.enter="searchresultshow(keyword)">
                   </div>
 
@@ -34,59 +34,59 @@ export default {
   },
   data () {
     return {
-      requestBody: {}, 
-      allfeedList: {}, 
+      requestBody: {},
+      allfeedList: {},
       no: '', // 숫자 처리
-      //keyword : '',
+      // keyword : '',
       keyword: this.$route.params.keyword
     }
   },
   mounted () {
-      this.fnGetList() 
-      //this.searchresultshow()
-    },
-    methods: {
-      fnGetList () {
-        this.requestBody = { 
+    this.fnGetList()
+    // this.searchresultshow()
+  },
+  methods: {
+    fnGetList () {
+      this.requestBody = {
+      }
+      // console.log("이동후 결과 피드화면이 잘 받아와짐");
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword, {
+        params: this.requestBody,
+        headers: {}
+      }).then((res) => {
+        // this.allfeedList = res.data
+        if (res.data.length > 0) {
+          this.allfeedList = res.data
+        } else {
+          alert('해당 유저/내용이 없습니다.\n검색어를 확인해주세요.')
         }
-         //console.log("이동후 결과 피드화면이 잘 받아와짐");
-         this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword , {
-          params: this.requestBody,
-          headers: {}
-        }).then((res) => {
-           //this.allfeedList = res.data
-           if(res.data.length >0 ) {
-             this.allfeedList = res.data
-            } else {
-            alert("해당 유저/내용이 없습니다.\n검색어를 확인해주세요.")
-            }
-        }).catch((err) => {
-          if (err.message.indexOf('Network Error') > -1) {
-            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          }
-        })
-      }, 
-      searchresultshow (keyword) {
-        //console.log("searchResultView에서의 검색"); 
-        console.log('"',keyword,'"' + '검색')
-        this.keyword = keyword
-        this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
-          //console.log(res)
-          //this.allfeedList = res.data
-          if(res.data.length >0 ) {
-             this.allfeedList = res.data
-            } else {
-            alert("해당 유저/내용이 없습니다.\n검색어를 확인해주세요.")
-            }
-        }).catch((err) => {
-          if (err.message.indexOf('Network Error') > -1) {
-            //alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-            alert('검색어를 입력해주세요')
-          }
-        })
-      },
-    }   
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    },
+    searchresultshow (keyword) {
+      // console.log("searchResultView에서의 검색");
+      console.log('"', keyword, '"' + '검색')
+      this.keyword = keyword
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+        // console.log(res)
+        // this.allfeedList = res.data
+        if (res.data.length > 0) {
+          this.allfeedList = res.data
+        } else {
+          alert('해당 유저/내용이 없습니다.\n검색어를 확인해주세요.')
+        }
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          alert('검색어를 입력해주세요')
+        }
+      })
+    }
   }
+}
 </script>
 
 <style scoped>

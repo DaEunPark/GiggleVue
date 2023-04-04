@@ -86,7 +86,7 @@ export default {
     NaverLogin, GoogleLogin
   },
   props: {
-    naver_token : String
+    naver_token: String
   },
   data () {
     return {
@@ -97,6 +97,7 @@ export default {
       emailChecked: 'N',
       nickChecked: 'N',
       user_phone: '',
+      // eslint-disable-next-line vue/no-dupe-keys
       naver_token: this.$route.params.naver_token
     }
   },
@@ -138,33 +139,34 @@ export default {
           }
         })
     },
-    phoneCheck() {
-      //휴대폰번호를 숫자만 입력 가능하록 하고 자동을 "-"를 넣어준다.
-      var userPhone = document.getElementById("userPhone");		   
-      var phoneNumber = userPhone.value.replace(/[^0-9]/g, "").replace(/(\..*)\./g, '$1');
-      var phone = "";
-      if(phoneNumber == ""){
-        userPhone.value = "";
+    phoneCheck () {
+      // 휴대폰번호를 숫자만 입력 가능하록 하고 자동을 "-"를 넣어준다.
+      const userPhone = document.getElementById('userPhone')
+      const phoneNumber = userPhone.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')
+      let phone = ''
+      // eslint-disable-next-line eqeqeq
+      if (phoneNumber == '') {
+        userPhone.value = ''
       }
-      if(phoneNumber.length < 4) {
-          return phoneNumber;
-      } else if(phoneNumber.length < 8) {
-          phone += phoneNumber.substr(0, 3);
-          phone += "-";
-          phone += phoneNumber.substr(3);
+      if (phoneNumber.length < 4) {
+        return phoneNumber
+      } else if (phoneNumber.length < 8) {
+        phone += phoneNumber.substr(0, 3)
+        phone += '-'
+        phone += phoneNumber.substr(3)
       } else {
-          phone += phoneNumber.substr(0, 3);
-          phone += "-";
-          phone += phoneNumber.substr(3, 4);
-          phone += "-";
-          phone += phoneNumber.substr(7);
+        phone += phoneNumber.substr(0, 3)
+        phone += '-'
+        phone += phoneNumber.substr(3, 4)
+        phone += '-'
+        phone += phoneNumber.substr(7)
       }
-      userPhone.value = phone;
+      userPhone.value = phone
     },
     register () {
       console.log(this.user_email)
       console.log(this.$route.params.naver_token)
-      console.log("data()의 naver_token: " + this.naver_token)
+      console.log('data()의 naver_token: ' + this.naver_token)
       // 필수 입력 항목과 유효성 검사를 진행한다.
       // eslint-disable-next-line eqeqeq
       if (this.user_email == '') {
@@ -188,6 +190,7 @@ export default {
       }
 
       // 비밀번호 검사
+      // eslint-disable-next-line eqeqeq
       if (this.user_pwd == '') {
         alert('비밀번호는 필수 입력 항목입니다.')
         this.$refs.pwd.focus()
@@ -202,12 +205,14 @@ export default {
       }
 
       // 닉네임 검사
+      // eslint-disable-next-line eqeqeq
       if (this.user_nick == '') {
         alert('Giggle에서 사용할 닉네임을 입력해주세요.')
         this.$refs.nick.focus()
         return false
       } else {
         // 닉네임 중복 검사를 했는지 확인한다.
+        // eslint-disable-next-line eqeqeq
         if (this.nickChecked == 'N') {
           alert('닉네임 중복 검사를 해주세요.')
           return false
@@ -215,6 +220,7 @@ export default {
       }
 
       // 생년월일 검사
+      // eslint-disable-next-line eqeqeq
       if (this.user_birth == '') {
         alert('생년월일을 입력해주세요.')
         this.$refs.birth.focus()
@@ -231,7 +237,7 @@ export default {
           return false
         }
       }
-      this.user_phone = document.getElementById("userPhone").value
+      this.user_phone = document.getElementById('userPhone').value
       // 서버와 통신 한다.
       axios.post(this.$serverUrl + '/mj/register', {
         user_email: this.user_email,
@@ -241,25 +247,25 @@ export default {
         user_phone: this.user_phone,
         naver_token: this.naver_token
       })
-      .then(res => {
-        console.log(res.data.user_birth)
-        // 반환값이 null 아니라면 회원 정보 등록에 성공!
-        if (res.data !== null) {
-          alert('회원 가입에 성공하셨습니다.')
+        .then(res => {
+          console.log(res.data.user_birth)
+          // 반환값이 null 아니라면 회원 정보 등록에 성공!
+          if (res.data !== null) {
+            alert('회원 가입에 성공하셨습니다.')
 
-          // 메인으로 이동 하기 전 해당 정보를 vuex에 저장해준다.
-          this.$store.commit('addLoginUser', res.data)
-          console.log(this.$store.state.loginUserDTO)
-          this.$router.push({
-            name: 'main',
-            params: {
-              user_no: this.$store.state.loginUserDTO.user_no
-            }
-          })
-        } else {
-          alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
-        }
-      })
+            // 메인으로 이동 하기 전 해당 정보를 vuex에 저장해준다.
+            this.$store.commit('addLoginUser', res.data)
+            console.log(this.$store.state.loginUserDTO)
+            this.$router.push({
+              name: 'main',
+              params: {
+                user_no: this.$store.state.loginUserDTO.user_no
+              }
+            })
+          } else {
+            alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
+          }
+        })
     },
     checkEmail (email) {
       // 이메일 유효성 검사하는 함수

@@ -16,7 +16,6 @@ import GoogleLoginCallback from '../views/GoogleLoginCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 
-
 const routes = [
   {
     path: '/main',

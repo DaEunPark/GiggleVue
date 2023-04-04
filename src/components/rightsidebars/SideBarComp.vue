@@ -6,8 +6,8 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
-                        <input type="text" v-model="keyword"  class="form-control text-dark bg-white" 
-                            @keydown.enter="searchresultshow(keyword)" placeholder="검색어를 입력하세요" 
+                        <input type="text" v-model="keyword"  class="form-control text-dark bg-white"
+                            @keydown.enter="searchresultshow(keyword)" placeholder="검색어를 입력하세요"
                             aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
                             data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
                     </div>
@@ -113,9 +113,9 @@ export default {
   data () {
     return {
       requestBody: {},
-      allfeedList: {}, 
-      no: '', 
-      keyword : '',
+      allfeedList: {},
+      no: '',
+      keyword: '',
       isExistSearchWord: true,
       thisURL: window.location.href
     }
@@ -134,7 +134,7 @@ export default {
     }
   },
   mounted () {
-    this.searchresultshow()  // 검색시 스프링 연동 검색및 화면 result 전환
+    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
     // enterSearch () {
@@ -146,27 +146,27 @@ export default {
     //   }
     // },
     searchresultshow (keyword) {
-      //console.log("searchresultshow 결과화면으로 이동");
+      // console.log("searchresultshow 결과화면으로 이동");
       this.keyword = keyword
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
-        if (keyword !== ''){ 
+        if (keyword !== '') {
           this.$router.push({
             name: 'searchresult',
             params: {
-            keyword: this.keyword,
-          }
+              keyword: this.keyword
+            }
           })
-          console.log('"',keyword,'"' + '검색')
-         //console.log(res)
-         this.allfeedList = res.data  
-      }
-    }).catch((err) => {
+          console.log('"', keyword, '"' + '검색')
+          // console.log(res)
+          this.allfeedList = res.data
+        }
+      }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
-          //alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           alert('검색어를 입력해주세요')
         }
       })
-    },  
+    },
     clearAllSearchWords () {
     //   alert('clearAllSearchWords')
       // 모두 지우기를 하면 따로 보여줄 거 정하기

@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  props: {  //MainContentsView 의 자식컴포넌트로 사용됨
+  props: { // MainContentsView 의 자식컴포넌트로 사용됨
     items: { type: Object, default: null }
   },
   methods: {

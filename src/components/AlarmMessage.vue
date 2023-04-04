@@ -91,18 +91,18 @@ export default {
       type: Array, default: null
     }
   },
-  mounted() {
-    if(this.alarmList != null) {
+  mounted () {
+    if (this.alarmList != null) {
       this.alarmListLength = this.alarmList.length
     }
   },
   methods: {
-    getMore() {
-      if(this.alarmList.length > 5) {
-        console.log("알람 리스트 5개 이상임")
+    getMore () {
+      if (this.alarmList.length > 5) {
+        console.log('알람 리스트 5개 이상임')
         console.log(this.alarmListLength)
-        document.getElementById("alarmMoreDiv").style.display = "none";
-        document.getElementById("alarmListDiv").style.overflowY = "visible";
+        document.getElementById('alarmMoreDiv').style.display = 'none'
+        document.getElementById('alarmListDiv').style.overflowY = 'visible'
       }
     }
   }
