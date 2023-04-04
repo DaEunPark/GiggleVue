@@ -25,6 +25,7 @@
     "jquery": "^3.6.4",
     "mitt": "^3.0.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
+    "stylus": "^0.59.0",
     "v-video-embed": "^1.0.8",
     "vue": "^3.2.13",
     "vue-popperjs": "^2.3.0",

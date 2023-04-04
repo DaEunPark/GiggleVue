@@ -1,6 +1,6 @@
 <template>
     <article class="my-3" id="cardarticle">
-        <div class="card" id="card">
+        <div class="card" id="card" style="z-index: 1;">
                 <article class="my-3" id="textcardarticle">
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>
@@ -64,7 +64,9 @@ export default {
         this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
-              alert('새로운 게시글이 등록되었습니다. ' + res.data)
+              // alert('새로운 게시글이 등록되었습니다. ' + res.data)
+              // window.location.href = 'http://localhost:8080/main/mainhome'
+              this.$router.go(this.$router.currentRoute)
             }
           }).catch(err => {
             if (err.message.indexOf('Network Error') > -1) {

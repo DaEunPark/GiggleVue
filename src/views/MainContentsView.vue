@@ -2,10 +2,11 @@
     <article>
           <div class="EditorView">
             <EditorView></EditorView>
+          </div>
           <div class="FeedStatus">
             <FeedStatus :items="allfeedList"></FeedStatus>
           </div>
-        </div>
+
    </article>
   </template>
 
@@ -51,7 +52,7 @@ export default {
 
 </script>
 
-  <style>
+  <style scoped>
   .EditorView #cardarticle #card {
     margin-top: -35px;
     margin-bottom: -25px;

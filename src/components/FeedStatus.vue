@@ -3,7 +3,8 @@
         <article class="my-3" id="FeedList">
                     <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="FeedList_GF">
                         <!--게시글피드로 가는링크-->
-                        <a :href="item.post_link/{post_no}" class="list-group-item" id="FeedList_GI">
+
+                        <a @click="getPostDetail(item.post_no)" class="list-group-item" id="FeedList_GI">
 
                          <div class="row">
                             <div class="col-sm-1" style="margin-left:-20px; position: fixed;" >
@@ -38,7 +39,7 @@
                                         </a>
                                     </div>
                                     <div class="col-sm-3"  id="FL_spanshare">
-                                        <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
+                                        <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
                                         <font-awesome-icon icon="fa-regular fa-share-from-square"/>
                                         </a>
                                     </div>
@@ -62,8 +63,14 @@
 
 <script>
 export default {
-  props: {
+  props: {  //MainContentsView 의 자식컴포넌트로 사용됨
     items: { type: Object, default: null }
+  },
+  methods: {
+    // eslint-disable-next-line camelcase
+    getPostDetail (post_no) {
+      this.$router.push({ path: '/main/postdetail', query: { post_no: post_no } })
+    }
   }
 }
 </script>
