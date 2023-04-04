@@ -12,8 +12,10 @@ import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
-import GoogleLogin from '../views/GoogleLogin.vue'
+import GoogleLoginCallback from '../views/GoogleLoginCallback.vue'
+import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
+
 
 const routes = [
   {
@@ -114,18 +116,26 @@ const routes = [
       rhome: LoginView
     }
   },
-
   {
-    path: '/googlelogin',
-    name: 'GoogleLogin',
-    component: GoogleLogin
-    // component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
+    path: '/google-login',
+    name: 'GoogleLoginCallback',
+    component: {
+      rhome: GoogleLoginCallback
+    }
   },
   {
     path: '/register',
     name: 'register',
+    props: true,
     components: {
       rhome: RegisterView
+    }
+  },
+  {
+    path: '/naverLoginCallback',
+    name: 'naverLoginCallback',
+    components: {
+      rhome: NaverLoginCallback
     }
   }
 
