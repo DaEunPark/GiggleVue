@@ -195,7 +195,7 @@
               aria-label="Close"
             ></button>
           </div>
-            <AlarmBody/>
+            <AlarmBody :alarmList="alarmList"></AlarmBody>
         </div>
       </div>
     </div>
@@ -273,10 +273,39 @@
 import DMBody from './DirectMessage.vue'
 import AlarmBody from './AlarmMessage.vue'
 import EditorBody from './EditorModal.vue'
+import axios from 'axios'
 
 export default {
-  components: { DMBody, AlarmBody, EditorBody }
-
+  components: {
+    DMBody, AlarmBody, EditorBody 
+  },
+  data() {
+    return {
+      alarmList: []
+    }
+  },
+  mounted() {
+    this.getAlarmList()
+  },
+  methods: {
+    getAlarmList () {
+      axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
+      .then(res => {
+        console.log("알람 리스트: " + res.data)
+        if(res.data !== null) {
+          console.log("알람 있음")
+          this.alarmList = res.data
+        } else {
+          console.log("알람 없음")
+        }
+      })
+      .catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    }
+  }
 }
 
 </script>

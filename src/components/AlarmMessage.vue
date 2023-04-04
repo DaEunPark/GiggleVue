@@ -1,122 +1,109 @@
 <template>
     <div class="modal-body" id="alarmBody">
-            <div v-if="true">
-              <div class="alert alert-dismissible alert-primary">
-                <a href="#" class="alert-link">
-                  <table>
-                    <tr>
-                      <td class="alarmListImg">
-                        <img src="../assets/profile02.jpg"/>
-                      </td>
-                      <td class="alarmListNick">닉네임</td>
-                      <td>님이 회원님에게 팔로우를 요청했습니다.</td>
-                      <td>
-                        <button
-                          type="button"
-                          class="btn btn-success alarmFollow"
-                        >
-                          팔로우
-                        </button>
-                      </td>
-                      <td class="alarmTime">10:10 PM</td>
-                      <td class="alarmClose">
-                        <button
-                          type="button"
-                          class="btn-close btn-close-white"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </td>
-                    </tr>
-                  </table>
-                </a>
-              </div>
-              <div class="alert alert-dismissible alert-primary">
-                <a href="#" class="alert-link">
-                  <table>
-                    <tr>
-                      <td class="alarmListImg">
-                        <img src="../assets/profile02.jpg"/>
-                      </td>
-                      <td class="alarmListNick">닉네임</td>
-                      <td>님이 회원님에게 팔로우를 요청했습니다.</td>
-                      <td>
-                        <button
-                          type="button"
-                          class="btn btn-success alarmFollow"
-                        >
-                          팔로우
-                        </button>
-                      </td>
-                      <td class="alarmTime">10:10 PM</td>
-                      <td class="alarmClose">
-                        <button
-                          type="button"
-                          class="btn-close btn-close-white"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </td>
-                    </tr>
-                  </table>
-                </a>
-              </div>
-            </div>
-            <div v-if="true">
-              <div class="alert alert-dismissible alert-primary">
-                <a href="#" class="alert-link">
-                  <table>
-                    <tr>
-                      <td class="alarmListImg">
-                        <img src="../assets/profile02.jpg"/>
-                      </td>
-                      <td class="alarmListNick">닉네임</td>
-                      <td>님이 회원님의 게시물을 좋아합니다.</td>
-                      <td class="alarmTime">10:10 PM</td>
-                      <td class="alarmClose">
-                        <button
-                          type="button"
-                          class="btn-close btn-close-white"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </td>
-                    </tr>
-                  </table>
-                </a>
-              </div>
-            </div>
-            <div v-if="true">
-              <div class="alert alert-dismissible alert-primary">
-                <a href="#" class="alert-link">
-                  <table>
-                    <tr>
-                      <td class="alarmListImg">
-                        <img src="../assets/profile02.jpg" />
-                      </td>
-                      <td class="alarmListNick">닉네임</td>
-                      <td>님이 회원의 게시물에 댓글을 달았습니다.</td>
-                      <td class="alarmTime">10:10 PM</td>
-                      <td class="alarmClose">
-                        <button
-                          type="button"
-                          class="btn-close btn-close-white"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </td>
-                    </tr>
-                  </table>
-                </a>
-              </div>
-            </div>
-            <!--더보기 버튼-->
-            <div v-if="true" id="alarmMoreDiv">
-              <button type="button" class="btn btn-success">더보기</button>
-            </div>
-          </div>
+      <div id="alarmListDiv">
+      <div v-for="(alarm, idx) in alarmList" :key="idx">
+        <!-- 알람 타입: 1 (팔로우 알람) -->
+        <div v-if="alarm.alarm_type == '1'" class="alert alert-dismissible alert-primary">
+          <a href="#" class="alert-link">
+            <table>
+              <tr>
+                <td class="alarmListImg">
+                  <img src="../assets/profile02.jpg"/>
+                </td>
+                <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
+                <td>님이 회원님을 팔로우합니다.</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success alarmFollow"
+                  >
+                    팔로우
+                  </button>
+                </td>
+                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmClose">
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="alert"
+                  ></button>
+                </td>
+              </tr>
+            </table>
+          </a>
+        </div>
+        <!-- 알람 타입: 2 (좋아요 알람) -->
+        <div v-if="alarm.alarm_type == '2'" class="alert alert-dismissible alert-primary">
+          <a href="#" class="alert-link">
+            <table>
+              <tr>
+                <td class="alarmListImg">
+                  <img src="../assets/profile02.jpg"/>
+                </td>
+                <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
+                <td>님이 회원님의 게시물을 좋아합니다.</td>
+                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmClose">
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="alert"
+                  ></button>
+                </td>
+              </tr>
+            </table>
+          </a>
+        </div>
+        <!-- 알람타입: 3(댓글 알람) -->
+        <div v-if="alarm.alarm_type == '3'" class="alert alert-dismissible alert-primary">
+          <a href="#" class="alert-link">
+            <table>
+              <tr>
+                <td class="alarmListImg">
+                  <img src="../assets/profile02.jpg" />
+                </td>
+                <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
+                <td>님이 회원의 게시물에 댓글을 달았습니다.</td>
+                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmClose">
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="alert"
+                  ></button>
+                </td>
+              </tr>
+            </table>
+          </a>
+        </div>
+      </div>
+      </div>
+      <!--더보기 버튼-->
+      <div v-show="this.alarmList.length > 5" id="alarmMoreDiv">
+        <button type="button" class="btn btn-success" @click="getMore">더보기</button>
+      </div>
+    </div>
 </template>
 <script>
 export default {
-  data () {
-    return {
-      alarmList: []
+  props: {
+    alarmList: {
+      type: Array, default: null
+    }
+  },
+  mounted() {
+    if(this.alarmList != null) {
+      this.alarmListLength = this.alarmList.length
+    }
+  },
+  methods: {
+    getMore() {
+      if(this.alarmList.length > 5) {
+        console.log("알람 리스트 5개 이상임")
+        console.log(this.alarmListLength)
+        document.getElementById("alarmMoreDiv").style.display = "none";
+        document.getElementById("alarmListDiv").style.overflowY = "visible";
+      }
     }
   }
 }
@@ -126,6 +113,7 @@ export default {
 /* 알람 css */
 #alarmBody {
   padding-top: 10px;
+  padding-bottom: 10px;
   overflow-y: scroll;
 }
 #alarmBody::-webkit-scrollbar-track {
@@ -135,6 +123,10 @@ export default {
 #alarmBody::-webkit-scrollbar {
   width: 3px;
   background-color: #f5f5f5;
+}
+#alarmListDiv {
+  height: 80%;
+  overflow-y: hidden;
 }
 .alert-dismissible {
   padding: 10px 20px;
