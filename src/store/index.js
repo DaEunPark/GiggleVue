@@ -3,11 +3,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-    loginUserDTO: null
+    loginUserDTO: null,
+    userProfileDTO: null
 
   },
   getters: {
-    loginUserDTO: state => state.loginUserDTO
+    loginUserDTO: state => state.loginUserDTO,
+    userProfileDTO: state => state.userProfileDTO
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
@@ -15,6 +17,9 @@ export default createStore({
     },
     logoutUser: (state, userDTO) => {
       state.loginUserDTO = null
+    },
+    addUserProfile: (state, profileDTO) => {
+      state.userProfileDTO = profileDTO
     }
   },
   actions: {
@@ -22,6 +27,6 @@ export default createStore({
   modules: {
   },
   plugins: [createPersistedState({
-    paths: ['loginUserDTO']
+    paths: ['loginUserDTO', 'userProfileDTO']
   })]
 })

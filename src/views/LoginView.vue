@@ -98,7 +98,7 @@
                                 v-bind:disabled="!this.user_email.includes('@') || !this.user_email.includes('.')
                                                 || this.user_pwd.length<4">Login</button>
                             </form>
-                            <div class="social"><GoogleLogin></GoogleLogin>
+                            <div><GoogleLogin></GoogleLogin>
                             <NaverLogin></NaverLogin></div>
 
                             <div>
@@ -152,6 +152,13 @@ export default {
     GoogleLogin, NaverLogin
   },
   methods: {
+    onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+},
     checkEmail () {
       // 한글 입력시 제거
       if (this.user_email.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {

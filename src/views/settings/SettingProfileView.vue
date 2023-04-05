@@ -8,20 +8,23 @@
                 </div>
                 <div class="profile__wrap px-4 mb-2">
                     <div class="profile__image mb-2">
-                        <img src="../../assets/profile.jpg" class="profile__imageFile rounded-circle align-center">
+                        <img v-bind:src="`${this.$store.state.userProfileDTO.profile_image}`" class="profile__imageFile rounded-circle align-center">
                         <button type="button" class="btn btn-link btn-rg imageEdit mt-2">Edit</button>
                     </div>
                     <div class="profile__nickname">
                         <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname mt-2">닉네임</label>
-                        <input type="text" class="form-control form-control-sm profile__nickname" id="profile__nickname" placeholder="{user_nickname}">
+                        <input type="text" class="form-control form-control-sm profile__nickname" id="profile__nickname" 
+                        v-model="user_nick" v-bind:placeholder="`${this.$store.state.userProfileDTO.user_nick}`">
                     </div>
                     <div class="profile__status">
                         <label for="status" class="col-form-label col-form-label-sm  profile__status mt-2">상태 메세지</label>
-                        <textarea class="form-control form-control-sm profile__status" id="profile__status" rows="3" placeholder="{user_status}"></textarea>
+                        <textarea class="form-control form-control-sm profile__status" id="profile__status" rows="3" 
+                        v-model="status_message" v-bind:placeholder="`${this.$store.state.userProfileDTO.status_message}`"></textarea>
                     </div>
                     <div class="profile__location">
                         <label for="location" class="col-form-label col-form-label-sm  profile__location mt-2">위치</label>
-                        <input type="text" class="form-control form-control-sm profile__location" id="profile__location">
+                        <input type="text" class="form-control form-control-sm profile__location" id="profile__location"
+                        v-model="profile_location">
                     </div>
                     <div class="profile__birthday">
                         <label for="birthday" class="col-form-label col-form-label-sm profile__birthday mt-2">생년월일</label>
@@ -32,7 +35,7 @@
                         </div>
                     </div>
                     <div class="profile__passwordBtn">
-                        <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2">OK</button>
+                        <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2" @click="profileUpdate()">OK</button>
                     </div>
                 </div>
             </div>
@@ -43,39 +46,70 @@
 import MenuBar from '../../components/components-MenuBarComp-left.vue'
 import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 import $ from 'jquery'
+import { mapGetters } from 'vuex'
 
 export default {
+    data() {
+        return {
+            user_nick:'',
+            status_message:'',
+            profile_location:''
+        }
+    },
   // eslint-disable-next-line vue/no-unused-components
-  components: { MenuBar, SideBar }
+    components: { MenuBar, SideBar },
+    methods: {
+        profileUpdate() {
+            if(this.user_nick == null) {
+                this.user_nick = this.$store.state.userProfileDTO.user_nick
+            } else if(this.status_message == null) {
+                this.status_message = this.$store.state.userProfileDTO.status_message
+            } else if(this.profile_location == null) {
+                this.profile_location = this.$store.state.userProfileDTO.profile_location
+            }
+
+            var data={ user_nick:this.user_nick, status_message:this.status_message, profile_location:this.profile_location }
+            this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                this.$store.commit('addLoginUser', res.data)
+
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    }
 }
 
 $(document).ready(function () {
-  const now = new Date()
-  const year = now.getFullYear()
-  const mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1) : '0' + (now.getMonth() + 1)
-  const day = (now.getDate()) > 9 ? '' + (now.getDate()) : '0' + (now.getDate())
+    const now = new Date()
+    const year = now.getFullYear()
+    const mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1) : '0' + (now.getMonth() + 1)
+    const day = (now.getDate()) > 9 ? '' + (now.getDate()) : '0' + (now.getDate())
   // 년도 selectbox만들기
   // eslint-disable-next-line no-var
-  for (var i = 1900; i <= year; i++) {
-    $('#year').append('<option value="' + i + '">' + i + '년</option>')
-  }
+    for (var i = 1900; i <= year; i++) {
+        $('#year').append('<option value="' + i + '">' + i + '년</option>')
+    }
 
   // 월별 selectbox 만들기
   // eslint-disable-next-line no-var, no-redeclare
-  for (var i = 1; i <= 12; i++) {
-    const mm = i > 9 ? i : '0' + i
-    $('#month').append('<option value="' + mm + '">' + mm + '월</option>')
-  }
+    for (var i = 1; i <= 12; i++) {
+        const mm = i > 9 ? i : '0' + i
+        $('#month').append('<option value="' + mm + '">' + mm + '월</option>')
+    }
 
   // 일별 selectbox 만들기
   // eslint-disable-next-line no-var, no-redeclare
-  for (var i = 1; i <= 31; i++) {
-    const dd = i > 9 ? i : '0' + i
-    $('#day').append('<option value="' + dd + '">' + dd + '일</option>')
-  }
-  $('#year  > option[value=' + year + ']').attr('selected', 'true')
-  $('#month  > option[value=' + mon + ']').attr('selected', 'true')
-  $('#day  > option[value=' + day + ']').attr('selected', 'true')
+    for (var i = 1; i <= 31; i++) {
+        const dd = i > 9 ? i : '0' + i
+        $('#day').append('<option value="' + dd + '">' + dd + '일</option>')
+    }
+    $('#year  > option[value=' + year + ']').attr('selected', 'true')
+    $('#month  > option[value=' + mon + ']').attr('selected', 'true')
+    $('#day  > option[value=' + day + ']').attr('selected', 'true')
 })
 </script>
 

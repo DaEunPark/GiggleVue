@@ -1,18 +1,15 @@
 <template>
-  <div style="background-color: #eeeeeede;"  class="overflow-auto">
-    <div class="logo"  style="text-align:center;">
-        <img src="../assets/Glogo.png" alt="logo" width="200" height="120" >
-    </div>
-
+  <div style="background-color: #fff;"  class="overflow-auto">
       <br/><br/><br/>
                <!--프로필 부분-->
-                      <div class="user_profile_box">
+                      <!-- <div class="user_profile_box"> -->
+                        <div class="user_profile_box" :style="{ backgroundImage: `url(${this.$store.state.userProfileDTO.back_image})` }">
             <div class="user_img_box">
-                <img class="img_circle user_img" name="프로필" src="../assets/profile.jpg">
+                <img class="img_circle user_img" name="프로필" v-bind:src="`${this.$store.state.userProfileDTO.profile_image}`">
             </div>
             <div class="user_info_box">
                 <div class="user_name">
-                    <p id="user_name_title">Nick_name</p>
+                    <p id="user_name_title">{{this.$store.state.userProfileDTO.user_nick}}</p>
                     <div class="user_setting_box">
 
                         <div class="user_follow_btn" onclick="user_follow_create()">팔로우</div>
@@ -23,280 +20,17 @@
                     </div>
                 </div>
                 <div class="item_cnt">
-                    <div class="item">게시물 <span style="font-weight: 500;">user_info</span></div>
-                    <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">user_info</span></div>
-                    <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">user_info</span></div>
+                    <div class="item">게시물 <span style="font-weight: 500;">{{this.$store.state.userProfileDTO.count_post}}</span></div>
+                    <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.$store.state.userProfileDTO.follower_user}}</span></div>
+                    <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.$store.state.userProfileDTO.follow_user}}</span></div>
                 </div>
+                <hr id="hr"/>
                 <div class="user_nickname">
                     <!-- {{user_info['Name']}} -->
+                    <div class="status_message">{{ this.$store.state.userProfileDTO.status_message }}</div>
                 </div>
             </div>
         </div>
-
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Card</h4>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-    </div>
-
-    <div class="container">
-      <!-- Popover Start -->
-      <h3 class="text-light">Popovers</h3>
-      <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-bs-original-title="Popover Title">Left</button>
-      <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-bs-original-title="Popover Title">Top</button>
-      <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-bs-original-title="Popover Title">Bottom</button>
-      <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-bs-original-title="Popover Title">Right</button>
-      <br/><br/><br/><hr/><br/>
-      <!-- Popover End -->
-
-      <!-- Tooltip Start -->
-      <h3 class="text-light">Tooltips</h3>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Tooltip on left">Left</button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tooltip on top">Top</button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Tooltip on bottom">Bottom</button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Tooltip on right">Right</button>
-      <br/><br/><br/><hr/><br/>
-      <!-- Tooltip End -->
-      <!-- Dropdown Start -->
-      <h3 class="text-light">Dropdowns</h3>
-      <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-          Dropdown form
-        </button>
-        <form class="dropdown-menu p-4">
-          <div class="mb-3">
-            <label for="exampleDropdownFormEmail2" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="exampleDropdownFormPassword2" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
-          </div>
-          <div class="mb-3">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-              <label class="form-check-label" for="dropdownCheck2">
-                Remember me
-              </label>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
-      </div>
-      <br/><br/><br/><hr/><br/>
-      <!-- Dropdown End -->
-
-      <!-- Modal Start -->
-      <!-- Button trigger modal -->
-      <h3 class="text-light">Modal</h3>
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
-      </button>
-
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-light">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body bg-light">
-              <p>I will not close if you click outside me. Don't even try to press escape key.</p>
-            </div>
-            <div class="modal-footer bg-light">
-              <button type="button" class="btn btn-dark bg-dark" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary bg-primary">Understood</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br/><br/>
-
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>&nbsp;
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>&nbsp;
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <br/><br/>
-      <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Show a second modal and hide this one with the button below.
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Hide this modal and show the first with the button below.
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button>
-      <br/><br/><br/><hr/><br/>
-      <!-- Modal End-->
-
-      <!-- card test start -->
-      <div class="card mb-3">
-        <h3 class="card-header">Card header</h3>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-          <rect width="100%" height="100%" fill="#868e96"></rect>
-          <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-        </svg>
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Type</th>
-              <th scope="col">Column heading</th>
-              <th scope="col">Column heading</th>
-              <th scope="col">Column heading</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="table-active">
-              <th scope="row">Active</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr>
-              <th scope="row">Default</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-primary">
-              <th scope="row">Primary</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-secondary">
-              <th scope="row">Secondary</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-success">
-              <th scope="row">Success</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-danger">
-              <th scope="row">Danger</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-warning">
-              <th scope="row">Warning</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-info">
-              <th scope="row">Info</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-light">
-              <th scope="row">Light</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-            <tr class="table-dark">
-              <th scope="row">Dark</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="card-footer text-muted">
-          2 days ago
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Card title</h4>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-    </div>
-    <br/><br/><br/><hr/><br/>
-      <!-- Card End-->
-
-    </div> <!-- <div class="container"> -->
 
   </div>
 
@@ -305,9 +39,17 @@
 <script>
 // import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
+import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      back : ''
+    }
+  },
   mounted () {
+
+    this.back = this.$store.state.userProfileDTO.back_image
   // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
       .forEach(popoverNode => new Popover(popoverNode))
@@ -331,6 +73,7 @@ export default {
       modalTitle.textContent = 'New message to ' + recipient
       modalBodyInput.value = recipient
     })
+
   }
 }
 </script>
@@ -345,9 +88,10 @@ export default {
 }
 
 .user_profile_box {
-    width: 100%;
-    height: 150px;
+    width: 90%;
+    height: auto;
     margin-bottom: 44px;
+    padding-top: 20px;
 
     display: flex;
     flex-direction: row;
@@ -433,6 +177,14 @@ export default {
 
     font-size: 16px;
     font-weight: 500;
+}
+#user_name_title {
+  font-weight: bold;
+  font-size: 25px;
+}
+#hr {
+  border-color: black;
+  border-width: 1px;
 }
 
 </style>

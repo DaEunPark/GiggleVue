@@ -1,12 +1,34 @@
 <!-- eslint-disable vue/no-parsing-error -->
-<template>
+<!-- <template>
     <aside class="sidebar">
       <header class="sidebar-header">
         <div class="user_img_box">
-            <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`">
+            <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
+            @click="location.href='/'">
         </div>
       </header>
-      <nav>
+      <nav> -->
+
+        <template>
+          <aside class="sidebar">
+            <header class="sidebar-header">
+              <div class="user_img_box" >
+      
+                  <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
+                       onclick="location.href='/main/mypage'"/> -->
+      
+              </div>
+            </header>
+            <nav>
+      
+              <button type="button" @click="getProfile()">
+                <span>
+                   <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
+                       >
+                  <span> {{ this.$store.state.loginUserDTO.user_nick }}</span>
+                </span>
+              </button>
+      
         <button type="button" onclick="location.href='/main/mainhome' ">
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="m20 8l-6-5.26a3 3 0 0 0-4 0L4 8a3 3 0 0 0-1 2.26V19a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8.75A3 3 0 0 0 20 8Zm-6 12h-4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1Zm5-1a1 1 0 0 1-1 1h-2v-5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v5H6a1 1 0 0 1-1-1v-8.75a1 1 0 0 1 .34-.75l6-5.25a1 1 0 0 1 1.32 0l6 5.25a1 1 0 0 1 .34.75Z"/></svg>
@@ -35,7 +57,7 @@
         </button>
 <a href="#editorview" data-bs-toggle="modal"
             data-bs-target="#editorview" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" id="editor" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg></span></a>
@@ -46,10 +68,11 @@
           </span>
 </button>
 
-        <button>
+
+<button type="button" onclick="location.href='/main/setting'">
           <span>
             <i class="uil uil-bars"> </i>
-            <p><span>More</span></p>
+            <p><span>more</span></p>
           </span>
         </button>
       </nav>
@@ -282,7 +305,8 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      alarmList: []
+      alarmList: [],
+      email: ''
     }
   },
   components: { DMBody, AlarmBody, EditorBody },
@@ -318,6 +342,26 @@ export default {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
+    },
+    getProfile() {
+
+      const data = { user_no: this.$store.state.loginUserDTO.user_no }
+
+      this.$axios.post(this.$serverUrl + '/settingProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+
+        console.log(res.data.back_image)
+        this.$store.commit('addUserProfile', res.data)
+        this.$router.push({
+          path: '/main/mypage'
+        })
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })    
     }
   },
   computed: {
