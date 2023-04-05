@@ -12,7 +12,7 @@ import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
-import GoogleLoginCallback from '../views/GoogleLoginCallback.vue'
+import gCallback from '../views/gCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 
@@ -101,7 +101,7 @@ const routes = [
         components: {
           rmain: PostDetailView
 
-        }
+        },
       }
 
     ] // MainHomeView children
@@ -113,13 +113,6 @@ const routes = [
     alias: ['/', '/login'],
     components: {
       rhome: LoginView
-    }
-  },
-  {
-    path: '/google-login',
-    name: 'GoogleLoginCallback',
-    component: {
-      rhome: GoogleLoginCallback
     }
   },
   {
@@ -135,6 +128,13 @@ const routes = [
     name: 'naverLoginCallback',
     components: {
       rhome: NaverLoginCallback
+    }
+  },
+  {
+    path: '/google-login',
+    name: 'gCallback',
+    components: {
+      rhome: gCallback
     }
   }
 

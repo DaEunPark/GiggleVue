@@ -100,6 +100,7 @@
                             </form>
                             <div class="social"><GoogleLogin></GoogleLogin>
                             <NaverLogin></NaverLogin></div>
+
                             <div>
                                 <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
                                     data-bs-toggle="modal"
@@ -394,6 +395,5 @@ export default {
 }
 .social {
     margin:0 30%;
-    padding: 5% 5%;
 }
 </style>

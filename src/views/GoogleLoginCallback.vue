@@ -4,14 +4,14 @@
 <script>
 
 export default ({
-  data () {
-    return {
-      accessToken: window.location.href
+    data() {
+        return {
+            accessToken: window.location.href
+        }
+    },
+    mounted() {
+        console.log(this.accessToken);
     }
-  },
-  mounted () {
-    console.log(this.accessToken)
-  }
 
 })
 </script>
