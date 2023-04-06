@@ -27,10 +27,6 @@
                 <MenuBar></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
-                <!-- 메인로고 들어갈 부분 100픽셀 높이를 오렌지 색 바탕으로 표시만 해놓음 이걸 로고로 수정하면 될듯 -->
-                <div class="fixed" style="height: 100px;">
-                    <img src="@/assets/Glogo.png" id="glogo"/>
-                </div>
                 <div>
                     <router-view name="rmain"></router-view>
                 </div>
@@ -66,10 +62,7 @@ export default {
     }
     #main_contents {
         min-width: 620px;
+        margin: 0 0;
     }
-#glogo {
-    height: 100px;
-    margin: 0 40%;
-    margin-top: 3%;
-}
+
 </style>

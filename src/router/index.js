@@ -15,6 +15,7 @@ import SearchResultView from '../views/SearchResultView.vue'
 import gCallback from '../views/gCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
+import NotMyPage from '../views/NotMyPage.vue'
 
 const routes = [
   {
@@ -72,11 +73,19 @@ const routes = [
         components: {
           rmain: SettingAnaliticsView
         }
-      }, {
+      }, 
+      {
         path: 'mypage',
         name: 'MyPage',
         components: {
           rmain: Mypage
+        }
+      },
+      {
+        path: 'notmypage',
+        name: 'notmypage',
+        components: {
+          rmain: NotMyPage
         }
       },
       {

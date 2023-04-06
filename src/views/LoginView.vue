@@ -197,6 +197,7 @@ export default {
           }).then((res) => {
             this.$store.commit('addLoginUser', res.data)
 
+            console.log(this.$store.state.loginUserDTO)
             if (res.data.user_email != null) {
               this.$router.push({
                 path: '/main/mainhome'

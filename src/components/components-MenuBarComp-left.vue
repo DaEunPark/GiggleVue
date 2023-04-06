@@ -20,7 +20,7 @@
               </div>
             </header>
             <nav>
-      
+              <img src="@/assets/Glogo.png" id="glogo"/>
               <button type="button" @click="getProfile()">
                 <span>
                    <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
@@ -344,30 +344,15 @@ export default {
         })
     },
     getProfile() {
-
-      const data = { user_no: this.$store.state.loginUserDTO.user_no }
-
-      this.$axios.post(this.$serverUrl + '/settingProfile', JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((res) => {
-
-        console.log(res.data.back_image)
-        this.$store.commit('addUserProfile', res.data)
         this.$router.push({
-          path: '/main/mypage'
-        })
-        console.log(res)
-      }).catch(error => {
-        console.log(error)
-      })    
-    }
+          path: "/main/mypage"
+    })
   },
   computed: {
     ...mapGetters(['loginUserDTO'])
   }
 
+  }
 }
 
 </script>
@@ -615,5 +600,11 @@ span {-webkit-text-fill-color: black;}
 }
 #profic {
   margin-left: 100%;
+}
+#glogo {
+  width: 40%;
+  height:auto;
+  margin: 0 28%;
+  margin-bottom: 10%;
 }
 </style>
