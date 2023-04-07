@@ -60,13 +60,11 @@
                           </p>
                           <button type="button" id="submitBtn" class="btn btn-primary" @click="register">가입</button>
                       </form>
-
-                      <hr/>
-                      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                      <div id="socialLoginDiv">
-                        <GoogleLogin/>
-                        <NaverLogin/>
+                      <div class="social">
+                        <GoogleLogin></GoogleLogin>
+                        <NaverLogin></NaverLogin>
                       </div>
+                      <hr/>
                       <div id="registerSec02">
                         <p>계정이 있으신가요?</p>
                         <a href="/login">로그인</a>
@@ -97,8 +95,7 @@ export default {
       emailChecked: 'N',
       nickChecked: 'N',
       user_phone: '',
-      // eslint-disable-next-line vue/no-dupe-keys
-      naver_token: this.$route.params.naver_token
+      naver_token: this.$store.state.naverToken
     }
   },
   methods: {
@@ -165,7 +162,7 @@ export default {
     },
     register () {
       console.log(this.user_email)
-      console.log(this.$route.params.naver_token)
+      console.log(this.$store.state.naverToken)
       console.log('data()의 naver_token: ' + this.naver_token)
       // 필수 입력 항목과 유효성 검사를 진행한다.
       // eslint-disable-next-line eqeqeq
@@ -352,7 +349,9 @@ h5 {
   margin-left: 10px;
   color: #4cb5f9;
 }
-#socialLoginDiv {
-  height: 36px;
+.social {
+    margin:0 30%;
+    margin-top: 20px;
+    padding: 0 5%;
 }
 </style>
