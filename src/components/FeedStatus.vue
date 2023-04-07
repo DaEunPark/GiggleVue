@@ -4,8 +4,6 @@
                     <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="FeedList_GF">
                         <!--게시글피드로 가는링크-->
 
-                        <a @click="getPostDetail(item.post_no)" class="list-group-item" id="FeedList_GI">
-
                          <div class="row">
                             <div class="col-sm-1" style="margin-left:-20px; position: fixed;" >
                                 <!--개인 프로필로 가는 링크-->
@@ -18,11 +16,11 @@
                                     <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
                                     <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
                                 </div>
-
-                            <div class="FeedList_contents">
-                                <p style="color: black;" class="mb-1">{{item.text_content}} </p>
-                            </div>
-
+                            <a  @click="getPostDetail(item.post_no)" role="button" class="list-group-item" id="FeedList_GI">
+                                <div class="FeedList_contents">
+                                    <p class="mb-1">{{item.text_content}} </p>
+                                </div>
+                            </a>
                             <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
                             <div class="FeedList_activeicont">
                                 <div class="row">
@@ -53,7 +51,7 @@
 
                             </div>
                           </div>
-                        </a>
+
                         <hr style="color:#b0b0b0; margin:0px;">
                     </div>
                 </article>
@@ -75,7 +73,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #FeedList {
     margin : auto;
     padding: 12px 8px;
@@ -86,7 +84,18 @@ export default {
     /* margin-bottom: 100px; */
 }
 #FeedList_GI:hover {
-    background-color: #efefef;
+    /* background-color: #efefef; */
+    pointer-events: auto;
+    /* color: #a532e8; */
+}
+
+#FeedList_GI .FeedList_contents p{
+    color: black;
+}
+
+#FeedList_GI:hover .FeedList_contents p{
+    color: darkslategray;
+    /* background-color: #a532e8; */
 }
 
 #GoUserprofile a:hover .FeedList_username {
