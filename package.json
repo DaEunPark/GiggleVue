@@ -23,6 +23,7 @@
     "core-js": "^3.8.3",
     "dayjs": "^1.11.7",
     "jquery": "^3.6.4",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "stylus": "^0.59.0",

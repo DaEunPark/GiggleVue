@@ -1,159 +1,159 @@
 <template>
-    <div>
-        <section id="components">
-            <div class="Sbackground">
+  <div>
+      <section id="components">
+          <div class="Sbackground">
 
-                <article class="my-3" id="AinputSearch">
-                    <div class="input-group mb-3" style="margin-top:10px;">
-                        <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
-                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
-                            <input type="text"
-                            v-model="keyword"
-                            class="form-control"
-                            placeholder="검색어를 입력하세요"
-                            @keydown.enter="searchresultshow(keyword)">
-                    </div>
+              <article class="my-3" id="AinputSearch">
+                  <div class="input-group mb-3" style="margin-top:10px;">
+                      <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
+                          <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
+                          <input type="text"
+                          v-model="keyword"
+                          class="form-control"
+                          placeholder="검색어를 입력하세요"
+                          @keydown.enter="searchresultshow(keyword)">
+                  </div>
 
-                    <div class="searchtd">
-                    <p class="h2">Trend</p>
-                    </div>
-                   </article>
+                  <div class="searchtd">
+                  <p class="h2">Trend</p>
+                  </div>
+                 </article>
 
-                <article class="my-3" id="trend-list">
-                    <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
-                        <a :href="row.post_no" class="list-group-item" id="Slistgroup">
-                            <h5 class="TLtitle">{{row.title}}</h5>
-                            <small class="TLsmall">게시물수: {{row.readCount}}</small>
-                        </a>
-                     </div>
-                </article>
-        </div>
-     </section>
-    </div>
+              <article class="my-3" id="trend-list">
+                  <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
+                      <a :href="row.post_no" class="list-group-item" id="Slistgroup">
+                          <h5 class="TLtitle">{{row.title}}</h5>
+                          <small class="TLsmall">게시물수: {{row.readCount}}</small>
+                      </a>
+                   </div>
+              </article>
+      </div>
+   </section>
+  </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      requestBody: {},
-      allfeedList: {},
-      no: '',
-      keyword: ''
-    }
-  },
-  mounted () {
-    // eslint-disable-next-line no-unused-expressions, no-sequences
-    this.fnGetList(), // 나중에 this.Trendlist 가져올때 사용할 메서드
-    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
-  },
-  methods: {
-    fnGetList () {
-      this.Trendlist = [
-        {
-          post_no: 1,
-          title: '얼그레이티 라떼',
-          readCount: '1231111'
-        },
-        {
-          post_no: 2,
-          title: '퇴근',
-          readCount: '30220'
-        },
-        {
-          post_no: 3,
-          title: '비가오는날엔귀가원츄',
-          readCount: '104440'
-        },
-        {
-          post_no: 4,
-          title: '맛점',
-          readCount: '133404'
-        },
-        {
-          post_no: 5,
-          title: '종각역스터디카페',
-          readCount: '133402'
-        },
-        {
-          post_no: 6,
-          title: '블랙 글레이즈드',
-          readCount: '133402'
-        },
-        {
-          post_no: 7,
-          title: '아아',
-          readCount: '133402'
-        }
-      ]
-    },
-    searchresultshow (keyword) {
-      // console.log("searchresultshow 결과화면으로 이동");
-      this.keyword = keyword
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
-        if (keyword !== '') {
-          this.$router.push({
-            name: 'searchresult',
-            params: {
-              keyword: this.keyword
-            }
-          })
-          console.log('"', keyword, '"' + '검색')
-          // console.log(res)
-          this.allfeedList = res.data
-        }
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
-        }
-      })
-    }
+data () {
+  return {
+    requestBody: {},
+    allfeedList: {},
+    no: '',
+    keyword: ''
   }
+},
+mounted () {
+  // eslint-disable-next-line no-unused-expressions, no-sequences
+  this.fnGetList(), // 나중에 this.Trendlist 가져올때 사용할 메서드
+  this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+},
+methods: {
+  fnGetList () {
+    this.Trendlist = [
+      {
+        post_no: 1,
+        title: '얼그레이티 라떼',
+        readCount: '1231111'
+      },
+      {
+        post_no: 2,
+        title: '퇴근',
+        readCount: '30220'
+      },
+      {
+        post_no: 3,
+        title: '비가오는날엔귀가원츄',
+        readCount: '104440'
+      },
+      {
+        post_no: 4,
+        title: '맛점',
+        readCount: '133404'
+      },
+      {
+        post_no: 5,
+        title: '종각역스터디카페',
+        readCount: '133402'
+      },
+      {
+        post_no: 6,
+        title: '블랙 글레이즈드',
+        readCount: '133402'
+      },
+      {
+        post_no: 7,
+        title: '아아',
+        readCount: '133402'
+      }
+    ]
+  },
+  searchresultshow (keyword) {
+    // console.log("searchresultshow 결과화면으로 이동");
+    this.keyword = keyword
+    this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+      if (keyword !== '') {
+        this.$router.push({
+          name: 'searchresult',
+          params: {
+            keyword: this.keyword
+          }
+        })
+        console.log('"', keyword, '"' + '검색')
+        // console.log(res)
+        this.allfeedList = res.data
+      }
+    }).catch((err) => {
+      if (err.message.indexOf('Network Error') > -1) {
+        // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        alert('검색어를 입력해주세요')
+      }
+    })
+  }
+}
 }
 </script>
 
 <style scoped>
 /* 임시배경
 .Sbackground{
-     background: slategray;
+   background: slategray;
 } */
 .input-group >input {
-    border-radius: 12.5rem;
-    border: 1px solid #cdcdcd;
-    color: #000;
-    border-color: #adadad;
+  border-radius: 12.5rem;
+  border: 1px solid #cdcdcd;
+  color: #000;
+  border-color: #adadad;
 }
 .input-group > input::placeholder{
-    color: #7d7d7d;
+  color: #7d7d7d;
 }
 .input-group > input:focus {
-    border-radius: 12.5rem;
-    border: 2px solid #e83283;
-    color: #000;
+  border-radius: 12.5rem;
+  border: 2px solid #e83283;
+  color: #000;
 }
 
 .searchtd{
-    color:black;
-    margin-left: 35px;
-    margin-top: 2%;
-    margin-bottom: -20px;
+  color:black;
+  margin-left: 35px;
+  margin-top: 2%;
+  margin-bottom: -20px;
 }
 #Slistgroup:hover {
-    background-color: #efefef;
+  background-color: #efefef;
 }
 #trend-list {
-    margin : auto;
-    padding: 12px 8px;
+  margin : auto;
+  padding: 12px 8px;
 }
 #Slistgroupflush{
- box-shadow: none;
+box-shadow: none;
 }
 .TLtitle {
-    color:black;
+  color:black;
 }
 .TLsmall {
-    color:rgb(126, 126, 126);
+  color:rgb(126, 126, 126);
 }
 
 </style>

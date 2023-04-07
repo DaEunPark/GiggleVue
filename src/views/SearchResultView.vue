@@ -14,28 +14,37 @@
                             @keydown.enter="searchresultshow(keyword)">
                   </div>
 
-                  <div class="searchrt">
+                  <!-- <div class="searchrt">
                   <p class="h2">Result</p>
-                  </div>
-                 </article>
-
+                  </div> -->
+                
+                 <h3 style="color:#7d7d7d;">user</h3>
+                 <!-- <UserFeedStatus :items="allfeedList" :itemss="usershow"></UserFeedStatus> -->
+                 <UserFeedStatus :items="allfeedList"></UserFeedStatus>
+                 <hr style="color:#7d7d7d; margin:5px;"/>
+                 <h3 style="color:#7d7d7d;">feed</h3>
                  <FeedStatus :items="allfeedList"></FeedStatus>
-
+                 
+        </article>
       </div>
    </section>
   </div>
 </template>
 <script>
+import _ from "lodash"
 import FeedStatus from '@/components/FeedStatus.vue'
+import UserFeedStatus from './UserFeedStatus.vue'
 
 export default {
   components: {
-    FeedStatus
-  },
+    FeedStatus,
+    UserFeedStatus
+},
   data () {
     return {
       requestBody: {},
       allfeedList: {},
+      usershow:{},
       no: '', // 숫자 처리
       // keyword : '',
       keyword: this.$route.params.keyword
@@ -54,11 +63,15 @@ export default {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
+        
         // this.allfeedList = res.data
         if (res.data.length > 0) {
-          this.allfeedList = res.data
+          this.allfeedList = res.data  
+          const usershow = _.uniqBy( this.allfeedList , 'allfeedList.user_no')
+          //const usershow =uniq(this.allfeedList)
+          console.log("usershow.user_nick" + usershow.user_no)
         } else {
-          alert('해당 유저/내용이 없습니다.\n검색어를 확인해주세요.')
+          alert('해당 유저/게시글이 없습니다.\n검색어를 확인해주세요.')
         }
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -76,7 +89,7 @@ export default {
         if (res.data.length > 0) {
           this.allfeedList = res.data
         } else {
-          alert('해당 유저/내용이 없습니다.\n검색어를 확인해주세요.')
+          alert('해당 유저/게시글이 없습니다.\n검색어를 확인해주세요.')
         }
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -108,10 +121,10 @@ export default {
   border: 2px solid #ed5c9d;
   color: #000;
 }
-.searchrt{
+/* .searchrt{
   color:black;
   margin-left: 35px;
   margin-top: 2%;
   margin-bottom: -20px;
-}
+} */
 </style>
