@@ -4,70 +4,102 @@
             <div class="row">
             <div class="col-sm-1" style="margin-left:-20px;" >
                 <!--개인 프로필로 가는 링크-->
-                <a href="/main/mypage" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
+                <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="80" height="80" class="rounded-circle" alt="user_profile" > </button>
             </div>
 
                 <!--개인 프로필로 가는 링크-->
             <div class="col-sm-11" style="margin-left:15px">
                 <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                    <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
-                    <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                    <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><p class="FeedList_username">{{item.user_nick}}
+                    <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
                 </div>
 
-            <div class="FeedList_contents">
-                <p style="color: black;" class="mb-1">{{item.text_content}} </p>
-            </div>
+                    <!-- 개인 프로필로 가는 링크
+                <div class="col-sm-11" style="margin-left:15px">
+                    <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                        <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
+                        <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                    </div> -->
 
-            <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
-            <div class="FeedList_activeicont">
-                <div class="row">
-                    <div class="col-sm-3" id="FL_spancomment">
-                        <a class="btn"  @on-click="fn_pushComment()">
-                        <font-awesome-icon icon="fa-regular fa-comment"/>
-                        <span>{{ item.comment_cnt}}</span>
-                        </a>
+                    <div class="FeedList_contents">
+                        <!-- video-embed start -->
+                        <div v-show=showYoutube>
+                            <div class="ratio ratio-16x9">
+                                <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+                                <div v-if="rightYTID">
+                                    <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                </div>
+                                <div v-else>
+                                    <a :href="youtubeURL">{{ youtubeURL }}</a>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                        <!-- video-embed end -->
+                        <p style="color: black;" class="mb-1">{{item.text_content}} </p>
                     </div>
-                    <div class="col-sm-3"  id="FL_spanlike">
-                        <a class="btn"  @on-click="fn_pushLike()">
-                        <font-awesome-icon  icon="fa-regular fa-heart"/>
-                        <span>{{ item.like_cnt }}</span>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanshare">
-                        <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
-                        <font-awesome-icon icon="fa-regular fa-share-from-square"/>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanchart">
-                        <a class="btn"  @on-click="fn_pushInsite()">
-                        <font-awesome-icon icon="fa-solid fa-chart-simple"/>
-                        </a>
+
+                    <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
+                    <div class="FeedList_activeicont">
+                        <div class="row">
+                            <div class="col-sm-3" id="FL_spancomment">
+                                <a class="btn"  @on-click="fn_pushComment()">
+                                <font-awesome-icon icon="fa-regular fa-comment"/>
+                                <span>{{ item.comment_cnt}}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanlike">
+                                <a class="btn"  @on-click="fn_pushLike()">
+                                <font-awesome-icon  icon="fa-regular fa-heart"/>
+                                <span>{{ item.like_cnt }}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanshare">
+                                <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
+                                <font-awesome-icon icon="fa-regular fa-share-from-square"/>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanchart">
+                                <a class="btn"  @on-click="fn_pushInsite()">
+                                <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            </div>
-            </div>
-
             <hr style="color:#b0b0b0; margin:0px;">
-
+            <CommentView :post_no="post_no"></CommentView>
         </article>
-
+         
     </div>
+   
+
 </template>
 
 <script>
+import CommentView from '@/components/CommentView.vue'
+
 export default {
+    components:{
+            CommentView
+    },
 //   props: {
 //     item: { type: Object, default: null }
 //   },
   data () {
     return {
       post_no: this.$route.query.post_no,
-      item: {}
+      item: {},
+      rightYTID: false,
+      youtubeURL: '',
+      showYoutube: false
     }
   },
   mounted () {
+    window.scrollTo(0, 0)
     this.getThisPostDetail()
   },
   methods: {
@@ -80,12 +112,67 @@ export default {
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data
+        if (this.item.post_link === '' || this.item.post_link === null || this.item.post_link === undefined) {
+          this.showYoutube = false
+        } else {
+          this.showYoutube = true
+          this.youtubeURL = this.parseYoutubeUrl(this.item.post_link)
+        }
       }).catch(err => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+    },
+    parseYoutubeUrl (url) {
+      // eslint-disable-next-line no-useless-escape
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const matchResult = url.match(regExp)
+      if (matchResult && (matchResult[2].length === 11)) {
+        // console.log(`${matchResult[2]}`)
+        this.rightYTID = true
+        return `https://www.youtube.com/embed/${matchResult[2]}`
+      } else {
+        this.rightYTID = false
+        return url
+      }
+    },
+    whichProfile(post_no) {
+
+        const data={post_no : post_no}
+        console.log("Data="+post_no)
+        this.$axios.post(this.$serverUrl + '/whichProfile', JSON.stringify(data), {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }).then(res => {
+        console.log("res.data.user_no = "+res.data.user_no)
+        if(this.$store.state.loginUserDTO.user_no != res.data.user_no) {
+
+            const data={user_no:res.data.user_no}
+
+            console.log("const data="+data)
+
+            this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                this.$store.commit('addOtherUser', res.data)
+                console.log(this.$store.state.otherUserDTO)
+                this.$router.push ({
+                path: "/main/notmypage"
+            })
+            }).catch(error => {
+                console.log(error)
+            })
+        } else if(this.$store.state.loginUserDTO.user_no == res.data.user_no){
+            this.$router.push ({
+                path: "/main/mypage"
+            })
+        }
+    })
+}
   }
 }
 </script>
@@ -114,6 +201,7 @@ export default {
 .FeedList_username {
     color:black;
     margin: 0 0 0 33px;
+    font-weight: bold;
 }
 .FeedList_regdate {
     color:rgb(126, 126, 126);
@@ -162,4 +250,8 @@ export default {
 .FeedList_activeicont #FL_spanchart a:hover {
     color:  #a532e8;
 }
+#yotube-frame {
+  width: 90%;
+  height: 100%;
+ }
 </style>

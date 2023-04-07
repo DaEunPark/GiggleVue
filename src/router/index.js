@@ -12,9 +12,10 @@ import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
-import GoogleLoginCallback from '../views/GoogleLoginCallback.vue'
+import gCallback from '../views/gCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
+import NotMyPage from '../views/NotMyPage.vue'
 
 const routes = [
   {
@@ -72,11 +73,19 @@ const routes = [
         components: {
           rmain: SettingAnaliticsView
         }
-      }, {
+      }, 
+      {
         path: 'mypage',
         name: 'MyPage',
         components: {
           rmain: Mypage
+        }
+      },
+      {
+        path: 'notmypage',
+        name: 'notmypage',
+        components: {
+          rmain: NotMyPage
         }
       },
       {
@@ -101,7 +110,7 @@ const routes = [
         components: {
           rmain: PostDetailView
 
-        }
+        },
       }
 
     ] // MainHomeView children
@@ -113,13 +122,6 @@ const routes = [
     alias: ['/', '/login'],
     components: {
       rhome: LoginView
-    }
-  },
-  {
-    path: '/google-login',
-    name: 'GoogleLoginCallback',
-    component: {
-      rhome: GoogleLoginCallback
     }
   },
   {
@@ -136,7 +138,15 @@ const routes = [
     components: {
       rhome: NaverLoginCallback
     }
+  },
+  {
+    path: '/google-login',
+    name: 'gCallback',
+    components: {
+      rhome: gCallback
+    }
   }
+
 
 ]
 
