@@ -90,17 +90,26 @@
                                     maxlength="15" v-on:keydown.enter="login()" @keydown="checkPwd()" @input="user_pwd" required>
                                     <p id="pwdErrorMsg">{{ pwdErrorMsg }}</p>
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
+                                <div class="mb-3 form-check" v-if="this.$store.state.checked!='0' && this.$store.state.checked!='1'">
+                                    <input type="checkbox" class="form-check-input" id="remember" v-if="this.$store.state.checked!='0' && this.$store.state.checked!='1'">
+                                    <label class="form-check-label" for="check">remember</label>
+                                </div>
+                                <div class="mb-3 form-check" v-if="this.remember=='0'">
+                                    <input type="checkbox" class="form-check-input" id="remember" v-if="this.remember == '0'">
+                                    <label class="form-check-label" for="check">remember</label>
+                                </div>
+                                <div class="mb-3 form-check" v-if="this.remember==1">
+                                    <input type="checkbox" class="form-check-input" id="remember" v-if="this.remember == 1" checked>
                                     <label class="form-check-label" for="check">remember</label>
                                 </div>
                                 <button type="button" @click="login()" class="btn btn-primary" id="submit"
                                 v-bind:disabled="!this.user_email.includes('@') || !this.user_email.includes('.')
                                                 || this.user_pwd.length<4">Login</button>
                             </form>
-                            <div><GoogleLogin></GoogleLogin>
+                            <hr/>
+                            <div class="social"><GoogleLogin></GoogleLogin>
                             <NaverLogin></NaverLogin></div>
-
+                            
                             <div>
                                 <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
                                     data-bs-toggle="modal"
@@ -145,12 +154,20 @@ export default {
       find_name: '',
       find_birth: '',
       find_phone: '',
-      find_joindate: ''
+      find_joindate: '',
+      remember: ''
     }
   },
   components: {
     GoogleLogin, NaverLogin
   },
+  mounted() {
+    if(this.$store.state.checked == 1) {
+      this.remember = 1
+    } else if(this.$store.state.checked == 0) {
+      this.remember = 0
+    }
+  }, 
   methods: {
     onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -185,6 +202,16 @@ export default {
       }
     },
     login () {
+      if ((remember).checked) {
+        this.$store.commit('rememberUserEmail', this.user_email)
+        this.$store.commit('rememberUserPwd', this.user_pwd)
+        this.$store.commit('checked', 1)
+      } else {
+        this.$store.commit('deleteUserEmail', this.$store.state.rememberUserEmail)
+        this.$store.commit('deleteUserPwd', this.$store.state.rememberUserPwd)
+        this.$store.commit('checked', 0)
+      }
+
       const data = { email: this.user_email, pwd: this.user_pwd }
 
       // eslint-disable-next-line eqeqeq
@@ -403,5 +430,6 @@ export default {
 }
 .social {
     margin:0 30%;
+    padding: 0 20px;
 }
 </style>

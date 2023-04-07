@@ -17,7 +17,7 @@
                             <div class="col-sm-11" style="margin-left:15px">
                                 <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
                                     <button type="button" class="pro_btn" @click="whichProfile(item.post_no)">
-                                        <p class="FeedList_username">{{item.user_nick}}
+                                        <p class="FeedList_username" id="userNick">{{item.user_nick}}
                                     <small class="FeedList_regdate">{{item.post_date}}</small></p>
                                     </button>
                                 </div>
@@ -34,6 +34,11 @@
                                         <font-awesome-icon icon="fa-regular fa-comment"/>
                                         <span>{{ item.comment_cnt}}</span>
                                         </a>
+                                    </div>
+                                    <div v-if="this.activate == '1'">
+                                        <ul>
+                                           <li>"코멘트 테스트!"</li> 
+                                        </ul>
                                     </div>
                                     <div class="col-sm-3"  id="FL_spanlike">
                                         <a class="btn"  @on-click="fn_pushLike()">
@@ -66,6 +71,11 @@
 
 <script>
 export default {
+    data() {
+        return {
+            activate: '0'
+        }
+    },
     props: { // MainContentsView 의 자식컴포넌트로 사용됨
         items: { type: Object, default: null }
     },
@@ -109,6 +119,10 @@ export default {
                         })
                     }
                 })
+            },
+            fn_pushComment() {
+                this.activate == '1'
+                stop
             }
         }
     }
@@ -190,5 +204,8 @@ export default {
 .pro_btn {
     border: none;
     background-color: transparent;
+}
+#userNick {
+    font-weight: bold;
 }
 </style>

@@ -4,7 +4,7 @@
             <div class="row">
             <div class="col-sm-1" style="margin-left:-20px;" >
                 <!--개인 프로필로 가는 링크-->
-                <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </button>
+                <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="80" height="80" class="rounded-circle" alt="user_profile" > </button>
             </div>
 
                 <!--개인 프로필로 가는 링크-->
@@ -150,6 +150,7 @@ this.$axios.post(this.$serverUrl + '/whichProfile', JSON.stringify(data), {
 .FeedList_username {
     color:black;
     margin: 0 0 0 33px;
+    font-weight: bold;
 }
 .FeedList_regdate {
     color:rgb(126, 126, 126);

@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div id="blank" style="height: 6.3em;"></div>
+        <div id="blank" style="height: 3rem;"></div>
         <div id="search" class="sticky-top">
             <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
                 <div class="form-group">

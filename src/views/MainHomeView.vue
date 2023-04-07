@@ -1,5 +1,4 @@
 <template>
-    <div></div>
     <div class="container-fluid bd-layout">
         <!-- <div class="row">
             <div class="col-sm-3">
@@ -46,7 +45,6 @@ import MenuBar from '../components/components-MenuBarComp-left.vue'
 import SideBar from '../components/rightsidebars/SideBarComp.vue'
 
 export default {
-
   components: { MenuBar, SideBar }
 
 }
@@ -62,7 +60,6 @@ export default {
     }
     #main_contents {
         min-width: 620px;
-        margin: 0 0;
     }
 
 </style>

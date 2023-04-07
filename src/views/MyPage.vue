@@ -26,7 +26,10 @@
                     <div class="status_message">{{ this.$store.state.loginUserDTO.status_message }}</div>
                   </div>
                 <div>
-                  <div class="user_location"><font-awesome-icon icon="fa-solid fa-location-dot" style="color: e8264d;" />&nbsp;{{ this.$store.state.loginUserDTO.user_location }}</div>
+                  <div class="user_location"><font-awesome-icon icon="fa-solid fa-location-dot" style="color: e8264d;" />&nbsp;&nbsp;{{ this.$store.state.loginUserDTO.user_location }}</div>
+                </div>
+                <div>
+                  <div class="user_birth"><font-awesome-icon :icon="['fas', 'birthday-cake']" style="color: #e66751;" />&nbsp;&nbsp;{{ this.$store.state.loginUserDTO.user_birth }}</div>
                 </div>
             </div>
           </div>
@@ -198,6 +201,7 @@ export default {
 }
 .user_location {
   margin-top: 8%;
+  margin-bottom: 1%;
 }
 #backimg {
   width: 90%;
