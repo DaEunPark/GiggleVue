@@ -22,6 +22,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import Embed from 'v-video-embed'
+import GoogleSignInPlugin from "vue3-google-signin"
 
 import './assets/css/common.css'
 
@@ -36,3 +37,6 @@ app.config.globalProperties.$emitter = emitter
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(store).use(router).use(Embed).mount('#app')
+app.use(GoogleSignInPlugin, {
+    clientId: 'CLIENT ID OBTAINED FROM GOOGLE API CONSOLE',
+});
