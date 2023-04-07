@@ -232,7 +232,7 @@
             ></button>
           </div>
             <!--modal body-->
-            <DMBody></DMBody>
+            <DMBody :chatRoomList="chatRoomList" @addedChatList="(chatRoom) => this.chatRoomList.push(chatRoom)"></DMBody>
         </div>
         </div>
     </div>
@@ -282,12 +282,14 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      alarmList: []
+      alarmList: [],
+      chatRoomList: []
     }
   },
   components: { DMBody, AlarmBody, EditorBody },
   mounted () {
     this.getAlarmList()
+    this.getChatRoomList()
   },
   methods: {
     logout () {
@@ -305,12 +307,11 @@ export default {
     getAlarmList () {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          console.log('알람 리스트: ' + res.data)
-          if (res.data !== null) {
-            console.log('알람 있음')
+          if (res.data !== "") {
+            console.log('알람 있음' + res.data)
             this.alarmList = res.data
           } else {
-            console.log('알람 없음')
+            console.log('알람 없음' + res.data)
           }
         })
         .catch((err) => {
@@ -318,7 +319,23 @@ export default {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
-    }
+    },
+    getChatRoomList() {
+       this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
+        .then(res => {
+          if(res.data !== "") {
+            console.log("채팅방 있음" + res.data[0].user_nick)
+            this.chatRoomList = res.data
+            this.$store.commit("putChatRoom", res.data)
+          } else {
+            console.log("채팅방 없음")
+          }
+        })
+    },
+    // addedChatList(chatList) {
+    //   this.chatRoomList = chatList
+    //   console.log("채팅방 추가함 " + this.chatRoomList)
+    // }
   },
   computed: {
     ...mapGetters(['loginUserDTO'])
@@ -518,26 +535,11 @@ span {-webkit-text-fill-color: black;}
     margin-top: auto;
   }
 
- modal 공통 css
-.modal {
-  --bs-modal-width: 100%;
-  --bs-modal-height: 100%;
-}
-.modal-dialog {
-  width: 50%;
-  height: 90%;
-}
-.modal-content {
-  background-color: #fff;
-  color: #000;
-  width: 100%;
-  height: 100%;
-}
-
 /* 알람, DM modal 공통 css */
 .modal {
   --bs-modal-width: 100%;
   --bs-modal-height: 100%;
+  overflow-y: hidden;
 }
 .modal-backdrop {
   position: unset !important;
