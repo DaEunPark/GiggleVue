@@ -13,13 +13,16 @@
     </div>
     <br/>
     <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button>
-    <button class="btn btn-info">등록 s3</button>
+    <button class="btn btn-info" @click="uploadImgToServer()">등록 s3</button>
     <br/>
     <h3 class="text-dark">원본</h3>
-    <img :src="uploadImage">
+    <img :src="uploadImage" style="width: 80%; height: 80%;">
     <br/><br/>
     <h3 class="text-dark">imgbb</h3>
-    <img :src="imgbbImgURL">
+    <img :src="imgbbImgURL" style="width: 80%; height: 80%;">
+    <br/><br/>
+    <h3 class="text-dark">s3</h3>
+    <img :src="s3ImgURL" style="width: 80%; height: 80%;">
     <br/><br/><br/><hr/><br/>
     <!-- Image Upload Test End -->
 
@@ -317,7 +320,8 @@ export default {
       files: [],
       uploadImage: '',
       imgbbImg: '',
-      imgbbImgURL: ''
+      imgbbImgURL: '',
+      s3ImgURL: 'https://giggle-image-upload.s3.ap-northeast-2.amazonaws.com/raw/VIVIZ_official-1642157591995490309-1+(1).jpg'
     }
   },
   computed: {
@@ -365,24 +369,17 @@ export default {
       }
     },
     handleFileUpload (event) {
-      // this.files = this.$refs.files.files
       const newName = this.uuidFileName(this.$refs.files.files[0].name)
       this.files = this.renameFile(this.$refs.files.files[0], newName)
-      console.log(this.files)
-      console.log(this.files.name)
 
-      // console.log(fileExtension)
-      // console.log(uuid)
       // 이미지 미리보기
       // const input = event.target
       const reader = new FileReader()
       reader.readAsDataURL(this.files)
       reader.onloadend = (e) => { this.imgbbImg = e.target.result }
-      // console.log(this.imgbbImg)
       // reader.readAsDataURL(input.files[0])
 
       this.uploadImage = URL.createObjectURL(this.files)
-      // console.log(this.uploadImage)
     },
     uploadImgToImgbb () {
       const body = new FormData()
@@ -396,19 +393,33 @@ export default {
           }
         }
       ).then(res => {
-        // console.log(res.data.data.display_url)
         this.imgbbImgURL = res.data.data.url
       }).catch(err => {
         console.log(err)
       })
     },
-    renameFile (originalFile, newName) {
-      console.log(originalFile.type)
+    uploadImgToServer () {
+      const body = new FormData()
+      body.append('files', this.files)
+      this.$axios.post(`${this.$serverUrl}/post/uploadimage`, body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        console.log(res.data)
+        this.s3ImgURL = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    renameFile (originalFile, newName) { // 파일명 변경
       return new File([originalFile], newName, {
         type: originalFile.type
       })
     },
-    uuidFileName (originalName) {
+    uuidFileName (originalName) { // UUID 파일명 생성
       const onLength = originalName.length
       const indexDot = originalName.lastIndexOf('.')
       const fileExtension = originalName.substring(indexDot + 1, onLength)
@@ -424,6 +435,8 @@ export default {
   width: 100%;
   height: 100%;
  }
+
+ /* 이미지 업로드 버튼 꾸미기 CSS */
  .filebox label {
   display: inline-block;
   padding: .5em .75em;
