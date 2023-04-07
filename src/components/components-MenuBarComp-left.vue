@@ -11,10 +11,11 @@
       </header>
       <nav>
 
-        <button type="button" onclick="location.href='/main/mypage' ">
+        <img src="@/assets/Glogo.png" id="glogo"/>
+        <button type="button" @click="getProfile()">
           <span>
-             <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
-                 >
+              <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
+                  >
             <span> {{ this.$store.state.loginUserDTO.user_nick }}</span>
           </span>
         </button>
@@ -135,7 +136,7 @@
             ></button>
           </div>
             <!--modal body-->
-            <DMBody></DMBody>
+            <DMBody :chatRoomList="chatRoomList" @addedChatList="(chatRoom) => this.chatRoomList.push(chatRoom)"></DMBody>
         </div>
         </div>
     </div>
@@ -190,12 +191,15 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      alarmList: []
+      alarmList: [],
+      chatRoomList: [],
+      email: ''
     }
   },
   components: { DMBody, AlarmBody, EditorBody },
   mounted () {
     this.getAlarmList()
+    this.getChatRoomList()
   },
   methods: {
     logout () {
@@ -213,12 +217,11 @@ export default {
     getAlarmList () {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          console.log('알람 리스트: ' + res.data)
-          if (res.data !== null) {
-            console.log('알람 있음')
+          if (res.data !== "") {
+            console.log('알람 있음' + res.data)
             this.alarmList = res.data
           } else {
-            console.log('알람 없음')
+            console.log('알람 없음' + res.data)
           }
         })
         .catch((err) => {
@@ -226,6 +229,23 @@ export default {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
+    },
+    getChatRoomList() {
+       this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
+        .then(res => {
+          if(res.data !== "") {
+            console.log("채팅방 있음" + res.data[0].user_nick)
+            this.chatRoomList = res.data
+            this.$store.commit("putChatRoom", res.data)
+          } else {
+            console.log("채팅방 없음")
+          }
+        })
+    },
+    getProfile() {
+      this.$router.push({
+        path: "/main/mypage"
+      })
     }
   },
   computed: {
