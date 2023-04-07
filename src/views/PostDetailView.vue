@@ -2,78 +2,83 @@
     <div>
         <article class="my-3" id="FeedList">
             <div class="row">
-            <div class="col-sm-1" style="margin-left:-20px;" >
-                <!--개인 프로필로 가는 링크-->
-                <a href="/main/mypage" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
-            </div>
-
-                <!--개인 프로필로 가는 링크-->
-            <div class="col-sm-11" style="margin-left:15px">
-                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                    <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
-                    <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                <div class="col-sm-1" style="margin-left:-20px;" >
+                    <!--개인 프로필로 가는 링크-->
+                    <a href="/main/mypage" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
                 </div>
 
-            <div class="FeedList_contents">
-                <!-- video-embed start -->
-                <div v-show=showYoutube>
-                    <div class="ratio ratio-16x9">
-                        <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+                    <!--개인 프로필로 가는 링크-->
+                <div class="col-sm-11" style="margin-left:15px">
+                    <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                        <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
+                        <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                    </div>
 
-                        <div v-if="rightYTID">
-                            <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <div class="FeedList_contents">
+                        <!-- video-embed start -->
+                        <div v-show=showYoutube>
+                            <div class="ratio ratio-16x9">
+                                <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+                                <div v-if="rightYTID">
+                                    <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                </div>
+                                <div v-else>
+                                    <a :href="youtubeURL">{{ youtubeURL }}</a>
+                                </div>
+                            </div>
+                            <br/>
                         </div>
-                        <div v-else>
-                            <a :href="youtubeURL">{{ youtubeURL }}</a>
+                        <!-- video-embed end -->
+                        <p style="color: black;" class="mb-1">{{item.text_content}} </p>
+                    </div>
+
+                    <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
+                    <div class="FeedList_activeicont">
+                        <div class="row">
+                            <div class="col-sm-3" id="FL_spancomment">
+                                <a class="btn"  @on-click="fn_pushComment()">
+                                <font-awesome-icon icon="fa-regular fa-comment"/>
+                                <span>{{ item.comment_cnt}}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanlike">
+                                <a class="btn"  @on-click="fn_pushLike()">
+                                <font-awesome-icon  icon="fa-regular fa-heart"/>
+                                <span>{{ item.like_cnt }}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanshare">
+                                <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
+                                <font-awesome-icon icon="fa-regular fa-share-from-square"/>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanchart">
+                                <a class="btn"  @on-click="fn_pushInsite()">
+                                <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <br/>
-                </div>
-                <!-- video-embed end -->
-                <p style="color: black;" class="mb-1">{{item.text_content}} </p>
-            </div>
-
-            <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
-            <div class="FeedList_activeicont">
-                <div class="row">
-                    <div class="col-sm-3" id="FL_spancomment">
-                        <a class="btn"  @on-click="fn_pushComment()">
-                        <font-awesome-icon icon="fa-regular fa-comment"/>
-                        <span>{{ item.comment_cnt}}</span>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanlike">
-                        <a class="btn"  @on-click="fn_pushLike()">
-                        <font-awesome-icon  icon="fa-regular fa-heart"/>
-                        <span>{{ item.like_cnt }}</span>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanshare">
-                        <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
-                        <font-awesome-icon icon="fa-regular fa-share-from-square"/>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanchart">
-                        <a class="btn"  @on-click="fn_pushInsite()">
-                        <font-awesome-icon icon="fa-solid fa-chart-simple"/>
-                        </a>
-                    </div>
                 </div>
             </div>
-
-            </div>
-            </div>
-
             <hr style="color:#b0b0b0; margin:0px;">
-
+            <CommentView :post_no="post_no"></CommentView>
         </article>
-
+         
     </div>
+   
+
 </template>
 
 <script>
+import CommentView from '@/components/CommentView.vue'
+
 export default {
+    components:{
+            CommentView
+    },
 //   props: {
 //     item: { type: Object, default: null }
 //   },
