@@ -75,7 +75,7 @@
 <!-- 비밀번호찾기 Modal 끝 -->
 
         <div class="card border-primary mb-3" style="max-width: 400px;">
-            <div class="card-header"></div>
+            <div class="card-header"><div class="inHeader"></div></div>
                 <div class="card-body">
                         <div class="form">
                             <form>
@@ -165,6 +165,8 @@ export default {
     // eslint-disable-next-line eqeqeq
     if (this.$store.state.checked == 1) {
       this.remember = 1
+      this.user_email = this.$store.state.rememberUserEmail
+      this.user_pwd = this.$store.state.rememberUserPwd
     // eslint-disable-next-line eqeqeq
     } else if (this.$store.state.checked == 0) {
       this.remember = 0
@@ -331,11 +333,12 @@ export default {
     background-repeat: no-repeat;
     background-position: fixed;
 }
-.card-header {
+.inHeader {
     height:100px;
     background-image: url("../assets/Glogo.png");
     background-size:150px;
     background-repeat: no-repeat;
+    margin: 0 28%;
 }
 .form-control {
     border-color: #fff;

@@ -16,7 +16,7 @@
                     <p id="user_name_title">{{ this.$store.state.loginUserDTO.user_nick }}</p>
                 </div>
                 <div class="item_cnt">
-                    <div class="item">게시물 <span style="font-weight: 500;"></span></div>
+                    <div class="item">게시물 <span style="font-weight: 500;"></span>{{this.$store.state.loginUserDTO.count_post}}</div>
                     <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.$store.state.loginUserDTO.follower_user}}</span></div>
                     <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.$store.state.loginUserDTO.follow_user}}</span></div>
                     <button type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>

@@ -24,7 +24,7 @@
 <!-- </div> -->
                 </div>
                 <div class="item_cnt">
-                    <div class="item">게시물 <span style="font-weight: 500;"></span></div>
+                    <div class="item">게시물 <span style="font-weight: 500;"></span>{{this.$store.state.otherUserDTO.count_post}}</div>
                     <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.$store.state.otherUserDTO.follower_user}}</span></div>
                     <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.$store.state.otherUserDTO.follow_user}}</span></div>
                 <!-- <img src="@/assets/icon_setting.png" id="setting" @click="setting()"> -->

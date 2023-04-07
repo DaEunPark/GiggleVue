@@ -2,29 +2,36 @@ eslint-disable eqeqeq
 <!-- eslint-disable no-var -->
 <template>
     <div class="container">
-        <form class="card bg-primary border-round-radious">
+        <form class="card border-round-radious">
             <div class="settingProfile list-group border-round-radious">
                 <div class="setting__title align-items-center">
-                    <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" :icon="['fas', 'caret-left']" /></a>프로필</h3>
+                    <img v-bind:src="`${this.back_image}`" id="backimg"/>
+                    <!-- <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" color="black" :icon="['fas', 'caret-left']" /></a>프로필</h3> -->
                 </div>
                 <div class="profile__wrap px-4 mb-2">
                     <div class="profile__image mb-2">
                         <img v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`" class="profile__imageFile rounded-circle align-center">
-                        <button type="button" class="btn btn-link btn-rg imageEdit mt-2" @click="profileEdit()">Edit</button>
+                        <button type="button" class="btn btn-link btn-rg imageEdit mt-2" @click="profileEdit()" color="black">Edit</button>
                     </div>
                     <div class="profile__nickname">
                         <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname mt-2">닉네임</label>
-                        <input type="text" class="form-control form-control-sm profile__nickname" id="profile__nickname"
+                    </div>
+                    <div>
+                        <input type="text" class="form-control-sm profile__nickname" id="profile__nickname"
                         v-model="user_nick" v-bind:placeholder="`${this.$store.state.loginUserDTO.user_nick}`">
                     </div>
                     <div class="profile__status">
                         <label for="status" class="col-form-label col-form-label-sm  profile__status mt-2">상태 메세지</label>
-                        <textarea class="form-control form-control-sm profile__status" id="profile__status" rows="3"
+                      </div>
+                      <div>                    
+                        <textarea class="form-control-sm profile__status" id="profile__status" rows="3"
                         v-model="status_message" v-bind:placeholder="`${this.$store.state.loginUserDTO.status_message}`"></textarea>
                     </div>
                     <div class="profile__location">
                         <label for="location" class="col-form-label col-form-label-sm  profile__location mt-2">위치</label>
-                        <input type="text" class="form-control form-control-sm profile__location" id="user__location"
+                      </div>
+                      <div>
+                        <input type="text" class="form-control-sm profile__location" id="user__location"
                         v-model="user_location" v-bind:placeholder="`${this.$store.state.loginUserDTO.user_location}`">
                     </div>
                     <!-- <div class="profile__birthday">
@@ -36,10 +43,10 @@ eslint-disable eqeqeq
                         </div>
                     </div> -->
                     <div class="sm-3 profile__birthday" id="user_birthday">
+                      <label for="birth" class="col-form-label col-form-label-sm  profile__birth mt-2">생년월일</label>
                             <div class="form-floating">
-                                <input type="date" class="form-control" v-model="user_birth" ref="birth"/>
-                                <label for="user_birth">Birthday</label>
-                            </div>
+                                <input type="date" class="form-control-sm" v-model="user_birth" ref="birth" name="trip-start"/>
+                              </div>
                             </div>
                     <div class="profile__passwordBtn">
                         <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2" @click="profileUpdate()">OK</button>
@@ -63,7 +70,8 @@ export default {
       user_nick: '',
       status_message: '',
       user_location: '',
-      user_birth: ''
+      user_birth: '',
+      back_image: ''
     }
   },
   // eslint-disable-next-line vue/no-unused-components
@@ -98,11 +106,12 @@ export default {
       // eslint-disable-next-line no-self-assign
       this.user_birth = this.user_birth
     }
-
-    console.log('user_nick = ' + this.user_nick)
-    console.log('status_message = ' + this.status_message)
-    console.log('user_location = ' + this.user_location)
-    console.log('user_birth = ' + this.user_birth)
+    if(this.back_image == '') {
+      this.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
+    } else {
+      this.back_image = this.$store.state.loginUserDTO.back_image
+    }
+    
   },
   methods: {
     profileUpdate () {
@@ -111,7 +120,8 @@ export default {
         status_message: this.status_message,
         user_location: this.user_location,
         user_no: this.$store.state.loginUserDTO.user_no,
-        user_birth: this.user_birth
+        user_birth: this.user_birth,
+        back_image: this.back_image
       }
       this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
         headers: {
@@ -191,5 +201,30 @@ export default {
 }
 #user_birthday {
     margin-top: 3%;
+}
+.col-form-label-sm {
+  color: black;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.btn-link {
+  color: black;
+}
+
+.form-control-sm {
+  border: 2px solid lightgray;
+  color: black;
+  font-size: 16px;
+  background-color: white;
+  width: 100%;
+  min-height: 40px;
+}
+#backimg {
+  width: 100%;
+  height: 200px;
+}
+.profile__imageFile[data-v-bd41d840] {
+  border: 7px solid white;
 }
 </style>

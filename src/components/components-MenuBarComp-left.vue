@@ -58,7 +58,7 @@
 
             <button type="button" @click="logout()">
                       <span>
-                        <span>Logout</span>
+                        <span><font-awesome-icon icon="fa-solid fa-right-from-bracket" style="color: #000000;" />&nbsp;&nbsp;Logout</span>
                       </span>
             </button>
         <!-- <button type="button" onclick="location.href='/main/setting'">
