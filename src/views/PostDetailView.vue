@@ -4,73 +4,157 @@
             <div class="row">
             <div class="col-sm-1" style="margin-left:-20px;" >
                 <!--개인 프로필로 가는 링크-->
-                <a href="/main/mypage" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
+                <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="80" height="80" class="rounded-circle" alt="user_profile" > </button>
             </div>
 
                 <!--개인 프로필로 가는 링크-->
             <div class="col-sm-11" style="margin-left:15px">
                 <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                    <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
-                    <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                    <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><p class="FeedList_username">{{item.user_nick}}
+                    <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
                 </div>
 
-            <div class="FeedList_contents">
-                <p style="color: black;" class="mb-1">{{item.text_content}} </p>
-            </div>
+                    <!-- 개인 프로필로 가는 링크
+                <div class="col-sm-11" style="margin-left:15px">
+                    <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                        <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
+                        <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                    </div> -->
 
-            <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
-            <div class="FeedList_activeicont">
-                <div class="row">
-                    <div class="col-sm-3" id="FL_spancomment">
-                        <a class="btn"  @on-click="fn_pushComment()">
-                        <font-awesome-icon icon="fa-regular fa-comment"/>
-                        <span>{{ item.comment_cnt}}</span>
-                        </a>
+                    <div class="FeedList_contents">
+                        <!-- video-embed start -->
+                        <div v-show=showYoutube>
+                            <div class="ratio ratio-16x9">
+                                <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+                                <div v-if="rightYTID">
+                                    <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                </div>
+                                <div v-else>
+                                    <a :href="youtubeURL">{{ youtubeURL }}</a>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                        <!-- video-embed end -->
+                        <p style="color: black;" class="mb-1">{{item.text_content}} </p>
                     </div>
-                    <div class="col-sm-3"  id="FL_spanlike">
-                        <a class="btn"  @on-click="fn_pushLike()">
-                        <font-awesome-icon  icon="fa-regular fa-heart"/>
-                        <span>{{ item.like_cnt }}</span>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanshare">
-                        <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
-                        <font-awesome-icon icon="fa-regular fa-share-from-square"/>
-                        </a>
-                    </div>
-                    <div class="col-sm-3"  id="FL_spanchart">
-                        <a class="btn"  @on-click="fn_pushInsite()">
-                        <font-awesome-icon icon="fa-solid fa-chart-simple"/>
-                        </a>
+
+                    <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
+                    <div class="FeedList_activeicont">
+                        <div class="row">
+                            <div class="col-sm-3" id="FL_spancomment">
+                                <a class="btn"  @on-click="fn_pushComment()">
+                                <font-awesome-icon icon="fa-regular fa-comment"/>
+                                <span>{{ item.comment_cnt}}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanlike">
+                                <a class="btn"  @on-click="fn_pushLike()">
+                                <font-awesome-icon  icon="fa-regular fa-heart"/>
+                                <span>{{ item.like_cnt }}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanshare">
+                                <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
+                                <font-awesome-icon icon="fa-regular fa-share-from-square"/>
+                                </a>
+                            </div>
+                            <div class="col-sm-3"  id="FL_spanchart">
+                                <a href="#postInsite" 
+                                    class = "btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#postInsite"
+                                    @on-click = "fn_pushInsite(item.post_no)">
+                                    <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
-            </div>
-            </div>
-
             <hr style="color:#b0b0b0; margin:0px;">
-
+            <CommentView :post_no="post_no"></CommentView>
         </article>
-
+         
+    </div>
+    <!--postInsite 시작-->
+    <div class="modal fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="headerWrap">
+                        <h3 style="font-size:32px; margin:auto;">게시물 인사이트</h3>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    >
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="postAnalitics border-round-radious">
+                        <div class="postAnaliticsWrap px-4 ">
+                            <div class="analitics__post mb-2">
+                                <div class="card analitics__card border-primary mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Like</div>
+                                <div class="card-body analitics__cardBody">
+                                    <h4 class="card-title analitics__cardTitle">{{ item.like_cnt }}</h4>
+                                </div>
+                                </div>
+                                <div class="card analitics__card border-primary mb-3">
+                                    <div class="card-header">Comment</div>
+                                    <div class="card-body analitics__cardBody">
+                                        <h4 class="card-title analitics__cardTitle">{{ item.comment_cnt }}</h4>
+                                    </div>
+                                </div>
+                                <div class="card analitics__card border-primary mb-3">
+                                    <div class="card-header">Share</div>
+                                    <div class="card-body analitics__cardBody">
+                                        <h4 class="card-title analitics__cardTitle">{{ item.share_cnt }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="setting__bar mb-2">
+                        <div class="analitics__postWrap px-4 ">
+                            <h5>내 게시물을 본 사람</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import CommentView from '@/components/CommentView.vue'
 export default {
+    components:{
+            CommentView
+    },
 //   props: {
 //     item: { type: Object, default: null }
 //   },
   data () {
     return {
       post_no: this.$route.query.post_no,
-      item: {}
+      item: {},
+      rightYTID: false,
+      youtubeURL: '',
+      showYoutube: false
+
     }
   },
   mounted () {
+    window.scrollTo(0, 0)
     this.getThisPostDetail()
   },
-  methods: {
+methods: {
     getThisPostDetail () {
       this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
         {
@@ -80,12 +164,69 @@ export default {
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data
+        if (this.item.post_link === '' || this.item.post_link === null || this.item.post_link === undefined) {
+          this.showYoutube = false
+        } else {
+          this.showYoutube = true
+          this.youtubeURL = this.parseYoutubeUrl(this.item.post_link)
+        }
       }).catch(err => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+
+    },
+    parseYoutubeUrl (url) {
+      // eslint-disable-next-line no-useless-escape
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const matchResult = url.match(regExp)
+      if (matchResult && (matchResult[2].length === 11)) {
+        // console.log(`${matchResult[2]}`)
+        this.rightYTID = true
+        return `https://www.youtube.com/embed/${matchResult[2]}`
+      } else {
+        this.rightYTID = false
+        return url
+      }
+    },
+    whichProfile(post_no) {
+
+        const data={post_no : post_no}
+        console.log("Data="+post_no)
+        this.$axios.post(this.$serverUrl + '/whichProfile', JSON.stringify(data), {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }).then(res => {
+        console.log("res.data.user_no = "+res.data.user_no)
+        if(this.$store.state.loginUserDTO.user_no != res.data.user_no) {
+
+            const data={user_no:res.data.user_no}
+
+            console.log("const data="+data)
+
+            this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                this.$store.commit('addOtherUser', res.data)
+                console.log(this.$store.state.otherUserDTO)
+                this.$router.push ({
+                path: "/main/notmypage"
+            })
+            }).catch(error => {
+                console.log(error)
+            })
+        } else if(this.$store.state.loginUserDTO.user_no == res.data.user_no){
+            this.$router.push ({
+                path: "/main/mypage"
+            })
+        }
+    })
+}
+
   }
 }
 </script>
@@ -114,6 +255,7 @@ export default {
 .FeedList_username {
     color:black;
     margin: 0 0 0 33px;
+    font-weight: bold;
 }
 .FeedList_regdate {
     color:rgb(126, 126, 126);
@@ -162,4 +304,80 @@ export default {
 .FeedList_activeicont #FL_spanchart a:hover {
     color:  #a532e8;
 }
+.modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+}
+
+.modal-header {
+  margin:32px;
+  text-align: center;
+  display:flex;
+  position: relative;
+}
+.headerWrap {
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.modal-header > button {
+  position:absolute;
+  right : 0;
+  transform: translateX(-50%);
+}
+.modal-body {
+    border-top: 1px solid #ccc;
+    padding: 0px 20px 10px 20px;
+    height: 100%;
+}
+.setting__bar{
+
+width:550px;
+margin : 0 auto;
+color : gray;
+}
+.analitics__account{
+display:flex;
+flex-direction: row;
+justify-content: space-between;
+}
+.analitics__post{
+display:flex;
+flex-direction: row;
+justify-content: space-between;
+}
+.analitics__card{
+width: 30%;
+}
+.analitics__cardBody{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-header{
+text-align: center;
+}
+.analitics__cardTitle{
+    color : black;
+    margin : 0;
+}
+#yotube-frame {
+  width: 90%;
+  height: 100%;
+ }
 </style>

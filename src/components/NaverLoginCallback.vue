@@ -26,18 +26,12 @@ export default ({
           // 해당 정보를 vuex에 담고 main으로 넘긴다.
           this.$store.commit('addLoginUser', res.data)
           console.log('vuex에 담은 정보: ' + this.$store.state.loginUserDTO)
-          this.$router.push({
-            name: 'main'
-          })
+          this.$router.replace('/main/mainhome')
         } else {
           // 없으면 토큰 값을 가지고 회원가입 페이지로 넘어간다.
-          console.log('토큰값 가지고 회원가입창으로 넘어가욥' + this.accessToken)
-          this.$router.push({
-            path: '/register',
-            params: {
-              naver_token: this.accessToken
-            }
-          })
+          this.$store.commit('addNaverToken', this.accessToken)
+          alert("네이버 등록이 완료 되었습니다.\n나머지 정보입력을 위해 회원가입 창으로 넘어갑니다.")
+          this.$router.replace('/register')
         }
       })
   }
