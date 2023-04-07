@@ -39,8 +39,12 @@
                         </a>
                     </div>
                     <div class="col-sm-3"  id="FL_spanchart">
-                        <a class="btn"  @on-click="fn_pushInsite()">
-                        <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+                        <a href="#postInsite" 
+                            class = "btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#postInsite"
+                            @on-click = "fn_pushInsite(item.post_no)">
+                            <font-awesome-icon icon="fa-solid fa-chart-simple"/>
                         </a>
                     </div>
                 </div>
@@ -54,9 +58,59 @@
         </article>
 
     </div>
+    <!--postInsite 시작-->
+    <div class="modal fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="headerWrap">
+                        <h3 style="font-size:32px; margin:auto;">게시물 인사이트</h3>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    >
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="postAnalitics border-round-radious">
+                        <div class="postAnaliticsWrap px-4 ">
+                            <div class="analitics__post mb-2">
+                                <div class="card analitics__card border-primary mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Like</div>
+                                <div class="card-body analitics__cardBody">
+                                    <h4 class="card-title analitics__cardTitle">{{ item.like_cnt }}</h4>
+                                </div>
+                                </div>
+                                <div class="card analitics__card border-primary mb-3">
+                                    <div class="card-header">Comment</div>
+                                    <div class="card-body analitics__cardBody">
+                                        <h4 class="card-title analitics__cardTitle">{{ item.comment_cnt }}</h4>
+                                    </div>
+                                </div>
+                                <div class="card analitics__card border-primary mb-3">
+                                    <div class="card-header">Share</div>
+                                    <div class="card-body analitics__cardBody">
+                                        <h4 class="card-title analitics__cardTitle">{{ item.share_cnt }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="setting__bar mb-2">
+                        <div class="analitics__postWrap px-4 ">
+                            <h5>내 게시물을 본 사람</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+
 export default {
 //   props: {
 //     item: { type: Object, default: null }
@@ -64,13 +118,13 @@ export default {
   data () {
     return {
       post_no: this.$route.query.post_no,
-      item: {}
+      item: {},
     }
   },
   mounted () {
     this.getThisPostDetail()
   },
-  methods: {
+methods: {
     getThisPostDetail () {
       this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
         {
@@ -85,7 +139,7 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+    },    
   }
 }
 </script>
@@ -161,5 +215,77 @@ export default {
 }
 .FeedList_activeicont #FL_spanchart a:hover {
     color:  #a532e8;
+}
+.modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+}
+
+.modal-header {
+  margin:32px;
+  text-align: center;
+  display:flex;
+  position: relative;
+}
+.headerWrap {
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.modal-header > button {
+  position:absolute;
+  right : 0;
+  transform: translateX(-50%);
+}
+.modal-body {
+    border-top: 1px solid #ccc;
+    padding: 0px 20px 10px 20px;
+    height: 100%;
+}
+.setting__bar{
+
+width:550px;
+margin : 0 auto;
+color : gray;
+}
+.analitics__account{
+display:flex;
+flex-direction: row;
+justify-content: space-between;
+}
+.analitics__post{
+display:flex;
+flex-direction: row;
+justify-content: space-between;
+}
+.analitics__card{
+width: 30%;
+}
+.analitics__cardBody{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-header{
+text-align: center;
+}
+.analitics__cardTitle{
+    color : black;
+    margin : 0;
 }
 </style>
