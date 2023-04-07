@@ -4,6 +4,25 @@
       <h1>This is Bootstrap Test Page</h1>
       <br/><br/><br/>
     </div>
+    <!-- Image Upload Test Start -->
+    <div class="filebox">
+      <label for="img-files-test">
+        <img id="addImage" src='../assets/image.png'>
+      </label>
+        <input type="file" ref="files" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+    </div>
+    <br/>
+    <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button>
+    <button class="btn btn-info">등록 s3</button>
+    <br/>
+    <h3 class="text-dark">원본</h3>
+    <img :src="uploadImage">
+    <br/><br/>
+    <h3 class="text-dark">imgbb</h3>
+    <img :src="imgbbImgURL">
+    <br/><br/><br/><hr/><br/>
+    <!-- Image Upload Test End -->
+
     <!-- video-embed start -->
     <div class="ratio ratio-16x9">
       <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
@@ -294,7 +313,11 @@ export default {
   data: function () {
     return {
       youtubeSrc: 'https://youtu.be/ZwDHSVYZuTc',
-      rightYTID: false
+      rightYTID: false,
+      files: [],
+      uploadImage: '',
+      imgbbImg: '',
+      imgbbImgURL: ''
     }
   },
   computed: {
@@ -340,8 +363,60 @@ export default {
         this.rightYTID = false
         return url
       }
+    },
+    handleFileUpload (event) {
+      // this.files = this.$refs.files.files
+      const newName = this.uuidFileName(this.$refs.files.files[0].name)
+      this.files = this.renameFile(this.$refs.files.files[0], newName)
+      console.log(this.files)
+      console.log(this.files.name)
+
+      // console.log(fileExtension)
+      // console.log(uuid)
+      // 이미지 미리보기
+      // const input = event.target
+      const reader = new FileReader()
+      reader.readAsDataURL(this.files)
+      reader.onloadend = (e) => { this.imgbbImg = e.target.result }
+      // console.log(this.imgbbImg)
+      // reader.readAsDataURL(input.files[0])
+
+      this.uploadImage = URL.createObjectURL(this.files)
+      // console.log(this.uploadImage)
+    },
+    uploadImgToImgbb () {
+      const body = new FormData()
+      body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
+      body.append('image', this.imgbbImg.split(',').pop())
+      body.append('expiration', 15552000)
+      this.$axios.post('https://api.imgbb.com/1/upload', body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        // console.log(res.data.data.display_url)
+        this.imgbbImgURL = res.data.data.url
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    renameFile (originalFile, newName) {
+      console.log(originalFile.type)
+      return new File([originalFile], newName, {
+        type: originalFile.type
+      })
+    },
+    uuidFileName (originalName) {
+      const onLength = originalName.length
+      const indexDot = originalName.lastIndexOf('.')
+      const fileExtension = originalName.substring(indexDot + 1, onLength)
+      const uuid = self.crypto.randomUUID()
+      return `${uuid}.${fileExtension}`
     }
   }
+
 }
 </script>
 <style scoped>
@@ -349,4 +424,29 @@ export default {
   width: 100%;
   height: 100%;
  }
+ .filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#addImage{
+    width:  23px;
+    height: 23px;
+    margin:0 0 0 10%;
+}
+
 </style>
