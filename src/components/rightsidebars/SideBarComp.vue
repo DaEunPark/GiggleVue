@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div class="collapse" id="collapseSearch" >
+            <div class="collapse" id="collapseSearch"  v-show="showURL">
 
                 <div v-show="isExistSearchWord">
 
@@ -24,8 +24,8 @@
                                 <span class="text-dark fw-bold">최근 검색어</span>
                                 <a href="#" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
-                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="i in 3" :key="i">
-                                <span class="d-inline-block text-truncate" style="margin-right: 20px;"> Praeterea iter est quasdam res quas ex communi.</span>
+                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in recentSearchList" :key="i">
+                                <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
                                 <a href="#" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
 
@@ -117,7 +117,8 @@ export default {
       no: '',
       keyword: '',
       isExistSearchWord: true,
-      thisURL: window.location.href
+      thisURL: window.location.href,
+      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움']
     }
   },
   computed: {
@@ -173,7 +174,8 @@ export default {
       this.isExistSearchWord = !this.isExistSearchWord
     },
     deleteThisSearchWord (item) {
-      alert('this is ' + item)
+      alert('delete ' + this.recentSearchList[item])
+      this.recentSearchList.splice(item, 1)
     },
     followThisUser (item) {
       alert('follow this user: ' + item)

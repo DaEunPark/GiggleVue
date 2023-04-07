@@ -12,7 +12,12 @@
             <!-- </div> -->
 
                 <div class="card-footer" id="footer">
-                    <img src="../assets/image.png" onclick="addImage()" id="addImage" class="icon">
+                    <!-- Image Upload Test Start -->
+                    <label for="img-files" class="filelabel">
+                      <img id="addImage" src='../assets/image.png' class="icon">
+                    </label>
+                    <input type="file" ref="files" id="img-files" @change="handleFileUpload()" accept="image/jpg, image/jpeg, image/png, image/gif">
+
                     <!-- 유튜브 링크 등록 시작 -->
                     <div class="dropdown d-inline-flex" id="addYoutube">
                         <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" ref="YTIcon">
@@ -153,5 +158,23 @@ textarea {
     position:   fixed;
     right: 5%;
     bottom: 3%;
+}
+.filelabel {
+  display: inline-block;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 </style>
