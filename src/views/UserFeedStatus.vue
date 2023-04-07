@@ -7,24 +7,19 @@
                          <!-- <div v-if="usershow.user_no[idx] == item.user_no[idx]"> -->
                     <!-- <div v-if="$store.state.userfeedList.user_nick[0] == item.user_nick[idx]"></div> -->
 
-
-
                          <div class="col"> <!-- style="margin-left:20px; position: fixed;"-->
                             <!--로그인 유저일 경우-->
                             <div v-if="$store.state.loginUserDTO.user_no == item.user_no">
                             <router-link to="/main/mypage"><img :src="$store.state.loginUserDTO.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile"></router-link>
-                            <router-link to="/main/mypage"><p class="FeedList_username" style="margin:auto">{{$store.state.loginUserDTO.user_nick}}</p></router-link> 
+                            <router-link to="/main/mypage"><p class="FeedList_username" style="margin:auto">{{$store.state.loginUserDTO.user_nick}}</p></router-link>
                             </div>
                             <!--다른 유저일 경우-->
                             <div v-if="$store.state.loginUserDTO.user_no != item.user_no">
                             <router-link to="/main/mypage:user_no"><img :src="item.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile"></router-link>
-                            <router-link to="/main/mypage:user_no"><p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></router-link> 
+                            <router-link to="/main/mypage:user_no"><p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></router-link>
                             </div></div>
                          </div>
-                  
-                 
 
-                  
                     <!-- </div> -->
                 <!-- </div> -->
             </div>
@@ -33,19 +28,18 @@
     </div>
 </template>
 
-
 <script>
-import _ from "lodash"
+// eslint-disable-next-line no-unused-vars
+import _ from 'lodash'
 export default {
   props: { // MainContentsView 의 자식컴포넌트로 사용됨
-    items: { type: Object, default: null },
+    items: { type: Object, default: null }
     // itemss:{ type: Object, default: null },
   },
   methods: {
-    }
   }
+}
 </script>
-
 
 <style>
 #userFeedList {

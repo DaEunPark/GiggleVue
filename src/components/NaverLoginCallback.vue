@@ -30,7 +30,7 @@ export default ({
         } else {
           // 없으면 토큰 값을 가지고 회원가입 페이지로 넘어간다.
           this.$store.commit('addNaverToken', this.accessToken)
-          alert("네이버 등록이 완료 되었습니다.\n나머지 정보입력을 위해 회원가입 창으로 넘어갑니다.")
+          alert('네이버 등록이 완료 되었습니다.\n나머지 정보입력을 위해 회원가입 창으로 넘어갑니다.')
           this.$router.replace('/register')
         }
       })

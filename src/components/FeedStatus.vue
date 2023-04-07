@@ -3,7 +3,6 @@
         <article class="my-3" id="FeedList">
             <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="FeedList_GF">
 
-
                          <!-- <div class="row">
                             <div class="col-sm-1" style="margin-left:-20px; position: fixed;" >
                                 개인 프로필로 가는 링크
@@ -25,7 +24,6 @@
                                     <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
                                 </div>
                                 </div> -->
-                               
 
                 <div class="row">
                     <div class="col-sm-1" style="margin-left:-20px; position: fixed;" >
@@ -58,7 +56,7 @@
                                 </div>
                                 <div v-if="this.activate == '1'">
                                     <ul>
-                                        <li>"코멘트 테스트!"</li> 
+                                        <li>"코멘트 테스트!"</li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-3"  id="FL_spanlike">
@@ -74,7 +72,7 @@
                                 </div>
                                 <div class="col-sm-3"  id="FL_spanchart">
                                     <!--<a class="btn"  @on-click="fn_pushInsite()">-->
-                                    <a href="#postInsite" 
+                                    <a href="#postInsite"
                                         class = "btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#postInsite"
@@ -109,7 +107,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <postAnalitics></postAnalitics>
+                    <!-- <postAnalitics></postAnalitics> -->
                 </div>
             </div>
         </div>
@@ -117,67 +115,71 @@
 </template>
 
 <script>
-import postAnalitics from './postAnalitics.vue'
+// import postAnalitics from './postAnalitics.vue'
 
 export default {
-    data() {
-        return {
-            activate: '0'
-        }
-    },
+  data () {
+    return {
+      activate: '0'
+    }
+  },
   props: { // MainContentsView 의 자식컴포넌트로 사용됨
     items: { type: Object, default: null }
   },
-  components:{
-    postAnalitics
+  components: {
+    // postAnalitics
   },
   methods: {
     // eslint-disable-next-line camelcase
-        getPostDetail (post_no) {
-            this.$router.push({ path: '/main/postdetail', query: { post_no: post_no } })
-        },
-        whichProfile(post_no) {
-
-            const data={post_no : post_no}
-            console.log("Data="+post_no)
-            this.$axios.post(this.$serverUrl + '/whichProfile', JSON.stringify(data), {
-                headers: {
-                    'Content-Type' : 'application/json'
-                }
-            }).then(res => {
-                    console.log("res.data.user_no = "+res.data.user_no)
-                    if(this.$store.state.loginUserDTO.user_no != res.data.user_no) {
-
-                        const data={user_no:res.data.user_no}
-
-                        console.log("const data="+data)
-
-                        this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-                            headers: {
-                            'Content-Type': 'application/json'
-                            }
-                        }).then((res) => {
-                            this.$store.commit('addOtherUser', res.data)
-                            console.log(this.$store.state.otherUserDTO)
-                            this.$router.push ({
-                            path: "/main/notmypage"
-                        })
-                        }).catch(error => {
-                            console.log(error)
-                        })
-                    } else if(this.$store.state.loginUserDTO.user_no == res.data.user_no){
-                        this.$router.push ({
-                            path: "/main/mypage"
-                        })
-                    }
-                })
-            },
-            fn_pushComment() {
-                this.activate == '1'
-                stop
-            }
+    getPostDetail (post_no) {
+      this.$router.push({ path: '/main/postdetail', query: { post_no: post_no } })
+    },
+    // eslint-disable-next-line camelcase
+    whichProfile (post_no) {
+      const data = { post_no: post_no }
+      // eslint-disable-next-line camelcase
+      console.log('Data=' + post_no)
+      this.$axios.post(this.$serverUrl + '/whichProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
         }
+      }).then(res => {
+        console.log('res.data.user_no = ' + res.data.user_no)
+        // eslint-disable-next-line eqeqeq
+        if (this.$store.state.loginUserDTO.user_no != res.data.user_no) {
+          const data = { user_no: res.data.user_no }
+
+          console.log('const data=' + data)
+
+          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            this.$router.push({
+              path: '/main/notmypage'
+            })
+          }).catch(error => {
+            console.log(error)
+          })
+        // eslint-disable-next-line eqeqeq
+        } else if (this.$store.state.loginUserDTO.user_no == res.data.user_no) {
+          this.$router.push({
+            path: '/main/mypage'
+          })
+        }
+      })
+    },
+    fn_pushComment () {
+      // eslint-disable-next-line eqeqeq, no-unused-expressions
+      this.activate == '1'
+      // eslint-disable-next-line no-unused-expressions
+      stop
     }
+  }
+}
 
 </script>
 

@@ -95,6 +95,7 @@ export default {
       emailChecked: 'N',
       nickChecked: 'N',
       user_phone: '',
+      // eslint-disable-next-line vue/no-dupe-keys
       naver_token: this.$store.state.naverToken
     }
   },

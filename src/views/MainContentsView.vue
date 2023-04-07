@@ -22,7 +22,7 @@ export default {
   data () {
     return {
       // requestBody: {}, // 리스트 페이지 데이터 전송
-       allfeedList: {}, // 리스트 데이터
+      allfeedList: {} // 리스트 데이터
       // no: '' // 숫자 처리
 
     }
@@ -41,8 +41,7 @@ export default {
         headers: {}
       }).then((res) => {
         this.allfeedList = res.data
-        //데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
-       
+        // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')

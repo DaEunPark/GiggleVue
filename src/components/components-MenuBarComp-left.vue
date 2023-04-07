@@ -20,7 +20,6 @@
           </span>
         </button>
 
-
         <button type="button" onclick="location.href='/main/mainhome' ">
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="m20 8l-6-5.26a3 3 0 0 0-4 0L4 8a3 3 0 0 0-1 2.26V19a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8.75A3 3 0 0 0 20 8Zm-6 12h-4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1Zm5-1a1 1 0 0 1-1 1h-2v-5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v5H6a1 1 0 0 1-1-1v-8.75a1 1 0 0 1 .34-.75l6-5.25a1 1 0 0 1 1.32 0l6 5.25a1 1 0 0 1 .34.75Z"/></svg>
@@ -48,17 +47,8 @@
           </span>
         </button>
 
-
-<button type="button" @click="logout()">
-          <span>
-            <span>Logout</span>
-          </span>
-</button>
-
-
-
 <a href="#editorview" data-bs-toggle="modal"
-            data-bs-target="#editorview" 
+            data-bs-target="#editorview"
             class="hover-change-color"
             @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="padding:5 5 5 5;">
@@ -66,14 +56,17 @@
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg></span></a>
 
-
-
-        <button type="button" onclick="location.href='/main/setting'">
+            <button type="button" @click="logout()">
+                      <span>
+                        <span>Logout</span>
+                      </span>
+            </button>
+        <!-- <button type="button" onclick="location.href='/main/setting'">
           <span>
             <i class="uil uil-bars"> </i>
             <p><span>more</span></p>
           </span>
-        </button>
+        </button> -->
       </nav>
     </aside>
 
@@ -161,7 +154,7 @@
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
               </svg>
-              
+
               <button
                 type="button"
                 class="btn-close btn-close-white"
@@ -175,8 +168,6 @@
                 <EditorBody></Editorbody>
               </div>
             </div>
-          
-      
 
   </div>
   <!-- Editor Modal 끝 -->
@@ -217,7 +208,7 @@ export default {
     getAlarmList () {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if (res.data !== "") {
+          if (res.data !== '') {
             console.log('알람 있음' + res.data)
             this.alarmList = res.data
           } else {
@@ -230,27 +221,27 @@ export default {
           }
         })
     },
-    getChatRoomList() {
-       this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
+    getChatRoomList () {
+      this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if(res.data !== "") {
-            console.log("채팅방 있음" + res.data[0].user_nick)
+          if (res.data !== '') {
+            console.log('채팅방 있음' + res.data[0].user_nick)
             this.chatRoomList = res.data
-            this.$store.commit("putChatRoom", res.data)
+            this.$store.commit('putChatRoom', res.data)
           } else {
-            console.log("채팅방 없음")
+            console.log('채팅방 없음')
           }
         })
     },
-    getProfile() {
+    getProfile () {
       this.$router.push({
-        path: "/main/mypage"
+        path: '/main/mypage'
       })
     }
   },
   computed: {
     ...mapGetters(['loginUserDTO'])
-  },
+  }
 
 }
 
@@ -315,7 +306,6 @@ span {-webkit-text-fill-color: black;}
 
   .sidebar-header {
     width: 100%;
-    margin-bottom: 44px;
   }
 
   .logo-icon {
@@ -499,8 +489,13 @@ span {-webkit-text-fill-color: black;}
   height: 100%;
 }
 
-
 #profic {
   margin-left: 100%;
+}
+#glogo {
+  width: 40%;
+  height:auto;
+  margin: 0 28%;
+  margin-bottom: 10%;
 }
 </style>

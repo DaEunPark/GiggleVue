@@ -109,7 +109,7 @@
                             <hr/>
                             <div class="social"><GoogleLogin></GoogleLogin>
                             <NaverLogin></NaverLogin></div>
-                            
+
                             <div>
                                 <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
                                     data-bs-toggle="modal"
@@ -161,21 +161,23 @@ export default {
   components: {
     GoogleLogin, NaverLogin
   },
-  mounted() {
-    if(this.$store.state.checked == 1) {
+  mounted () {
+    // eslint-disable-next-line eqeqeq
+    if (this.$store.state.checked == 1) {
       this.remember = 1
-    } else if(this.$store.state.checked == 0) {
+    // eslint-disable-next-line eqeqeq
+    } else if (this.$store.state.checked == 0) {
       this.remember = 0
     }
-  }, 
+  },
   methods: {
-    onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-},
+    onSignIn (googleUser) {
+      const profile = googleUser.getBasicProfile()
+      console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName())
+      console.log('Image URL: ' + profile.getImageUrl())
+      console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
+    },
     checkEmail () {
       // 한글 입력시 제거
       if (this.user_email.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {
@@ -202,6 +204,7 @@ export default {
       }
     },
     login () {
+      // eslint-disable-next-line no-undef
       if ((remember).checked) {
         this.$store.commit('rememberUserEmail', this.user_email)
         this.$store.commit('rememberUserPwd', this.user_pwd)

@@ -73,7 +73,7 @@ const routes = [
         components: {
           rmain: SettingAnaliticsView
         }
-      }, 
+      },
       {
         path: 'mypage',
         name: 'MyPage',
@@ -110,7 +110,7 @@ const routes = [
         components: {
           rmain: PostDetailView
 
-        },
+        }
       }
 
     ] // MainHomeView children
@@ -146,7 +146,6 @@ const routes = [
       rhome: gCallback
     }
   }
-
 
 ]
 

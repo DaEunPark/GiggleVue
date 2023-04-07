@@ -40,26 +40,29 @@
 <script>
 // import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
+// eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
     }
   },
   mounted () {
-    if(this.$store.state.loginUserDTO.back_image == null) {
+    if (this.$store.state.loginUserDTO.back_image == null) {
       this.$store.state.loginUserDTO.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
     } else {
+      // eslint-disable-next-line no-self-assign
       this.$store.state.loginUserDTO.back_image = this.$store.state.loginUserDTO.back_image
     }
-  // inti Popover
+    // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
       .forEach(popoverNode => new Popover(popoverNode))
     // .forEach(popoverNode => this.$data.$popover(popoverNode))
     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
       .forEach(popoverNode => new Tooltip(popoverNode))
     // .forEach(popoverNode => this.$data.$tooltip(popoverNode))
+    // eslint-disable-next-line no-unused-vars
     const exampleModal = document.getElementById('exampleModal')
     // exampleModal.addEventListener('show.bs.modal', function (event) {
     // // Button that triggered the modal
@@ -78,11 +81,10 @@ export default {
     // })
   },
   methods: {
-    pushSetting() {
-      this.$router.push ({
+    pushSetting () {
+      this.$router.push({
         path: '/main/setting/'
       })
-
     }
   }
 }
@@ -107,7 +109,7 @@ export default {
     flex-direction: row;
     align-items: normal;
     justify-content: space-between;
-    
+
 }
 
 .user_img_box {
@@ -123,7 +125,7 @@ export default {
     margin: 15% auto;
     display: block;
       border-radius: 50%;
-    
+
 }
 
 .user_follow_btn {

@@ -1,3 +1,4 @@
+eslint-disable eqeqeq
 <!-- eslint-disable no-var -->
 <template>
     <div class="container">
@@ -13,12 +14,12 @@
                     </div>
                     <div class="profile__nickname">
                         <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname mt-2">닉네임</label>
-                        <input type="text" class="form-control form-control-sm profile__nickname" id="profile__nickname" 
+                        <input type="text" class="form-control form-control-sm profile__nickname" id="profile__nickname"
                         v-model="user_nick" v-bind:placeholder="`${this.$store.state.loginUserDTO.user_nick}`">
                     </div>
                     <div class="profile__status">
                         <label for="status" class="col-form-label col-form-label-sm  profile__status mt-2">상태 메세지</label>
-                        <textarea class="form-control form-control-sm profile__status" id="profile__status" rows="3" 
+                        <textarea class="form-control form-control-sm profile__status" id="profile__status" rows="3"
                         v-model="status_message" v-bind:placeholder="`${this.$store.state.loginUserDTO.status_message}`"></textarea>
                     </div>
                     <div class="profile__location">
@@ -51,71 +52,82 @@
 <script>
 import MenuBar from '../../components/components-MenuBarComp-left.vue'
 import SideBar from '../../components/rightsidebars/SideBarComp.vue'
+// eslint-disable-next-line no-unused-vars
 import $ from 'jquery'
+// eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
 
 export default {
-    data() {
-        return {
-            user_nick:'',
-            status_message:'',
-            user_location:'',
-            user_birth:''
-        }
-    },
-  // eslint-disable-next-line vue/no-unused-components
-    components: { MenuBar, SideBar },
-    mounted() {
-        
-            if(this.user_nick == "") {
-                this.user_nick = this.$store.state.loginUserDTO.user_nick
-            } else {
-                this.user_nick = this.user_nick
-            }
-            if(this.status_message == "") {
-                this.status_message = this.$store.state.loginUserDTO.status_message
-            } else {
-                this.status_message = this.status_message
-            }
-            if(this.user_location == "") {
-                this.user_location = this.$store.state.loginUserDTO.user_location
-            } else {
-                this.user_location = this.user_location
-            }
-            if(this.user_birth == "") {
-                this.user_birth == this.$store.state.loginUserDTO.user_birth
-            } else {
-                this.user_birth = this.user_birth
-            }
-            
-            console.log("user_nick = "+this.user_nick)
-            console.log("status_message = "+this.status_message)
-            console.log("user_location = "+this.user_location)
-            console.log("user_birth = " + this.user_birth)
-            
-    },
-    methods: {
-        profileUpdate() {
-            var data={ user_nick:this.user_nick, status_message:this.status_message, 
-                user_location:this.user_location, user_no:this.$store.state.loginUserDTO.user_no,
-                user_birth:this.user_birth}
-            this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then((res) => {
-                console.log(res)
-                this.$store.commit('addLoginUser', res.data)
-                this.$router.push({
-                    path: '/main/mypage'
-                })
-
-            }).catch(error => {
-                console.log(error)
-            })
-            
-        }
+  data () {
+    return {
+      user_nick: '',
+      status_message: '',
+      user_location: '',
+      user_birth: ''
     }
+  },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { MenuBar, SideBar },
+  mounted () {
+    // eslint-disable-next-line eqeqeq
+    if (this.user_nick == '') {
+      this.user_nick = this.$store.state.loginUserDTO.user_nick
+    } else {
+      // eslint-disable-next-line no-self-assign
+      this.user_nick = this.user_nick
+    }
+    // eslint-disable-next-line eqeqeq
+    if (this.status_message == '') {
+      this.status_message = this.$store.state.loginUserDTO.status_message
+    } else {
+      // eslint-disable-next-line no-self-assign
+      this.status_message = this.status_message
+    }
+    // eslint-disable-next-line eqeqeq
+    if (this.user_location == '') {
+      this.user_location = this.$store.state.loginUserDTO.user_location
+    } else {
+      // eslint-disable-next-line no-self-assign
+      this.user_location = this.user_location
+    }
+    // eslint-disable-next-line eqeqeq
+    if (this.user_birth == '') {
+      // eslint-disable-next-line eqeqeq, no-unused-expressions
+      this.user_birth == this.$store.state.loginUserDTO.user_birth
+    } else {
+      // eslint-disable-next-line no-self-assign
+      this.user_birth = this.user_birth
+    }
+
+    console.log('user_nick = ' + this.user_nick)
+    console.log('status_message = ' + this.status_message)
+    console.log('user_location = ' + this.user_location)
+    console.log('user_birth = ' + this.user_birth)
+  },
+  methods: {
+    profileUpdate () {
+      const data = {
+        user_nick: this.user_nick,
+        status_message: this.status_message,
+        user_location: this.user_location,
+        user_no: this.$store.state.loginUserDTO.user_no,
+        user_birth: this.user_birth
+      }
+      this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        console.log(res)
+        this.$store.commit('addLoginUser', res.data)
+        this.$router.push({
+          path: '/main/mypage'
+        })
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  }
 }
 
 // $(document).ready(function () {

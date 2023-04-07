@@ -9,7 +9,7 @@ export default createStore({
     rememberUserPwd: null,
     deleteUserEmail: null,
     deleteUserPwd: null,
-    checked: null,
+    checked: null
   },
   getters: {
     loginUserDTO: state => state.loginUserDTO,
@@ -18,7 +18,7 @@ export default createStore({
     rememberUserPwd: state => state.rememberUserPwd,
     deleteUserEmail: state => state.deleteUserEmail,
     deleteUserPwd: state => state.deleteUserPwd,
-    checked: state => state.checked,
+    checked: state => state.checked
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
@@ -28,23 +28,23 @@ export default createStore({
       state.loginUserDTO = null
     },
     addOtherUser: (state, otherUserDTO) => {
-      state.otherUserDTO = otherUserDTO;
+      state.otherUserDTO = otherUserDTO
     },
     rememberUserEmail: (state, rememberUserEmail) => {
-      state.rememberUserEmail = rememberUserEmail;
+      state.rememberUserEmail = rememberUserEmail
     },
     rememberUserPwd: (state, rememberUserPwd) => {
-      state.rememberUserPwd = rememberUserPwd;
+      state.rememberUserPwd = rememberUserPwd
     },
     deleteUserEmail: (state, rememberUserEmail) => {
-      state.deleteUserEmail = null;
+      state.deleteUserEmail = null
     },
     deleteUserPwd: (state, rememberUserPwd) => {
-      state.deleteUserPwd = null;
+      state.deleteUserPwd = null
     },
     checked: (state, checked) => {
-      state.checked = checked;
-    },
+      state.checked = checked
+    }
 
   },
   actions: {
@@ -52,7 +52,7 @@ export default createStore({
   modules: {
   },
   plugins: [createPersistedState({
-    paths: ['loginUserDTO', 'otherUserDTO','rememberUserEmail', 'rememberUserPwd',
-            'deleteUserEmail','deleteUserPwd', 'checked']
+    paths: ['loginUserDTO', 'otherUserDTO', 'rememberUserEmail', 'rememberUserPwd',
+      'deleteUserEmail', 'deleteUserPwd', 'checked']
   })]
 })

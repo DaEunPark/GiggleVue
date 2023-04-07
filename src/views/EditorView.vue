@@ -71,7 +71,7 @@ export default {
             if (res.data === 'Y') {
               alert('새로운 게시글이 등록되었습니다. ' + res.data)
               // window.location.href = 'http://localhost:8080/main/mainhome'
-              ////this.$router.go(this.$router.currentRoute)
+              /// /this.$router.go(this.$router.currentRoute)
             } else {
               alert('실패 실패 실패 새로운 게시글이 등록되었습니다. ' + res.data)
             }

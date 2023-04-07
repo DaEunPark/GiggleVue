@@ -17,54 +17,51 @@
       <table>
         <tr id="commentDetail">
           <td>{{ comment.user_nick }}</td>
-          <td>{{comment.comment_date}}</td>          
-          <a href="/main/mypage" ><img :src="comment.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" ></a>          
-                            
+          <td>{{comment.comment_date}}</td>
+          <a href="/main/mypage" ><img :src="comment.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" ></a>
+
           <td class="txt_left">{{comment.comment_content}}</td>
           <td><button @click="getCommetnDelete">삭제</button></td>
          </tr>
       </table>
-    </div>  
+    </div>
   </div>
 </template>
 
 <script>
 
-
 export default {
-  props:{
-    post_no: Number,
-    
-   
+  props: {
+    post_no: Number
+
   },
-data(){
-  return{
+  data () {
+    return {
       comment_content: '',
       commentList: []
     }
   },
-  mounted() {
+  mounted () {
     this.getCommentList()
   },
   methods: {
-    getCommentList(){
+    getCommentList () {
       this.$axios.get(this.$serverUrl + '/comment/commentList/' + this.post_no)
-      .then((res) => {
-        this.commentList=res.data
-        
-      }) 
+        .then((res) => {
+          this.commentList = res.data
+        })
     },
-    getCommentRegister() {
+    getCommentRegister () {
       console.log(this.comment_content)
-      var data = {content: this.comment_content}
-    this.$axios.post(this.$serverUrl + '/comment/commentRegister', {
-            user_no: this.$store.state.loginUserDTO.user_no,
-            post_no: this.post_no,
-            comment_content: this.comment_content
-          }).then((res) => {
-            alert(res.data)
-         
-          })
+      // eslint-disable-next-line no-unused-vars
+      const data = { content: this.comment_content }
+      this.$axios.post(this.$serverUrl + '/comment/commentRegister', {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        post_no: this.post_no,
+        comment_content: this.comment_content
+      }).then((res) => {
+        alert(res.data)
+      })
     }
 
   }

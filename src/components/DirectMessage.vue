@@ -129,148 +129,150 @@
 </template>
 <script>
 import axios from 'axios'
-export default({
+export default ({
   props: {
     chatRoomList: {
       type: Array, default: null
     }
   },
-  data() {
+  data () {
     return {
       newChatList: [],
-      keyword: '',      //유저 검색 키워드
-      userList: [],     //유저 검색 결과 리스트
-      open: false,      //오른쪽 대화창 오픈 유무
-      nowChatRoom: 0,   //현재 채팅방 번호
-      nowChatUserProfile: '',  //현재 채팅방 상대 프로필
-      nowChatUserNick: '',     //현재 채팅방 상대 닉네임
-      messageList: [],  //메세지 리스트
-      message: '',       //보낼 메세지
-      state: 0,
+      keyword: '', // 유저 검색 키워드
+      userList: [], // 유저 검색 결과 리스트
+      open: false, // 오른쪽 대화창 오픈 유무
+      nowChatRoom: 0, // 현재 채팅방 번호
+      nowChatUserProfile: '', // 현재 채팅방 상대 프로필
+      nowChatUserNick: '', // 현재 채팅방 상대 닉네임
+      messageList: [], // 메세지 리스트
+      message: '', // 보낼 메세지
+      state: 0
     }
   },
   computed: {
-    addChatRoom(chatRoom) {
+    addChatRoom (chatRoom) {
+      // eslint-disable-next-line vue/no-mutating-props, vue/no-side-effects-in-computed-properties
       return this.chatRoomList.push(chatRoom)
     }
   },
   methods: {
-    openSearchList() {
-      //검색 결과 창을 보여준다.
-      document.getElementById("DMSearchUl").style.visibility = "visible"
+    openSearchList () {
+      // 검색 결과 창을 보여준다.
+      document.getElementById('DMSearchUl').style.visibility = 'visible'
     },
-    hideSearchList() {
-      //마우스가 유저 검색 리스트에 있을때는 창을 보여준다.
-      var userList = document.getElementById("DMSearchUl")
-      var ishover = false
+    // hideSearchList () {
+    //   // 마우스가 유저 검색 리스트에 있을때는 창을 보여준다.
+    //   const userList = document.getElementById('DMSearchUl')
+    //   let ishover = false
 
-      userList.onmouseover = function() {
-        ishover = true
-        //alert("mouseover " + ishover)
-      }
-      userList.onmouseout = function() {
-        ishover = false
-        //alert("mouseout " + ishover)
-      }
+    //   userList.onmouseover = function () {
+    //     ishover = true
+    //     // alert("mouseover " + ishover)
+    //   }
+    //   userList.onmouseout = function () {
+    //     ishover = false
+    //     // alert("mouseout " + ishover)
+    //   }
 
-      if(ishover) {
-        document.getElementById("DMSearchUl").style.visibility = "visible"
-      } else {
-        document.getElementById("DMSearchUl").style.visibility = "hidden"
-      }
-      //document.getElementById("DMSearchUl").style.visibility = "hidden"
-    },
-    searchUser() {
-      //검색한 키워드로 유저를 찾아서 뿌려준다.
+    //   if (ishover) {
+    //     document.getElementById('DMSearchUl').style.visibility = 'visible'
+    //   } else {
+    //     document.getElementById('DMSearchUl').style.visibility = 'hidden'
+    //   }
+    //   // document.getElementById("DMSearchUl").style.visibility = "hidden"
+    // },
+    searchUser () {
+      // 검색한 키워드로 유저를 찾아서 뿌려준다.
       axios
-      .get(this.$serverUrl + "/mj/searchUser/" + this.keyword)
-      .then(res =>{
-        if(res.data !== "") {
-          this.userList = res.data
-        }
-      })
-    },
-    getChatRoom(userNo) {
-      //alert("누름 " + userNo)
-      //누른 유저 번호와 로그인한 유저 아이디를 이용해 채팅방 유무를 확인한다.
-      axios
-      .post(this.$serverUrl + "/mj/getChatRoom" ,{
-        user1: userNo,
-        user2: this.$store.state.loginUserDTO.user_no 
-      })
-      .then(res => {
-        var count = 0;
-        for(var i = 0; i < this.chatRoomList.length; i++) {
-          if(this.chatRoomList[i].chatroom_no === res.data.chatroom_no){
-            count++;
-            console.log("중복되는 채팅방 있음 ")
+        .get(this.$serverUrl + '/mj/searchUser/' + this.keyword)
+        .then(res => {
+          if (res.data !== '') {
+            this.userList = res.data
           }
-        }
-        
-        //처음 가져왔던 채팅방 리스트에 해당 채팅방정보가 없으면 추가해준다.
-        if(count == 0) {
-          //새롭게 추가된 채팅 리스트에 추가해준 후,
-          this.newChatList.push(res.data)
-          console.log("채팅방 없음/ 추가함 ")
-          console.log(this.newChatList)
-          //해당 채팅방을 열어준다.
-          this.open = true
-          this.nowChatRoom = res.data.chatroom_no
-        } else {
-          //있으면 해당 채팅방을 열어준다.
-          this.open = true
-          this.nowChatRoom = res.data.chatroom_no
-        }
-        
-        //연 채팅방의 상대방 정보를 세팅한다.
-        this.nowChatUserNick = res.data.user_nick
-        this.nowChatUserProfile = res.data.profile_image
-        document.getElementById("DMSearchUl").style.visibility = "hidden"
-        this.openChatRoom(this.nowChatRoom)
-      })
+        })
     },
-    openChatRoom(chatroomNo) {
-      //오른쪽 채팅방을 보여주고
+    getChatRoom (userNo) {
+      // alert("누름 " + userNo)
+      // 누른 유저 번호와 로그인한 유저 아이디를 이용해 채팅방 유무를 확인한다.
+      axios
+        .post(this.$serverUrl + '/mj/getChatRoom', {
+          user1: userNo,
+          user2: this.$store.state.loginUserDTO.user_no
+        })
+        .then(res => {
+          let count = 0
+          for (let i = 0; i < this.chatRoomList.length; i++) {
+            if (this.chatRoomList[i].chatroom_no === res.data.chatroom_no) {
+              count++
+              console.log('중복되는 채팅방 있음 ')
+            }
+          }
+
+          // 처음 가져왔던 채팅방 리스트에 해당 채팅방정보가 없으면 추가해준다.
+          // eslint-disable-next-line eqeqeq
+          if (count == 0) {
+          // 새롭게 추가된 채팅 리스트에 추가해준 후,
+            this.newChatList.push(res.data)
+            console.log('채팅방 없음/ 추가함 ')
+            console.log(this.newChatList)
+            // 해당 채팅방을 열어준다.
+            this.open = true
+            this.nowChatRoom = res.data.chatroom_no
+          } else {
+          // 있으면 해당 채팅방을 열어준다.
+            this.open = true
+            this.nowChatRoom = res.data.chatroom_no
+          }
+
+          // 연 채팅방의 상대방 정보를 세팅한다.
+          this.nowChatUserNick = res.data.user_nick
+          this.nowChatUserProfile = res.data.profile_image
+          document.getElementById('DMSearchUl').style.visibility = 'hidden'
+          this.openChatRoom(this.nowChatRoom)
+        })
+    },
+    openChatRoom (chatroomNo) {
+      // 오른쪽 채팅방을 보여주고
       this.open = true
       this.nowChatRoom = chatroomNo
 
-      for(var i = 0; i < this.chatRoomList.length; i++) {
-        //채팅방 리스트에서 채팅방 번호에 해당하는 데이터 중 상대방 닉네임, 프로필 사진을 뽑아낸다.
-        if(this.chatRoomList[i].chatroom_no === chatroomNo) {
+      for (let i = 0; i < this.chatRoomList.length; i++) {
+        // 채팅방 리스트에서 채팅방 번호에 해당하는 데이터 중 상대방 닉네임, 프로필 사진을 뽑아낸다.
+        if (this.chatRoomList[i].chatroom_no === chatroomNo) {
           this.nowChatUserNick = this.chatRoomList[i].user_nick
           this.nowChatUserProfile = this.chatRoomList[i].profile_image
         }
       }
 
-      //채팅방의 대화 목록을 가져온다.
+      // 채팅방의 대화 목록을 가져온다.
       axios
-      .get(this.$serverUrl + "/mj/getMessageList/" + chatroomNo)
-      .then(res => {
-        this.messageList = res.data;
-      })
+        .get(this.$serverUrl + '/mj/getMessageList/' + chatroomNo)
+        .then(res => {
+          this.messageList = res.data
+        })
     },
-    sendMessage() {
-      //텍스트 입력창에 입력한 값이 있을 때
-      if(this.message !== '') {
-        var messageDTO = {
-          chatroom_no : this.nowChatRoom,
+    sendMessage () {
+      // 텍스트 입력창에 입력한 값이 있을 때
+      if (this.message !== '') {
+        const messageDTO = {
+          chatroom_no: this.nowChatRoom,
           user_no: this.$store.state.loginUserDTO.user_no,
           message_content: this.message
         }
-        //현재 채팅방에 뿌려주고
+        // 현재 채팅방에 뿌려주고
         this.messageList.push(messageDTO)
-        //db에 저장한다.
+        // db에 저장한다.
         axios
-        .post(this.$serverUrl + "/mj/addMessage", {
-          chatroom_no : this.nowChatRoom,
-          user_no: this.$store.state.loginUserDTO.user_no,
-          message_content: this.message
-        })
-        .then(res => {
-          console.log(res.data)
-        })
-        //메세지를 지워준다.
-        this.message = ""
+          .post(this.$serverUrl + '/mj/addMessage', {
+            chatroom_no: this.nowChatRoom,
+            user_no: this.$store.state.loginUserDTO.user_no,
+            message_content: this.message
+          })
+          .then(res => {
+            console.log(res.data)
+          })
+        // 메세지를 지워준다.
+        this.message = ''
       }
     }
   }
