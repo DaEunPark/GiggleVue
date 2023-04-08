@@ -15,11 +15,11 @@
                 <div class="user_name">
                     <p id="user_name_title">{{ this.$store.state.loginUserDTO.user_nick }}</p>
                 </div>
-                <div class="item_cnt">
-                    <div class="item">게시물 <span style="font-weight: 500;"></span>{{this.$store.state.loginUserDTO.count_post}}</div>
-                    <div class="item btn_pointer" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.$store.state.loginUserDTO.follower_user}}</span></div>
-                    <div class="item btn_pointer" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.$store.state.loginUserDTO.follow_user}}</span></div>
-                    <button type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
+                <div class="item_cnt inline">
+                    <div class="item profileCnt">게시물 <span style="font-weight: 500;"></span>{{this.post_cnt}}</div>
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.follower_cnt}}</span></div>    
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.follow_cnt}}</span></div> 
+                    <button class="profileCnt" type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
                   </div>
                   <hr id="hr"/>
                 <div class="user_nickname">
@@ -46,6 +46,9 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      post_cnt : '',
+      follow_cnt : '',
+      follower_cnt : ''
     }
   },
   mounted () {
@@ -55,36 +58,36 @@ export default {
       // eslint-disable-next-line no-self-assign
       this.$store.state.loginUserDTO.back_image = this.$store.state.loginUserDTO.back_image
     }
-    // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
       .forEach(popoverNode => new Popover(popoverNode))
-    // .forEach(popoverNode => this.$data.$popover(popoverNode))
+
     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
       .forEach(popoverNode => new Tooltip(popoverNode))
-    // .forEach(popoverNode => this.$data.$tooltip(popoverNode))
-    // eslint-disable-next-line no-unused-vars
-    const exampleModal = document.getElementById('exampleModal')
-    // exampleModal.addEventListener('show.bs.modal', function (event) {
-    // // Button that triggered the modal
-    //   const button = event.relatedTarget
-    //   // Extract info from data-bs-* attributes
-    //   const recipient = button.getAttribute('data-bs-whatever')
-    //   // If necessary, you could initiate an AJAX request here
-    //   // and then do the updating in a callback.
-    //   //
-    //   // Update the modal's content.
-    //   const modalTitle = exampleModal.querySelector('.modal-title')
-    //   const modalBodyInput = exampleModal.querySelector('.modal-body input')
 
-    //   modalTitle.textContent = 'New message to ' + recipient
-    //   modalBodyInput.value = recipient
-    // })
+      this.profileCnt()
+
   },
   methods: {
     pushSetting () {
       this.$router.push({
         path: '/main/setting/'
       })
+    },
+    profileCnt() {
+      const data = {user_no : this.$store.state.loginUserDTO.user_no}
+        this.$axios.post(this.$serverUrl + '/profileCnt', JSON.stringify(data), {
+          headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+        .then((res) => {
+          this.post_cnt = res.data.count_post
+          this.follow_cnt = res.data.follow_user
+          this.follower_cnt = res.data.follower_user
+        }).catch((err) => {
+          console.log(err)
+        })
+
     }
   }
 }
@@ -183,7 +186,7 @@ export default {
 .user_info_box > .item_cnt > .item {
     width: 72px;
     font-size: 16px;
-    margin-right: 30px;
+    margin-right: 0px;
 }
 
 .user_info_box > .user_nickname {
@@ -225,4 +228,5 @@ export default {
 .status_message {
   font-size: 20px;
 }
+
 </style>

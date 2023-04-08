@@ -112,7 +112,7 @@ export default {
       this.$refs.YTIcon.style.pointerEvents = ''
       this.post.post_link = ''
       this.addedYTLink = false
-    }
+    },
   }
 }
 </script>

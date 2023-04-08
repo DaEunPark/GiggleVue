@@ -53,26 +53,26 @@
 
                     </div>
                     <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch1()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top1 }}</h6>
-                    </router-link>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch2()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top2 }}</h6>
-                    </router-link>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch3()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top3 }}</h6>
-                    </router-link>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch4()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top4 }}</h6>
-                    </router-link>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch5()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top5 }}</h6>
-                    </router-link>
+                    </button>
                     <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
             </div> <!-- <div class="card bg-light mb-3"> -->
@@ -124,6 +124,8 @@
 </template>
 
 <script>
+import { throwStatement } from '@babel/types'
+
 
 export default {
   data () {
@@ -219,12 +221,29 @@ export default {
                 this.top3 = res.data.top3
                 this.top4 = res.data.top4
                 this.top5 = res.data.top5
-
-
         }).catch((err) => {
 
         })
-
+    },
+    goSearch1() {
+        this.keyword = this.top1.replace("#", "")
+        this.searchresultshow (this.keyword)
+    },
+    goSearch2() {
+        this.keyword = this.top2.replace("#", "")
+        this.searchresultshow (this.keyword)
+    },
+    goSearch3() {
+        this.keyword = this.top3.replace("#", "")
+        this.searchresultshow (this.keyword)
+    },
+    goSearch4() {
+        this.keyword = this.top4.replace("#", "")
+        this.searchresultshow (this.keyword)
+    },
+    goSearch5() {
+        this.keyword = this.top5.replace("#", "")
+        this.searchresultshow (this.keyword)
     }
     }
 }
