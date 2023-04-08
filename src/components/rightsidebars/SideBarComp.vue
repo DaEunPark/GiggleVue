@@ -52,10 +52,26 @@
                         <span class="text-dark fw-bold">나를 위한 트렌드</span>
 
                     </div>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i">
+                    <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">0X1=LOVESONG (I Know I Love You) </h6>
-
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top1 }}</h6>
+                    </router-link>
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top2 }}</h6>
+                    </router-link>
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top3 }}</h6>
+                    </router-link>
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top4 }}</h6>
+                    </router-link>
+                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top5 }}</h6>
                     </router-link>
                     <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
@@ -118,7 +134,12 @@ export default {
       keyword: '',
       isExistSearchWord: true,
       thisURL: window.location.href,
-      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움']
+      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움'],
+      top1: '',
+      top2: '',
+      top3: '',
+      top4: '',
+      top5: ''
     }
   },
   computed: {
@@ -136,6 +157,9 @@ export default {
   },
   mounted () {
     this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+
+    this.getTrend() //실시간 트렌드 가져오기
+
   },
   methods: {
     // enterSearch () {
@@ -186,8 +210,23 @@ export default {
     //   console.log(`url test ${window.location.href}`)
     //   console.log(`includes test ${path.includes('search')}`)
       this.$router.replace(path)
+    },
+    getTrend() {
+        this.$axios.post(this.$serverUrl + '/tag/trend')
+        .then((res) => {
+                this.top1 = res.data.top1
+                this.top2 = res.data.top2
+                this.top3 = res.data.top3
+                this.top4 = res.data.top4
+                this.top5 = res.data.top5
+
+
+        }).catch((err) => {
+
+        })
+
     }
-  }
+    }
 }
 </script>
 <style scoped>
@@ -246,6 +285,10 @@ export default {
 
     .list-group {
         border-radius: 1em;
+    }
+    .trend {
+        font-size: 18px;
+        margin: auto auto;
     }
 
 </style>

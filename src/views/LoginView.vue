@@ -227,10 +227,25 @@ export default {
               'Content-Type': 'application/json'
             }
           }).then((res) => {
-            this.$store.commit('addLoginUser', res.data)
 
-            console.log(this.$store.state.loginUserDTO)
             if (res.data.user_email != null) {
+
+              // 회원 가입되어있지만 프로필이미지, 배경이미지가 설정되지 않았을 경우 default값 부여
+
+              if(res.data.back_image != null && res.data.profile_image != null){
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image == null && res.data.profile_image != null){
+              res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image == null && res.data.profile_image == null) {
+              res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
+              res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image != null && res.data.profile_image == null) {
+              res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            }
+
               this.$router.push({
                 path: '/main/mainhome'
               })

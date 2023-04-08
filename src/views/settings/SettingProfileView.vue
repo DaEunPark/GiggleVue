@@ -1,18 +1,31 @@
-eslint-disable eqeqeq
 <!-- eslint-disable no-var -->
 <template>
     <div class="container">
         <form class="card border-round-radious">
             <div class="settingProfile list-group border-round-radious">
                 <div class="setting__title align-items-center">
-                    <img v-bind:src="`${this.back_image}`" id="backimg"/>
+                    <img :src="back_image" id="backimg"/>
                     <!-- <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" color="black" :icon="['fas', 'caret-left']" /></a>프로필</h3> -->
                 </div>
+
                 <div class="profile__wrap px-4 mb-2">
-                    <div class="profile__image mb-2">
-                        <img v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`" class="profile__imageFile rounded-circle align-center">
-                        <button type="button" class="btn btn-link btn-rg imageEdit mt-2" @click="profileEdit()" color="black">Edit</button>
-                    </div>
+                  <div class="profile__image mb-2">
+                    <img :src="profile_image" class="profile__imageFile rounded-circle align-center">
+                  </div>
+
+
+<!--이미지 추가 버튼 시작-->
+
+                  <div class="filebox">
+                    <label for="img-files-test">
+                      <img id="addImage" src='@/assets/image.png'>
+                    </label>
+                      <input type="file" ref="files" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+                  </div>
+                  <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button>
+
+<!--이미지 추가 버튼 끝-->
+
                     <div class="profile__nickname">
                         <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname mt-2">닉네임</label>
                     </div>
@@ -34,18 +47,11 @@ eslint-disable eqeqeq
                         <input type="text" class="form-control-sm profile__location" id="user__location"
                         v-model="user_location" v-bind:placeholder="`${this.$store.state.loginUserDTO.user_location}`">
                     </div>
-                    <!-- <div class="profile__birthday">
-                        <label for="birthday" class="col-form-label col-form-label-sm profile__birthday mt-2">생년월일</label>
-                        <div class="profile__birthdayWrap">
-                            <select class="form-select form-select-sm" name="yy" id="year" value="birth_yy" @click="selectBirth()"></select>
-                            <select class="form-select form-select-sm" name="mm" id="month" v-model="birth_mm"></select>
-                            <select class="form-select form-select-sm" name="dd" id="day" v-model="birth_dd"></select>
-                        </div>
-                    </div> -->
                     <div class="sm-3 profile__birthday" id="user_birthday">
                       <label for="birth" class="col-form-label col-form-label-sm  profile__birth mt-2">생년월일</label>
                             <div class="form-floating">
-                                <input type="date" class="form-control-sm" v-model="user_birth" ref="birth" name="trip-start"/>
+                                <!-- <input type="date" class="form-control-sm" v-bind:value="`${this.$store.state.loginUserDTO.user_birth}`" v-model="user_birth" ref="birth" name="trip-start"/> -->
+                                <input type="date" class="form-control-sm" :value="`${this.$store.state.loginUserDTO.user_birth}`" @input="user_birth = $event.target.value" ref="birth" name="trip-start"/>
                               </div>
                             </div>
                     <div class="profile__passwordBtn">
@@ -63,6 +69,7 @@ import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 import $ from 'jquery'
 // eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
+import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
   data () {
@@ -71,12 +78,20 @@ export default {
       status_message: '',
       user_location: '',
       user_birth: '',
-      back_image: ''
+      back_image: '',
+      profile_image: '',   
+      rightYTID: false,
+      files: [],
+      uploadImage: '',
+      imgbbImg: '',
+      imgbbImgURL: '',
+      
     }
   },
   // eslint-disable-next-line vue/no-unused-components
   components: { MenuBar, SideBar },
   mounted () {
+
     // eslint-disable-next-line eqeqeq
     if (this.user_nick == '') {
       this.user_nick = this.$store.state.loginUserDTO.user_nick
@@ -98,76 +113,117 @@ export default {
       // eslint-disable-next-line no-self-assign
       this.user_location = this.user_location
     }
-    // eslint-disable-next-line eqeqeq
-    if (this.user_birth == '') {
-      // eslint-disable-next-line eqeqeq, no-unused-expressions
-      this.user_birth == this.$store.state.loginUserDTO.user_birth
+
+    this.back_image = this.$store.state.loginUserDTO.back_image
+    if(this.profile_image != this.uploadImage) {
+      this.profile_image = this.uploadImage
     } else {
-      // eslint-disable-next-line no-self-assign
-      this.user_birth = this.user_birth
+      this.profile_image = this.$store.state.loginUserDTO.profile_image
     }
-    if(this.back_image == '') {
-      this.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
-    } else {
-      this.back_image = this.$store.state.loginUserDTO.back_image
-    }
-    
   },
   methods: {
-    profileUpdate () {
+    profileUpdate() {
+      if(this.user_nick == '') {
+          this.user_nick = this.$store.state.loginUserDTO.user_nick
+      } else {
+          this.user_nick = this.user_nick
+      }
+
+      if(this.status_message == '') {
+          this.status_message = this.$store.state.loginUserDTO.status_message
+      } else {
+          this.status_message = this.status_message
+      }
+
+      if(this.user_location == '') {
+          this.user_location = this.$store.state.loginUserDTO.user_location
+      } else {
+          this.user_location = this.user_location
+      }
+
+      if(this.user_birth == '') {
+          this.user_birth = this.$store.state.loginUserDTO.user_birth
+      } else {
+          this.user_birth = this.user_birth
+      }
+
       const data = {
         user_nick: this.user_nick,
         status_message: this.status_message,
         user_location: this.user_location,
         user_no: this.$store.state.loginUserDTO.user_no,
         user_birth: this.user_birth,
-        back_image: this.back_image
+        uploadImage: this.uploadImage,
+        imgbbImg: this.imgbbImg
       }
       this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((res) => {
-        console.log(res)
-        this.$store.commit('addLoginUser', res.data)
-        this.$router.push({
-          path: '/main/mypage'
-        })
-      }).catch(error => {
-        console.log(error)
+          }).then((res) => {
+            console.log(res)
+            // this.$store.commit('addLoginUser', res.data)
+            // this.$router.push({
+            //   path: '/main/mypage'
+            // })
+          }).catch(error => {
+            console.log(error)
+          })
+    },
+    renameFile (originalFile, newName) { // 파일명 변경
+      return new File([originalFile], newName, {
+        type: originalFile.type
       })
-    }
+    },
+    uuidFileName (originalName) { // UUID 파일명 생성
+      const onLength = originalName.length
+      const indexDot = originalName.lastIndexOf('.')
+      const fileExtension = originalName.substring(indexDot + 1, onLength)
+      const uuid = self.crypto.randomUUID()
+      return `${uuid}.${fileExtension}`
+    },
+    handleFileUpload(event) {
+      const newName = this.uuidFileName(this.$refs.files.files[0].name);
+      this.files = this.renameFile(this.$refs.files.files[0], newName);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(this.files);
+      reader.onloadend = (e) => {
+        if (e.target.readyState === FileReader.DONE) {
+          if (e.target.result) {
+            this.imgbbImg = e.target.result;
+          }
+          else {
+            console.error("파일을 읽는 중에 오류가 발생했습니다.");
+          }
+          this.uploadImage = URL.createObjectURL(this.files)
+          this.profile_image = this.uploadImage
+
+          console.log("uploadImage = "  + this.uploadImage)
+        }
+      }
+    },
+    uploadImgToImgbb () {
+      const body = new FormData()
+      body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
+      body.append('image', this.imgbbImg.split(',').pop())
+      body.append('expiration', 15552000)
+      this.$axios.post('https://api.imgbb.com/1/upload', body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        this.imgbbImgURL = res.data.data.url
+        console.log("res.data.data.url = " + res.data.data.url)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   }
 }
 
-// $(document).ready(function () {
-//     const now = new Date()
-//     const year = now.getFullYear()
-//     const mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1) : '0' + (now.getMonth() + 1)
-//     const day = (now.getDate()) > 9 ? '' + (now.getDate()) : '0' + (now.getDate())
-//   // 년도 selectbox만들기
-//   // eslint-disable-next-line no-var
-//     for (var i = 1900; i <= year; i++) {
-//         $('#year').append('<option value="' + i + '">' + i + '년</option>')
-//     }
-
-//   // 월별 selectbox 만들기
-//   // eslint-disable-next-line no-var, no-redeclare
-//     for (var i = 1; i <= 12; i++) {
-//         const mm = i > 9 ? i : '0' + i
-//         $('#month').append('<option value="' + mm + '">' + mm + '월</option>')
-//     }
-
-//   // 일별 selectbox 만들기
-//   // eslint-disable-next-line no-var, no-redeclare
-//     for (var i = 1; i <= 31; i++) {
-//         const dd = i > 9 ? i : '0' + i
-//         $('#day').append('<option value="' + dd + '">' + dd + '일</option>')
-//     }
-//     $('#year  > option[value=' + year + ']').attr('selected', 'true')
-//     $('#month  > option[value=' + mon + ']').attr('selected', 'true')
-//     $('#day  > option[value=' + day + ']').attr('selected', 'true')
-// })
 </script>
 
 <style scoped>
@@ -226,5 +282,61 @@ export default {
 }
 .profile__imageFile[data-v-bd41d840] {
   border: 7px solid white;
+}
+
+#yotube-frame {
+  width: 100%;
+  height: 100%;
+ }
+
+ /* 이미지 업로드 버튼 꾸미기 CSS */
+ .filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#addImage{
+    width:  23px;
+    height: 23px;
+    margin:0 0 0 10%;
+}
+
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#addImage{
+    width:  23px;
+    height: 23px;
+    margin:0 0 0 10%;
 }
 </style>
