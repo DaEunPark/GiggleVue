@@ -3,9 +3,6 @@
         <article class="my-3" id="userFeedList">
             <div class="row row-cols-auto">
                 <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="userFeedList_GF">
-                    <!-- <div  v-for="(itemm , idx) in itemss" :key="{idx}"> -->
-                         <!-- <div v-if="usershow.user_no[idx] == item.user_no[idx]"> -->
-                    <!-- <div v-if="$store.state.userfeedList.user_nick[0] == item.user_nick[idx]"></div> -->
 
                          <div class="col"> <!-- style="margin-left:20px; position: fixed;"-->
                             <!--로그인 유저일 경우-->
@@ -17,13 +14,11 @@
                             <div v-if="$store.state.loginUserDTO.user_no != item.user_no">
                             <router-link to="/main/mypage:user_no"><img :src="item.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile"></router-link>
                             <router-link to="/main/mypage:user_no"><p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></router-link>
-                            </div></div>
-                         </div>
-
-                    <!-- </div> -->
-                <!-- </div> -->
+                            </div>
+                        </div>
+                        
+                </div>
             </div>
-
         </article>
     </div>
 </template>
@@ -53,5 +48,9 @@ export default {
 }
 #userFeedList_GI:hover {
     background-color: #efefef;
+}
+.FeedList_username {
+    font-weight: bold;
+    color:black;
 }
 </style>

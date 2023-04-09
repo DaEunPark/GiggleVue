@@ -88,7 +88,7 @@ export default {
       ]
     },
     searchresultshow (keyword) {
-    // console.log("searchresultshow 결과화면으로 이동");
+      // console.log("searchresultshow 결과화면으로 이동");
       this.keyword = keyword
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
@@ -99,12 +99,11 @@ export default {
             }
           })
           console.log('"', keyword, '"' + '검색')
-          // console.log(res)
           this.allfeedList = res.data
         }
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
-        // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           alert('검색어를 입력해주세요')
         }
       })
