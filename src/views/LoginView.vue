@@ -75,7 +75,9 @@
 <!-- 비밀번호찾기 Modal 끝 -->
 
         <div class="card border-primary mb-3" style="max-width: 400px;">
-            <div class="card-header"><div class="inHeader"></div></div>
+
+            <div class="card-header login_card-header"></div>
+
                 <div class="card-body">
                         <div class="form">
                             <form>
@@ -90,15 +92,15 @@
                                     maxlength="15" v-on:keydown.enter="login()" @keydown="checkPwd()" @input="user_pwd" required>
                                     <p id="pwdErrorMsg">{{ pwdErrorMsg }}</p>
                                 </div>
-                                <div class="mb-3 form-check" v-if="this.$store.state.checked!='0' && this.$store.state.checked!='1'">
+                                <div class="mb-2 form-check" v-if="this.$store.state.checked!='0' && this.$store.state.checked!='1'">
                                     <input type="checkbox" class="form-check-input" id="remember" v-if="this.$store.state.checked!='0' && this.$store.state.checked!='1'">
                                     <label class="form-check-label" for="check">remember</label>
                                 </div>
-                                <div class="mb-3 form-check" v-if="this.remember=='0'">
+                                <div class="mb-2 form-check" v-if="this.remember=='0'">
                                     <input type="checkbox" class="form-check-input" id="remember" v-if="this.remember == '0'">
                                     <label class="form-check-label" for="check">remember</label>
                                 </div>
-                                <div class="mb-3 form-check" v-if="this.remember==1">
+                                <div class="mb-2 form-check" v-if="this.remember==1">
                                     <input type="checkbox" class="form-check-input" id="remember" v-if="this.remember == 1" checked>
                                     <label class="form-check-label" for="check">remember</label>
                                 </div>
@@ -107,22 +109,25 @@
                                                 || this.user_pwd.length<4">Login</button>
                             </form>
                             <hr/>
-                            <div class="social"><GoogleLogin></GoogleLogin>
+                            <div class="social mb-2"><GoogleLogin></GoogleLogin>
                             <NaverLogin></NaverLogin></div>
 
-                            <div>
-                                <button type="button" id="findId" class="btn btn-sm" onclick="location.href='#findId'"
+                            <div class="bottomWrap">
+                              <div class="findWrap">
+                                <button type="button" id="findId" class="btn btn-link find_btn" onclick="location.href='#findId'"
                                     data-bs-toggle="modal"
                                     data-bs-target="#findId">
-                                    <span>아이디찾기</span>
+                                    <p class="mb-0">아이디</p>
                                 </button>
-                                <button type="button" id="findPwd" class="btn btn-sm" onclick="location.href='#findPwd'"
+                                <p class="mb-0">/</p>
+                                <button type="button" id="findPwd" class="btn btn-link find_btn" onclick="location.href='#findPwd'"
                                     data-bs-toggle="modal"
                                     data-bs-target="#findPwd">
-                                    <span>비밀번호찾기</span>
+                                    <p class="mb-0">비밀번호 찾기</p>
                                 </button>
-                                <button type="button" id="join" class="btn btn-sm" onclick="location.href='/register'">
-                                    <span>회원가입</span>
+                              </div>
+                                <button type="button" id="join" class="btn btn-link find_btn btn-sm" onclick="location.href='/register'">
+                                    <p>아직 Giggle의 회원이 아니신가요?</p>
                                 </button>
                             </div>
                         </div>
@@ -348,9 +353,11 @@ export default {
     background-repeat: no-repeat;
     background-position: fixed;
 }
-.inHeader {
+
+.login_card-header {
     height:100px;
     background-image: url("../assets/Glogo.png");
+    background-position: center;
     background-size:150px;
     background-repeat: no-repeat;
     margin: 0 28%;
@@ -362,6 +369,17 @@ export default {
 .card {
     margin:6% auto;
 }
+.findWrap {
+  display : flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+}
+.bottomWrap{
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+}
 #email, #password, #loginService, #google {
     margin:    5% 0%;
 }
@@ -372,8 +390,10 @@ export default {
     color:  black;
     text-decoration: none;
     font-weight: bold;
-    font-size: 17px;
-    margin:auto 3%;
+    margin: 0 10px;
+    padding : 0;
+    font-size : 13px;
+    font-weight: 900;
 }
 #findId:hover, #findPwd:hover, #join:hover {
     color:  #ed5c9d ;

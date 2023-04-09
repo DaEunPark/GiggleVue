@@ -27,42 +27,28 @@
               <div v-for="(chatRoom, i) in chatRoomList" :key="i">
                 <li>
                     <a @click="openChatRoom(chatRoom.chatroom_no)">
-                      <img class="dmListImg" name="profile" id="profile" v-bind:src="chatRoom.profile_image">
-                      <div>
-                          <p class="dmListNick">{{chatRoom.user_nick}}</p>
+                      <img v-if="chatRoom.user1 == 0 || chatRoom.user2 == 0" class="dmListImg" name="profile" id="profile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2I0cfUaQK7bSG8L8q4cImt2i0qhd6XwNdeg&usqp=CAU">
+                      <img v-else class="dmListImg" name="profile" id="profile" v-bind:src="chatRoom.profile_image">
+                      <div class="dmListContent">
+                          <p v-if="chatRoom.user1 == 0 || chatRoom.user2 == 0" class="dmListNick">알 수 없음</p>
+                          <p v-else class="dmListNick">{{chatRoom.user_nick}}</p>
                           <div v-if="chatRoom.recent_message.length < 16">
                             <p class="dmListText">
                               {{chatRoom.recent_message}}
                             </p>
                           </div>
-                          <div v-else>
+                          <div v-else style="width: 100%;">
                             <p class="dmListText">
-                              {{chatRoom.recent_message.substr(0, 15)}}...
+                              {{chatRoom.recent_message.substr(0, 15) + "..."}}
                             </p>
                           </div>
                       </div>
-                    </a>
-                </li>
-              </div>
-              <!-- 새로 추가된 채팅방리스트가 보여질 부분 -->
-              <div v-for="(chatRoom, i) in newChatList" :key="i">
-                <li>
-                    <a @click="openChatRoom(chatRoom.chatroom_no)">
-                      <img class="dmListImg" name="profile" id="profile" v-bind:src="chatRoom.profile_image">
-                      <div>
-                          <p class="dmListNick">{{chatRoom.user_nick}}</p>
-                          <div v-if="chatRoom.recent_message != null & chatRoom.recent_message.length < 16">
-                            <p class="dmListText">
-                              {{chatRoom.recent_message}}
-                            </p>
-                          </div>
-                          <div v-else>
-                            <p class="dmListText">
-                              {{chatRoom.recent_message.substr(0, 15)}}...
-                            </p>
-                          </div>
+                      <div class="dmListCheck">
+                        <p v-if="chatRoom.user1 == this.$store.state.loginUserDTO.user_no & chatRoom.user1_yn == 'Y'"><span class="badge bg-primary">N</span></p>
+                        <p v-else-if="chatRoom.user2 == this.$store.state.loginUserDTO.user_no & chatRoom.user2_yn == 'Y'"><span class="badge bg-primary">N</span></p>
                       </div>
                     </a>
+                    <div class="clear"></div>
                 </li>
               </div>
             </ul>
@@ -73,8 +59,7 @@
             <!--조건에 따라 다르게 보여줌 -->
             <!--시작한 대화가 없을 때-->
             <div id="noChatDiv" v-if="!open">
-                <p>친구에게 사진과 메세지를 보내보세요.</p>
-                <button type="button" class="btn btn-primary">send</button>
+                <p>친구에게 메세지를 보내보세요.</p>
             </div>
             <!--대화 메세지 부분 -->
             <div v-else style="height: 100%;">
@@ -82,32 +67,33 @@
               <div id="dmInfo">
                   <img v-bind:src="this.nowChatUserProfile" class="dmWindowImg"/>
                   <p class="dmWindowNick">{{this.nowChatUserNick}}</p>
+                  <button @click="deleteChatRoom" type="button" class="btn btn-success">나가기</button>
               </div>
               <ul id="yesChatUl">
                 <div v-for="(message, i) in messageList" :key="i">
                   <!-- 로그인한 사람의 텍스트일 때-->
-                  <div v-if="message.user_no == this.$store.state.loginUserDTO.user_no">
-                    <li>
+                    <li v-if="message.user_no == this.$store.state.loginUserDTO.user_no">
                         <div class="dmFrom">
                           <p>{{message.message_content}}</p>
                         </div>
                         <div class="clear"></div>
+                        <p class="dmFromDate">{{message.message_sendtime}}</p>
+                        <div class="clear"></div>
                     </li>
-                  </div>
                   <!-- 로그인한 사람의 텍스트가 아닐 때 -->
-                  <div v-else>
-                    <li>
+                    <li v-else>
                         <div class="dmTo">
                           <p>{{message.message_content}}</p>
                         </div>
                         <div class="clear"></div>
+                        <p class="dmToDate">{{message.message_sendtime}}</p>
+                        <div class="clear"></div>
                     </li>
-                  </div>
                 </div>
               </ul>
 
               <!--메세지 입력 부분-->
-              <div id="DMTextInputDiv" v-if="true">
+              <div id="DMTextInputDiv">
                 <textarea
                     v-model="message"
                     v-on:keydown.enter="sendMessage"
@@ -151,37 +137,24 @@ export default ({
   },
   computed: {
     addChatRoom (chatRoom) {
-      // eslint-disable-next-line vue/no-mutating-props, vue/no-side-effects-in-computed-properties
       return this.chatRoomList.push(chatRoom)
     }
   },
   methods: {
-    openSearchList () {
-      // 검색 결과 창을 보여준다.
-      document.getElementById('DMSearchUl').style.visibility = 'visible'
+    openSearchList() {
+      if(this.keyword !== '') {
+        //키워드가 이미 존재하면 창을 보여준다.
+        document.getElementById('DMSearchUl').style.visibility = 'visible'
+      }
     },
-    // hideSearchList () {
-    //   // 마우스가 유저 검색 리스트에 있을때는 창을 보여준다.
-    //   const userList = document.getElementById('DMSearchUl')
-    //   let ishover = false
-
-    //   userList.onmouseover = function () {
-    //     ishover = true
-    //     // alert("mouseover " + ishover)
-    //   }
-    //   userList.onmouseout = function () {
-    //     ishover = false
-    //     // alert("mouseout " + ishover)
-    //   }
-
-    //   if (ishover) {
-    //     document.getElementById('DMSearchUl').style.visibility = 'visible'
-    //   } else {
-    //     document.getElementById('DMSearchUl').style.visibility = 'hidden'
-    //   }
-    //   // document.getElementById("DMSearchUl").style.visibility = "hidden"
-    // },
     searchUser () {
+
+      //입력한 키워드가 있으면 리스트 창을 보여주고 아니면 숨긴다
+      if(this.keyword !== '') {
+        document.getElementById('DMSearchUl').style.visibility = 'visible'
+      } else {
+        document.getElementById("DMSearchUl").style.visibility = "hidden"
+      }
       // 검색한 키워드로 유저를 찾아서 뿌려준다.
       axios
         .get(this.$serverUrl + '/mj/searchUser/' + this.keyword)
@@ -209,10 +182,10 @@ export default ({
           }
 
           // 처음 가져왔던 채팅방 리스트에 해당 채팅방정보가 없으면 추가해준다.
-          // eslint-disable-next-line eqeqeq
           if (count == 0) {
           // 새롭게 추가된 채팅 리스트에 추가해준 후,
-            this.newChatList.push(res.data)
+            //this.newChatList.push(res.data)
+            this.chatRoomList.push(res.data)
             console.log('채팅방 없음/ 추가함 ')
             console.log(this.newChatList)
             // 해당 채팅방을 열어준다.
@@ -236,31 +209,76 @@ export default ({
       this.open = true
       this.nowChatRoom = chatroomNo
 
+      //기존의 채팅방
       for (let i = 0; i < this.chatRoomList.length; i++) {
-        // 채팅방 리스트에서 채팅방 번호에 해당하는 데이터 중 상대방 닉네임, 프로필 사진을 뽑아낸다.
+
         if (this.chatRoomList[i].chatroom_no === chatroomNo) {
-          this.nowChatUserNick = this.chatRoomList[i].user_nick
-          this.nowChatUserProfile = this.chatRoomList[i].profile_image
+          //클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
+          if(this.chatRoomList[i].user1 == 0 || this.chatRoomList[i].user2 == 0) {
+            //상대방이 나간 채팅방이라면 상대방 정보를 다르게 세팅한다.
+            this.nowChatUserNick = '알 수 없음'
+            this.nowChatUserProfile = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2I0cfUaQK7bSG8L8q4cImt2i0qhd6XwNdeg&usqp=CAU'
+          } else {
+            //상대방이 있다면 상대방의 정보를 세팅한다.
+            this.nowChatUserNick = this.chatRoomList[i].user_nick
+            this.nowChatUserProfile = this.chatRoomList[i].profile_image
+          }
+
+          //새로운 메세지 유무 상태를 업데이트 한다.
+          if(this.chatRoomList[i].user1 == this.$store.state.loginUserDTO.user_no) {
+            this.chatRoomList[i].user1_yn = "N"
+          } else {
+            this.chatRoomList[i].user2_yn = "N"
+          }
         }
       }
-
-      // 채팅방의 대화 목록을 가져온다.
       axios
-        .get(this.$serverUrl + '/mj/getMessageList/' + chatroomNo)
+        .post(this.$serverUrl + '/mj/getMessageList', {
+          chatroom_no : chatroomNo,
+          user_no: this.$store.state.loginUserDTO.user_no
+        })
         .then(res => {
           this.messageList = res.data
         })
+      //스크롤 위치를 아래로 내린다.
+      window.setTimeout(this.scrollDown, 200);
+
+      //메세지 입력창에 포커스를 준다.
+      document.getElementById("chat_content").focus()
     },
     sendMessage () {
       // 텍스트 입력창에 입력한 값이 있을 때
       if (this.message !== '') {
+
+        //현재 날짜와 시간을 구한다.
+        let myDate = new Date()
+        let yy = String(myDate.getFullYear())  
+        let mm = myDate.getMonth() + 1  
+        let dd = String(myDate.getDate() < 10 ? '0' + myDate.getDate() : myDate.getDate())  
+        let hou = String(myDate.getHours() < 10 ? '0' + myDate.getHours() : myDate.getHours())  
+        let min = String(myDate.getMinutes() < 10 ? '0' + myDate.getMinutes() : myDate.getMinutes())  
+        let sec = String(myDate.getSeconds() < 10 ? '0' + myDate.getSeconds() : myDate.getSeconds())  
+        let nowDate = yy + '-' + mm + '-' + dd  
+        let nowTime = hou + ':' + min + ':' + sec
+        let messageDate = nowDate + " " + nowTime
+        //메세지DTO를 만든다
         const messageDTO = {
           chatroom_no: this.nowChatRoom,
           user_no: this.$store.state.loginUserDTO.user_no,
-          message_content: this.message
+          message_content: this.message,
+          message_sendtime: messageDate
         }
         // 현재 채팅방에 뿌려주고
         this.messageList.push(messageDTO)
+        //스크롤 위치를 아래로 내린다.
+        window.setTimeout(this.scrollDown, 50);
+        //최근 대화 부분을 해당 메세지로 바꿔준다.
+        for(let i = 0; i < this.chatRoomList.length; i++) {
+          if(this.chatRoomList[i].chatroom_no == this.nowChatRoom) {
+            this.chatRoomList[i].recent_message = this.message
+          }
+        }
+
         // db에 저장한다.
         axios
           .post(this.$serverUrl + '/mj/addMessage', {
@@ -271,9 +289,36 @@ export default ({
           .then(res => {
             console.log(res.data)
           })
+
         // 메세지를 지워준다.
         this.message = ''
       }
+    },
+    deleteChatRoom() {
+      if(confirm("현재 채팅방을 나가시겠습니까? 보낸 메세지는 모두 삭제됩니다.")) {
+        //채팅방 리스트에서 해당 채팅방번호를 찾아서 삭제한다.
+        for(var i = 0; i < this.chatRoomList.length; i++) {
+          if(this.chatRoomList[i].chatroom_no === this.nowChatRoom) {
+            this.chatRoomList.splice(i, 1)
+            this.open = false
+          }
+        }
+        axios
+        .post(this.$serverUrl + "/mj/deleteChatRoom", {
+          chatroom_no: this.nowChatRoom,
+          user1: this.$store.state.loginUserDTO.user_no
+        })
+        .then(res => {
+          if(res.data === 1) {
+            console.log("db에서 삭제 완료")
+          }
+        })
+      }
+    },
+    scrollDown() {
+      //메세지 리스트 ul의 스크롤을 내린다.
+      var messageUl = document.getElementById("yesChatUl")
+      messageUl.scrollTop = messageUl.scrollHeight
     }
   }
 })
@@ -336,6 +381,7 @@ export default ({
   margin-left: 5px;
   margin-top: 5px;
   width: 50px;
+  height: 50px;
 }
 #DMSearchUl a > p {
   display: inline-block;
@@ -348,7 +394,7 @@ export default ({
   list-style: none;
   margin-top: 10px;
   width: 100%;
-  height: 85%;
+  height: 444px;
   overflow-y: scroll;
   padding: 0;
   z-index: 1 !important;
@@ -372,22 +418,29 @@ export default ({
   margin-left: 5px;
   margin-top: 5px;
   width: 60px;
+  height: 60px;
 }
-#DMListUl a div {
+.dmListContent {
     display: inline-block;
     text-align: left;
-    width: 75%;
+    width: 65%;
     padding: 10px;
 }
 .dmListText {
     margin: 0;
     color: #454445;
     font-size: 13px;
+    width: 100%;
 }
 .dmListNick {
     margin: 0px;
     color: #000 !important;
     font-weight: 600;
+}
+.dmListCheck {
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
 }
 #DMListUl a:hover {
   background-color: #ccc;
@@ -423,6 +476,7 @@ export default ({
 #dmInfo img {
     display: inline-block;
     width: 50px;
+    height: 50px;
     margin-left: 5px;
     margin-bottom: 5px;
     border-radius: 50%;
@@ -431,10 +485,17 @@ export default ({
     display: inline-block;
     margin: 20px;
 }
+#dmInfo button {
+  padding: 5px 10px;
+  font-size: 12px;
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+}
 #yesChatUl {
   list-style: none;
   overflow-y: scroll;
-  height: 70%;
+  height: 380px;
   padding-left: 30px;
 }
 #yesChatUl::-webkit-scrollbar-track {
@@ -450,20 +511,19 @@ export default ({
 }
 .dmTo {
   text-align: left;
+  float: left;
   background-color: #ccc;
   color: #000;
   position: relative;
   padding: 10px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  display: inline-block;
   width: auto;
   height: auto;
   max-width: 60%;
-  float: left;
 }
 .dmTo:after {
   content: "";
@@ -479,11 +539,16 @@ export default ({
 }
 .dmTo > p {
   margin: 0;
-  display: inline-block;
+}
+.dmToDate {
+  float: left;
+  font-size: 10px;
+  color: #454445;
+  margin-bottom: 5px
 }
 .dmFrom {
   text-align: left;
-  margin: 10px 30px 10px 0px;
+  margin: 10px 30px 3px 0px;
   position: relative;
   max-width: 60%;
   padding: 10px;
@@ -513,6 +578,13 @@ export default ({
 .dmFrom > p {
   margin: 0;
   overflow: inherit;
+}
+.dmFromDate {
+  float: right;
+  font-size: 10px;
+  margin-right: 30px;
+  margin-bottom: 5px;
+  color: #454445;
 }
 #DMTextInputDiv {
   display: inline-block;

@@ -1,25 +1,12 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
-    <aside class="sidebar">
+    <aside class="sidebar col-3">
       <header class="sidebar-header">
-        <div class="user_img_box" >
-
-            <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
-                 onclick="location.href='/main/mypage'"/> -->
-
+        <div class="user_img_box">
+            <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`">
         </div>
       </header>
       <nav>
-
-        <img src="@/assets/Glogo.png" id="glogo"/>
-        <button type="button" @click="getProfile()">
-          <span>
-              <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
-                  >
-            <span> {{ this.$store.state.loginUserDTO.user_nick }}</span>
-          </span>
-        </button>
-
         <button type="button" onclick="location.href='/main/mainhome' ">
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="m20 8l-6-5.26a3 3 0 0 0-4 0L4 8a3 3 0 0 0-1 2.26V19a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8.75A3 3 0 0 0 20 8Zm-6 12h-4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1Zm5-1a1 1 0 0 1-1 1h-2v-5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v5H6a1 1 0 0 1-1-1v-8.75a1 1 0 0 1 .34-.75l6-5.25a1 1 0 0 1 1.32 0l6 5.25a1 1 0 0 1 .34.75Z"/></svg>
@@ -37,38 +24,40 @@
           </span>
         </button>
 
-        <button type="button" onclick="location.href='#directMessage'"
+        <button type="button" @click="openMessage" onclick="location.href='#directMessage'"
             data-bs-toggle="modal"
             data-bs-target="#directMessage">
-          <span >
+          <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="M21.15 2.86a2.89 2.89 0 0 0-3-.71L4 6.88a2.9 2.9 0 0 0-.12 5.47l5.24 2a.93.93 0 0 1 .53.52l2 5.25A2.87 2.87 0 0 0 14.36 22h.07a2.88 2.88 0 0 0 2.69-2l4.73-14.17a2.89 2.89 0 0 0-.7-2.97ZM20 5.2l-4.78 14.18a.88.88 0 0 1-.84.62a.92.92 0 0 1-.87-.58l-2-5.25a2.91 2.91 0 0 0-1.67-1.68l-5.25-2A.9.9 0 0 1 4 9.62a.88.88 0 0 1 .62-.84L18.8 4.05A.91.91 0 0 1 20 5.2Z"/></svg>
 
             <span>MESSAGES</span>
+            <p v-if="this.$store.state.loginUserDTO.message_yn == 'Y'" class="badge bg-primary YN">N</p>
           </span>
         </button>
-
 <a href="#editorview" data-bs-toggle="modal"
-            data-bs-target="#editorview"
-            class="hover-change-color"
-            @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="padding:5 5 5 5;">
+            data-bs-target="#editorview" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg></span></a>
 
-            <button type="button" @click="logout()">
-                      <span>
-                        <span><font-awesome-icon icon="fa-solid fa-right-from-bracket" style="color: #000000;" />&nbsp;&nbsp;Logout</span>
-                      </span>
-            </button>
-        <!-- <button type="button" onclick="location.href='/main/setting'">
+<button type="button" @click="logout()">
+          <span>
+            <span>Logout</span>
+          </span>
+</button>
+
+        <button>
+
           <span>
             <i class="uil uil-bars"> </i>
-            <p><span>more</span></p>
+            <p><span>More</span></p>
           </span>
-        </button> -->
+        </button>
       </nav>
     </aside>
+
+
 
     <!-- 알림 Modal 시작 -->
     <div
@@ -129,7 +118,7 @@
             ></button>
           </div>
             <!--modal body-->
-            <DMBody :chatRoomList="chatRoomList" @addedChatList="(chatRoom) => this.chatRoomList.push(chatRoom)"></DMBody>
+            <DMBody :chatRoomList="chatRoomList"></DMBody>
         </div>
         </div>
     </div>
@@ -145,16 +134,14 @@
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true">
         <div
-          class="modal-dialog  modal-dialog-centered"
+          class="modal-dialog modal-dialog-centered"
           role="document"
         >
           <div class="modal-content">
             <div class="modal-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
               </svg>
-
               <button
                 type="button"
                 class="btn-close btn-close-white"
@@ -162,12 +149,11 @@
                 aria-label="Close"
               >
               </button>
-
-            </div>
                 <!--modal body-->
                 <EditorBody></Editorbody>
-              </div>
             </div>
+          </div>
+      </div>
 
   </div>
   <!-- Editor Modal 끝 -->
@@ -184,7 +170,6 @@ export default {
     return {
       alarmList: [],
       chatRoomList: [],
-      email: ''
     }
   },
   components: { DMBody, AlarmBody, EditorBody },
@@ -208,7 +193,7 @@ export default {
     getAlarmList () {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if (res.data !== '') {
+          if (res.data !== "") {
             console.log('알람 있음' + res.data)
             this.alarmList = res.data
           } else {
@@ -221,21 +206,23 @@ export default {
           }
         })
     },
-    getChatRoomList () {
-      this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
+    getChatRoomList() {
+       this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if (res.data !== '') {
-            console.log('채팅방 있음' + res.data[0].user_nick)
+          if(res.data !== "") {
+            console.log("채팅방 있음" + res.data[0].user_nick)
             this.chatRoomList = res.data
-            this.$store.commit('putChatRoom', res.data)
           } else {
-            console.log('채팅방 없음')
+            console.log("채팅방 없음")
           }
         })
     },
-    getProfile () {
-      this.$router.push({
-        path: '/main/mypage'
+    openMessage() {
+      this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
+      .then(res => {
+        this.$store.state.loginUserDTO.message_yn = "N"
+        console.log(this.$store.state.loginUserDTO.message_yn)
+        location.href='#directMessage'
       })
     }
   },
@@ -296,7 +283,6 @@ span {-webkit-text-fill-color: black;}
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 350px;
     height: 100%;
     padding: 40px 10px 30px 10px;
     background: #ffffff;
@@ -306,6 +292,7 @@ span {-webkit-text-fill-color: black;}
 
   .sidebar-header {
     width: 100%;
+    margin-bottom: 44px;
   }
 
   .logo-icon {
@@ -353,7 +340,7 @@ span {-webkit-text-fill-color: black;}
     transition: 0.3s;
   }
 
-  @media (width < 1000px) {
+  @media (width < 580px) {
     .logo-img {
       display: none;
     }
@@ -436,7 +423,7 @@ span {-webkit-text-fill-color: black;}
     margin-top: auto;
   }
 
- /* modal 공통 css */
+ modal 공통 css
 .modal {
   --bs-modal-width: 100%;
   --bs-modal-height: 100%;
@@ -445,7 +432,6 @@ span {-webkit-text-fill-color: black;}
   width: 50%;
   height: 90%;
 }
-
 .modal-content {
   background-color: #fff;
   color: #000;
@@ -486,16 +472,15 @@ span {-webkit-text-fill-color: black;}
 }
 .modal-body {
   padding: 0px 20px 10px 20px;
-  height: 100%;
+  height: 550px;
 }
-
 #profic {
   margin-left: 100%;
 }
-#glogo {
-  width: 40%;
-  height:auto;
-  margin: 0 28%;
-  margin-bottom: 10%;
+.YN {
+  color: #FFF;
+  margin-top: 5%;
+  margin-left: 45%;
+  font-size: 12px;
 }
 </style>
