@@ -1,10 +1,9 @@
 <template>
   <div style="background-color: #fff;"  class="overflow-auto">
-      <br/><br/><br/>
       <!-- :style="{ backgroundImage: `url(${this.$store.state.loginUserDTO.back_image})` }"-->
               <!--프로필 부분-->
                       <!-- <div class="user_profile_box"> -->
-            <div>
+            <div class="backimg">
               <img v-bind:src="`${this.$store.state.loginUserDTO.back_image}`" id="backimg"/>
             </div>
             <div class="user_profile_box" id="profile_box">
@@ -93,7 +92,7 @@ export default {
 * {-webkit-text-fill-color: black;}
 
 .user_main_body{
-    width: 975px;
+    width: 100%;
     height: 1000px;
     margin: 90px auto 0 auto;
     padding: 30px 20px 0px;
@@ -205,8 +204,11 @@ export default {
   margin-top: 8%;
   margin-bottom: 1%;
 }
+.backimg{
+  width : 100%;
+}
 #backimg {
-  width: 90%;
+  width: 100%;
   height: 200px;
 }
 #settingButton {
@@ -219,7 +221,7 @@ export default {
   height: 20px;
 }
 #profile_box {
-  width: 90%;
+  width: 100%;
   padding-bottom: 35px;
 }
 .status_message {

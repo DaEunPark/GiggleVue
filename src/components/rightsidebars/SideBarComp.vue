@@ -1,17 +1,12 @@
 <template>
     <div class="sidebar">
-        <div id="blank" style="height: 3rem;"></div>
-        <div id="search" class="sticky-top">
-            <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
-                        <input type="text" v-model="keyword"  class="form-control text-dark bg-white"
-                            @keydown.enter="searchresultshow(keyword)" placeholder="검색어를 입력하세요"
-                            aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
-                            data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
-                    </div>
-                </div>
+        <div id="search" class="sticky-top form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
+            <div class="input-group mb-2">
+                <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
+                <input type="text" v-model="keyword"  class="form-control text-dark bg-white"
+                    @keydown.enter="searchresultshow(keyword)" placeholder="검색어를 입력하세요"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
+                    data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
             </div>
 
             <div class="collapse" id="collapseSearch"  v-show="showURL">
@@ -46,11 +41,10 @@
 
         <!-- 트렌드 -->
         <div id="trend" v-show="showURL">
-            <div class="card bg-light mb-3 border-round-radius" >
+            <div class="trandWrap mb-2 border-round-radius" >
                 <div class="list-group">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-dark fw-bold">나를 위한 트렌드</span>
-
                     </div>
                     <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
@@ -64,9 +58,9 @@
 
         <div id="test1" class="sticky-top">
             <!-- 팔로우 추천 -->
-            <div id="recommendfolow">
-                <div class="card bg-light mb-3 border-round-radius">
-                    <div class="list-group" style="border-radius: 1em;">
+            <div id="recommendfollow">
+                <div class="recommendfollowWrap mb-2 border-round-radius">
+                    <div class="list-group">
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="text-dark fw-bold">팔로우 추천</span>
                         </div>
@@ -84,21 +78,21 @@
 
                         </router-link>
                         <a href="#" @click="replaceTo('/main/bootstraptest')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
-                    </div><!-- <div class="list-group"> -->
+                    </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
 
             <footer class="text-dark text-nowrap text-size-custom" style="font-size: xx-small;">
-                <div class="d-flex flex-row">
-                    <div class="p-2">이용약관</div>
-                    <div class="p-2">개인정보 처리방침</div>
-                    <div class="p-2">쿠키 정책</div>
-                    <div class="p-2">접근성</div>
+                <div class="d-flex flex-row footer_row">
+                    <div>이용약관</div>
+                    <div>개인정보 처리방침</div>
+                    <div>쿠키 정책</div>
+                    <div>접근성</div>
                 </div>
-                <div class="d-flex flex-row" style="margin-top: -30px;">
-                    <div class="p-2">광고 정보</div>
-                    <div class="p-2">더보기 ...</div>
-                    <div class="p-2">@2023 Giggle</div>
+                <div class="d-flex flex-row footer_row">
+                    <div>광고 정보</div>
+                    <div>더보기 ...</div>
+                    <div>@2023 Giggle</div>
                 </div>
             </footer>
 
@@ -203,8 +197,28 @@ export default {
         /* height: inherit; */
         /* display: flex; */
         top: 0;
+        right : 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width : 350px;
         height: 100%;
-        max-width: 20em;
+        padding : 0;
+        background: #ffffff;
+        border-left: 1px solid #dbdbdb;
+    }
+    .form-group {
+        margin : 0 12px;
+        width : 100%;
+    }
+    .trandWrap, .recommendfollowWrap{
+        margin-left : 12px;
+        width : 100%;
+        background-color:  #f0f0f0;
+ 
+    }
+    #recommendfollow{
+        width : 350px; 
     }
     .profile-wrapper {
         width: 50px;
@@ -238,14 +252,21 @@ export default {
         top: 3.5em;
         z-index: 0;
     }
-
     #collapseSearch {
         margin-top: -20px !important;
         padding-top: 0 !important;
+        }
+    .footer_row{
+        display : flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left : 12px;
+        padding : 0 20px;
     }
-
     .list-group {
         border-radius: 1em;
+        width : 100%;
+        box-shadow: none;
     }
 
 </style>
