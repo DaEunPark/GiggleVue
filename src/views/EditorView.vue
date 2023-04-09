@@ -5,7 +5,7 @@
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>
 
-                <div> <span class="text-dark">{{ localImages.length }}</span>
+                <div>
                   <div id="imageuploadarea">
                     <div>
                       <div class="wrap">
@@ -253,7 +253,7 @@ textarea {
   cursor: pointer;
 }
 #img-files {
-  /* display: none; */
+  display: none;
 }
 
 .wrap {

@@ -12,8 +12,8 @@
         <input type="file" ref="files" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
     </div>
     <br/>
-    <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button>
-    <button class="btn btn-info" @click="uploadImgToServer()">등록 s3</button>
+    <button class="btn btn-success" @click="uploadImgToImgbbtest()">등록 imgbb</button>
+    <button class="btn btn-info" @click="uploadImgToServertest()">등록 s3</button>
     <br/>
     <h3 class="text-dark">원본</h3>
     <img :src="uploadImage" style="width: 80%; height: 80%;">
@@ -28,7 +28,7 @@
     <!-- Image Delete Test Start -->
     <div >
       <input type="text" v-model="imagefilename" class="text-dark" >
-      <button class="btn btn-warning" @click="deleteImgFromServer()">삭제</button>
+      <button class="btn btn-warning" @click="deleteImgFromServertest()">삭제</button>
     </div>
     <br/><br/><br/><hr/><br/>
     <!-- Image Delete Test End -->
@@ -387,7 +387,7 @@ export default {
 
       this.uploadImage = URL.createObjectURL(this.files)
     },
-    uploadImgToImgbb () {
+    uploadImgToImgbbtest () {
       const body = new FormData()
       body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
       body.append('image', this.imgbbImg.split(',').pop())
@@ -405,7 +405,7 @@ export default {
         console.log(err)
       })
     },
-    uploadImgToServer () {
+    uploadImgToServertest () {
       const body = new FormData()
       body.append('files', this.files)
       this.$axios.post(`${this.$serverUrl}/post/uploadimage`, body,
@@ -421,7 +421,7 @@ export default {
         console.log(err)
       })
     },
-    deleteImgFromServer () {
+    deleteImgFromServertest () {
       const filename = this.imagefilename
       this.$axios.delete(`${this.$serverUrl}/post/deleteimage/${filename}`)
         .then(res => {

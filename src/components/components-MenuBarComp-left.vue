@@ -160,7 +160,7 @@
 <script>
 import DMBody from './DirectMessage.vue'
 import AlarmBody from './AlarmMessage.vue'
-import EditorBody from './EditorModal.vue'
+// import EditorBody from './EditorModal.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -170,7 +170,7 @@ export default {
       chatRoomList: []
     }
   },
-  components: { DMBody, AlarmBody, EditorBody },
+  components: { DMBody, AlarmBody/*, EditorBody */ },
   mounted () {
     this.getAlarmList()
     this.getChatRoomList()
