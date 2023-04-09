@@ -1,6 +1,5 @@
 <template>
-    <div></div>
-    <div class="container bd-layout">
+    <div class="container-fluid bd-layout">
         <!-- <div class="row">
             <div class="col-sm-3">
                 <MenuBar></MenuBar>
@@ -61,6 +60,9 @@ export default {
     }
     #main_contents {
         min-width: 620px;
+    }
+    #side_bar{
+        padding : 0;
     }
 
 </style>

@@ -4,6 +4,49 @@
       <h1>This is Bootstrap Test Page</h1>
       <br/><br/><br/>
     </div>
+    <!-- Image Upload Test Start -->
+    <div class="filebox">
+      <label for="img-files-test">
+        <img id="addImage" src='../assets/image.png'>
+      </label>
+        <input type="file" ref="files" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+    </div>
+    <br/>
+    <button class="btn btn-success" @click="uploadImgToImgbbtest()">등록 imgbb</button>
+    <button class="btn btn-info" @click="uploadImgToServertest()">등록 s3</button>
+    <br/>
+    <h3 class="text-dark">원본</h3>
+    <img :src="uploadImage" style="width: 80%; height: 80%;">
+    <br/><br/>
+    <h3 class="text-dark">imgbb</h3>
+    <img :src="imgbbImgURL" style="width: 80%; height: 80%;">
+    <br/><br/>
+    <h3 class="text-dark">s3</h3>
+    <img :src="s3ImgURL" style="width: 80%; height: 80%;">
+    <br/><br/><br/><hr/><br/>
+    <!-- Image Upload Test End -->
+    <!-- Image Delete Test Start -->
+    <div >
+      <input type="text" v-model="imagefilename" class="text-dark" >
+      <button class="btn btn-warning" @click="deleteImgFromServertest()">삭제</button>
+    </div>
+    <br/><br/><br/><hr/><br/>
+    <!-- Image Delete Test End -->
+    <!-- video-embed start -->
+    <div class="ratio ratio-16x9">
+      <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+
+      <div v-if="rightYTID">
+        <iframe id="yotube-frame" :src="getYoutubeVideoURL" title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div v-else>
+        <a :href="getYoutubeVideoURL">{{ getYoutubeVideoURL }}</a>
+      </div>
+    </div>
+    <br/><br/><br/><hr/><br/>
+    <!-- video-embed End -->
+
     <!-- Alert Start -->
     <div class="alert alert-dismissible alert-warning">
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -276,6 +319,22 @@
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
+  data: function () {
+    return {
+      youtubeSrc: 'https://youtu.be/ZwDHSVYZuTc',
+      rightYTID: false,
+      files: [],
+      uploadImage: '',
+      imgbbImg: '',
+      imgbbImgURL: '',
+      s3ImgURL: ''
+    }
+  },
+  computed: {
+    getYoutubeVideoURL () {
+      return this.parseYoutubeUrl(this.youtubeSrc)
+    }
+  },
   mounted () {
   // inti Popover
     Array.from(document.querySelectorAll('button[data-bs-toggle="popover"]'))
@@ -300,6 +359,124 @@ export default {
       modalTitle.textContent = 'New message to ' + recipient
       modalBodyInput.value = recipient
     })
+  },
+  methods: {
+    parseYoutubeUrl (url) {
+      // eslint-disable-next-line no-useless-escape
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const matchResult = url.match(regExp)
+      if (matchResult && (matchResult[2].length === 11)) {
+        // console.log(`${matchResult[2]}`)
+        this.rightYTID = true
+        return `https://www.youtube.com/embed/${matchResult[2]}`
+      } else {
+        this.rightYTID = false
+        return url
+      }
+    },
+    handleFileUpload (event) {
+      const newName = this.uuidFileName(this.$refs.files.files[0].name)
+      this.files = this.renameFile(this.$refs.files.files[0], newName)
+
+      // 이미지 미리보기
+      // const input = event.target
+      const reader = new FileReader()
+      reader.readAsDataURL(this.files)
+      reader.onloadend = (e) => { this.imgbbImg = e.target.result }
+      // reader.readAsDataURL(input.files[0])
+
+      this.uploadImage = URL.createObjectURL(this.files)
+    },
+    uploadImgToImgbbtest () {
+      const body = new FormData()
+      body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
+      body.append('image', this.imgbbImg.split(',').pop())
+      body.append('expiration', 15552000)
+      this.$axios.post('https://api.imgbb.com/1/upload', body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        this.imgbbImgURL = res.data.data.url
+        console.log('res.data.data.url = ' + res.data.data.url)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    uploadImgToServertest () {
+      const body = new FormData()
+      body.append('files', this.files)
+      this.$axios.post(`${this.$serverUrl}/post/uploadimage`, body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        console.log(res.data)
+        this.s3ImgURL = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    deleteImgFromServertest () {
+      const filename = this.imagefilename
+      this.$axios.delete(`${this.$serverUrl}/post/deleteimage/${filename}`)
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    renameFile (originalFile, newName) { // 파일명 변경
+      return new File([originalFile], newName, {
+        type: originalFile.type
+      })
+    },
+    uuidFileName (originalName) { // UUID 파일명 생성
+      const onLength = originalName.length
+      const indexDot = originalName.lastIndexOf('.')
+      const fileExtension = originalName.substring(indexDot + 1, onLength)
+      const uuid = self.crypto.randomUUID()
+      return `${uuid}.${fileExtension}`
+    }
   }
+
 }
 </script>
+<style scoped>
+ #yotube-frame {
+  width: 100%;
+  height: 100%;
+ }
+
+ /* 이미지 업로드 버튼 꾸미기 CSS */
+ .filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#addImage{
+    width:  23px;
+    height: 23px;
+    margin:0 0 0 10%;
+}
+
+</style>

@@ -1,10 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import MainContents from '../views/MainContentsView.vue'
 import MainHomeView from '../views/MainHomeView.vue'
 import BootstrapTestVue from '../views/ExamplePopoverTooltip.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import SettingView from '../views/settings/SettingView.vue'
+import SettingProfileView from '../views/settings/SettingProfileView.vue'
+import SettingSecurityView from '../views/settings/SettingSecurityView.vue'
+import SettingFriendView from '../views/settings/SettingFriendView.vue'
+import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
+import Mypage from '../views/MyPage.vue'
+import SearchView from '../views/SearchView.vue'
+import SearchResultView from '../views/SearchResultView.vue'
+import gCallback from '../views/gCallback.vue'
+import NaverLoginCallback from '../components/NaverLoginCallback.vue'
+import PostDetailView from '../views/PostDetailView.vue'
+import NotMyPage from '../views/NotMyPage.vue'
 
 const routes = [
   {
@@ -26,9 +37,85 @@ const routes = [
         components: {
           rmain: BootstrapTestVue
         }
+      },
+      {
+
+        path: 'setting',
+        name: 'setting',
+        components: {
+          rmain: SettingView
+        }
+      },
+      {
+        path: 'setting/profile',
+        name: 'profile',
+        components: {
+          rmain: SettingProfileView
+        }
+      },
+      {
+        path: 'setting/security',
+        name: 'security',
+        components: {
+          rmain: SettingSecurityView
+        }
+      },
+      {
+        path: 'setting/friend',
+        name: 'friend',
+        components: {
+          rmain: SettingFriendView
+        }
+      },
+      {
+        path: 'setting/analitics',
+        name: 'analitics',
+        components: {
+          rmain: SettingAnaliticsView
+        }
+      },
+      {
+        path: 'mypage',
+        name: 'MyPage',
+        components: {
+          rmain: Mypage
+        }
+      },
+      {
+        path: 'notmypage',
+        name: 'notmypage',
+        components: {
+          rmain: NotMyPage
+        }
+      },
+      {
+
+        path: 'search',
+        name: 'search',
+        components: {
+          rmain: SearchView
+        }
+      },
+      {
+        path: 'search/:keyword',
+        name: 'searchresult',
+        components: {
+          rmain: SearchResultView
+        }
+      },
+
+      {
+        path: 'postdetail',
+        name: 'postdetail',
+        components: {
+          rmain: PostDetailView
+
+        }
       }
-    ]
+
+    ] // MainHomeView children
   },
+
   {
     path: '/',
     name: 'login',
@@ -38,15 +125,25 @@ const routes = [
     }
   },
   {
-    path: '/googlelogin',
-    name: 'GoogleLogin',
-    component: () => import(/* webpackChunkName: "LoginGroup" */'../views/GoogleLogin.vue')
-  },
-  {
     path: '/register',
     name: 'register',
+    props: true,
     components: {
       rhome: RegisterView
+    }
+  },
+  {
+    path: '/naverLoginCallback',
+    name: 'naverLoginCallback',
+    components: {
+      rhome: NaverLoginCallback
+    }
+  },
+  {
+    path: '/google-login',
+    name: 'gCallback',
+    components: {
+      rhome: gCallback
     }
   }
 

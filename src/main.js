@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './MainApp.vue'
 import router from './router'
-import store from './store'
+import store from '@/store/index.js'
 import axios from 'axios'
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,6 +21,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import Embed from 'v-video-embed'
+import GoogleSignInPlugin from 'vue3-google-signin'
 
 import './assets/css/common.css'
 
@@ -34,4 +36,7 @@ app.config.globalProperties.$serverUrl = '//localhost:8086'
 app.config.globalProperties.$emitter = emitter
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.use(store).use(router).mount('#app')
+app.use(store).use(router).use(Embed).mount('#app')
+app.use(GoogleSignInPlugin, {
+  clientId: 'CLIENT ID OBTAINED FROM GOOGLE API CONSOLE'
+})

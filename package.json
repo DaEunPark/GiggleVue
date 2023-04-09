@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 2727",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve",
+    "lint": "vue-cli-service lint",
+    "server": "./node_modules/.bin/webpack-dev-server",
+    "build": "./node_modules/.bin/webpack"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
@@ -22,10 +23,15 @@
     "core-js": "^3.8.3",
     "dayjs": "^1.11.7",
     "jquery": "^3.6.4",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "stylus": "^0.59.0",
+    "v-video-embed": "^1.0.8",
     "vue": "^3.2.13",
     "vue-popperjs": "^2.3.0",
     "vue-router": "^4.0.3",
+    "vue3-google-signin": "^1.3.0",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"
   },
@@ -45,7 +51,9 @@
     "eslint-plugin-vue": "^8.0.3",
     "node-sass": "^8.0.0",
     "sass": "^1.59.3",
-    "sass-loader": "^13.2.1"
+    "sass-loader": "^13.2.1",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
   },
   "eslintConfig": {
     "root": true,
@@ -66,5 +74,12 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "description": "## Project setup ``` npm install ```",
+  "main": "babel.config.js",
+  "keywords": [
+    "vue-giggle"
+  ],
+  "author": "ezen2",
+  "license": "ISC"
 }

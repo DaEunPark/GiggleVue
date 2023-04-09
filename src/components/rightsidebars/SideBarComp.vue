@@ -1,18 +1,15 @@
 <template>
     <div class="sidebar">
-
-        <div id="search" class="  sticky-top">
-
-            <div class="form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;">
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
-                        <input type="text" v-model="searchWords" class="form-control text-dark bg-white" @keydown.enter="enterSearch" placeholder="검색어를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
-                        data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
-                    </div>
-                </div>
+        <div id="search" class="sticky-top form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
+            <div class="input-group mb-2">
+                <span class="input-group-text bg-primary"><font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color: #ffffff;" /></span>
+                <input type="text" v-model="keyword"  class="form-control text-dark bg-white"
+                    @keydown.enter="searchresultshow(keyword)" placeholder="검색어를 입력하세요"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" style="border-color: #e83283;"
+                    data-bs-toggle="collapse" data-bs-target="#collapseSearch" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
             </div>
-            <div class="collapse" id="collapseSearch" style="margin-top: -20px !important; padding-top: 0 !important;">
+
+            <div class="collapse" id="collapseSearch"  v-show="showURL">
 
                 <div v-show="isExistSearchWord">
 
@@ -22,9 +19,9 @@
                                 <span class="text-dark fw-bold">최근 검색어</span>
                                 <a href="#" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
-                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="i in 3" :key="i">
-                                <span class="d-inline-block text-truncate" style="margin-right: 20px;"> Praeterea iter est quasdam res quas ex communi.</span>
-                                <a href="#" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in recentSearchList" :key="i">
+                                <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
+                                <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
 
                         </div><!-- <div class="list-group"> -->
@@ -43,28 +40,43 @@
         </div> <!-- <div id="search"> -->
 
         <!-- 트렌드 -->
-        <div id="trend">
-            <div class="card bg-light mb-3 border-round-radius" >
-                <div class="list-group" style="border-radius: 1em;">
+        <div id="trend" v-show="showURL">
+            <div class="trandWrap mb-2 border-round-radius" >
+                <div class="list-group">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-dark fw-bold">나를 위한 트렌드</span>
-
                     </div>
-                    <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 10" :key="i">
+                    <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch1()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">0X1=LOVESONG (I Know I Love You) </h6>
-
-                    </router-link>
-                    <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top1 }}</h6>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch2()">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top2 }}</h6>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch3()">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top3 }}</h6>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch4()">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top4 }}</h6>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch5()">
+                        <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top5 }}</h6>
+                    </button>
+                    <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <div id="test1" class="sticky-top" style="z-index: 0;">
+        <div id="test1" class="sticky-top">
             <!-- 팔로우 추천 -->
-            <div id="recommendfolow">
-                <div class="card bg-light mb-3 border-round-radius" style="max-width: 20rem;">
-                    <div class="list-group" style="border-radius: 1em;">
+            <div id="recommendfollow">
+                <div class="recommendfollowWrap mb-2 border-round-radius">
+                    <div class="list-group">
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="text-dark fw-bold">팔로우 추천</span>
                         </div>
@@ -81,22 +93,22 @@
                             <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
 
                         </router-link>
-                        <router-link to="bootstraptest" class="list-group-item text-success" style="text-decoration: none;">더 보기</router-link>
-                    </div><!-- <div class="list-group"> -->
+                        <a href="#" @click="replaceTo('/main/bootstraptest')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
+                    </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
 
             <footer class="text-dark text-nowrap text-size-custom" style="font-size: xx-small;">
-                <div class="d-flex flex-row">
-                    <div class="p-2">이용약관</div>
-                    <div class="p-2">개인정보 처리방침</div>
-                    <div class="p-2">쿠키 정책</div>
-                    <div class="p-2">접근성</div>
+                <div class="d-flex flex-row footer_row">
+                    <div>이용약관</div>
+                    <div>개인정보 처리방침</div>
+                    <div>쿠키 정책</div>
+                    <div>접근성</div>
                 </div>
-                <div class="d-flex flex-row" style="margin-top: -30px;">
-                    <div class="p-2">광고 정보</div>
-                    <div class="p-2">더보기 ...</div>
-                    <div class="p-2">@2023 Giggle</div>
+                <div class="d-flex flex-row footer_row">
+                    <div>광고 정보</div>
+                    <div>더보기 ...</div>
+                    <div>@2023 Giggle</div>
                 </div>
             </footer>
 
@@ -106,22 +118,73 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import { throwStatement } from '@babel/types'
 
 export default {
   data () {
     return {
-      searchWords: '',
-      isExistSearchWord: true
+      requestBody: {},
+      allfeedList: {},
+      no: '',
+      keyword: '',
+      isExistSearchWord: true,
+      thisURL: window.location.href,
+      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움'],
+      top1: '',
+      top2: '',
+      top3: '',
+      top4: '',
+      top5: ''
     }
   },
+  computed: {
+    showURL () {
+      return !this.thisURL.includes('search')
+    }
+  },
+  watch: {
+    $route (to, from) {
+      console.log(to)
+      console.log(from)
+      this.thisURL = window.location.href
+    //   console.log(this.thisURL)
+    }
+  },
+  mounted () {
+    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+
+    this.getTrend() // 실시간 트렌드 가져오기
+  },
   methods: {
-    enterSearch () {
-      // eslint-disable-next-line eqeqeq
-      if (this.searchWords == '' || this.searchWords == null) {
-        alert('검색어를 입력하세요')
-      } else {
-        alert(this.searchWords)
-      }
+    // enterSearch () {
+    //   // eslint-disable-next-line eqeqeq
+    //   if (this.searchWords == '' || this.searchWords == null) {
+    //     alert('검색어를 입력하세요')
+    //   } else {
+    //     alert(this.searchWords)
+    //   }
+    // },
+    searchresultshow (keyword) {
+      // console.log("searchresultshow 결과화면으로 이동");
+      this.keyword = keyword
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+        if (keyword !== '') {
+          this.$router.push({
+            name: 'searchresult',
+            params: {
+              keyword: this.keyword
+            }
+          })
+          console.log('"', keyword, '"' + '검색')
+          this.allfeedList = res.data
+        }
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          alert('검색어를 입력해주세요')
+        }
+      })
     },
     clearAllSearchWords () {
     //   alert('clearAllSearchWords')
@@ -129,10 +192,48 @@ export default {
       this.isExistSearchWord = !this.isExistSearchWord
     },
     deleteThisSearchWord (item) {
-      alert('this is ' + item)
+      alert('delete ' + this.recentSearchList[item])
+      this.recentSearchList.splice(item, 1)
     },
     followThisUser (item) {
       alert('follow this user: ' + item)
+    },
+    replaceTo (path) {
+    // this.$route.replaceTo(path)
+    //   if()
+    //   console.log(`url test ${window.location.href}`)
+    //   console.log(`includes test ${path.includes('search')}`)
+      this.$router.replace(path)
+    },
+    getTrend () {
+      this.$axios.post(this.$serverUrl + '/tag/trend')
+        .then((res) => {
+          this.top1 = res.data.top1
+          this.top2 = res.data.top2
+          this.top3 = res.data.top3
+          this.top4 = res.data.top4
+          this.top5 = res.data.top5
+        })
+    },
+    goSearch1 () {
+      this.keyword = this.top1.replace('#', '')
+      this.searchresultshow(this.keyword)
+    },
+    goSearch2 () {
+      this.keyword = this.top2.replace('#', '')
+      this.searchresultshow(this.keyword)
+    },
+    goSearch3 () {
+      this.keyword = this.top3.replace('#', '')
+      this.searchresultshow(this.keyword)
+    },
+    goSearch4 () {
+      this.keyword = this.top4.replace('#', '')
+      this.searchresultshow(this.keyword)
+    },
+    goSearch5 () {
+      this.keyword = this.top5.replace('#', '')
+      this.searchresultshow(this.keyword)
     }
   }
 }
@@ -149,8 +250,29 @@ export default {
     .sidebar {
         /* height: inherit; */
         /* display: flex; */
-        top: o;
+        top: 0;
+        right : 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width : 350px;
         height: 100%;
+        padding : 0;
+        background: #ffffff;
+        border-left: 1px solid #dbdbdb;
+    }
+    .form-group {
+        margin : 0 12px;
+        width : 100%;
+    }
+    .trandWrap, .recommendfollowWrap{
+        margin-left : 12px;
+        width : 100%;
+        background-color:  #f0f0f0;
+
+    }
+    #recommendfollow{
+        width : 350px;
     }
     .profile-wrapper {
         width: 50px;
@@ -181,7 +303,28 @@ export default {
         background-color: deeppink !important;
     }
     #test1 {
-        top: 4em;
+        top: 3.5em;
+        z-index: 0;
+    }
+    #collapseSearch {
+        margin-top: -20px !important;
+        padding-top: 0 !important;
+        }
+    .footer_row{
+        display : flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left : 12px;
+        padding : 0 20px;
+    }
+    .list-group {
+        border-radius: 1em;
+        width : 100%;
+        box-shadow: none;
+    }
+    .trend {
+        font-size: 18px;
+        margin: auto auto;
     }
 
 </style>
