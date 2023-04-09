@@ -19,13 +19,15 @@
                   </div>
                  </article>
 
-              <article class="my-3" id="trend-list">
-                  <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
-                      <a :href="row.post_no" class="list-group-item" id="Slistgroup">
-                          <h5 class="TLtitle">{{row.title}}</h5>
+               <article class="my-3" id="trend-list">
+                   <div  v-for="(row , idx) in Trendlist" :key="idx" class="list-group list-group-flush" id="Slistgroupflush">
+                      <button type="button" @click="searchresultshow(`${row.title}`)" class="list-group-item" id="Slistgroup">
+                          <h5 class="TLtitle">{{ row.title }}</h5>
                           <small class="TLsmall">게시물수: {{row.readCount}}</small>
-                      </a>
+                      </button>
                    </div>
+
+
               </article>
       </div>
    </section>
@@ -33,56 +35,61 @@
 </template>
 
 <script>
+import { thisExpression } from '@babel/types'
+
 export default {
   data () {
     return {
       requestBody: {},
       allfeedList: {},
       no: '',
-      keyword: ''
+      keyword: '',
+      top1:'',
+      top2:'',
+      top3:'',
+      top4:'',
+      top5:'',
+      top6:'',
+      top7:'',
+      Trendlist:[]
     }
   },
   mounted () {
+    this.getTrend(),
   // eslint-disable-next-line no-unused-expressions, no-sequences
-    this.fnGetList(), // 나중에 this.Trendlist 가져올때 사용할 메서드
+   // 나중에 this.Trendlist 가져올때 사용할 메서드
     this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
-    fnGetList () {
+    fnGetList (res) {
       this.Trendlist = [
+
         {
-          post_no: 1,
-          title: '얼그레이티 라떼',
+          title: this.top1,
           readCount: '1231111'
         },
         {
-          post_no: 2,
-          title: '퇴근',
+          title: this.top2,
           readCount: '30220'
         },
         {
-          post_no: 3,
-          title: '비가오는날엔귀가원츄',
+          title: this.top3,
           readCount: '104440'
         },
         {
-          post_no: 4,
-          title: '맛점',
+          title: this.top4,
           readCount: '133404'
         },
         {
-          post_no: 5,
-          title: '종각역스터디카페',
+          title: this.top5,
           readCount: '133402'
         },
         {
-          post_no: 6,
-          title: '블랙 글레이즈드',
+          title: this.top6,
           readCount: '133402'
         },
         {
-          post_no: 7,
-          title: '아아',
+          title: this.top7,
           readCount: '133402'
         }
       ]
@@ -108,7 +115,22 @@ export default {
           alert('검색어를 입력해주세요')
         }
       })
+    },
+    getTrend() {
+        this.$axios.post(this.$serverUrl + '/tag/trend')
+        .then((res) => {
+                this.top1 = res.data.top1
+                this.top2 = res.data.top2
+                this.top3 = res.data.top3
+                this.top4 = res.data.top4
+                this.top5 = res.data.top5
+                this.top6 = res.data.top6
+                this.top7 = res.data.top7
+                this.fnGetList(res)
+        })
+
     }
+  
   }
 }
 </script>
@@ -155,5 +177,8 @@ box-shadow: none;
 .TLsmall {
   color:rgb(126, 126, 126);
 }
-
+.list-group-flush>.list-group-item:last-child {
+    border-bottom-width: 0;
+    text-align: left;
+}
 </style>

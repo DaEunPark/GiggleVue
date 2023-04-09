@@ -207,7 +207,7 @@ export default {
       alert('follow this user: ' + item)
     },
     replaceTo (path) {
-      // this.$route.replaceTo(path)
+    // this.$route.replaceTo(path)
     //   if()
     //   console.log(`url test ${window.location.href}`)
     //   console.log(`includes test ${path.includes('search')}`)
@@ -221,8 +221,6 @@ export default {
                 this.top3 = res.data.top3
                 this.top4 = res.data.top4
                 this.top5 = res.data.top5
-        }).catch((err) => {
-
         })
     },
     goSearch1() {
