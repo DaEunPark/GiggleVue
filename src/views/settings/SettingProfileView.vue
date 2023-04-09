@@ -1,3 +1,4 @@
+<!-- eslint-disable eqeqeq -->
 <!-- eslint-disable no-var -->
 <template>
     <div class="container">
@@ -12,7 +13,6 @@
                   <div class="profile__image mb-2">
                     <img :src="profile_image" class="profile__imageFile rounded-circle align-center">
                   </div>
-
 
 <!--이미지 추가 버튼 시작-->
 
@@ -36,7 +36,7 @@
                     <div class="profile__status">
                         <label for="status" class="col-form-label col-form-label-sm  profile__status mt-2">상태 메세지</label>
                       </div>
-                      <div>                    
+                      <div>
                         <textarea class="form-control-sm profile__status" id="profile__status" rows="3"
                         v-model="status_message" v-bind:placeholder="`${this.$store.state.loginUserDTO.status_message}`"></textarea>
                     </div>
@@ -69,6 +69,7 @@ import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 import $ from 'jquery'
 // eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
+// eslint-disable-next-line no-unused-vars
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
@@ -79,19 +80,18 @@ export default {
       user_location: '',
       user_birth: '',
       back_image: '',
-      profile_image: '',   
+      profile_image: '',
       rightYTID: false,
       files: [],
       uploadImage: '',
       imgbbImg: '',
-      imgbbImgURL: '',
-      
+      imgbbImgURL: ''
+
     }
   },
   // eslint-disable-next-line vue/no-unused-components
   components: { MenuBar, SideBar },
   mounted () {
-
     // eslint-disable-next-line eqeqeq
     if (this.user_nick == '') {
       this.user_nick = this.$store.state.loginUserDTO.user_nick
@@ -115,36 +115,45 @@ export default {
     }
 
     this.back_image = this.$store.state.loginUserDTO.back_image
-    if(this.profile_image != this.uploadImage) {
+    // eslint-disable-next-line eqeqeq
+    if (this.profile_image != this.uploadImage) {
       this.profile_image = this.uploadImage
     } else {
       this.profile_image = this.$store.state.loginUserDTO.profile_image
     }
   },
   methods: {
-    profileUpdate() {
-      if(this.user_nick == '') {
-          this.user_nick = this.$store.state.loginUserDTO.user_nick
+    profileUpdate () {
+      // eslint-disable-next-line eqeqeq
+      if (this.user_nick == '') {
+        this.user_nick = this.$store.state.loginUserDTO.user_nick
       } else {
-          this.user_nick = this.user_nick
+        // eslint-disable-next-line no-self-assign
+        this.user_nick = this.user_nick
       }
 
-      if(this.status_message == '') {
-          this.status_message = this.$store.state.loginUserDTO.status_message
+      // eslint-disable-next-line eqeqeq
+      if (this.status_message == '') {
+        this.status_message = this.$store.state.loginUserDTO.status_message
       } else {
-          this.status_message = this.status_message
+        // eslint-disable-next-line no-self-assign
+        this.status_message = this.status_message
       }
 
-      if(this.user_location == '') {
-          this.user_location = this.$store.state.loginUserDTO.user_location
+      // eslint-disable-next-line eqeqeq
+      if (this.user_location == '') {
+        this.user_location = this.$store.state.loginUserDTO.user_location
       } else {
-          this.user_location = this.user_location
+        // eslint-disable-next-line no-self-assign
+        this.user_location = this.user_location
       }
 
-      if(this.user_birth == '') {
-          this.user_birth = this.$store.state.loginUserDTO.user_birth
+      // eslint-disable-next-line eqeqeq
+      if (this.user_birth == '') {
+        this.user_birth = this.$store.state.loginUserDTO.user_birth
       } else {
-          this.user_birth = this.user_birth
+        // eslint-disable-next-line no-self-assign
+        this.user_birth = this.user_birth
       }
 
       const data = {
@@ -160,15 +169,15 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         }
-          }).then((res) => {
-            console.log(res)
-            // this.$store.commit('addLoginUser', res.data)
-            // this.$router.push({
-            //   path: '/main/mypage'
-            // })
-          }).catch(error => {
-            console.log(error)
-          })
+      }).then((res) => {
+        console.log(res)
+        // this.$store.commit('addLoginUser', res.data)
+        // this.$router.push({
+        //   path: '/main/mypage'
+        // })
+      }).catch(error => {
+        console.log(error)
+      })
     },
     renameFile (originalFile, newName) { // 파일명 변경
       return new File([originalFile], newName, {
@@ -182,28 +191,30 @@ export default {
       const uuid = self.crypto.randomUUID()
       return `${uuid}.${fileExtension}`
     },
-    handleFileUpload(event) {
-      const newName = this.uuidFileName(this.$refs.files.files[0].name);
-      this.files = this.renameFile(this.$refs.files.files[0], newName);
+    handleFileUpload (event) {
+      const newName = this.uuidFileName(this.$refs.files.files[0].name)
+      this.files = this.renameFile(this.$refs.files.files[0], newName)
 
-      const reader = new FileReader();
-      reader.readAsDataURL(this.files);
+      const reader = new FileReader()
+      reader.readAsDataURL(this.files)
       reader.onloadend = (e) => {
         if (e.target.readyState === FileReader.DONE) {
+          // console.log(e.target.readyState)
           if (e.target.result) {
-            this.imgbbImg = e.target.result;
-          }
-          else {
-            console.error("파일을 읽는 중에 오류가 발생했습니다.");
+            this.imgbbImg = e.target.result
+            // console.log(this.imgbbImg)
+          } else {
+            console.error('파일을 읽는 중에 오류가 발생했습니다.')
           }
           this.uploadImage = URL.createObjectURL(this.files)
           this.profile_image = this.uploadImage
 
-          console.log("uploadImage = "  + this.uploadImage)
+          console.log('uploadImage = ' + this.uploadImage)
         }
       }
     },
     uploadImgToImgbb () {
+      console.log('uploadImgToImgbb ()')
       const body = new FormData()
       body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
       body.append('image', this.imgbbImg.split(',').pop())
@@ -216,11 +227,11 @@ export default {
         }
       ).then(res => {
         this.imgbbImgURL = res.data.data.url
-        console.log("res.data.data.url = " + res.data.data.url)
+        console.log('res.data.data.url = ' + res.data.data.url)
       }).catch(err => {
         console.log(err)
       })
-    },
+    }
   }
 }
 

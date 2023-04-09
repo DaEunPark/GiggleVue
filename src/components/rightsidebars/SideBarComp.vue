@@ -21,7 +21,7 @@
                             </div>
                             <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in recentSearchList" :key="i">
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
-                                <a href="#" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                                <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
 
                         </div><!-- <div class="list-group"> -->
@@ -118,8 +118,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import { throwStatement } from '@babel/types'
-
 
 export default {
   data () {
@@ -154,8 +154,7 @@ export default {
   mounted () {
     this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
 
-    this.getTrend() //실시간 트렌드 가져오기
-
+    this.getTrend() // 실시간 트렌드 가져오기
   },
   methods: {
     // enterSearch () {
@@ -206,37 +205,37 @@ export default {
     //   console.log(`includes test ${path.includes('search')}`)
       this.$router.replace(path)
     },
-    getTrend() {
-        this.$axios.post(this.$serverUrl + '/tag/trend')
+    getTrend () {
+      this.$axios.post(this.$serverUrl + '/tag/trend')
         .then((res) => {
-                this.top1 = res.data.top1
-                this.top2 = res.data.top2
-                this.top3 = res.data.top3
-                this.top4 = res.data.top4
-                this.top5 = res.data.top5
+          this.top1 = res.data.top1
+          this.top2 = res.data.top2
+          this.top3 = res.data.top3
+          this.top4 = res.data.top4
+          this.top5 = res.data.top5
         })
     },
-    goSearch1() {
-        this.keyword = this.top1.replace("#", "")
-        this.searchresultshow (this.keyword)
+    goSearch1 () {
+      this.keyword = this.top1.replace('#', '')
+      this.searchresultshow(this.keyword)
     },
-    goSearch2() {
-        this.keyword = this.top2.replace("#", "")
-        this.searchresultshow (this.keyword)
+    goSearch2 () {
+      this.keyword = this.top2.replace('#', '')
+      this.searchresultshow(this.keyword)
     },
-    goSearch3() {
-        this.keyword = this.top3.replace("#", "")
-        this.searchresultshow (this.keyword)
+    goSearch3 () {
+      this.keyword = this.top3.replace('#', '')
+      this.searchresultshow(this.keyword)
     },
-    goSearch4() {
-        this.keyword = this.top4.replace("#", "")
-        this.searchresultshow (this.keyword)
+    goSearch4 () {
+      this.keyword = this.top4.replace('#', '')
+      this.searchresultshow(this.keyword)
     },
-    goSearch5() {
-        this.keyword = this.top5.replace("#", "")
-        this.searchresultshow (this.keyword)
+    goSearch5 () {
+      this.keyword = this.top5.replace('#', '')
+      this.searchresultshow(this.keyword)
     }
-    }
+  }
 }
 </script>
 <style scoped>
@@ -270,10 +269,10 @@ export default {
         margin-left : 12px;
         width : 100%;
         background-color:  #f0f0f0;
- 
+
     }
     #recommendfollow{
-        width : 350px; 
+        width : 350px;
     }
     .profile-wrapper {
         width: 50px;

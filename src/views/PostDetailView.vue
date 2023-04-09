@@ -22,8 +22,18 @@
                     </div> -->
 
                     <div class="FeedList_contents">
+                      <div>
+                        <div id="imageuploadarea">
+                          <div>
+                            <div class="wrap">
+                              <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl, i) in postImgList" :key="i" >
+                            </div>
+                          </div>
+                          <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
+                        </div>
+                      </div>
                         <!-- video-embed start -->
-                        <div v-show=showYoutube>
+                        <div class="ytarea" v-show=showYoutube>
                             <div class="ratio ratio-16x9">
                                 <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
 
@@ -38,7 +48,7 @@
                             <br/>
                         </div>
                         <!-- video-embed end -->
-                        <p style="color: black;" class="mb-1">{{item.text_content}} </p>
+                        <p style="color: black;" class="tcarea mb-1">{{item.text_content}} </p>
                     </div>
 
                     <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
@@ -146,7 +156,8 @@ export default {
       item: {},
       rightYTID: false,
       youtubeURL: '',
-      showYoutube: false
+      showYoutube: false,
+      postImgList: []
 
     }
   },
@@ -163,7 +174,8 @@ export default {
           }
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
-        this.item = res.data
+        this.item = res.data.post
+        this.postImgList = res.data.postImages
         if (this.item.post_link === '' || this.item.post_link === null || this.item.post_link === undefined) {
           this.showYoutube = false
         } else {
@@ -378,7 +390,31 @@ text-align: center;
     margin : 0;
 }
 #yotube-frame {
-  width: 90%;
+  width: 100%;
   height: 100%;
  }
+ .ytarea {
+  margin: 1em 1em 1.4em 1em;
+ }
+
+ .tcarea {
+  margin-left: 1em;
+  margin-right: 1em;
+ }
+
+ .wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 480px));
+  grid-gap: 1em;
+}
+.uploadimage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#imageuploadarea {
+  margin: 1em 1em 1.4em 1em;
+}
+
 </style>
