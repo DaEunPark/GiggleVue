@@ -16,8 +16,8 @@
                 </div>
                 <div class="item_cnt inline">
                     <div class="item profileCnt">게시물 <span style="font-weight: 500;"></span>{{this.post_cnt}}</div>
-                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.follower_cnt}}</span></div>    
-                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.follow_cnt}}</span></div> 
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.follower_cnt}}</span></div>
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.follow_cnt}}</span></div>
                     <button class="profileCnt" type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
                   </div>
                   <hr id="hr"/>
@@ -45,9 +45,9 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      post_cnt : '',
-      follow_cnt : '',
-      follower_cnt : ''
+      post_cnt: '',
+      follow_cnt: '',
+      follower_cnt: ''
     }
   },
   mounted () {
@@ -63,8 +63,7 @@ export default {
     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
       .forEach(popoverNode => new Tooltip(popoverNode))
 
-      this.profileCnt()
-
+    this.profileCnt()
   },
   methods: {
     pushSetting () {
@@ -72,13 +71,13 @@ export default {
         path: '/main/setting/'
       })
     },
-    profileCnt() {
-      const data = {user_no : this.$store.state.loginUserDTO.user_no}
-        this.$axios.post(this.$serverUrl + '/profileCnt', JSON.stringify(data), {
-          headers: {
-              'Content-Type': 'application/json'
-            }
-          })
+    profileCnt () {
+      const data = { user_no: this.$store.state.loginUserDTO.user_no }
+      this.$axios.post(this.$serverUrl + '/profileCnt', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
         .then((res) => {
           this.post_cnt = res.data.count_post
           this.follow_cnt = res.data.follow_user
@@ -86,7 +85,6 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
-
     }
   }
 }

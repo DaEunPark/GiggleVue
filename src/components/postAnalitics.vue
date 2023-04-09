@@ -27,7 +27,7 @@
             <div class="analitics__postWrap px-4 ">
                 <h5>게시물 인사이트</h5>
                 <div class="analitics__post mb-2">
-                    
+
                 </div>
             </div>
         </div>
@@ -51,13 +51,13 @@ export default {
     // this.getThisPostInsite()
   },
   methods: {
-    getThisPostInsite() {
-      this.$axios.get(`${this.$serverUrl}/postinsite/${this.post_no}`, 
-      {
-        params: {
+    getThisPostInsite () {
+      this.$axios.get(`${this.$serverUrl}/postinsite/${this.post_no}`,
+        {
+          params: {
             post_no: this.post_no
-        }
-      }).then((res) => {
+          }
+        }).then((res) => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data
       }).catch((err) => {

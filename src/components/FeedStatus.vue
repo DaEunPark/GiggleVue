@@ -48,7 +48,7 @@
                                 <p class="mb-1">{{item.text_content}} </p>
                             </div>
                         </a>
-                      
+
                         <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
                         <div class="FeedList_activeicont mt-1">
                                 <div class="bottom_btn" id="FL_spancomment">
@@ -249,7 +249,7 @@ export default {
   display:flex;
   flex-direction: row;
   justify-content: space-between;
-  
+
 }
 .bottom_btn > a{
   padding : 0;

@@ -16,7 +16,7 @@
                             <router-link to="/main/mypage:user_no"><p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></router-link>
                             </div>
                         </div>
-                        
+
                 </div>
             </div>
         </article>

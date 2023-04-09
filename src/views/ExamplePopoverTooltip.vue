@@ -25,7 +25,13 @@
     <img :src="s3ImgURL" style="width: 80%; height: 80%;">
     <br/><br/><br/><hr/><br/>
     <!-- Image Upload Test End -->
-
+    <!-- Image Delete Test Start -->
+    <div >
+      <input type="text" v-model="imagefilename" class="text-dark" >
+      <button class="btn btn-warning" @click="deleteImgFromServer()">삭제</button>
+    </div>
+    <br/><br/><br/><hr/><br/>
+    <!-- Image Delete Test End -->
     <!-- video-embed start -->
     <div class="ratio ratio-16x9">
       <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
@@ -321,7 +327,7 @@ export default {
       uploadImage: '',
       imgbbImg: '',
       imgbbImgURL: '',
-      s3ImgURL: 'https://giggle-image-upload.s3.ap-northeast-2.amazonaws.com/raw/VIVIZ_official-1642157591995490309-1+(1).jpg'
+      s3ImgURL: ''
     }
   },
   computed: {
@@ -394,7 +400,7 @@ export default {
         }
       ).then(res => {
         this.imgbbImgURL = res.data.data.url
-        console.log("res.data.data.url = " + res.data.data.url)
+        console.log('res.data.data.url = ' + res.data.data.url)
       }).catch(err => {
         console.log(err)
       })
@@ -414,6 +420,16 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    deleteImgFromServer () {
+      const filename = this.imagefilename
+      this.$axios.delete(`${this.$serverUrl}/post/deleteimage/${filename}`)
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     renameFile (originalFile, newName) { // 파일명 변경
       return new File([originalFile], newName, {

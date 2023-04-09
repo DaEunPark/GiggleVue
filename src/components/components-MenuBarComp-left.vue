@@ -57,8 +57,6 @@
       </nav>
     </aside>
 
-
-
     <!-- 알림 Modal 시작 -->
     <div
       class="modal fade"
@@ -169,7 +167,7 @@ export default {
   data () {
     return {
       alarmList: [],
-      chatRoomList: [],
+      chatRoomList: []
     }
   },
   components: { DMBody, AlarmBody, EditorBody },
@@ -193,7 +191,7 @@ export default {
     getAlarmList () {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if (res.data !== "") {
+          if (res.data !== '') {
             console.log('알람 있음' + res.data)
             this.alarmList = res.data
           } else {
@@ -206,24 +204,24 @@ export default {
           }
         })
     },
-    getChatRoomList() {
-       this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
+    getChatRoomList () {
+      this.$axios.get(this.$serverUrl + '/mj/chatRoomList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          if(res.data !== "") {
-            console.log("채팅방 있음" + res.data[0].user_nick)
+          if (res.data !== '') {
+            console.log('채팅방 있음' + res.data[0].user_nick)
             this.chatRoomList = res.data
           } else {
-            console.log("채팅방 없음")
+            console.log('채팅방 없음')
           }
         })
     },
-    openMessage() {
+    openMessage () {
       this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
-      .then(res => {
-        this.$store.state.loginUserDTO.message_yn = "N"
-        console.log(this.$store.state.loginUserDTO.message_yn)
-        location.href='#directMessage'
-      })
+        .then(res => {
+          this.$store.state.loginUserDTO.message_yn = 'N'
+          console.log(this.$store.state.loginUserDTO.message_yn)
+          location.href = '#directMessage'
+        })
     }
   },
   computed: {

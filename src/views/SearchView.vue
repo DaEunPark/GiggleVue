@@ -27,7 +27,6 @@
                       </button>
                    </div>
 
-
               </article>
       </div>
    </section>
@@ -35,6 +34,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import { thisExpression } from '@babel/types'
 
 export default {
@@ -44,20 +44,21 @@ export default {
       allfeedList: {},
       no: '',
       keyword: '',
-      top1:'',
-      top2:'',
-      top3:'',
-      top4:'',
-      top5:'',
-      top6:'',
-      top7:'',
-      Trendlist:[]
+      top1: '',
+      top2: '',
+      top3: '',
+      top4: '',
+      top5: '',
+      top6: '',
+      top7: '',
+      Trendlist: []
     }
   },
   mounted () {
+    // eslint-disable-next-line no-unused-expressions, no-sequences
     this.getTrend(),
-  // eslint-disable-next-line no-unused-expressions, no-sequences
-   // 나중에 this.Trendlist 가져올때 사용할 메서드
+    // eslint-disable-next-line no-unused-expressions, no-sequences
+    // 나중에 this.Trendlist 가져올때 사용할 메서드
     this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
@@ -115,21 +116,20 @@ export default {
         }
       })
     },
-    getTrend() {
-        this.$axios.post(this.$serverUrl + '/tag/trend')
+    getTrend () {
+      this.$axios.post(this.$serverUrl + '/tag/trend')
         .then((res) => {
-                this.top1 = res.data.top1
-                this.top2 = res.data.top2
-                this.top3 = res.data.top3
-                this.top4 = res.data.top4
-                this.top5 = res.data.top5
-                this.top6 = res.data.top6
-                this.top7 = res.data.top7
-                this.fnGetList(res)
+          this.top1 = res.data.top1
+          this.top2 = res.data.top2
+          this.top3 = res.data.top3
+          this.top4 = res.data.top4
+          this.top5 = res.data.top5
+          this.top6 = res.data.top6
+          this.top7 = res.data.top7
+          this.fnGetList(res)
         })
-
     }
-  
+
   }
 }
 </script>

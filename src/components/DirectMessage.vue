@@ -1,3 +1,5 @@
+<!-- eslint-disable eqeqeq -->
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
     <div class="modal-body row">
         <!--대화 목록 부분-->
@@ -137,23 +139,23 @@ export default ({
   },
   computed: {
     addChatRoom (chatRoom) {
+      // eslint-disable-next-line vue/no-mutating-props, vue/no-side-effects-in-computed-properties
       return this.chatRoomList.push(chatRoom)
     }
   },
   methods: {
-    openSearchList() {
-      if(this.keyword !== '') {
-        //키워드가 이미 존재하면 창을 보여준다.
+    openSearchList () {
+      if (this.keyword !== '') {
+        // 키워드가 이미 존재하면 창을 보여준다.
         document.getElementById('DMSearchUl').style.visibility = 'visible'
       }
     },
     searchUser () {
-
-      //입력한 키워드가 있으면 리스트 창을 보여주고 아니면 숨긴다
-      if(this.keyword !== '') {
+      // 입력한 키워드가 있으면 리스트 창을 보여주고 아니면 숨긴다
+      if (this.keyword !== '') {
         document.getElementById('DMSearchUl').style.visibility = 'visible'
       } else {
-        document.getElementById("DMSearchUl").style.visibility = "hidden"
+        document.getElementById('DMSearchUl').style.visibility = 'hidden'
       }
       // 검색한 키워드로 유저를 찾아서 뿌려준다.
       axios
@@ -182,9 +184,11 @@ export default ({
           }
 
           // 처음 가져왔던 채팅방 리스트에 해당 채팅방정보가 없으면 추가해준다.
+          // eslint-disable-next-line eqeqeq
           if (count == 0) {
           // 새롭게 추가된 채팅 리스트에 추가해준 후,
-            //this.newChatList.push(res.data)
+            // this.newChatList.push(res.data)
+            // eslint-disable-next-line vue/no-mutating-props
             this.chatRoomList.push(res.data)
             console.log('채팅방 없음/ 추가함 ')
             console.log(this.newChatList)
@@ -209,59 +213,61 @@ export default ({
       this.open = true
       this.nowChatRoom = chatroomNo
 
-      //기존의 채팅방
+      // 기존의 채팅방
       for (let i = 0; i < this.chatRoomList.length; i++) {
-
         if (this.chatRoomList[i].chatroom_no === chatroomNo) {
-          //클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
-          if(this.chatRoomList[i].user1 == 0 || this.chatRoomList[i].user2 == 0) {
-            //상대방이 나간 채팅방이라면 상대방 정보를 다르게 세팅한다.
+          // 클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
+          // eslint-disable-next-line eqeqeq
+          if (this.chatRoomList[i].user1 == 0 || this.chatRoomList[i].user2 == 0) {
+            // 상대방이 나간 채팅방이라면 상대방 정보를 다르게 세팅한다.
             this.nowChatUserNick = '알 수 없음'
             this.nowChatUserProfile = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2I0cfUaQK7bSG8L8q4cImt2i0qhd6XwNdeg&usqp=CAU'
           } else {
-            //상대방이 있다면 상대방의 정보를 세팅한다.
+            // 상대방이 있다면 상대방의 정보를 세팅한다.
             this.nowChatUserNick = this.chatRoomList[i].user_nick
             this.nowChatUserProfile = this.chatRoomList[i].profile_image
           }
 
-          //새로운 메세지 유무 상태를 업데이트 한다.
-          if(this.chatRoomList[i].user1 == this.$store.state.loginUserDTO.user_no) {
-            this.chatRoomList[i].user1_yn = "N"
+          // 새로운 메세지 유무 상태를 업데이트 한다.
+          // eslint-disable-next-line eqeqeq
+          if (this.chatRoomList[i].user1 == this.$store.state.loginUserDTO.user_no) {
+            // eslint-disable-next-line vue/no-mutating-props
+            this.chatRoomList[i].user1_yn = 'N'
           } else {
-            this.chatRoomList[i].user2_yn = "N"
+            // eslint-disable-next-line vue/no-mutating-props
+            this.chatRoomList[i].user2_yn = 'N'
           }
         }
       }
       axios
         .post(this.$serverUrl + '/mj/getMessageList', {
-          chatroom_no : chatroomNo,
+          chatroom_no: chatroomNo,
           user_no: this.$store.state.loginUserDTO.user_no
         })
         .then(res => {
           this.messageList = res.data
         })
-      //스크롤 위치를 아래로 내린다.
-      window.setTimeout(this.scrollDown, 200);
+      // 스크롤 위치를 아래로 내린다.
+      window.setTimeout(this.scrollDown, 200)
 
-      //메세지 입력창에 포커스를 준다.
-      document.getElementById("chat_content").focus()
+      // 메세지 입력창에 포커스를 준다.
+      document.getElementById('chat_content').focus()
     },
     sendMessage () {
       // 텍스트 입력창에 입력한 값이 있을 때
       if (this.message !== '') {
-
-        //현재 날짜와 시간을 구한다.
-        let myDate = new Date()
-        let yy = String(myDate.getFullYear())  
-        let mm = myDate.getMonth() + 1  
-        let dd = String(myDate.getDate() < 10 ? '0' + myDate.getDate() : myDate.getDate())  
-        let hou = String(myDate.getHours() < 10 ? '0' + myDate.getHours() : myDate.getHours())  
-        let min = String(myDate.getMinutes() < 10 ? '0' + myDate.getMinutes() : myDate.getMinutes())  
-        let sec = String(myDate.getSeconds() < 10 ? '0' + myDate.getSeconds() : myDate.getSeconds())  
-        let nowDate = yy + '-' + mm + '-' + dd  
-        let nowTime = hou + ':' + min + ':' + sec
-        let messageDate = nowDate + " " + nowTime
-        //메세지DTO를 만든다
+        // 현재 날짜와 시간을 구한다.
+        const myDate = new Date()
+        const yy = String(myDate.getFullYear())
+        const mm = myDate.getMonth() + 1
+        const dd = String(myDate.getDate() < 10 ? '0' + myDate.getDate() : myDate.getDate())
+        const hou = String(myDate.getHours() < 10 ? '0' + myDate.getHours() : myDate.getHours())
+        const min = String(myDate.getMinutes() < 10 ? '0' + myDate.getMinutes() : myDate.getMinutes())
+        const sec = String(myDate.getSeconds() < 10 ? '0' + myDate.getSeconds() : myDate.getSeconds())
+        const nowDate = yy + '-' + mm + '-' + dd
+        const nowTime = hou + ':' + min + ':' + sec
+        const messageDate = nowDate + ' ' + nowTime
+        // 메세지DTO를 만든다
         const messageDTO = {
           chatroom_no: this.nowChatRoom,
           user_no: this.$store.state.loginUserDTO.user_no,
@@ -270,11 +276,13 @@ export default ({
         }
         // 현재 채팅방에 뿌려주고
         this.messageList.push(messageDTO)
-        //스크롤 위치를 아래로 내린다.
-        window.setTimeout(this.scrollDown, 50);
-        //최근 대화 부분을 해당 메세지로 바꿔준다.
-        for(let i = 0; i < this.chatRoomList.length; i++) {
-          if(this.chatRoomList[i].chatroom_no == this.nowChatRoom) {
+        // 스크롤 위치를 아래로 내린다.
+        window.setTimeout(this.scrollDown, 50)
+        // 최근 대화 부분을 해당 메세지로 바꿔준다.
+        for (let i = 0; i < this.chatRoomList.length; i++) {
+          // eslint-disable-next-line eqeqeq
+          if (this.chatRoomList[i].chatroom_no == this.nowChatRoom) {
+            // eslint-disable-next-line vue/no-mutating-props
             this.chatRoomList[i].recent_message = this.message
           }
         }
@@ -294,30 +302,31 @@ export default ({
         this.message = ''
       }
     },
-    deleteChatRoom() {
-      if(confirm("현재 채팅방을 나가시겠습니까? 보낸 메세지는 모두 삭제됩니다.")) {
-        //채팅방 리스트에서 해당 채팅방번호를 찾아서 삭제한다.
-        for(var i = 0; i < this.chatRoomList.length; i++) {
-          if(this.chatRoomList[i].chatroom_no === this.nowChatRoom) {
+    deleteChatRoom () {
+      if (confirm('현재 채팅방을 나가시겠습니까? 보낸 메세지는 모두 삭제됩니다.')) {
+        // 채팅방 리스트에서 해당 채팅방번호를 찾아서 삭제한다.
+        for (let i = 0; i < this.chatRoomList.length; i++) {
+          if (this.chatRoomList[i].chatroom_no === this.nowChatRoom) {
+            // eslint-disable-next-line vue/no-mutating-props
             this.chatRoomList.splice(i, 1)
             this.open = false
           }
         }
         axios
-        .post(this.$serverUrl + "/mj/deleteChatRoom", {
-          chatroom_no: this.nowChatRoom,
-          user1: this.$store.state.loginUserDTO.user_no
-        })
-        .then(res => {
-          if(res.data === 1) {
-            console.log("db에서 삭제 완료")
-          }
-        })
+          .post(this.$serverUrl + '/mj/deleteChatRoom', {
+            chatroom_no: this.nowChatRoom,
+            user1: this.$store.state.loginUserDTO.user_no
+          })
+          .then(res => {
+            if (res.data === 1) {
+              console.log('db에서 삭제 완료')
+            }
+          })
       }
     },
-    scrollDown() {
-      //메세지 리스트 ul의 스크롤을 내린다.
-      var messageUl = document.getElementById("yesChatUl")
+    scrollDown () {
+      // 메세지 리스트 ul의 스크롤을 내린다.
+      const messageUl = document.getElementById('yesChatUl')
       messageUl.scrollTop = messageUl.scrollHeight
     }
   }
