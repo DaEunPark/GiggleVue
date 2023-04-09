@@ -9,7 +9,12 @@
                   <div id="imageuploadarea">
                     <div>
                       <div class="wrap">
-                        <img class="uploadimage" :src="imgurl" v-for="(imgurl, i) in localImages" :key="i" >
+                        <span v-for="(imgurl, i) in localImages" :key="i" >
+                          <a role="button" class="image-delete" @click="deleteThisImage(i)">
+                            <font-awesome-icon icon="fa-solid fa-square-xmark" size="xl" style="color: #ff4d4d;" />
+                          </a>
+                          <img class="uploadimage"  :src="imgurl" >
+                        </span>
                       </div>
                     </div>
                     <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
@@ -147,17 +152,17 @@ export default {
     },
     handleImageFileUpload () {
       const tempArr = this.$refs.imgfiles.files
-      if (tempArr.length > 4) {
+      console.log(tempArr)
+      if (tempArr.length > 4 || this.localImages.length + tempArr.length > 4) {
         alert('사진 파일 1 ~ 4개 선택하세요.')
       } else {
-        this.files = []
-        this.localImages = []
+        // this.files = []
+        // this.localImages = []
+        const fileIdx = this.files.length
         for (let i = 0; i < tempArr.length; i++) {
           const newName = this.uuidFileName(tempArr[i].name)
           this.files.push(this.renameFile(tempArr[i], newName))
-          // console.log(this.files[i])
-          this.localImages.push(URL.createObjectURL(this.files[i]))
-          console.log(this.localImages[i])
+          this.localImages.push(URL.createObjectURL(this.files[fileIdx + i]))
         }
       }
     },
@@ -180,6 +185,10 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    deleteThisImage (item) {
+      this.files.splice(item, 1)
+      this.localImages.splice(item, 1)
     }
   }
 }
@@ -254,6 +263,13 @@ textarea {
 }
 #img-files {
   display: none;
+}
+
+.image-delete {
+  float: inline-end;
+  top: 40px;
+  padding-inline-end: 10px;
+  position: relative;
 }
 
 .wrap {

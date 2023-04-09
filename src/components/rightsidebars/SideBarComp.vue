@@ -21,7 +21,7 @@
                             </div>
                             <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in recentSearchList" :key="i">
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
-                                <a href="#" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                                <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
 
                         </div><!-- <div class="list-group"> -->
