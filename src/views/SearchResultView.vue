@@ -18,11 +18,18 @@
                   <p class="h2">Result</p>
                   </div> -->
 
+
+ <!--               <h3 style="color:#7d7d7d;">user</h3>
+                <UserFeedStatus :items="allfeedList"></UserFeedStatus>
+                <hr style="color:#7d7d7d; margin:5px;"/>
+                <h3 style="color:#7d7d7d;">feed</h3>
+
                  <h3 style="color:#7d7d7d;">user</h3>
                  <UserFeedStatus :items="alluserfeedList"></UserFeedStatus>
                  <hr style="color:#7d7d7d; margin:5px;"/>
                  <h3 style="color:#7d7d7d;">feed</h3>
                  <FeedStatus :items="allfeedList"></FeedStatus>
+
 
         </article>
       </div>

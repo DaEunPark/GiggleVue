@@ -75,7 +75,9 @@
 <!-- 비밀번호찾기 Modal 끝 -->
 
         <div class="card border-primary mb-3" style="max-width: 400px;">
+
             <div class="card-header login_card-header"></div>
+
                 <div class="card-body">
                         <div class="form">
                             <form>
@@ -168,6 +170,8 @@ export default {
     // eslint-disable-next-line eqeqeq
     if (this.$store.state.checked == 1) {
       this.remember = 1
+      this.user_email = this.$store.state.rememberUserEmail
+      this.user_pwd = this.$store.state.rememberUserPwd
     // eslint-disable-next-line eqeqeq
     } else if (this.$store.state.checked == 0) {
       this.remember = 0
@@ -228,10 +232,25 @@ export default {
               'Content-Type': 'application/json'
             }
           }).then((res) => {
-            this.$store.commit('addLoginUser', res.data)
 
-            console.log(this.$store.state.loginUserDTO)
             if (res.data.user_email != null) {
+
+              // 회원 가입되어있지만 프로필이미지, 배경이미지가 설정되지 않았을 경우 default값 부여
+
+              if(res.data.back_image != null && res.data.profile_image != null){
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image == null && res.data.profile_image != null){
+              res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image == null && res.data.profile_image == null) {
+              res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
+              res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            } else if(res.data.back_image != null && res.data.profile_image == null) {
+              res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
+              this.$store.commit('addLoginUser', res.data)
+            }
+
               this.$router.push({
                 path: '/main/mainhome'
               })
@@ -334,12 +353,14 @@ export default {
     background-repeat: no-repeat;
     background-position: fixed;
 }
+
 .login_card-header {
     height:100px;
     background-image: url("../assets/Glogo.png");
     background-position: center;
     background-size:150px;
     background-repeat: no-repeat;
+    margin: 0 28%;
 }
 .form-control {
     border-color: #fff;

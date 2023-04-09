@@ -9,7 +9,8 @@ export default createStore({
     rememberUserPwd: null,
     deleteUserEmail: null,
     deleteUserPwd: null,
-    checked: null
+    checked: null,
+    updateProfileImage: null
   },
   getters: {
     loginUserDTO: state => state.loginUserDTO,
@@ -18,7 +19,8 @@ export default createStore({
     rememberUserPwd: state => state.rememberUserPwd,
     deleteUserEmail: state => state.deleteUserEmail,
     deleteUserPwd: state => state.deleteUserPwd,
-    checked: state => state.checked
+    checked: state => state.checked,
+    updateProfileImage: state => state.updateProfileImage
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
@@ -44,6 +46,9 @@ export default createStore({
     },
     checked: (state, checked) => {
       state.checked = checked
+    },
+    updateProfileImage: (state, updateProfileImage) => {
+      state.updateProfileImage = updateProfileImage
     }
 
   },
@@ -53,6 +58,6 @@ export default createStore({
   },
   plugins: [createPersistedState({
     paths: ['loginUserDTO', 'otherUserDTO', 'rememberUserEmail', 'rememberUserPwd',
-      'deleteUserEmail', 'deleteUserPwd', 'checked']
+      'deleteUserEmail', 'deleteUserPwd', 'checked', 'updateProfileImage']
   })]
 })

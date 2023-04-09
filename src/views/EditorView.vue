@@ -80,6 +80,23 @@ export default {
               alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
             }
           })
+
+          // 태그 설정 부분 시작
+
+          const data = {text_content : this.post.text_content}
+          
+          this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                }).then((res) => {
+                  console.log("태그 저장 성공..")
+                  location.reload();
+                }   
+          )
+
+          // 태그 설정 부분 끝
+
       }
     },
     addYoutube () {
@@ -95,7 +112,7 @@ export default {
       this.$refs.YTIcon.style.pointerEvents = ''
       this.post.post_link = ''
       this.addedYTLink = false
-    }
+    },
   }
 }
 </script>

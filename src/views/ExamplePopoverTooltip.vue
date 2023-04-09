@@ -394,6 +394,7 @@ export default {
         }
       ).then(res => {
         this.imgbbImgURL = res.data.data.url
+        console.log("res.data.data.url = " + res.data.data.url)
       }).catch(err => {
         console.log(err)
       })
