@@ -19,8 +19,7 @@
                   </div> -->
 
                  <h3 style="color:#7d7d7d;">user</h3>
-                 <!-- <UserFeedStatus :items="allfeedList" :itemss="usershow"></UserFeedStatus> -->
-                 <UserFeedStatus :items="allfeedList"></UserFeedStatus>
+                 <UserFeedStatus :items="alluserfeedList"></UserFeedStatus>
                  <hr style="color:#7d7d7d; margin:5px;"/>
                  <h3 style="color:#7d7d7d;">feed</h3>
                  <FeedStatus :items="allfeedList"></FeedStatus>
@@ -42,11 +41,11 @@ export default {
   },
   data () {
     return {
-      requestBody: {},
+      //requestBody: {},
       allfeedList: {},
-      usershow: {},
+      alluserfeedList: {},
       no: '', // 숫자 처리
-      // keyword : '',
+      //keyword : '',
       keyword: this.$route.params.keyword
     }
   },
@@ -56,19 +55,16 @@ export default {
   },
   methods: {
     fnGetList () {
-      this.requestBody = {
-      }
-      // console.log("이동후 결과 피드화면이 잘 받아와짐");
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword, {
-        params: this.requestBody,
-        headers: {}
-      }).then((res) => {
+      //console.log("이동후 결과 피드화면이 잘 받아와짐");
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then(res => {
         // this.allfeedList = res.data
-        if (res.data.length > 0) {
+        if (res.data != '' || res.data ==''  ) {
+          // || res.data =='' 이부분을 나눠서 유저/게시물 없을 경우의 안내창 도출시켜야함
           this.allfeedList = res.data
-          const usershow = _.uniqBy(this.allfeedList, 'allfeedList.user_no')
-          // const usershow =uniq(this.allfeedList)
-          console.log('usershow.user_nick' + usershow.user_no)
+          this.$axios.get(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
+            this.alluserfeedList = res.data
+            console.log('유저검색' + res)
+          })
         } else {
           alert('해당 유저/게시글이 없습니다.\n검색어를 확인해주세요.')
         }
@@ -81,19 +77,25 @@ export default {
     searchresultshow (keyword) {
       // console.log("searchResultView에서의 검색");
       console.log('"', keyword, '"' + '검색')
-      this.keyword = keyword
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+      //this.keyword = keyword
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then(res => {
         // console.log(res)
         // this.allfeedList = res.data
-        if (res.data.length > 0) {
+        if (res.data != '' || res.data =='' ) {
+          this.$router.push({
+            name: 'searchresult',
+            params: {
+              keyword: this.keyword
+            }
+          })
           this.allfeedList = res.data
+          //console.log('내용검색'+res)
+          this.$axios.get(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
+          this.alluserfeedList = res.data
+          //console.log('유저검색' + res)
+          })
         } else {
           alert('해당 유저/게시글이 없습니다.\n검색어를 확인해주세요.')
-        }
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
         }
       })
     }

@@ -158,7 +158,6 @@ export default {
             }
           })
           console.log('"', keyword, '"' + '검색')
-          // console.log(res)
           this.allfeedList = res.data
         }
       }).catch((err) => {
