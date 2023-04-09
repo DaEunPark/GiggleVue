@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
-    <aside class="sidebar">
+    <aside class="sidebar col-3">
       <header class="sidebar-header">
         <div class="user_img_box" >
 
@@ -296,7 +296,6 @@ span {-webkit-text-fill-color: black;}
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 350px;
     height: 100%;
     padding: 40px 10px 30px 10px;
     background: #ffffff;

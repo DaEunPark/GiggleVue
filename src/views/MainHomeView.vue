@@ -61,5 +61,8 @@ export default {
     #main_contents {
         min-width: 620px;
     }
+    #side_bar{
+        padding : 0;
+    }
 
 </style>

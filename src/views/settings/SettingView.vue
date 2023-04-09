@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <div class="settingWrap list-group bg-light border-round-radious">
-            <div class="card">
+        <div class="settingWrap card bg-light border-round-radious">
+            <div class="list-group">
                 <div class="setting__title align-items-center">
                     <h3 class ="list-group-item text-dark border-primary my-2">설정</h3>
                 </div>
@@ -32,7 +32,7 @@
 
 .setting__bar{
 
-    width:550px;
+    width:100%;
     margin : 0 auto;
     color : gray;
 }
