@@ -9,9 +9,13 @@
 
                 <!--개인 프로필로 가는 링크-->
             <div class="col-sm-11" style="margin-left:15px">
-                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                <div class="d-flex w-60 justify-content-between" id="GoUserprofile">
                     <button type="button" class="btn" @click="whichProfile(item.post_no)"><p class="FeedList_username">{{item.user_nick}}
                     <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
+                    <span class="FeedList_update" v-if="isMine">
+                      <a role="button" class="text-dark" id="modify-post" >수정</a>
+                      <a role="button" class="text-dark" id="delete-post" >삭제</a>
+                  </span>
                 </div>
 
                     <!-- 개인 프로필로 가는 링크
@@ -33,7 +37,7 @@
                         </div>
                       </div>
                         <!-- video-embed start -->
-                        <div class="ytarea" v-show=showYoutube>
+                        <div class="ytarea" v-if=showYoutube>
                             <div class="ratio ratio-16x9">
                                 <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
 
@@ -165,6 +169,11 @@ export default {
     window.scrollTo(0, 0)
     this.getThisPostDetail()
   },
+  computed: {
+    isMine () {
+      return this.item.user_no === this.$store.state.loginUserDTO.user_no
+    }
+  },
   methods: {
     getThisPostDetail () {
       this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
@@ -238,6 +247,20 @@ export default {
           })
         }
       })
+    },
+    // eslint-disable-next-line camelcase
+    deletePost (post_no) {
+      // eslint-disable-next-line camelcase
+      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${post_no}`)
+      .then(res => {
+          console.log(res.data)
+          if (res.data === 'Y') {
+            this.$router.replace('/main/mainhome')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
 
   }
@@ -417,4 +440,15 @@ text-align: center;
   margin: 1em 1em 1.4em 1em;
 }
 
+#modify-post {
+  margin-right: 10px;
+}
+
+.FeedList_update a {
+  color: slategray !important;
+}
+
+.FeedList_update a:hover {
+  color: deeppink !important;
+}
 </style>
