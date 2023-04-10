@@ -422,8 +422,8 @@ export default {
       })
     },
     deleteImgFromServertest () {
-      const filename = this.imagefilename
-      this.$axios.delete(`${this.$serverUrl}/post/deleteimage/${filename}`)
+      const imagepath = this.imagefilename
+      this.$axios.delete(`${this.$serverUrl}/post/deleteimage/${imagepath}`)
         .then(res => {
           console.log(res.data)
         })
