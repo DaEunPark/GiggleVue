@@ -3,10 +3,18 @@
     <aside class="sidebar col-3">
       <header class="sidebar-header">
         <div class="user_img_box">
-            <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`">
+            <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"> -->
         </div>
       </header>
       <nav>
+        <img src="@/assets/Glogo.png" id="glogo"/>
+        <button type="button" @click="getProfile()">
+          <span>
+              <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
+                  >
+            <span> {{ this.$store.state.loginUserDTO.user_nick }}</span>
+          </span>
+        </button>
         <button type="button" onclick="location.href='/main/mainhome' ">
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="m20 8l-6-5.26a3 3 0 0 0-4 0L4 8a3 3 0 0 0-1 2.26V19a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8.75A3 3 0 0 0 20 8Zm-6 12h-4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1Zm5-1a1 1 0 0 1-1 1h-2v-5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v5H6a1 1 0 0 1-1-1v-8.75a1 1 0 0 1 .34-.75l6-5.25a1 1 0 0 1 1.32 0l6 5.25a1 1 0 0 1 .34.75Z"/></svg>
@@ -41,17 +49,21 @@
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg></span></a>
 
-<button type="button" @click="logout()">
+<!-- <button type="button" @click="logout()">
           <span>
             <span>Logout</span>
           </span>
-</button>
+</button> -->
 
         <button>
 
           <span>
             <i class="uil uil-bars"> </i>
-            <p><span>More</span></p>
+            <button type="button" @click="logout()">
+            <span>
+              <span>Logout</span>
+            </span>
+          </button>
           </span>
         </button>
       </nav>
@@ -215,6 +227,11 @@ export default {
           }
         })
     },
+    getProfile () {
+      this.$router.push({
+        path: '/main/mypage'
+      })
+    },
     openMessage () {
       this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
@@ -247,6 +264,13 @@ span {-webkit-text-fill-color: black;}
     width: 30%;
     height: 100%;
 
+}
+
+#glogo {
+  width: 40%;
+  height: auto;
+  margin-bottom: 10%;
+  align-self: center;
 }
 
 .user_img_box > .user_img {

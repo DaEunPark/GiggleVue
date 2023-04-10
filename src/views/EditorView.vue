@@ -97,6 +97,7 @@ export default {
               // window.location.href = 'http://localhost:8080/main/mainhome'
               /// /this.$router.go(this.$router.currentRoute)
               this.uploadImgToServer()
+              this.insertTag()
             } else {
               alert('실패 실패 실패 새로운 게시글이 등록되었습니다. ' + res.data)
             }
@@ -108,17 +109,17 @@ export default {
 
         // 태그 설정 부분 시작
 
-        const data = { text_content: this.post.text_content }
+        // const data = { text_content: this.post.text_content }
 
-        this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then((res) => {
-          console.log('태그 저장 성공..')
-          location.reload()
-        }
-        )
+        // this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   }
+        // }).then((res) => {
+        //   console.log('태그 저장 성공..')
+        //   location.reload()
+        // }
+        // )
 
         // 태그 설정 부분 끝
       }
@@ -167,7 +168,7 @@ export default {
       }
     },
     async uploadImgToServer () {
-      // alert('이미지들 업로드 테스트')
+      alert('이미지들 업로드 테스트')
       const body = new FormData()
       for (let i = 0; i < this.files.length; i++) {
         body.append('files', this.files[i])
@@ -185,6 +186,19 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    async insertTag () {
+      const data = { text_content: this.post.text_content }
+
+      await this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        alert('태그 저장 성공..')
+        location.reload()
+      }
+      )
     },
     deleteThisImage (item) {
       this.files.splice(item, 1)
