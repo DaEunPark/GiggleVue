@@ -14,7 +14,7 @@
                     <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
                     <span class="FeedList_update" v-if="isMine">
                       <a role="button" class="text-dark" id="modify-post" >수정</a>
-                      <a role="button" class="text-dark" id="delete-post" >삭제</a>
+                      <a role="button" class="text-dark" id="delete-post" @click="deletePost()">삭제</a>
                   </span>
                 </div>
 
@@ -249,12 +249,13 @@ export default {
       })
     },
     // eslint-disable-next-line camelcase
-    deletePost (post_no) {
+    deletePost () {
       // eslint-disable-next-line camelcase
-      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${post_no}`)
-      .then(res => {
+      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`)
+        .then(res => {
           console.log(res.data)
           if (res.data === 'Y') {
+            alert('포스트를 삭제했습니다.')
             this.$router.replace('/main/mainhome')
           }
         })
