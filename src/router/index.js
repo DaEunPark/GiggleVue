@@ -16,6 +16,8 @@ import gCallback from '../views/gCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 import NotMyPage from '../views/NotMyPage.vue'
+import recommendFollow from '../views/recommendFollow.vue'
+import GLogin1 from '../views/GLogin1.vue'
 
 const routes = [
   {
@@ -111,6 +113,14 @@ const routes = [
           rmain: PostDetailView
 
         }
+      },
+      {
+        path: 'recommendFollow',
+        name: 'recommendFollow',
+        components: {
+          rmain: recommendFollow
+
+        }
       }
 
     ] // MainHomeView children
@@ -145,7 +155,14 @@ const routes = [
     components: {
       rhome: gCallback
     }
-  }
+  },
+  {
+    path: '/GLogin1',
+    name: 'GLogin1',
+    components: {
+      rhome: GLogin1
+    }
+  },
 
 ]
 

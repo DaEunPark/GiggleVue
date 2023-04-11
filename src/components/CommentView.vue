@@ -62,7 +62,9 @@ export default {
       }).then((res) => {
         alert(res.data)
       })
-    }
+
+      location.reload()
+    },
 
   }
 }

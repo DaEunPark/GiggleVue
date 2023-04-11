@@ -93,7 +93,7 @@ export default {
         this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
-              alert('새로운 게시글이 등록되었습니다. ' + res.data)
+              // alert('새로운 게시글이 등록되었습니다. ' + res.data)
               // window.location.href = 'http://localhost:8080/main/mainhome'
               /// /this.$router.go(this.$router.currentRoute)
               this.uploadImgToServer()
@@ -168,7 +168,6 @@ export default {
       }
     },
     async uploadImgToServer () {
-      alert('이미지들 업로드 테스트')
       const body = new FormData()
       for (let i = 0; i < this.files.length; i++) {
         body.append('files', this.files[i])
@@ -195,7 +194,6 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-        alert('태그 저장 성공..')
         location.reload()
       }
       )

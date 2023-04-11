@@ -56,10 +56,10 @@ export default {
   },
   mounted () {
     // eslint-disable-next-line no-unused-expressions, no-sequences
-    this.getTrend(),
+    this.getTrend()
     // eslint-disable-next-line no-unused-expressions, no-sequences
     // 나중에 this.Trendlist 가져올때 사용할 메서드
-    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+    // this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
     fnGetList (res) {
@@ -97,7 +97,9 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      this.keyword = keyword
+      var temp = keyword
+      this.keyword = temp.replace("#", "")
+      
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
           this.$router.push({
