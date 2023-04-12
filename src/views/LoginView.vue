@@ -109,8 +109,10 @@
                                                 || this.user_pwd.length<4">Login</button>
                             </form>
                             <hr/>
-                            <div class="social mb-2"><GoogleLogin></GoogleLogin>
+                            <div class="social mb-2">
+                            <GLogin1></GLogin1>
                             <NaverLogin></NaverLogin></div>
+                            
 
                             <div class="bottomWrap">
                               <div class="findWrap">
@@ -138,8 +140,8 @@
 </template>
 
 <script>
-import GoogleLogin from './GoogleLogin.vue'
 import NaverLogin from '../components/NaverLogin.vue'
+import GLogin1 from './GLogin1.vue'
 
 export default {
   data () {
@@ -164,7 +166,7 @@ export default {
     }
   },
   components: {
-    GoogleLogin, NaverLogin
+    NaverLogin, GLogin1
   },
   mounted () {
     // eslint-disable-next-line eqeqeq
@@ -176,15 +178,10 @@ export default {
     } else if (this.$store.state.checked == 0) {
       this.remember = 0
     }
+
+    console.log("google_token = " + this.$store.state.google_token)
   },
   methods: {
-    onSignIn (googleUser) {
-      const profile = googleUser.getBasicProfile()
-      console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName())
-      console.log('Image URL: ' + profile.getImageUrl())
-      console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
-    },
     checkEmail () {
       // 한글 입력시 제거
       if (this.user_email.match(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g)) {
@@ -233,27 +230,22 @@ export default {
             }
           }).then((res) => {
             if (res.data.user_email != null) {
-              // 회원 가입되어있지만 프로필이미지, 배경이미지가 설정되지 않았을 경우 default값 부여
-
-              if (res.data.back_image != null && res.data.profile_image != null) {
-                this.$store.commit('addLoginUser', res.data)
-              } else if (res.data.back_image == null && res.data.profile_image != null) {
-                res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
-                this.$store.commit('addLoginUser', res.data)
-              } else if (res.data.back_image == null && res.data.profile_image == null) {
-                res.data.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
-                res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
-                this.$store.commit('addLoginUser', res.data)
-              } else if (res.data.back_image != null && res.data.profile_image == null) {
-                res.data.profile_image = 'https://i.ibb.co/WW2zQk3/profiledefault.png'
-                this.$store.commit('addLoginUser', res.data)
-              }
 
               this.$router.push({
                 path: '/main/mainhome'
               })
+              this.$store.commit("addLoginUser", res.data)
+
             } else if (res.data.user_email == null) {
               alert('일치하는 회원 정보가 없습니다.')
+              if (confirm('회원가입을 진행 하시겠습니까?') === true) {
+                this.$router.push({
+                  path: '/register'
+                })
+              } else {
+                // eslint-disable-next-line no-unused-expressions
+                stop
+              }
             }
           }).catch(error => {
             console.log(error)
@@ -336,12 +328,18 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    pushGoogle() {
+      this.$router.push ({
+        path: '/GLogin1'
+      })
     }
   }
 }
 </script>
 
 <style>
+
 .background{
     height: 100vh;
     overflow: hidden;
@@ -356,9 +354,9 @@ export default {
     height:100px;
     background-image: url("../assets/Glogo.png");
     background-position: center;
-    background-size:150px;
+    background-size:30%;
     background-repeat: no-repeat;
-    margin: 0 28%;
+    margin: 0;
 }
 .form-control {
     border-color: #fff;
@@ -470,5 +468,8 @@ export default {
 .social {
     margin:0 30%;
     padding: 0 20px;
+}
+#G_OAuth_btn {
+  z-index: 7;
 }
 </style>

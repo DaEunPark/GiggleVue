@@ -49,23 +49,23 @@
                     <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch1()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top1 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top1 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch2()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top2 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top2 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch3()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top3 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top3 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch4()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top4 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top4 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch5()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top5 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top5 }}</h6>
                     </button>
                     <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
@@ -80,20 +80,21 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="text-dark fw-bold">팔로우 추천</span>
                         </div>
-                        <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
+
+                        <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" @click="intoProfile(`${user.user_no}`)">
                             <div class="profile-wrapper">
                                 <div class="profile-box">
-                                    <img src="../../assets/profile.jpg" class="profile-img" >
+                                    <img :src="`${ user.profile_image }`" id="recUserProfile">
                                 </div>
                             </div>
                             <div class="profile-user-name">
-                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">FIFTY FIFTY  FIFTY + {{ i }}</div>
+                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
+                                  {{ user.user_nick }}</div>
                             </div>
                             <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
-                            <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
-
-                        </router-link>
-                        <a href="#" @click="replaceTo('/main/bootstraptest')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
+                          </button>
+                          
+                        <a href="#" @click="pushRecommend()" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                     </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
@@ -114,14 +115,16 @@
 
         </div> <!-- test1 -->
 
-    </div> <!-- <div class="sticky-top"> -->
+
+</div>
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import { throwStatement } from '@babel/types'
+//import { throwStatement } from '@babel/types'
+import EditorView from '../../views/EditorView.vue'
 
 export default {
+  components : {EditorView},
   data () {
     return {
       requestBody: {},
@@ -135,7 +138,8 @@ export default {
       top2: '',
       top3: '',
       top4: '',
-      top5: ''
+      top5: '',
+      recommendUser: {}
     }
   },
   computed: {
@@ -152,22 +156,16 @@ export default {
     }
   },
   mounted () {
-    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
-
     this.getTrend() // 실시간 트렌드 가져오기
+
+    this.recommendFollow()
   },
   methods: {
-    // enterSearch () {
-    //   // eslint-disable-next-line eqeqeq
-    //   if (this.searchWords == '' || this.searchWords == null) {
-    //     alert('검색어를 입력하세요')
-    //   } else {
-    //     alert(this.searchWords)
-    //   }
-    // },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      this.keyword = keyword
+      var temp = keyword
+      this.keyword = temp.replace("#", "")
+      
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
           this.$router.push({
@@ -182,7 +180,7 @@ export default {
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
+          alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
     },
@@ -234,10 +232,47 @@ export default {
     goSearch5 () {
       this.keyword = this.top5.replace('#', '')
       this.searchresultshow(this.keyword)
-    }
+    },
+    recommendFollow() {
+
+      const data = {user_no : this.$store.state.loginUserDTO.user_no,
+                    follow_user : this.$store.state.loginUserDTO.follow_user}
+
+      this.$axios.post(this.$serverUrl + '/recommendFollow', JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+      }).then((res) => {
+        this.recommendUser = res.data
+        console.log("recommendUser = " + this.recommendUser[0].user_nick)
+      })
+    },
+    pushRecommend() {
+      this.$router.push ({
+        path: '/main/recommendFollow'
+      })
+    },
+    intoProfile(user) {
+        const data = { user_no: user }
+
+          console.log('user_nick = ' + data)
+
+          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            this.$router.push({
+              path: '/main/notmypage'
+            })
+          })
+      },
   }
 }
 </script>
+
 <style scoped>
     input::placeholder {
         color: darkgrey;
@@ -266,8 +301,8 @@ export default {
         width : 100%;
     }
     .trandWrap, .recommendfollowWrap{
-        margin-left : 12px;
-        width : 100%;
+        margin : 0 12px;
+        width : 350px;
         background-color:  #f0f0f0;
 
     }
@@ -275,8 +310,8 @@ export default {
         width : 350px;
     }
     .profile-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 20px;
+        height: 20px;
 
     }
     .profile-box {
@@ -289,7 +324,7 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        max-width: 100%;
+        width: 20px;
         height: auto;
     }
     .text-size-custom {
@@ -326,5 +361,71 @@ export default {
         font-size: 18px;
         margin: auto auto;
     }
+
+    .modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+}
+
+/* 알람, DM modal 공통 css */
+.modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-backdrop {
+  position: unset !important;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+.modal-header > svg {
+  margin: auto;
+  margin-left: 338px;
+}
+.modal-header > button {
+  margin: 0;
+}
+.modal-body {
+  padding: 0px 20px 10px 20px;
+  height: 550px;
+}
+#profic {
+  margin-left: 100%;
+}
+.YN {
+  color: #FFF;
+  margin-top: 5%;
+  margin-left: 45%;
+  font-size: 12px;
+}
+
+
+    img, svg {
+    vertical-align: middle;
+    width: 20px;
+}
 
 </style>

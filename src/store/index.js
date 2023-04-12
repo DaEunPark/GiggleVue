@@ -10,7 +10,7 @@ export default createStore({
     deleteUserEmail: null,
     deleteUserPwd: null,
     checked: null,
-    updateProfileImage: null
+    updateProfileImage: null,
   },
   getters: {
     loginUserDTO: state => state.loginUserDTO,
@@ -20,7 +20,8 @@ export default createStore({
     deleteUserEmail: state => state.deleteUserEmail,
     deleteUserPwd: state => state.deleteUserPwd,
     checked: state => state.checked,
-    updateProfileImage: state => state.updateProfileImage
+    updateProfileImage: state => state.updateProfileImage,
+  
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
@@ -49,6 +50,9 @@ export default createStore({
     },
     updateProfileImage: (state, updateProfileImage) => {
       state.updateProfileImage = updateProfileImage
+    },
+    updatePwd: (state, pwd) => {
+      state.loginUserDTO.user_pwd = pwd
     }
 
   },

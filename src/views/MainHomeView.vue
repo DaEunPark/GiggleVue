@@ -22,6 +22,9 @@
 
         </div> -->
         <div class="row">
+            <div class="editWrap"> 
+                <EditButton class="edit_btn"></EditButton>
+            </div>
             <div class="col-3">
                 <MenuBar></MenuBar>
             </div>
@@ -29,23 +32,22 @@
                 <div>
                     <router-view name="rmain"></router-view>
                 </div>
-
+                
             </div>
             <div  id="side_bar"  class="col-3" >
                 <SideBar></SideBar>
             </div>
 
         </div>
-
     </div>
 
 </template>
 <script>
 import MenuBar from '../components/components-MenuBarComp-left.vue'
 import SideBar from '../components/rightsidebars/SideBarComp.vue'
-
+import EditButton from '../components/EditorButton.vue'
 export default {
-  components: { MenuBar, SideBar }
+  components: { MenuBar, SideBar, EditButton }
 
 }
 </script>
@@ -56,6 +58,7 @@ export default {
 
             padding: 0;
             margin: 0;
+            z-index : -1;
         }
     }
     #main_contents {
@@ -65,4 +68,5 @@ export default {
         padding : 0;
     }
 
+  
 </style>
