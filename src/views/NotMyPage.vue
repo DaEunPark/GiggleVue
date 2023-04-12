@@ -181,6 +181,9 @@ export default {
   .user_following_btn {
     background-color: deeppink;
   }
+  .user_follow_btn {
+    background-color: #41d7a7;
+  }
 
   .user_following_btn span {
     color: #e8e8e8 !important;
@@ -190,6 +193,8 @@ export default {
   .user_following_btn span, .user_follow_btn span {
     text-size-adjust: auto;
     margin: auto;
+    color: #e8e8e8 !important;
+    -webkit-text-fill-color: #e8e8e8 !important;
   }
 
   .user_info_box {
