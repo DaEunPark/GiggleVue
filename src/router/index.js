@@ -16,6 +16,7 @@ import gCallback from '../views/gCallback.vue'
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 import NotMyPage from '../views/NotMyPage.vue'
+import ModifyView from '../views/ModifyView.vue'
 
 const routes = [
   {
@@ -110,6 +111,13 @@ const routes = [
         components: {
           rmain: PostDetailView
 
+        }
+      },
+      {
+        path: 'modifypost',
+        name: 'modifypost',
+        components: {
+          rmain: ModifyView
         }
       }
 

@@ -52,7 +52,7 @@
                     <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
 
                     <!-- <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon"> -->
-                    <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">등록</button>
+                    <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">수정</button>
 
                 </div>
         </div>
@@ -64,11 +64,8 @@
 export default {
   data () {
     return {
-      post: {
-        user_no: this.$store.state.loginUserDTO.user_no,
-        text_content: '',
-        post_link: ''
-      },
+      post: {},
+      post_no: this.$route.query.post_no,
       addedYTLink: false,
       files: [],
       localImages: []
@@ -76,7 +73,7 @@ export default {
     }
   },
   mounted () {
-
+    this.getPostDetail()
   },
   computed: {
     showImgList () {
@@ -85,19 +82,43 @@ export default {
     }
   },
   methods: {
+    getPostDetail () {
+      this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
+        {
+          params: {
+            post_no: this.post_no
+          }
+        }).then(res => {
+        console.log(`Query: ${this.post_no}`)
+        this.post = res.data.post
+        // this.localImages = res.data.postImages
+        res.data.postImages.forEach(img => {
+          this.localImages.push(img.imagepath)
+        })
+        if (this.post.post_link === '' || this.post.post_link === null || this.post.post_link === undefined) {
+          this.addedYTLink = false
+        } else {
+          this.addedYTLink = true
+        }
+      }).catch(err => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    },
     fnSave () {
       if (this.post.text_content === '' || this.post.text_content === null || this.post.text_content === undefined) {
         alert('내용 입력은 필수입니다.')
       } else {
         //   alert('등록 가능')
-        this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
+        this.$axios.patch(`${this.$serverUrl}/post/upadtepost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
               // alert('새로운 게시글이 등록되었습니다. ' + res.data)
               // window.location.href = 'http://localhost:8080/main/mainhome'
               /// /this.$router.go(this.$router.currentRoute)
-              this.uploadImgToServer()
               this.insertTag()
+              this.uploadImgToServer()
             } else {
               alert('실패 실패 실패 새로운 게시글이 등록되었습니다. ' + res.data)
             }
@@ -106,22 +127,6 @@ export default {
               alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
             }
           })
-
-        // 태그 설정 부분 시작
-
-        // const data = { text_content: this.post.text_content }
-
-        // this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   }
-        // }).then((res) => {
-        //   console.log('태그 저장 성공..')
-        //   location.reload()
-        // }
-        // )
-
-        // 태그 설정 부분 끝
       }
     },
     addYoutube () {
@@ -181,7 +186,11 @@ export default {
           }
         }
       ).then(res => {
-        // console.log('이미지들 업로드 테스트' + res.data)
+        // alert('이미지들 업로드 테스트' + res.data)
+        if (res.data === 'Y') {
+          // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+          this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
+        }
         // this.s3ImgURL = res.data
       }).catch(err => {
         console.log(err)
@@ -196,14 +205,30 @@ export default {
         }
       }).then((res) => {
         // alert('태그 저장 성공..')
-        // location.reload()
-        this.$router.go()
+        // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+        // this.$router.go(-1)
       }
       )
     },
     deleteThisImage (item) {
       this.files.splice(item, 1)
-      this.localImages.splice(item, 1)
+      if (this.localImages[item].includes('cloudfront')) {
+        // const imagepath = this.localImages[item]
+        this.$axios.post(`${this.$serverUrl}/post/deleteimage`, {
+          imagepath: this.localImages[item]
+        })
+          .then(res => {
+            console.log(res.data)
+            if (res.data === 'Y') {
+              this.localImages.splice(item, 1)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.localImages.splice(item, 1)
+      }
     }
   }
 }
