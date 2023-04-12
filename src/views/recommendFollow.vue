@@ -82,7 +82,7 @@ export default {
       })
     },
     intoProfile (user) {
-      alert(user)
+      // alert(user)
       const data = { user_no: user }
 
       console.log('user_nick = ' + data)

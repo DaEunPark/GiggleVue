@@ -5,7 +5,8 @@
         <!-- <div class="user_img_box"> -->
             <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"> -->
           <!-- </div> -->
-          <img src="@/assets/Glogo.png" class="menu_logo" id="glogo"/>
+          <!-- <img src="@/assets/Glogo.png" class="menu_logo" id="glogo"/> -->
+          <img src="@/assets/Glogo.png" class="menu_logo" id="glogo" onclick="location.href='/main/mainhome'" role="button"/>
       </header>
       <nav>
         <button type="button" @click="getProfile()">
@@ -165,7 +166,7 @@ aria-hidden="true">
     </div>
     <!-- DM Modal 끝 -->
 
-  <footer>
+  <!-- <footer>
     <div class="altmenu">
       <center>
       <ul>
@@ -181,7 +182,7 @@ aria-hidden="true">
       </ul>
     </center>
     </div>
- </footer>
+ </footer> -->
 
 </template>
 

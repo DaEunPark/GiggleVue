@@ -140,7 +140,7 @@ export default {
   },
   methods: {
     profileUpdate () {
-    // eslint-disable-next-line eqeqeq
+      // eslint-disable-next-line eqeqeq
       if (this.user_nick == '') {
         this.user_nick = this.$store.state.loginUserDTO.user_nick
       } else {
@@ -182,6 +182,7 @@ export default {
         imgbbImg: this.imgbbImg,
         profile_image: this.profile_image
       }
+
       this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/json'
