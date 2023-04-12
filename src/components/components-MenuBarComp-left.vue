@@ -89,17 +89,7 @@ aria-hidden="true">
         </div>
     </div>
 </div> -->
-<!-- <button type="button" @click="logout()">
 
-<span>
-  <i class="uil uil-bars"> </i>
-  <span>
-    <span>Logout</span>
-  </span>
-</span>
-</button>
-</nav>
-</aside> -->
 
         <button type="button" @click="logout()">
 
@@ -112,6 +102,7 @@ aria-hidden="true">
         </button>
       </nav>
     </aside>
+
 
 
     <!-- 알림 Modal 시작 -->

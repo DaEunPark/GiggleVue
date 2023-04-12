@@ -120,9 +120,9 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import { throwStatement } from '@babel/types'
+//import { throwStatement } from '@babel/types'
 import EditorView from '../../views/EditorView.vue'
+
 export default {
   components : {EditorView},
   data () {
@@ -156,24 +156,16 @@ export default {
     }
   },
   mounted () {
-    // this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
-
     this.getTrend() // 실시간 트렌드 가져오기
 
     this.recommendFollow()
   },
   methods: {
-    // enterSearch () {
-    //   // eslint-disable-next-line eqeqeq
-    //   if (this.searchWords == '' || this.searchWords == null) {
-    //     alert('검색어를 입력하세요')
-    //   } else {
-    //     alert(this.searchWords)
-    //   }
-    // },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      this.keyword = keyword
+      var temp = keyword
+      this.keyword = temp.replace("#", "")
+      
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
           this.$router.push({
@@ -188,7 +180,7 @@ export default {
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
+          alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
     },
@@ -280,6 +272,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
     input::placeholder {
         color: darkgrey;

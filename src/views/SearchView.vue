@@ -5,7 +5,7 @@
 
               <article class="my-3" id="AinputSearch">
                   <div class="input-group mb-3" style="margin-top:10px;">
-                      <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
+                      <span class="input-group-text bg-primary">
                           <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
                           <input type="text"
                           v-model="keyword"
@@ -35,7 +35,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { thisExpression } from '@babel/types'
+//import { thisExpression } from '@babel/types'
 
 export default {
   data () {
@@ -58,6 +58,7 @@ export default {
     // eslint-disable-next-line no-unused-expressions, no-sequences
     this.getTrend()
     // eslint-disable-next-line no-unused-expressions, no-sequences
+
     // 나중에 this.Trendlist 가져올때 사용할 메서드
     // this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
@@ -114,7 +115,7 @@ export default {
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
+          alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
 
@@ -132,30 +133,19 @@ export default {
           this.fnGetList(res)
         })
     }
-
   }
 }
 </script>
 
 <style scoped>
-/* 임시배경
-.Sbackground{
-   background: slategray;
-} */
 .input-group >input {
-  border-radius: 12.5rem;
-  border: 1px solid #cdcdcd;
+  border: 2px solid #e83283;
   color: #000;
-  border-color: #adadad;
 }
 .input-group > input::placeholder{
   color: #7d7d7d;
 }
-.input-group > input:focus {
-  border-radius: 12.5rem;
-  border: 2px solid #e83283;
-  color: #000;
-}
+
 
 .searchtd{
   color:black;
