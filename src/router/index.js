@@ -9,6 +9,7 @@ import SettingProfileView from '../views/settings/SettingProfileView.vue'
 import SettingSecurityView from '../views/settings/SettingSecurityView.vue'
 import SettingFriendView from '../views/settings/SettingFriendView.vue'
 import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
+import SettingUnregister from '../views/settings/SettingUnregister.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
@@ -59,6 +60,13 @@ const routes = [
         name: 'security',
         components: {
           rmain: SettingSecurityView
+        }
+      },
+      {
+        path: 'setting/security/unregister',
+        name: 'unregister',
+        components: {
+          rmain: SettingUnregister
         }
       },
       {

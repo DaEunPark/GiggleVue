@@ -49,6 +49,9 @@ export default createStore({
     },
     updateProfileImage: (state, updateProfileImage) => {
       state.updateProfileImage = updateProfileImage
+    },
+    updatePwd: (state, pwd) => {
+      state.loginUserDTO.user_pwd = pwd
     }
 
   },
