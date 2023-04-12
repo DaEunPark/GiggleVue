@@ -80,20 +80,21 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="text-dark fw-bold">팔로우 추천</span>
                         </div>
-                        <router-link to="#" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" v-for="i in 3" :key="i">
+
+                        <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" @click="intoProfile(`${user.user_no}`)">
                             <div class="profile-wrapper">
                                 <div class="profile-box">
-                                    <img src="../../assets/profile.jpg" class="profile-img" >
+                                    <img :src="`${ user.profile_image }`" id="recUserProfile">
                                 </div>
                             </div>
                             <div class="profile-user-name">
-                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">FIFTY FIFTY  FIFTY + {{ i }}</div>
+                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
+                                  {{ user.user_nick }}</div>
                             </div>
                             <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
-                            <!-- <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small> -->
-
-                        </router-link>
-                        <a href="#" @click="replaceTo('/main/bootstraptest')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
+                          </button>
+                          
+                        <a href="#" @click="pushRecommend()" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                     </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
@@ -135,7 +136,8 @@ export default {
       top2: '',
       top3: '',
       top4: '',
-      top5: ''
+      top5: '',
+      recommendUser: {}
     }
   },
   computed: {
@@ -152,9 +154,11 @@ export default {
     }
   },
   mounted () {
-    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+    // this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
 
     this.getTrend() // 실시간 트렌드 가져오기
+
+    this.recommendFollow()
   },
   methods: {
     // enterSearch () {
@@ -234,7 +238,43 @@ export default {
     goSearch5 () {
       this.keyword = this.top5.replace('#', '')
       this.searchresultshow(this.keyword)
-    }
+    },
+    recommendFollow() {
+
+      const data = {user_no : this.$store.state.loginUserDTO.user_no,
+                    follow_user : this.$store.state.loginUserDTO.follow_user}
+
+      this.$axios.post(this.$serverUrl + '/recommendFollow', JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+      }).then((res) => {
+        this.recommendUser = res.data
+        console.log("recommendUser = " + this.recommendUser[0].user_nick)
+      })
+    },
+    pushRecommend() {
+      this.$router.push ({
+        path: '/main/recommendFollow'
+      })
+    },
+    intoProfile(user) {
+        const data = { user_no: user }
+
+          console.log('user_nick = ' + data)
+
+          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            this.$router.push({
+              path: '/main/notmypage'
+            })
+          })
+      },
   }
 }
 </script>
@@ -275,8 +315,8 @@ export default {
         width : 350px;
     }
     .profile-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 20px;
+        height: 20px;
 
     }
     .profile-box {
@@ -289,7 +329,7 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        max-width: 100%;
+        width: 20px;
         height: auto;
     }
     .text-size-custom {
@@ -326,5 +366,8 @@ export default {
         font-size: 18px;
         margin: auto auto;
     }
-
+    img, svg {
+    vertical-align: middle;
+    width: 20px;
+}
 </style>

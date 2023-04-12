@@ -168,7 +168,6 @@ export default {
       }
     },
     async uploadImgToServer () {
-      // alert('이미지들 업로드 테스트')
       const body = new FormData()
       for (let i = 0; i < this.files.length; i++) {
         body.append('files', this.files[i])
@@ -195,6 +194,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
+
         // alert('태그 저장 성공..')
         // location.reload()
         this.$router.go()

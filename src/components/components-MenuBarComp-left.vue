@@ -7,7 +7,7 @@
         </div>
       </header>
       <nav>
-        <img src="@/assets/Glogo.png" id="glogo"/>
+        <img src="@/assets/Glogo.png" id="glogo" onclick="location.href='/main/mainhome'"/>
         <button type="button" @click="getProfile()">
           <span>
               <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
@@ -56,17 +56,17 @@
 </button> -->
 
 
-<button type="button" @click="logout()">
+        <button type="button" @click="logout()">
 
-<span>
-  <i class="uil uil-bars"> </i>
-  <span>
-    <span>Logout</span>
-  </span>
-</span>
-</button>
-</nav>
-</aside>
+          <span>
+            <i class="uil uil-bars"> </i>
+            <span>
+              <span><font-awesome-icon icon="fa-solid fa-right-to-bracket" style="color: #000000;" />&nbsp;&nbsp;Logout</span>
+            </span>
+          </span>
+        </button>
+      </nav>
+    </aside>
 
 
     <!-- 알림 Modal 시작 -->
@@ -199,6 +199,7 @@ export default {
         })
         // eslint-disable-next-line no-undef
         this.$store.commit('logoutUser', res.data)
+        this.$store.commit('google_token_out', this.$store.state.google_token)
       } else {
         // eslint-disable-next-line no-unused-expressions
         stop
