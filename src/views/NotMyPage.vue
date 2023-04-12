@@ -20,7 +20,8 @@
                     <p id="user_name_title">{{ this.$store.state.otherUserDTO.user_nick }}</p>
                     <!-- <div class="user_setting_box"> -->
 
-                        <div class="user_follow_btn" onclick="user_follow_create()">팔로우</div>
+                        <div v-if="following === 'N'" class="user_follow_btn" @click="user_follow()"> <span class="text-nowrap">팔로우</span></div>
+                        <div v-if="following === 'Y'" class="user_following_btn" @click="user_follow()"> <span class="text-nowrap">팔로잉</span></div>
                         <!-- <div onclick="user_setting_modal_on()">
                             <button type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
                         </div> -->
@@ -63,15 +64,27 @@
 <script>
 // import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
+import { Follow } from '../mixins/Follow'
 // eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
+      follow: {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        follow_user: this.$store.state.otherUserDTO.user_no
+      }
+    }
+  },
+  computed: {
+    following () {
+      console.log('NotMyPage computed: ' + this.followResult)
+      return this.followResult
     }
   },
   mounted () {
+    this.isFollowing(this.follow)
     if (this.$store.state.otherUserDTO.back_image == null) {
       this.$store.state.otherUserDTO.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
     } else {
@@ -116,10 +129,11 @@ export default {
         path: '/main/setting/'
       })
     },
-    user_follow_create () {
-
+    user_follow () {
+      this.user_follow_create(this.follow)
     }
-  }
+  },
+  mixins: [Follow]
 }
 </script>
 <style scoped>
@@ -161,12 +175,12 @@ export default {
 
   }
 
-  .user_follow_btn {
+  .user_follow_btn, .user_following_btn {
       width: 15%;
       height: 40px;
       margin-left: auto;
 
-      padding-top: 7px;
+      /* padding-top: 7px; */
       border: 3px solid #e8e8e8;
       border-radius: 50px;
       cursor: pointer;
@@ -174,6 +188,29 @@ export default {
       font-size: 16px;
       font-weight: bold;
       text-align: center;
+
+      display: flex;
+      justify-content: center;
+      align-content: center;
+  }
+
+  .user_following_btn {
+    background-color: deeppink;
+  }
+  .user_follow_btn {
+    background-color: #41d7a7;
+  }
+
+  .user_following_btn span {
+    color: #e8e8e8 !important;
+    -webkit-text-fill-color: #e8e8e8 !important;
+  }
+
+  .user_following_btn span, .user_follow_btn span {
+    text-size-adjust: auto;
+    margin: auto;
+    color: #e8e8e8 !important;
+    -webkit-text-fill-color: #e8e8e8 !important;
   }
 
   .user_info_box {
