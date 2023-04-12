@@ -171,6 +171,24 @@ aria-hidden="true">
     <!-- DM Modal 끝 -->
 
 
+  <footer>
+    <div class="altmenu">
+      <center>
+      <ul>
+        <li><a @click="getProfile()"><span class="fa fa-user"></span></a></li>
+        <li><a @click="getSearch()"><span class="fa fa-search"></span></a></li>
+        <li><a href="/main/mainhome"><span class="fa fa-home"></span></a></li>
+        <li>        <a @onclick="location.href='#notification'"
+            data-bs-toggle="modal"
+            data-bs-target="#notification"><span class="fa fa-bell"></span></a></li>
+        <li>        <a @click="openMessage" onclick="location.href='#directMessage'"
+            data-bs-toggle="modal"
+            data-bs-target="#directMessage"><span class="fa fa-envelope" ></span></a></li>
+      </ul>
+    </center>
+    </div>
+ </footer>
+
 </template>
 
 <script>
@@ -238,6 +256,14 @@ export default {
         path: '/main/mypage'
       })
     },
+
+    getSearch() {
+          this.$router.push({
+        path: '/main/search'
+      })
+    },
+
+
     getMessageYN() {
       //회원번호에 해당하는 새로운 메세지 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
       this.$axios.get(this.$serverUrl + '/mj/getUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
@@ -246,6 +272,7 @@ export default {
           console.log("메세지유무: " + this.message_yn)
         })
     },
+
     openMessage () {
       //새로운 메세지 유무 상태를 바꿔준다.
       this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
@@ -275,8 +302,58 @@ export default {
 
 }
 
+
+
 </script>
 <style scoped>
+
+
+
+
+footer{ 
+  margin: 0;
+  padding: 0;
+}
+
+.altmenu {
+  width: 100%;
+  background: transparent;
+  position: fixed;
+  bottom:0px;
+  left:0px;
+  border-top: 1px solid #aba;
+}
+.altmenu ul {
+  padding: 0;
+  margin: 0;
+}
+.altmenu ul li {
+  display: inline-block;
+  width: 20.04%;
+  margin-left: -4px;
+}
+.altmenu ul li a {
+  position: relative;
+  display: block;
+  padding: 10px 80px;
+  text-align: center;
+  font-size: 30px;
+  color:#000;
+  background: #fff;
+
+  transition: 300ms;
+}
+.altmenu ul li a:hover {
+  color: teal;
+}
+@media (max-width< 500px) {
+  .altmenu ul li a {
+    padding: 10px 10px;
+  }
+}
+
+/*===================================*/
+
 .EditorBtn {
     position : fixed;
     right : 50px;
@@ -286,6 +363,7 @@ export default {
     width:50px;
     height:50px;
 }
+
 .list-group > * {
   color: #000;
 }
@@ -516,4 +594,37 @@ span {-webkit-text-fill-color: black;}
   margin-left: 45%;
   font-size: 12px;
 }
+
+
+
+
+@media screen and (max-width: 320px) {
+  .nav__name {
+    display: none;
+  }
+}
+@media screen and (min-width: 576px) {
+  .nav__list {
+    justify-content: center;
+    column-gap: 3rem;
+  }
+}
+@media screen and (min-width: 767px) {
+  .nav {
+    height: 4.5rem; 
+  }
+  .nav__img {
+    display: none;
+  }
+  .nav__icon {
+    display: none;
+  }
+  .nav__name {
+    font-size: .938rem;
+  }
+  .nav__link:hover {
+    color: hsl(174, 63%, 40%);
+  }
+}
+
 </style>
