@@ -52,7 +52,7 @@
                         <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
                         <div class="FeedList_activeicont mt-1">
                                 <div class="bottom_btn" id="FL_spancomment">
-                                    <a class="btn"  @on-click="fn_pushComment()">
+                                    <a class="btn"  @on-click="fn_pushComment()" @click="getPostDetail(item.post_no)">
                                     <font-awesome-icon icon="fa-regular fa-comment"/>
                                     <span class="bottom_cnt">{{ item.comment_cnt}}</span>
                                     </a>
