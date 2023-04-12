@@ -58,6 +58,9 @@ export default {
     // eslint-disable-next-line no-unused-expressions, no-sequences
     this.getTrend()
     // eslint-disable-next-line no-unused-expressions, no-sequences
+
+    // 나중에 this.Trendlist 가져올때 사용할 메서드
+    // this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
   },
   methods: {
     fnGetList (res) {
@@ -115,6 +118,7 @@ export default {
           alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
+
     },
     getTrend () {
       this.$axios.post(this.$serverUrl + '/tag/trend')

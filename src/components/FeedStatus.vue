@@ -23,14 +23,14 @@
                         </div>
                         <a  @click="getPostDetail(item.post_no)" role="button" id="FeedList_GI">
                             <div class="FeedList_contents">
-                                <p class="mb-1">{{item.text_content}} </p>
+                                <p class="my-1">{{item.text_content}} </p>
                             </div>
                         </a>
 
                         <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
-                        <div class="FeedList_activeicont mt-1">
+                        <div class="FeedList_activeicont mt-2">
                                 <div class="bottom_btn" id="FL_spancomment">
-                                    <a class="btn"  @on-click="fn_pushComment()">
+                                    <a class="btn"  @on-click="fn_pushComment()" @click="getPostDetail(item.post_no)">
                                     <font-awesome-icon icon="fa-regular fa-comment"/>
                                     <span class="bottom_cnt">{{ item.comment_cnt}}</span>
                                     </a>
@@ -158,7 +158,7 @@ export default {
       this.activate == '1'
       // eslint-disable-next-line no-unused-expressions
       stop
-    }
+    },
   }
 }
 

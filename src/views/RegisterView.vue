@@ -58,10 +58,9 @@
                             정책에 동의하게 됩니다. Giggle로부터 SMS 알림을 받을 수 있으며 알림은
                             언제든지 옵트 아웃할 수 있습니다.
                           </p>
-                          <button type="button" id="submitBtn" class="btn btn-primary" @click="register">가입</button>
+                          <button type="button" id="submitBtn" class="btn btn-primary" @click="register()">가입</button>
                       </form>
                       <div class="social">
-                        <GoogleLogin></GoogleLogin>
                         <NaverLogin></NaverLogin>
                       </div>
                       <hr/>
@@ -78,10 +77,9 @@
 <script>
 import axios from 'axios'
 import NaverLogin from '../components/NaverLogin.vue'
-import GoogleLogin from '../views/GoogleLogin.vue'
 export default {
   components: {
-    NaverLogin, GoogleLogin
+    NaverLogin
   },
   props: {
     naver_token: String
@@ -96,7 +94,8 @@ export default {
       nickChecked: 'N',
       user_phone: '',
       // eslint-disable-next-line vue/no-dupe-keys
-      naver_token: this.$store.state.naverToken
+      naver_token: this.$store.state.naverToken,
+      google_token: this.$store.state.google_token
     }
   },
   methods: {
@@ -243,7 +242,8 @@ export default {
         user_nick: this.user_nick,
         user_birth: this.user_birth,
         user_phone: this.user_phone,
-        naver_token: this.naver_token
+        naver_token: this.naver_token,
+        google_token: this.google_token
       })
         .then(res => {
           console.log(res.data.user_birth)
@@ -265,6 +265,7 @@ export default {
             alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
           }
         })
+      
     },
     checkEmail (email) {
       // 이메일 유효성 검사하는 함수
