@@ -60,7 +60,7 @@
           <span>
             <i class="uil uil-bars"> </i>
             <span>
-              <span>Logout</span>
+              <span><font-awesome-icon icon="fa-solid fa-right-to-bracket" style="color: #000000;" />&nbsp;&nbsp;Logout</span>
             </span>
           </span>
         </button>

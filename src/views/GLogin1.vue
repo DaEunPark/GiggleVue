@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
@@ -27,7 +28,7 @@ export default {
 
       google.accounts.id.renderButton(
         document.getElementById('G_OAuth_btn'), 
-        { theme: 'outline', size: 'large' }
+        { theme: 'outline', size: 'medium' }
       )
   }, 
   methods: {

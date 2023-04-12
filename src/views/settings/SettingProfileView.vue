@@ -5,7 +5,7 @@
       <form class="card border-round-radious">
           <div class="settingProfile list-group border-round-radious">
               <div class="setting__title align-items-center">
-                  <img :src="back_image" id="backimg"/>
+                <img :src="back_image" id="backimg"/>
                   <!-- <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" color="black" :icon="['fas', 'caret-left']" /></a>프로필</h3> -->
               </div>
 
@@ -18,11 +18,17 @@
 
                 <div class="filebox">
                   <label for="img-files-test">
-                    <img id="addImage" src='@/assets/image.png'>사진 고르기
+                    <img id="addImage" src='@/assets/image.png'>프로필수정
                   </label>
-                    <input type="file" ref="profileimg" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+                    <input type="file" ref="profileimg" id="img-files-test" @change="handleFileUpload1(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
                 </div>
-                <a role="button" @click="uploadImgToImgbb()" class="btn btn-danger" id="registerButton">프로필 이미지 등록</a>
+                <!-- <a role="button" @click="uploadImgToImgbb()" class="btn btn-danger" id="registerButton">프로필 이미지 등록</a> -->
+                <!-- <div class="filebox">
+                <label for="img-files-test">
+                  <img id="addImage" src='@/assets/image.png'>배경수정
+                </label>
+                  <input type="file" ref="backimg" id="img-files-test" @change="handleFileUpload2(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+              </div> -->
 
 <!--이미지 추가 버튼 끝-->
 
@@ -87,7 +93,10 @@ data () {
     files: [],
     uploadImage: '',
     imgbbImg: '',
-    imgbbImgURL: ''
+    imgbbImgURL: '',
+    uploadImage2: '',
+    imgbbImg2: '',
+    imgbbImgURL2: '',
 
   }
 },
@@ -116,7 +125,11 @@ mounted () {
     this.user_location = this.user_location
   }
 
-  this.back_image = this.$store.state.loginUserDTO.back_image
+  if(this.back_image != this.uploadImage2) {
+    this.back_image = this.uploadImage2
+  } else {
+    this.back_image = this.$store.state.loginUserDTO.back_image
+  }
   // eslint-disable-next-line eqeqeq
   if (this.profile_image != this.uploadImage) {
     this.profile_image = this.uploadImage
@@ -195,30 +208,7 @@ methods: {
     const uuid = self.crypto.randomUUID()
     return `${uuid}.${fileExtension}`
   },
-  handleFileUpload (event) {
-    const newName = this.uuidFileName(this.$refs.profileimg.files[0].name)
-    this.files = this.renameFile(this.$refs.profileimg.files[0], newName)
-
-    const reader = new FileReader()
-    reader.readAsDataURL(this.files)
-    reader.onloadend = (e) => {
-      if (e.target.readyState === FileReader.DONE) {
-        // console.log(e.target.readyState)
-        if (e.target.result) {
-          this.imgbbImg = e.target.result
-          // console.log(this.imgbbImg)
-        } else {
-          console.error('파일을 읽는 중에 오류가 발생했습니다.')
-        }
-        this.uploadImage = URL.createObjectURL(this.files)
-        this.profile_image = this.uploadImage
-
-        console.log('uploadImage = ' + this.uploadImage)
-      }
-    }
-
-  },
-  uploadImgToImgbb() {
+  uploadImgToImgbb1() {
     console.log('uploadImgToImgbb ()')
     const body = new FormData()
     body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
@@ -238,8 +228,34 @@ methods: {
     }).catch(err => {
       console.log(err)
     })
+  },
+  async handleFileUpload1(event) {
+  const newName = this.uuidFileName(this.$refs.profileimg.files[0].name)
+  this.files = this.renameFile(this.$refs.profileimg.files[0], newName)
+
+  const reader = new FileReader()
+  reader.readAsDataURL(this.files)
+  await new Promise((resolve) => {
+    reader.onloadend = (e) => {
+      if (e.target.readyState === FileReader.DONE) {
+        if (e.target.result) {
+          this.imgbbImg = e.target.result
+        } else {
+          console.error('파일을 읽는 중에 오류가 발생했습니다.')
+        }
+        this.uploadImage = URL.createObjectURL(this.files)
+        this.profile_image = this.uploadImage
+        console.log('uploadImage = ' + this.uploadImage)
+        resolve(); // 비동기 작업 완료 후 resolve() 호출
+      }
+    }
+  });
+
+  await this.uploadImgToImgbb1(); // uploadImgToImgbb() 함수 실행
+
+    },
+
   }
-}
 }
 
 </script>

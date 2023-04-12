@@ -15,7 +15,7 @@ export default {
       callbackUrl: 'http://localhost:8080/naverLoginCallback', // 등록한 callback Url
       isPopup: false, // 팝업을 통한 연동처리 여부
       loginButton: {
-        color: 'white', type: 1, height: 40
+        color: 'white', type: 3, height: 40
       } // 로그인 버튼의 타입 지정
     })
 

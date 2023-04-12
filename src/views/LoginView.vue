@@ -235,7 +235,7 @@ export default {
                 path: '/main/mainhome'
               })
               this.$store.commit("addLoginUser", res.data)
-              
+
             } else if (res.data.user_email == null) {
               alert('일치하는 회원 정보가 없습니다.')
               if (confirm('회원가입을 진행 하시겠습니까?') === true) {
@@ -339,6 +339,7 @@ export default {
 </script>
 
 <style>
+
 .background{
     height: 100vh;
     overflow: hidden;
