@@ -1,13 +1,13 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
     <aside class="sidebar col-3">
-      <header class="sidebar-header">
-        <div class="user_img_box">
+      <header class="sidebar-header  mb-1">
+        <!-- <div class="user_img_box"> -->
             <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"> -->
-        </div>
+          <!-- </div> -->
+          <img src="@/assets/Glogo.png" class="menu_logo" id="glogo"/>
       </header>
       <nav>
-        <img src="@/assets/Glogo.png" id="glogo" onclick="location.href='/main/mainhome'"/>
         <button type="button" @click="getProfile()">
           <span>
               <img class="img" width="24" height="24" name="profi" id="profile" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"
@@ -42,19 +42,64 @@
             <p v-if="this.message_yn == 'Y'" class="badge bg-primary YN">N</p>
           </span>
         </button>
-<a href="#editorview" data-bs-toggle="modal"
-            data-bs-target="#editorview" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-</svg></span></a>
 
+<!-- <a href="#editorview" 
+data-bs-toggle="modal"
+data-bs-target="#editorview" 
+class="hover-change-color EditorBtn" 
+@click="clearAllSearchWords">
+    <span class="badge rounded-pill bg-success" style="padding: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi editorbtn bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+        </svg>
+    </span>
+</a> -->
+
+
+
+<!-- Editor Modal 시작 -->
+<!-- <div
+class="modal fade"
+id="editorview"
+data-bs-backdrop="static"
+data-bs-keyboard="false"
+tabindex="-1"
+aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+    <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                </svg>
+                <button
+                type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                >
+                </button>
+            </div> -->
+            <!--modal body-->
+          <!-- <editor-view></editor-view>
+        </div>
+    </div>
+</div> -->
 <!-- <button type="button" @click="logout()">
-          <span>
-            <span>Logout</span>
-          </span>
-</button> -->
 
+<span>
+  <i class="uil uil-bars"> </i>
+  <span>
+    <span>Logout</span>
+  </span>
+</span>
+</button>
+</nav>
+</aside> -->
 
         <button type="button" @click="logout()">
 
@@ -134,39 +179,7 @@
     </div>
     <!-- DM Modal 끝 -->
 
-<!-- Editor Modal 시작 -->
-      <div
-      class="modal fade"
-      id="editorview"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true">
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content">
-            <div class="modal-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
-                  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-              </svg>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-              </button>
-                <!--modal body-->
-                <EditorBody></Editorbody>
-            </div>
-          </div>
-      </div>
 
-  </div>
-  <!-- Editor Modal 끝 -->
 </template>
 
 <script>
@@ -273,7 +286,15 @@ export default {
 
 </script>
 <style scoped>
-
+.EditorBtn {
+    position : fixed;
+    right : 50px;
+    bottom : 50px;
+} 
+.editorbtn{
+    width:50px;
+    height:50px;
+}
 .list-group > * {
   color: #000;
 }
@@ -288,13 +309,6 @@ span {-webkit-text-fill-color: black;}
     width: 30%;
     height: 100%;
 
-}
-
-#glogo {
-  width: 40%;
-  height: auto;
-  margin-bottom: 10%;
-  align-self: center;
 }
 
 .user_img_box > .user_img {
@@ -330,32 +344,25 @@ span {-webkit-text-fill-color: black;}
     flex-direction: column;
     align-items: flex-start;
     height: 100%;
-    padding: 40px 10px 30px 10px;
+    padding: 0 10px 30px 10px;
     background: #ffffff;
     border-right: 1px solid #dbdbdb;
     transition: 0.3s;
   }
-
   .sidebar-header {
     width: 100%;
-    margin-bottom: 44px;
+    height : 49.6px;
+    display : flex;
+    align-items : center;
+    justify-content: left;
   }
-
-  .logo-icon {
-    display: none;
-    font-size: 28px;
-    height: 35px;
-    width: 51px;
-    text-align: center;
+  .menu_logo{
+    width : 71px;
+    height : auto;
+    margin-left : 10px;
   }
-
-  .logo-img {
-    margin-left: 14px;
-    height: 32px;
-  }
-
   .sidebar button {
-    height: 60px;
+    height: 45px;
     background: transparent;
     border: 0;
     padding: 0;
@@ -495,10 +502,15 @@ span {-webkit-text-fill-color: black;}
 }
 .modal-header > svg {
   margin: auto;
-  margin-left: 338px;
+  align-items: center;
 }
 .modal-header > button {
   margin: 0;
+}
+.modal-header > button {
+  position:absolute;
+  right : 0;
+  transform: translateX(-50%);
 }
 .modal-body {
   padding: 0px 20px 10px 20px;

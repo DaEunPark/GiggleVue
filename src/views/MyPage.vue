@@ -3,6 +3,11 @@
       <!-- :style="{ backgroundImage: `url(${this.$store.state.loginUserDTO.back_image})` }"-->
               <!--프로필 부분-->
                       <!-- <div class="user_profile_box"> -->
+        <button class="btn btn_link" @click="goBack" style = "margin:0; padding:0;">
+          <h3 class ="list-group-item text-dark border-primary my-2">
+            <font-awesome-icon class="mx-2" style="color:black;" :icon="['fas', 'caret-left']" /> {{ this.$store.state.loginUserDTO.user_nick }}
+          </h3>
+        </button>
             <div class="backimg">
               <img v-bind:src="`${this.$store.state.loginUserDTO.back_image}`" id="backimg"/>
             </div>
@@ -14,12 +19,23 @@
                 <div class="user_name">
                     <p id="user_name_title">{{ this.$store.state.loginUserDTO.user_nick }}</p>
                 </div>
-                <div class="item_cnt inline">
-                    <div class="item profileCnt">게시물 <span style="font-weight: 500;"></span>{{this.post_cnt}}</div>
-                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워 <span style="font-weight: 500;">{{this.follower_cnt}}</span></div>
-                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉 <span style="font-weight: 500;">{{this.follow_cnt}}</span></div>
-                    <button class="profileCnt" type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
+              <div class="info_mid">
+                <div class="item_cnt">
+                  <div class="cntWrap">
+                    <div class="item profileCnt">게시물</div>
+                    <div class="cnt_item">{{this.post_cnt}}</div>
                   </div>
+                  <div class="cntWrap">
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워</div>
+                    <div class="cnt_item">{{this.follower_cnt}}</div>
+                  </div>
+                  <div class="cntWrap">
+                    <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉</div>
+                    <div class="cnt_item">{{this.follow_cnt}}</div>
+                  </div>
+                </div>
+                <button class="profileCnt settingBtn" type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
+              </div>
                   <hr id="hr"/>
                 <div class="user_nickname">
                     <div class="status_message">{{ this.$store.state.loginUserDTO.status_message }}</div>
@@ -71,6 +87,9 @@ export default {
         path: '/main/setting/'
       })
     },
+    goBack(){
+            this.$router.go(-1); [2]
+        },
     profileCnt () {
       const data = { user_no: this.$store.state.loginUserDTO.user_no }
       this.$axios.post(this.$serverUrl + '/profileCnt', JSON.stringify(data), {
@@ -168,24 +187,6 @@ export default {
 
     cursor: pointer;
 }
-
-.user_info_box > .item_cnt {
-    width: 100%;
-    height: 20px;
-    margin-bottom: 20px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: normal;
-    justify-content: left;
-}
-
-.user_info_box > .item_cnt > .item {
-    width: 72px;
-    font-size: 16px;
-    margin-right: 0px;
-}
-
 .user_info_box > .user_nickname {
     width: 100%;
     height: 20px;
@@ -228,5 +229,26 @@ export default {
 .status_message {
   font-size: 20px;
 }
-
+.info_mid{
+  width: 100%;
+  display : flex;
+  flex-direction : row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right:5%;
+}
+.item_cnt{
+  width: 100%;
+  display : flex;
+  flex-direction : row;
+}
+.cntWrap{
+  width : 48px;
+  text-align: center;
+  margin-right:2em;
+}
+.cnt_item{
+  font-size : 20px;
+  font-weight: bold;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <article class="mb-3" id="cardarticle">
-        <div class="card" id="card" style="z-index: 1; margin : 0;">
+    <article class="mb-1" id="cardarticle">
+        <div class="card" id="card" style="z-index: 1; margin : 0; box-shadow: none;">
                 <article class="my-3" id="textcardarticle">
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>

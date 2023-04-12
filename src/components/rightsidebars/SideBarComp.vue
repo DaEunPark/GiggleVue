@@ -49,23 +49,23 @@
                     <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch1()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top1 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top1 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch2()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top2 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top2 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch3()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top3 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top3 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch4()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top4 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top4 }}</h6>
                     </button>
                     <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch5()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
-                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap trend" style="width: 16em;">{{ this.top5 }}</h6>
+                        <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top5 }}</h6>
                     </button>
                     <a href="#" @click="replaceTo('/main/search')" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                 </div><!-- <div class="list-group"> -->
@@ -115,14 +115,16 @@
 
         </div> <!-- test1 -->
 
-    </div> <!-- <div class="sticky-top"> -->
+
+</div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import { throwStatement } from '@babel/types'
-
+import EditorView from '../../views/EditorView.vue'
 export default {
+  components : {EditorView},
   data () {
     return {
       requestBody: {},
@@ -306,8 +308,8 @@ export default {
         width : 100%;
     }
     .trandWrap, .recommendfollowWrap{
-        margin-left : 12px;
-        width : 100%;
+        margin : 0 12px;
+        width : 350px;
         background-color:  #f0f0f0;
 
     }
@@ -366,8 +368,71 @@ export default {
         font-size: 18px;
         margin: auto auto;
     }
+
+    .modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+}
+
+/* 알람, DM modal 공통 css */
+.modal {
+  --bs-modal-width: 100%;
+  --bs-modal-height: 100%;
+}
+.modal-backdrop {
+  position: unset !important;
+}
+.modal-dialog {
+  width: 50%;
+  height: 90%;
+}
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+.modal-header > svg {
+  margin: auto;
+  margin-left: 338px;
+}
+.modal-header > button {
+  margin: 0;
+}
+.modal-body {
+  padding: 0px 20px 10px 20px;
+  height: 550px;
+}
+#profic {
+  margin-left: 100%;
+}
+.YN {
+  color: #FFF;
+  margin-top: 5%;
+  margin-left: 45%;
+  font-size: 12px;
+}
+
+
     img, svg {
     vertical-align: middle;
     width: 20px;
 }
+
 </style>
