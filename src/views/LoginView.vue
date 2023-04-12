@@ -356,9 +356,9 @@ export default {
     height:100px;
     background-image: url("../assets/Glogo.png");
     background-position: center;
-    background-size:150px;
+    background-size:30%;
     background-repeat: no-repeat;
-    margin: 0 28%;
+    margin: 0;
 }
 .form-control {
     border-color: #fff;

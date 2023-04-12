@@ -1,95 +1,108 @@
 <template>
-    <div>
-        <article class="my-3" id="FeedList">
-            <div class="row">
-            <div class="col-sm-1" style="margin-left:-20px;" >
-                <!--개인 프로필로 가는 링크-->
-                <button type="button" class="btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="80" height="80" class="rounded-circle" alt="user_profile" > </button>
-            </div>
-
-                <!--개인 프로필로 가는 링크-->
-            <div class="col-sm-11" style="margin-left:15px">
-                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                    <button type="button" class="btn" @click="whichProfile(item.post_no)"><p class="FeedList_username">{{item.user_nick}}
-                    <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
+  <div>
+    <article class="mb-3" id="FeedList">
+      <div class="setting__title align-items-center">
+        <button class="btn btn_link" @click="goBack" style = "margin:0; padding:0;">
+          <h3 class ="list-group-item text-dark border-primary my-2">
+            <font-awesome-icon class="mx-2" style="color:black;" :icon="['fas', 'caret-left']" />POST
+          </h3>
+        </button>
+      </div>
+      <hr class="mb-1" style="color:#b0b0b0; margin:0;">
+      <div class="feed_row px-1">
+        
+        <!--개인 프로필로 가는 링크-->
+        <div class="feed_contents">
+          <!--개인 프로필로 가는 링크-->
+          <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+            <button type="button" class="pro_btn" @click="whichProfile(item.post_no)">
+              <div class ="content_top mt-1">
+                <div class="feed_profile" style="margin-right : 20px">
+                  <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </button>
                 </div>
-
-                    <!-- 개인 프로필로 가는 링크
-                <div class="col-sm-11" style="margin-left:15px">
-                    <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                        <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
-                        <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
-                    </div> -->
-
-                    <div class="FeedList_contents">
-                      <div>
-                        <div id="imageuploadarea">
-                          <div>
-                            <div class="wrap">
-                              <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl, i) in postImgList" :key="i" >
-                            </div>
-                          </div>
-                          <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
+                <div class="feed_text">
+                  <div class="feed_usernick mt-1">
+                    <h5 class="FeedList_username" style="margin-right:10px" id="userNick">{{item.user_nick}}</h5>
+                    <small class="FeedList_regdate">{{item.post_date}}</small>
+                  </div>
+                  <!-- 개인 프로필로 가는 링크
+                      <div class="col-sm-11" style="margin-left:15px">
+                          <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                              <a href="/main/mypage"><p class="FeedList_username">{{item.user_nick}}
+                              <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
+                          </div> -->
+      
+                  <div class="FeedList_contents">
+                    <div id="imageuploadarea">
+                      <div class="wrap">
+                        <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl, i) in postImgList" :key="i" >
+                      </div>
+                      <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
+                    </div>
+                      <!-- video-embed start -->
+                    <div class="ytarea" v-show=showYoutube>
+                      <div class="ratio ratio-16x9">
+                      <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
+                        <div v-if="rightYTID">
+                          <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div v-else>
+                          <a :href="youtubeURL">{{ youtubeURL }}</a>
                         </div>
                       </div>
-                        <!-- video-embed start -->
-                        <div class="ytarea" v-show=showYoutube>
-                            <div class="ratio ratio-16x9">
-                                <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
-
-                                <div v-if="rightYTID">
-                                    <iframe id="yotube-frame" :src="youtubeURL" title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                </div>
-                                <div v-else>
-                                    <a :href="youtubeURL">{{ youtubeURL }}</a>
-                                </div>
-                            </div>
-                            <br/>
-                        </div>
-                        <!-- video-embed end -->
-                        <p style="color: black;" class="tcarea mb-1">{{item.text_content}} </p>
+                      <br/>
                     </div>
-
-                    <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
-                    <div class="FeedList_activeicont">
-                        <div class="row">
-                            <div class="col-sm-3" id="FL_spancomment">
-                                <a class="btn"  @on-click="fn_pushComment()">
-                                <font-awesome-icon icon="fa-regular fa-comment"/>
-                                <span>{{ item.comment_cnt}}</span>
-                                </a>
-                            </div>
-                            <div class="col-sm-3"  id="FL_spanlike">
-                                <a class="btn"  @on-click="fn_pushLike()">
-                                <font-awesome-icon  icon="fa-regular fa-heart"/>
-                                <span>{{ item.like_cnt }}</span>
-                                </a>
-                            </div>
-                            <div class="col-sm-3"  id="FL_spanshare">
-                                <a class="btn" @on-click="fn_pushLink()" :href="item.post_link">
-                                <font-awesome-icon icon="fa-regular fa-share-from-square"/>
-                                </a>
-                            </div>
-                            <div class="col-sm-3"  id="FL_spanchart">
-                                <a href="#postInsite"
-                                    class = "btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#postInsite"
-                                    @on-click = "fn_pushInsite(item.post_no)">
-                                    <font-awesome-icon icon="fa-solid fa-chart-simple"/>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
+                    <!-- video-embed end -->
+                    <p style="color: black;" class="mb-1">{{item.text_content}} </p>
+                  </div>
+                </div>
+              </div>
+            </button>
+            </div>
                 </div>
             </div>
-            <hr style="color:#b0b0b0; margin:0px;">
-            <CommentView :post_no="post_no"></CommentView>
-        </article>
 
-    </div>
+        <hr class="mt-1" style="color:#b0b0b0; margin:0px;">
+        <!--댓글창 , 좋아요 , 게시글공유 , 인사이트 -->
+        <div class="FeedList_activeicont">
+          <div class="bottom_btn" id="FL_spancomment">
+              <a class="btn"  @on-click="fn_pushComment()">
+              <font-awesome-icon icon="fa-regular fa-comment"/>
+              <span class="bottom_cnt">{{ item.comment_cnt}}</span>
+              </a>
+          </div>
+          <div v-if="this.activate == '1'">
+              <ul>
+                  <li>"코멘트 테스트!"</li>
+              </ul>
+          </div>
+          <div class="bottom_btn" id="FL_spanlike">
+              <a class="btn"  @on-click="fn_pushLike()">
+              <font-awesome-icon  icon="fa-regular fa-heart"/>
+              <span class="bottom_cnt">{{ item.like_cnt }}</span>
+              </a>
+          </div>
+          <div class="bottom_btn" id="FL_spanshare">
+              <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
+              <font-awesome-icon icon="fa-regular fa-share-from-square"/>
+              </a>
+          </div>
+          <div class="bottom_btn" id="FL_spanchart">
+              <!--<a class="btn"  @on-click="fn_pushInsite()">-->
+              <a href="#postInsite"
+                  class = "btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#postInsite"
+                  @on-click = "fn_pushInsite()">
+                  <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+              </a>
+          </div>
+        </div>
+      <hr style="color:#b0b0b0; margin:0px;">
+      <CommentView :post_no="post_no"></CommentView>
+    </article>
+  </div>
     <!--postInsite 시작-->
     <div class="modal fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -166,6 +179,9 @@ export default {
     this.getThisPostDetail()
   },
   methods: {
+    goBack(){
+            this.$router.go(-1); [2]
+        },
     getThisPostDetail () {
       this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
         {
@@ -245,10 +261,7 @@ export default {
 </script>
 
 <style scoped>
-#FeedList {
-    margin : auto;
-    padding: 12px 8px;
-}
+
 #FeedList_GF {
     /* backdrop-filter: blur(1000px); */
     box-shadow: none;
@@ -265,38 +278,76 @@ export default {
 #GoUserprofile a {
     text-decoration: none !important;
 }
+.feed_contents{
+  width : 100%;
+  
+}
+.feed_text{
+  display: flex;
+  flex-direction: column;
+  width : 100%;
+  justify-content: left;
+  text-align: left;
+}
+.feed_row{
+  padding : 0 20px;
+  display: flex;
+  flex-direction: row;
+  width : 100%;
+}
+.feed_usernick{
+  display: flex;
+  flex-direction: row;
+  width : 100%;
+  align-items: center;
+}
+.content_top{
+  display : flex;
+  flex-direction : row;
+  width : 100%;
+}
+.pro_btn {
+    border: none;
+    background-color: transparent;
+    margin : 0;
+    padding : 0;
+}
+#userNick {
+    font-weight: bold;
+    margin : 0;
+    padding : 0;
+}
 .FeedList_username {
     color:black;
-    margin: 0 0 0 33px;
-    font-weight: bold;
 }
+/* .FeedList_contents{
+  padding : 0;
+  margin : 0;
+} */
 .FeedList_regdate {
     color:rgb(126, 126, 126);
     font-size: small;
+}
+.FeedList_activeicont{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin : 10px 30px;
 
 }
-.FeedList_contents {
-    margin-top: 10px;
-    margin-left: 6%;
+.bottom_btn > a{
+  padding : 0;
+  margin : 0;
 }
-
-.FeedList_activeicont #FL_spancomment,
-.FeedList_activeicont #FL_spanlike,
-.FeedList_activeicont #FL_spanshare,
-.FeedList_activeicont #FL_spanchart {
-    width:  15%;
-    /* height: 10%; */
-    margin:0 0 0 5%;
+.bottom_cnt{
+  margin-left : 5px;
 }
-
 .FeedList_activeicont #FL_spancomment a ,
 .FeedList_activeicont #FL_spanlike a ,
 .FeedList_activeicont #FL_spanshare a,
 .FeedList_activeicont #FL_spanchart a {
     border-style:none;
     color: #b0b0b0;
-    margin-left: -20px;
-
 }
 .FeedList_activeicont span {
     color: #b0b0b0;
