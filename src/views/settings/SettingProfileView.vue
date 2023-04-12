@@ -20,9 +20,10 @@
                     <label for="img-files-test">
                       <img id="addImage" src='@/assets/image.png'>
                     </label>
-                      <input type="file" ref="files" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
+                      <input type="file" ref="profileimg" id="img-files-test" @change="handleFileUpload(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
                   </div>
-                  <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button>
+                  <!-- <button class="btn btn-success" @click="uploadImgToImgbb()">등록 imgbb</button> -->
+                  <a role="button" @click="uploadImgToImgbb()" class="btn btn-danger">프로필 이미지 등록</a>
 
 <!--이미지 추가 버튼 끝-->
 
@@ -192,8 +193,8 @@ export default {
       return `${uuid}.${fileExtension}`
     },
     handleFileUpload (event) {
-      const newName = this.uuidFileName(this.$refs.files.files[0].name)
-      this.files = this.renameFile(this.$refs.files.files[0], newName)
+      const newName = this.uuidFileName(this.$refs.profileimg.files[0].name)
+      this.files = this.renameFile(this.$refs.profileimg.files[0], newName)
 
       const reader = new FileReader()
       reader.readAsDataURL(this.files)
@@ -227,6 +228,7 @@ export default {
         }
       ).then(res => {
         this.imgbbImgURL = res.data.data.url
+        this.profile_image = res.data.data.url
         console.log('res.data.data.url = ' + res.data.data.url)
       }).catch(err => {
         console.log(err)
