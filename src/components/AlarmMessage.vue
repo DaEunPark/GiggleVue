@@ -4,11 +4,11 @@
       <div v-for="(alarm, idx) in alarmList" :key="idx">
         <!-- 알람 타입: 1 (팔로우 알람) -->
         <div v-if="alarm.alarm_type == '1'" class="alert alert-dismissible alert-primary">
-          <a href="#" class="alert-link">
+          <a href="#" @click="openUserProfile(alarm.alarm_user, alarm.alarm_no), deleteAlarm(alarm.alarm_no)" class="alert-link">
             <table>
               <tr>
                 <td class="alarmListImg">
-                  <img src="../assets/profile02.jpg"/>
+                  <img v-bind:src="alarm.alarm_user_profile" class="alarmUserProfile"/>
                 </td>
                 <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
                 <td>님이 회원님을 팔로우합니다.</td>
@@ -20,61 +20,61 @@
                     팔로우
                   </button>
                 </td>
-                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmTime">{{alarm.alarm_date}}</td>
                 <td class="alarmClose">
-                  <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="alert"
-                  ></button>
                 </td>
               </tr>
             </table>
           </a>
+          <button @click="deleteAlarm(alarm.alarm_no)"
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="alert"
+          ></button>
         </div>
         <!-- 알람 타입: 2 (좋아요 알람) -->
         <div v-if="alarm.alarm_type == '2'" class="alert alert-dismissible alert-primary">
-          <a href="#" class="alert-link">
+          <a v-bind:href="`/main/postdetail?post_no=${alarm.post_no}`" @click="deleteAlarm(alarm.alarm_no)" class="alert-link">
             <table>
               <tr>
                 <td class="alarmListImg">
-                  <img src="../assets/profile02.jpg"/>
+                  <img v-bind:src="alarm.alarm_user_profile" class="alarmUserProfile"/>
                 </td>
                 <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
                 <td>님이 회원님의 게시물을 좋아합니다.</td>
-                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmTime">{{alarm.alarm_date}}</td>
                 <td class="alarmClose">
-                  <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="alert"
-                  ></button>
                 </td>
               </tr>
             </table>
           </a>
+          <button @click="deleteAlarm(alarm.alarm_no)"
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="alert"
+          ></button>
         </div>
         <!-- 알람타입: 3(댓글 알람) -->
         <div v-if="alarm.alarm_type == '3'" class="alert alert-dismissible alert-primary">
-          <a href="#" class="alert-link">
+          <a v-bind:href="`/main/postdetail?post_no=${alarm.post_no}`" @click="deleteAlarm(alarm.alarm_no)" class="alert-link">
             <table>
               <tr>
                 <td class="alarmListImg">
-                  <img src="../assets/profile02.jpg" />
+                  <img v-bind:src="alarm.alarm_user_profile" class="alarmUserProfile"/>
                 </td>
                 <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
                 <td>님이 회원의 게시물에 댓글을 달았습니다.</td>
-                <td class="alarmTime">10:10 PM</td>
+                <td class="alarmTime">{{alarm.alarm_date}}</td>
                 <td class="alarmClose">
-                  <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="alert"
-                  ></button>
                 </td>
               </tr>
             </table>
           </a>
+          <button @click="deleteAlarm(alarm.alarm_no)"
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="alert"
+          ></button>
         </div>
       </div>
       </div>
@@ -85,6 +85,7 @@
     </div>
 </template>
 <script>
+import axiox from 'axios'
 export default {
   props: {
     alarmList: {
@@ -104,6 +105,26 @@ export default {
         document.getElementById('alarmMoreDiv').style.display = 'none'
         document.getElementById('alarmListDiv').style.overflowY = 'visible'
       }
+    },
+    openUserProfile(otherUser, alarmNo) {
+      this.$store.commit('addOtherUser', otherUser)
+      console.log(this.$store.state.otherUserDTO)
+      location.href="/main/notmypage"
+    // },
+    // getPostDetail(postNo) {
+    //   alert("상세페이지로 이동합니다")
+    //   this.$router.push({
+    //     name: 'postdetail', query: { post_no: postNo }
+    //   })
+    },
+    deleteAlarm(alarmNO) {
+      alert("알람 삭제 합니다~~")
+      //알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
+      axiox.get(this.$serverUrl + "/mj/deleteAlarm/" + alarmNO)
+      .then(res => {
+
+      })
+      
     }
   }
 }
@@ -169,7 +190,7 @@ export default {
   text-align: center;
   font-size: 13px;
   color: #454445;
-  width: 10%;
+  width: 15%;
 }
 .alarmClose {
   width: 5%;
