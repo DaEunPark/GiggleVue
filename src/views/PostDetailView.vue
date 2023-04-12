@@ -9,9 +9,13 @@
 
                 <!--개인 프로필로 가는 링크-->
             <div class="col-sm-11" style="margin-left:15px">
-                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
+                <div class="d-flex w-60 justify-content-between" id="GoUserprofile">
                     <button type="button" class="btn" @click="whichProfile(item.post_no)"><p class="FeedList_username">{{item.user_nick}}
                     <small class="FeedList_regdate">{{item.post_date}}</small></p></button>
+                    <span class="FeedList_update" v-if="isMine">
+                      <a role="button" class="text-dark" id="modify-post" @click="modifyPost()">수정</a>
+                      <a role="button" class="text-dark" id="delete-post" @click="deletePost()">삭제</a>
+                  </span>
                 </div>
 
                     <!-- 개인 프로필로 가는 링크
@@ -26,14 +30,14 @@
                         <div id="imageuploadarea">
                           <div>
                             <div class="wrap">
-                              <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl, i) in postImgList" :key="i" >
+                              <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl) in postImgList" :key="imgurl" >
                             </div>
                           </div>
                           <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
                         </div>
                       </div>
                         <!-- video-embed start -->
-                        <div class="ytarea" v-show=showYoutube>
+                        <div class="ytarea" v-if=showYoutube>
                             <div class="ratio ratio-16x9">
                                 <!-- <video-embed src="https://youtu.be/7T8F7ZF52lo"></video-embed> -->
 
@@ -162,12 +166,25 @@ export default {
     }
   },
   mounted () {
-    window.scrollTo(0, 0)
-    this.getThisPostDetail()
+    window.scrollTo(-10, 0)
+  },
+  created () {
+    this.postDetail()
+  },
+  beforeUpdate () {
+    // this.postDetail()
+  },
+  computed: {
+    isMine () {
+      return this.item.user_no === this.$store.state.loginUserDTO.user_no
+    }
   },
   methods: {
-    getThisPostDetail () {
-      this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
+    postDetail () {
+      this.getThisPostDetail()
+    },
+    async getThisPostDetail () {
+      await this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
         {
           params: {
             post_no: this.post_no
@@ -176,6 +193,7 @@ export default {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data.post
         this.postImgList = res.data.postImages
+        console.log('images : ' + res.data.postImages.length)
         if (this.item.post_link === '' || this.item.post_link === null || this.item.post_link === undefined) {
           this.showYoutube = false
         } else {
@@ -238,6 +256,24 @@ export default {
           })
         }
       })
+    },
+    // eslint-disable-next-line camelcase
+    deletePost () {
+      // eslint-disable-next-line camelcase
+      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`)
+        .then(res => {
+          console.log(res.data)
+          if (res.data === 'Y') {
+            alert('포스트를 삭제했습니다.')
+            this.$router.replace('/main/mainhome')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    modifyPost () {
+      this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
     }
 
   }
@@ -417,4 +453,15 @@ text-align: center;
   margin: 1em 1em 1.4em 1em;
 }
 
+#modify-post {
+  margin-right: 10px;
+}
+
+.FeedList_update a {
+  color: slategray !important;
+}
+
+.FeedList_update a:hover {
+  color: deeppink !important;
+}
 </style>

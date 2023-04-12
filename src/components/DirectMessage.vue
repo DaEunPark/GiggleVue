@@ -286,6 +286,9 @@ export default ({
             this.chatRoomList[i].recent_message = this.message
           }
         }
+        //해당 채팅방을 제일 앞으로 배치한다.
+        this.changeArray(this.chatRoomList)
+        console.log(this.chatRoomList)
 
         // db에 저장한다.
         axios
@@ -328,6 +331,12 @@ export default ({
       // 메세지 리스트 ul의 스크롤을 내린다.
       const messageUl = document.getElementById('yesChatUl')
       messageUl.scrollTop = messageUl.scrollHeight
+    },
+    changeArray(arr) {
+      //채팅방 리스트 중 현재 채팅방을 제일 앞으로 가져온다.
+      return arr.filter((x) => x.chatroom_no === this.nowChatRoom).concat(
+          arr.filter((x) => x.chatroom_no !== this.nowChatRoom)
+        )
     }
   }
 })
@@ -403,7 +412,7 @@ export default ({
   list-style: none;
   margin-top: 10px;
   width: 100%;
-  height: 444px;
+  height: 90%;
   overflow-y: scroll;
   padding: 0;
   z-index: 1 !important;
@@ -504,8 +513,9 @@ export default ({
 #yesChatUl {
   list-style: none;
   overflow-y: scroll;
-  height: 380px;
+  height: 80%;
   padding-left: 30px;
+  margin-bottom: 0px;
 }
 #yesChatUl::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);

@@ -22,7 +22,7 @@
           </span>
         </button>
 
-        <button type="button" onclick="location.href='#notification'"
+        <button type="button" @click="openAlarm" onclick="location.href='#notification'"
             data-bs-toggle="modal"
             data-bs-target="#notification">
           <span>
@@ -39,7 +39,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor=#black" d="M21.15 2.86a2.89 2.89 0 0 0-3-.71L4 6.88a2.9 2.9 0 0 0-.12 5.47l5.24 2a.93.93 0 0 1 .53.52l2 5.25A2.87 2.87 0 0 0 14.36 22h.07a2.88 2.88 0 0 0 2.69-2l4.73-14.17a2.89 2.89 0 0 0-.7-2.97ZM20 5.2l-4.78 14.18a.88.88 0 0 1-.84.62a.92.92 0 0 1-.87-.58l-2-5.25a2.91 2.91 0 0 0-1.67-1.68l-5.25-2A.9.9 0 0 1 4 9.62a.88.88 0 0 1 .62-.84L18.8 4.05A.91.91 0 0 1 20 5.2Z"/></svg>
 
             <span>MESSAGES</span>
-            <p v-if="this.$store.state.loginUserDTO.message_yn == 'Y'" class="badge bg-primary YN">N</p>
+            <p v-if="this.message_yn == 'Y'" class="badge bg-primary YN">N</p>
           </span>
         </button>
 <a href="#editorview" data-bs-toggle="modal"
@@ -55,6 +55,7 @@
           </span>
 </button> -->
 
+
         <button type="button" @click="logout()">
 
           <span>
@@ -66,6 +67,7 @@
         </button>
       </nav>
     </aside>
+
 
     <!-- 알림 Modal 시작 -->
     <div
@@ -177,13 +179,17 @@ export default {
   data () {
     return {
       alarmList: [],
-      chatRoomList: []
+      chatRoomList: [],
+      alarm_yn: '',
+      message_yn: ''
     }
   },
   components: { DMBody, AlarmBody/*, EditorBody */ },
   mounted () {
+    console.log("메세지 유무: " + this.$store.state.loginUserDTO.message_yn)
     this.getAlarmList()
     this.getChatRoomList()
+    this.getMessageYN()
   },
   methods: {
     logout () {
@@ -203,10 +209,7 @@ export default {
       this.$axios.get(this.$serverUrl + '/mj/alarmList/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
           if (res.data !== '') {
-            console.log('알람 있음' + res.data)
             this.alarmList = res.data
-          } else {
-            console.log('알람 없음' + res.data)
           }
         })
         .catch((err) => {
@@ -231,12 +234,34 @@ export default {
         path: '/main/mypage'
       })
     },
+    getMessageYN() {
+      //회원번호에 해당하는 새로운 메세지 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
+      this.$axios.get(this.$serverUrl + '/mj/getUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
+        .then(res => {
+          this.message_yn = res.data
+          console.log("메세지유무: " + this.message_yn)
+        })
+    },
     openMessage () {
+      //새로운 메세지 유무 상태를 바꿔준다.
       this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          this.$store.state.loginUserDTO.message_yn = 'N'
-          console.log(this.$store.state.loginUserDTO.message_yn)
-          location.href = '#directMessage'
+          this.message_yn = "N"
+        })
+    },
+    getAlarmYN() {
+      //회원번호에 해당하는 새로운 알람 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
+      this.$axios.get(this.$serverUrl + '/mj/getUserAlarmYN/' + this.$store.state.loginUserDTO.user_no)
+        .then(res => {
+          this.alarm_yn = res.data
+          console.log("알람 유무: " + this.alarm_yn)
+        })
+    },
+    openAlarm () {
+      //새로운 알람 유무 상태를 바꿔준다.
+      this.$axios.get(this.$serverUrl + '/mj/updateUserAlarmYN/' + this.$store.state.loginUserDTO.user_no)
+        .then(res => {
+          this.alarm_yn = "N"
         })
     }
   },
@@ -444,22 +469,6 @@ span {-webkit-text-fill-color: black;}
     margin-top: auto;
   }
 
- modal 공통 css
-.modal {
-  --bs-modal-width: 100%;
-  --bs-modal-height: 100%;
-}
-.modal-dialog {
-  width: 50%;
-  height: 90%;
-}
-.modal-content {
-  background-color: #fff;
-  color: #000;
-  width: 100%;
-  height: 100%;
-}
-
 /* 알람, DM modal 공통 css */
 .modal {
   --bs-modal-width: 100%;
@@ -493,7 +502,7 @@ span {-webkit-text-fill-color: black;}
 }
 .modal-body {
   padding: 0px 20px 10px 20px;
-  height: 550px;
+  height: 80%;
 }
 #profic {
   margin-left: 100%;

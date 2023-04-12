@@ -16,6 +16,7 @@
 
 <!--이미지 추가 버튼 시작-->
 
+
                 <div class="filebox">
                   <label for="img-files-test">
                     <img id="addImage" src='@/assets/image.png'>프로필수정
@@ -219,12 +220,12 @@ methods: {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
+
       }
     ).then(res => {
       this.imgbbImgURL = res.data.data.url
       this.profile_image = res.data.data.url
       console.log('res.data.data.url = ' + res.data.data.url)
-
     }).catch(err => {
       console.log(err)
     })

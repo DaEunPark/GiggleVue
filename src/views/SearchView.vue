@@ -117,6 +117,7 @@ export default {
           alert('검색어를 입력해주세요')
         }
       })
+
     },
     getTrend () {
       this.$axios.post(this.$serverUrl + '/tag/trend')

@@ -9,6 +9,7 @@ import SettingProfileView from '../views/settings/SettingProfileView.vue'
 import SettingSecurityView from '../views/settings/SettingSecurityView.vue'
 import SettingFriendView from '../views/settings/SettingFriendView.vue'
 import SettingAnaliticsView from '../views/settings/SettingAnaliticsView.vue'
+import SettingUnregister from '../views/settings/SettingUnregister.vue'
 import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
@@ -18,6 +19,8 @@ import PostDetailView from '../views/PostDetailView.vue'
 import NotMyPage from '../views/NotMyPage.vue'
 import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
+import ModifyView from '../views/ModifyView.vue'
+
 
 const routes = [
   {
@@ -60,6 +63,13 @@ const routes = [
         name: 'security',
         components: {
           rmain: SettingSecurityView
+        }
+      },
+      {
+        path: 'setting/security/unregister',
+        name: 'unregister',
+        components: {
+          rmain: SettingUnregister
         }
       },
       {
@@ -115,10 +125,18 @@ const routes = [
         }
       },
       {
+
         path: 'recommendFollow',
         name: 'recommendFollow',
         components: {
           rmain: recommendFollow
+        }
+       },
+       {
+        path: 'modifypost',
+        name: 'modifypost',
+        components: {
+          rmain: ModifyView
 
         }
       }
