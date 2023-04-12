@@ -63,7 +63,7 @@
                             </div>
                           </div>
                   <div class="profile__passwordBtn">
-                      <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2" @click="profileUpdate()">OK</button>
+                      <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2" @click="permitUpdate()">OK</button>
                   </div>
               </div>
           </div>
@@ -253,6 +253,9 @@ export default {
       })
 
       await this.uploadImgToImgbb1() // uploadImgToImgbb() 함수 실행
+    },
+    permitUpdate() {
+      window.setTimeout(this.profileUpdate, 500)
     }
 
   }
