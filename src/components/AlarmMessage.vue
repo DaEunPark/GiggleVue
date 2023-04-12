@@ -106,10 +106,10 @@ export default {
         document.getElementById('alarmListDiv').style.overflowY = 'visible'
       }
     },
-    openUserProfile(otherUser, alarmNo) {
+    openUserProfile (otherUser, alarmNo) {
       this.$store.commit('addOtherUser', otherUser)
       console.log(this.$store.state.otherUserDTO)
-      location.href="/main/notmypage"
+      location.href = '/main/notmypage'
     // },
     // getPostDetail(postNo) {
     //   alert("상세페이지로 이동합니다")
@@ -117,14 +117,13 @@ export default {
     //     name: 'postdetail', query: { post_no: postNo }
     //   })
     },
-    deleteAlarm(alarmNO) {
-      alert("알람 삭제 합니다~~")
-      //알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
-      axiox.get(this.$serverUrl + "/mj/deleteAlarm/" + alarmNO)
-      .then(res => {
+    deleteAlarm (alarmNO) {
+      alert('알람 삭제 합니다~~')
+      // 알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
+      axiox.get(this.$serverUrl + '/mj/deleteAlarm/' + alarmNO)
+        .then(res => {
 
-      })
-      
+        })
     }
   }
 }

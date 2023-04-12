@@ -45,42 +45,42 @@
 </template>
 <script>
 import axios from 'axios'
-export default({
-    data() {
-        return {
-            unregister__pwd: '',
-            user_no: this.$store.state.loginUserDTO.user_no,
-            user_pwd: this.$store.state.loginUserDTO.user_pwd
-        }
-    },
-    methods: {
-        unregister() {
-            //비밀번호를 입력했는지 확인한다.
-            if(this.unregister__pwd === '') {
-                alert("비밀번호 확인을 입력해주세요.")
-                document.getElementById("unregister__pwd").focus()
-                return false
-            } else {
-                //비밀번호가 회원정보와 일치하는지 확인한다.
-                if(this.unregister__pwd !== this.user_pwd) {
-                    alert("비밀번호가 일치하지 않습니다.")
-                    document.getElementById("unregister__pwd").focus()
-                    return false
-                } else {
-                    if(confirm("해당 회원 정보를 삭제합니다.")) {
-                        //회원번호로 회원 정보를 삭제한다.
-                        axios
-                        .get(this.$serverUrl + '/mj/unregister/' + this.user_no)
-                        .then(res => {
-                            this.$router.push({
-                                name: 'login'
-                            })
-                        })
-                    }
-                }
-            }
-        }
+export default ({
+  data () {
+    return {
+      unregister__pwd: '',
+      user_no: this.$store.state.loginUserDTO.user_no,
+      user_pwd: this.$store.state.loginUserDTO.user_pwd
     }
+  },
+  methods: {
+    unregister () {
+      // 비밀번호를 입력했는지 확인한다.
+      if (this.unregister__pwd === '') {
+        alert('비밀번호 확인을 입력해주세요.')
+        document.getElementById('unregister__pwd').focus()
+        return false
+      } else {
+        // 비밀번호가 회원정보와 일치하는지 확인한다.
+        if (this.unregister__pwd !== this.user_pwd) {
+          alert('비밀번호가 일치하지 않습니다.')
+          document.getElementById('unregister__pwd').focus()
+          return false
+        } else {
+          if (confirm('해당 회원 정보를 삭제합니다.')) {
+            // 회원번호로 회원 정보를 삭제한다.
+            axios
+              .get(this.$serverUrl + '/mj/unregister/' + this.user_no)
+              .then(res => {
+                this.$router.push({
+                  name: 'login'
+                })
+              })
+          }
+        }
+      }
+    }
+  }
 })
 </script>
 

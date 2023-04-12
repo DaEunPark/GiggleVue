@@ -35,7 +35,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-//import { thisExpression } from '@babel/types'
+// import { thisExpression } from '@babel/types'
 
 export default {
   data () {
@@ -98,9 +98,9 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      var temp = keyword
-      this.keyword = temp.replace("#", "")
-      
+      const temp = keyword
+      this.keyword = temp.replace('#', '')
+
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
           this.$router.push({
@@ -118,7 +118,6 @@ export default {
           alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
-
     },
     getTrend () {
       this.$axios.post(this.$serverUrl + '/tag/trend')
@@ -145,7 +144,6 @@ export default {
 .input-group > input::placeholder{
   color: #7d7d7d;
 }
-
 
 .searchtd{
   color:black;

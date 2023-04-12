@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
 
-<a href="#editorview" 
+<a href="#editorview"
 data-bs-toggle="modal"
-data-bs-target="#editorview" 
-class="hover-change-color editorbtn" 
+data-bs-target="#editorview"
+class="hover-change-color editorbtn"
 @click="clearAllSearchWords">
     <span class="badge rounded-pill bg-success" style="padding: 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -14,14 +14,11 @@ class="hover-change-color editorbtn"
     </span>
 </a>
 
-
 <!-- <button type="button" @click="logout()">
           <span>
             <span>Logout</span>
           </span>
 </button> -->
-
-
 
 <!-- Editor Modal 시작 -->
 <div
@@ -60,7 +57,7 @@ aria-hidden="true">
 <script>
 import EditorView from '../views/EditorView.vue'
 export default {
-    components : {EditorView}
+  components: { EditorView }
 }
 </script>
 <style scoped>

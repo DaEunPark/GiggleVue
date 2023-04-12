@@ -16,7 +16,6 @@
 
 <!--이미지 추가 버튼 시작-->
 
-
                 <div class="filebox">
                   <label for="img-files-test">
                     <img id="addImage" src='@/assets/image.png'>프로필수정
@@ -82,179 +81,178 @@ import { mapGetters } from 'vuex'
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 
 export default {
-data () {
-  return {
-    user_nick: '',
-    status_message: '',
-    user_location: '',
-    user_birth: '',
-    back_image: '',
-    profile_image: '',
-    rightYTID: false,
-    files: [],
-    uploadImage: '',
-    imgbbImg: '',
-    imgbbImgURL: '',
-    uploadImage2: '',
-    imgbbImg2: '',
-    imgbbImgURL2: '',
+  data () {
+    return {
+      user_nick: '',
+      status_message: '',
+      user_location: '',
+      user_birth: '',
+      back_image: '',
+      profile_image: '',
+      rightYTID: false,
+      files: [],
+      uploadImage: '',
+      imgbbImg: '',
+      imgbbImgURL: '',
+      uploadImage2: '',
+      imgbbImg2: '',
+      imgbbImgURL2: ''
 
-  }
-},
-// eslint-disable-next-line vue/no-unused-components
-components: { MenuBar, SideBar },
-mounted () {
+    }
+  },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { MenuBar, SideBar },
+  mounted () {
   // eslint-disable-next-line eqeqeq
-  if (this.user_nick == '') {
-    this.user_nick = this.$store.state.loginUserDTO.user_nick
-  } else {
-    // eslint-disable-next-line no-self-assign
-    this.user_nick = this.user_nick
-  }
-  // eslint-disable-next-line eqeqeq
-  if (this.status_message == '') {
-    this.status_message = this.$store.state.loginUserDTO.status_message
-  } else {
-    // eslint-disable-next-line no-self-assign
-    this.status_message = this.status_message
-  }
-  // eslint-disable-next-line eqeqeq
-  if (this.user_location == '') {
-    this.user_location = this.$store.state.loginUserDTO.user_location
-  } else {
-    // eslint-disable-next-line no-self-assign
-    this.user_location = this.user_location
-  }
-
-  if(this.back_image != this.uploadImage2) {
-    this.back_image = this.uploadImage2
-  } else {
-    this.back_image = this.$store.state.loginUserDTO.back_image
-  }
-  // eslint-disable-next-line eqeqeq
-  if (this.profile_image != this.uploadImage) {
-    this.profile_image = this.uploadImage
-  } else {
-    this.profile_image = this.$store.state.loginUserDTO.profile_image
-  }
-},
-methods: {
-  profileUpdate () {
-
-    // eslint-disable-next-line eqeqeq
     if (this.user_nick == '') {
       this.user_nick = this.$store.state.loginUserDTO.user_nick
     } else {
-      // eslint-disable-next-line no-self-assign
+    // eslint-disable-next-line no-self-assign
       this.user_nick = this.user_nick
     }
-
     // eslint-disable-next-line eqeqeq
     if (this.status_message == '') {
       this.status_message = this.$store.state.loginUserDTO.status_message
     } else {
-      // eslint-disable-next-line no-self-assign
+    // eslint-disable-next-line no-self-assign
       this.status_message = this.status_message
     }
-
     // eslint-disable-next-line eqeqeq
     if (this.user_location == '') {
       this.user_location = this.$store.state.loginUserDTO.user_location
     } else {
-      // eslint-disable-next-line no-self-assign
+    // eslint-disable-next-line no-self-assign
       this.user_location = this.user_location
     }
 
     // eslint-disable-next-line eqeqeq
-    if (this.user_birth == '') {
-      this.user_birth = this.$store.state.loginUserDTO.user_birth
+    if (this.back_image != this.uploadImage2) {
+      this.back_image = this.uploadImage2
     } else {
+      this.back_image = this.$store.state.loginUserDTO.back_image
+    }
+    // eslint-disable-next-line eqeqeq
+    if (this.profile_image != this.uploadImage) {
+      this.profile_image = this.uploadImage
+    } else {
+      this.profile_image = this.$store.state.loginUserDTO.profile_image
+    }
+  },
+  methods: {
+    profileUpdate () {
+    // eslint-disable-next-line eqeqeq
+      if (this.user_nick == '') {
+        this.user_nick = this.$store.state.loginUserDTO.user_nick
+      } else {
       // eslint-disable-next-line no-self-assign
-      this.user_birth = this.user_birth
-    }
-
-    const data = {
-      user_nick: this.user_nick,
-      status_message: this.status_message,
-      user_location: this.user_location,
-      user_no: this.$store.state.loginUserDTO.user_no,
-      user_birth: this.user_birth,
-      uploadImage: this.uploadImage,
-      imgbbImg: this.imgbbImg,
-      profile_image: this.profile_image
-    }
-    this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
-      headers: {
-        'Content-Type': 'application/json'
+        this.user_nick = this.user_nick
       }
-    }).then((res) => {
-      console.log(res)
-      this.$store.commit('addLoginUser', res.data)
-      this.$router.push({
-        path: '/main/mypage'
-      })
-    }).catch(error => {
-      console.log(error)
-    })
-  },
-  renameFile (originalFile, newName) { // 파일명 변경
-    return new File([originalFile], newName, {
-      type: originalFile.type
-    })
-  },
-  uuidFileName (originalName) { // UUID 파일명 생성
-    const onLength = originalName.length
-    const indexDot = originalName.lastIndexOf('.')
-    const fileExtension = originalName.substring(indexDot + 1, onLength)
-    const uuid = self.crypto.randomUUID()
-    return `${uuid}.${fileExtension}`
-  },
-  uploadImgToImgbb1() {
-    console.log('uploadImgToImgbb ()')
-    const body = new FormData()
-    body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
-    body.append('image', this.imgbbImg.split(',').pop())
-    body.append('expiration', 15552000)
-    this.$axios.post('https://api.imgbb.com/1/upload', body,
-      {
+
+      // eslint-disable-next-line eqeqeq
+      if (this.status_message == '') {
+        this.status_message = this.$store.state.loginUserDTO.status_message
+      } else {
+      // eslint-disable-next-line no-self-assign
+        this.status_message = this.status_message
+      }
+
+      // eslint-disable-next-line eqeqeq
+      if (this.user_location == '') {
+        this.user_location = this.$store.state.loginUserDTO.user_location
+      } else {
+      // eslint-disable-next-line no-self-assign
+        this.user_location = this.user_location
+      }
+
+      // eslint-disable-next-line eqeqeq
+      if (this.user_birth == '') {
+        this.user_birth = this.$store.state.loginUserDTO.user_birth
+      } else {
+      // eslint-disable-next-line no-self-assign
+        this.user_birth = this.user_birth
+      }
+
+      const data = {
+        user_nick: this.user_nick,
+        status_message: this.status_message,
+        user_location: this.user_location,
+        user_no: this.$store.state.loginUserDTO.user_no,
+        user_birth: this.user_birth,
+        uploadImage: this.uploadImage,
+        imgbbImg: this.imgbbImg,
+        profile_image: this.profile_image
+      }
+      this.$axios.post(this.$serverUrl + '/updateProfile', JSON.stringify(data), {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
-
-      }
-    ).then(res => {
-      this.imgbbImgURL = res.data.data.url
-      this.profile_image = res.data.data.url
-      console.log('res.data.data.url = ' + res.data.data.url)
-    }).catch(err => {
-      console.log(err)
-    })
-  },
-  async handleFileUpload1(event) {
-  const newName = this.uuidFileName(this.$refs.profileimg.files[0].name)
-  this.files = this.renameFile(this.$refs.profileimg.files[0], newName)
-
-  const reader = new FileReader()
-  reader.readAsDataURL(this.files)
-  await new Promise((resolve) => {
-    reader.onloadend = (e) => {
-      if (e.target.readyState === FileReader.DONE) {
-        if (e.target.result) {
-          this.imgbbImg = e.target.result
-        } else {
-          console.error('파일을 읽는 중에 오류가 발생했습니다.')
-        }
-        this.uploadImage = URL.createObjectURL(this.files)
-        this.profile_image = this.uploadImage
-        console.log('uploadImage = ' + this.uploadImage)
-        resolve(); // 비동기 작업 완료 후 resolve() 호출
-      }
-    }
-  });
-
-  await this.uploadImgToImgbb1(); // uploadImgToImgbb() 함수 실행
-
+      }).then((res) => {
+        console.log(res)
+        this.$store.commit('addLoginUser', res.data)
+        this.$router.push({
+          path: '/main/mypage'
+        })
+      }).catch(error => {
+        console.log(error)
+      })
     },
+    renameFile (originalFile, newName) { // 파일명 변경
+      return new File([originalFile], newName, {
+        type: originalFile.type
+      })
+    },
+    uuidFileName (originalName) { // UUID 파일명 생성
+      const onLength = originalName.length
+      const indexDot = originalName.lastIndexOf('.')
+      const fileExtension = originalName.substring(indexDot + 1, onLength)
+      const uuid = self.crypto.randomUUID()
+      return `${uuid}.${fileExtension}`
+    },
+    uploadImgToImgbb1 () {
+      console.log('uploadImgToImgbb ()')
+      const body = new FormData()
+      body.append('key', '037f27c8f49be83ba03b30f0bb3ec12c')
+      body.append('image', this.imgbbImg.split(',').pop())
+      body.append('expiration', 15552000)
+      this.$axios.post('https://api.imgbb.com/1/upload', body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+
+        }
+      ).then(res => {
+        this.imgbbImgURL = res.data.data.url
+        this.profile_image = res.data.data.url
+        console.log('res.data.data.url = ' + res.data.data.url)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    async handleFileUpload1 (event) {
+      const newName = this.uuidFileName(this.$refs.profileimg.files[0].name)
+      this.files = this.renameFile(this.$refs.profileimg.files[0], newName)
+
+      const reader = new FileReader()
+      reader.readAsDataURL(this.files)
+      await new Promise((resolve) => {
+        reader.onloadend = (e) => {
+          if (e.target.readyState === FileReader.DONE) {
+            if (e.target.result) {
+              this.imgbbImg = e.target.result
+            } else {
+              console.error('파일을 읽는 중에 오류가 발생했습니다.')
+            }
+            this.uploadImage = URL.createObjectURL(this.files)
+            this.profile_image = this.uploadImage
+            console.log('uploadImage = ' + this.uploadImage)
+            resolve() // 비동기 작업 완료 후 resolve() 호출
+          }
+        }
+      })
+
+      await this.uploadImgToImgbb1() // uploadImgToImgbb() 함수 실행
+    }
 
   }
 }
@@ -379,6 +377,6 @@ border: 0;
   border: gray 1px solid;
 }
 #registerButton {
-  margin:0 0 0 39%;  
+  margin:0 0 0 39%;
 }
 </style>

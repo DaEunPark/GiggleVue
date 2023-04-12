@@ -21,7 +21,6 @@ import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
 
-
 const routes = [
   {
     path: '/main',
@@ -131,8 +130,8 @@ const routes = [
         components: {
           rmain: recommendFollow
         }
-       },
-       {
+      },
+      {
         path: 'modifypost',
         name: 'modifypost',
         components: {
@@ -180,7 +179,7 @@ const routes = [
     components: {
       rhome: GLogin1
     }
-  },
+  }
 
 ]
 

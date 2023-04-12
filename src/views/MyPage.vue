@@ -1,3 +1,5 @@
+<!-- eslint-disable no-unused-expressions -->
+<!-- eslint-disable no-unused-expressions -->
 <template>
   <div style="background-color: #fff;"  class="overflow-auto">
       <!-- :style="{ backgroundImage: `url(${this.$store.state.loginUserDTO.back_image})` }"-->
@@ -85,9 +87,9 @@ export default {
       post_cnt: '',
       follow_cnt: '',
       follower_cnt: '',
-       myfeedList: {},
-       myLikefeedList: {},
-       user_no:''
+      myfeedList: {},
+      myLikefeedList: {},
+      user_no: ''
     }
   },
   mounted () {
@@ -103,20 +105,22 @@ export default {
     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
       .forEach(popoverNode => new Tooltip(popoverNode))
 
+    // eslint-disable-next-line no-unused-expressions, no-sequences
     this.profileCnt(),
 
     this.GetmyfeedList(),
     this.GetmyLikefeedList()
-    },
+  },
   methods: {
     pushSetting () {
       this.$router.push({
         path: '/main/setting/'
       })
     },
-    goBack(){
-            this.$router.go(-1); [2]
-        },
+    goBack () {
+      // eslint-disable-next-line no-unused-expressions
+      this.$router.go(-1); [2]
+    },
     profileCnt () {
       const data = { user_no: this.$store.state.loginUserDTO.user_no }
       this.$axios.post(this.$serverUrl + '/profileCnt', JSON.stringify(data), {
@@ -134,29 +138,31 @@ export default {
     },
     GetmyfeedList () {
       this.user_no = this.$store.state.loginUserDTO.user_no
-      this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no )
-       .then((res) => {
-        //console.log("this.myfeedList = "+  this.user_no) 
-        this.user_no == res.data
-        this.myfeedList = res.data
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
+      this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no)
+        .then((res) => {
+        // console.log("this.myfeedList = "+  this.user_no)
+          // eslint-disable-next-line no-unused-expressions, eqeqeq
+          this.user_no == res.data
+          this.myfeedList = res.data
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
     },
     GetmyLikefeedList () {
       this.user_no = this.$store.state.loginUserDTO.user_no
-      this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no )
-       .then((res) => {
-        //console.log("this.myLikefeedList = "+  this.user_no)
-        this.user_no == res.data
-        this.myLikefeedList = res.data
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
+      this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no)
+        .then((res) => {
+        // console.log("this.myLikefeedList = "+  this.user_no)
+          // eslint-disable-next-line no-unused-expressions, eqeqeq
+          this.user_no == res.data
+          this.myLikefeedList = res.data
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
     }
   }
 }
@@ -282,8 +288,6 @@ export default {
 .status_message {
   font-size: 20px;
 }
-
-
 
 .nav-tabs{
     width:100%;

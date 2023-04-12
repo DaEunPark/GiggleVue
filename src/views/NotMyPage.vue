@@ -94,7 +94,7 @@ export default {
     return {
       myfeedList: {},
       myLikefeedList: {},
-      user_no:''
+      user_no: '',
 
       follow: {
         user_no: this.$store.state.loginUserDTO.user_no,
@@ -145,13 +145,15 @@ export default {
     //   modalBodyInput.value = recipient
     // })
 
+    // eslint-disable-next-line no-unused-expressions, no-sequences
     this.GetmyfeedList(),
     this.GetmyLikefeedList()
   },
   methods: {
-    goBack(){
-            this.$router.go(-1); [2]
-        },
+    goBack () {
+      // eslint-disable-next-line no-unused-expressions
+      this.$router.go(-1); [2]
+    },
     pushSetting () {
       this.$router.push({
         path: '/main/setting/'
@@ -159,33 +161,34 @@ export default {
     },
     GetmyfeedList () {
       this.user_no = this.$store.state.otherUserDTO.user_no
-      this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no )
-       .then((res) => {
-        //console.log("this.myfeedList = "+  this.user_no)
-        this.user_no == res.data
-        this.myfeedList = res.data
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
+      this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no)
+        .then((res) => {
+        // console.log("this.myfeedList = "+  this.user_no)
+          // eslint-disable-next-line no-unused-expressions, eqeqeq
+          this.user_no == res.data
+          this.myfeedList = res.data
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
     },
     GetmyLikefeedList () {
       this.user_no = this.$store.state.otherUserDTO.user_no
-      this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no )
-       .then((res) => {
-        //console.log("this.myLikefeedList = "+  this.user_no) 
-        this.user_no == res.data
-        this.myLikefeedList = res.data
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
-     },
+      this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no)
+        .then((res) => {
+        // console.log("this.myLikefeedList = "+  this.user_no)
+          // eslint-disable-next-line no-unused-expressions, eqeqeq
+          this.user_no == res.data
+          this.myLikefeedList = res.data
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
+    },
     user_follow () {
       this.user_follow_create(this.follow)
-
     }
   },
   mixins: [Follow]
@@ -353,8 +356,6 @@ export default {
     font-size: 20px;
   }
 
-
-
   .nav-tabs{
     width:100%;
     display: flex;
@@ -365,7 +366,7 @@ export default {
     width: 40%;
     margin-bottom: 50px;
     text-align: center;
-
+}
   .item_cnt{
   width: 100%;
   display : flex;

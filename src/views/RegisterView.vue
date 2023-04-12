@@ -265,7 +265,6 @@ export default {
             alert('회원 가입에 실패하셨습니다. |n나중에 다시 시도해주세요.')
           }
         })
-      
     },
     checkEmail (email) {
       // 이메일 유효성 검사하는 함수

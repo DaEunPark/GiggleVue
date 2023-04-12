@@ -286,7 +286,7 @@ export default ({
             this.chatRoomList[i].recent_message = this.message
           }
         }
-        //해당 채팅방을 제일 앞으로 배치한다.
+        // 해당 채팅방을 제일 앞으로 배치한다.
         this.changeArray(this.chatRoomList)
         console.log(this.chatRoomList)
 
@@ -332,11 +332,11 @@ export default ({
       const messageUl = document.getElementById('yesChatUl')
       messageUl.scrollTop = messageUl.scrollHeight
     },
-    changeArray(arr) {
-      //채팅방 리스트 중 현재 채팅방을 제일 앞으로 가져온다.
+    changeArray (arr) {
+      // 채팅방 리스트 중 현재 채팅방을 제일 앞으로 가져온다.
       return arr.filter((x) => x.chatroom_no === this.nowChatRoom).concat(
-          arr.filter((x) => x.chatroom_no !== this.nowChatRoom)
-        )
+        arr.filter((x) => x.chatroom_no !== this.nowChatRoom)
+      )
     }
   }
 })

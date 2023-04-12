@@ -46,59 +46,58 @@
 <script>
 import axios from 'axios'
 export default {
-  data() {
+  data () {
     return {
-        password: '',
-        newPwd: '',
-        checkPwdMsg: "비밀번호",
-        checkPwdState: 0
+      password: '',
+      newPwd: '',
+      checkPwdMsg: '비밀번호',
+      checkPwdState: 0
     }
   },
   methods: {
-    checkPwd() {
-        if(this.password !== "") {
-            if(this.password !== this.$store.state.loginUserDTO.user_pwd) {
-                this.checkPwdMsg = "비밀번호가 일치하지 않습니다!"
-                this.checkPwdState = 0
-            } else {
-                this.checkPwdMsg = "비밀번호가 일치합니다."
-                this.checkPwdState = 1
-            }
-        }
-    },
-    changePassWord() {
-        if(this.checkPwdState === 0) {
-            //비밀번호를 알맞지 않게 입력했거나 입력값이 없는 경우
-            alert("현재 비밀번호를 알맞게 입력해주세요.")
-            document.getElementById("security__orginPassword").focus()
+    checkPwd () {
+      if (this.password !== '') {
+        if (this.password !== this.$store.state.loginUserDTO.user_pwd) {
+          this.checkPwdMsg = '비밀번호가 일치하지 않습니다!'
+          this.checkPwdState = 0
         } else {
-             if(this.newPwd === "") {
-                //새로운 비밀번호 값이 없는 경우
-                alert("변경하실 비밀번호를 입력해주세요.")
-                document.getElementById("security__newPasswordAgain").focus()
-            } else {
-                if(!this.isPwdOk(this.newPwd)) {
-                    alert('비밀번호는 영문, 숫자, 특수문자 포함 8자 이상이어야 합니다.')
-                } else {
-                    axios.post(this.$serverUrl + "/mj/chagePwd", {
-                        user_no: this.$store.state.loginUserDTO.user_no,
-                        user_pwd: this.newPwd
-                    })
-                    .then(res => {
-                        if(res.data !== 0) {
-                            this.$store.commit("updatePwd", this.newPwd)
-                            alert("비밀번호를 변경을 완료했습니다.")
-                            location.reload()
-                        }
-                    })
-                }
-                
-            }
+          this.checkPwdMsg = '비밀번호가 일치합니다.'
+          this.checkPwdState = 1
         }
+      }
     },
-    isPwdOk(pwd) {
+    changePassWord () {
+      if (this.checkPwdState === 0) {
+        // 비밀번호를 알맞지 않게 입력했거나 입력값이 없는 경우
+        alert('현재 비밀번호를 알맞게 입력해주세요.')
+        document.getElementById('security__orginPassword').focus()
+      } else {
+        if (this.newPwd === '') {
+          // 새로운 비밀번호 값이 없는 경우
+          alert('변경하실 비밀번호를 입력해주세요.')
+          document.getElementById('security__newPasswordAgain').focus()
+        } else {
+          if (!this.isPwdOk(this.newPwd)) {
+            alert('비밀번호는 영문, 숫자, 특수문자 포함 8자 이상이어야 합니다.')
+          } else {
+            axios.post(this.$serverUrl + '/mj/chagePwd', {
+              user_no: this.$store.state.loginUserDTO.user_no,
+              user_pwd: this.newPwd
+            })
+              .then(res => {
+                if (res.data !== 0) {
+                  this.$store.commit('updatePwd', this.newPwd)
+                  alert('비밀번호를 변경을 완료했습니다.')
+                  location.reload()
+                }
+              })
+          }
+        }
+      }
+    },
+    isPwdOk (pwd) {
       // 비밀번호 유효성 검사하는 함수
-      console.log("비밀번호 유효성 검사")
+      console.log('비밀번호 유효성 검사')
       const checkPwdTool = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/
       return checkPwdTool.test(pwd)
     }

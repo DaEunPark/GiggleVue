@@ -10,7 +10,7 @@
       </div>
       <hr class="mb-1" style="color:#b0b0b0; margin:0;">
       <div class="feed_row px-1">
-        
+
         <!--개인 프로필로 가는 링크-->
         <div class="feed_contents">
           <!--개인 프로필로 가는 링크-->
@@ -29,7 +29,7 @@
                       <a role="button" class="text-dark" id="delete-post" @click="deletePost()">삭제</a>
                   </span>
                   </div>
-      
+
                   <div class="FeedList_contents">
                     <div id="imageuploadarea">
                       <div class="wrap">
@@ -188,9 +188,10 @@ export default {
   },
   methods: {
 
-    goBack(){
-            this.$router.go(-1); [2]
-        },
+    goBack () {
+      // eslint-disable-next-line no-unused-expressions
+      this.$router.go(-1); [2]
+    },
     postDetail () {
       this.getThisPostDetail()
     },
@@ -312,7 +313,7 @@ export default {
 }
 .feed_contents{
   width : 100%;
-  
+
 }
 .feed_text{
   display: flex;

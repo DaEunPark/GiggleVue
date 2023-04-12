@@ -1,3 +1,4 @@
+<!-- eslint-disable no-irregular-whitespace -->
 <template>
                 <div id="recommendfollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
@@ -20,9 +21,9 @@
                                   <div id="status">{{ user.status_message }}</div>
                             </div>
                             <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
-                            
+
                         </button>
-                        
+
                     </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
             </div>
@@ -31,75 +32,76 @@
 <script>
 
 export default {
-    data () {
-      return {
-        requestBody: {},
-        allfeedList: {},
-        no: '',
-        keyword: '',
-        isExistSearchWord: true,
-        thisURL: window.location.href,
-        recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움'],
-        top1: '',
-        top2: '',
-        top3: '',
-        top4: '',
-        top5: '',
-        recommendUser: {}
-      }
-    },
-    computed: {
-      showURL () {
-        return !this.thisURL.includes('search')
-      }
-    },
-    watch: {
-      $route (to, from) {
-        console.log(to)
-        console.log(from)
-        this.thisURL = window.location.href
+  data () {
+    return {
+      requestBody: {},
+      allfeedList: {},
+      no: '',
+      keyword: '',
+      isExistSearchWord: true,
+      thisURL: window.location.href,
+      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움'],
+      top1: '',
+      top2: '',
+      top3: '',
+      top4: '',
+      top5: '',
+      recommendUser: {}
+    }
+  },
+  computed: {
+    showURL () {
+      return !this.thisURL.includes('search')
+    }
+  },
+  watch: {
+    $route (to, from) {
+      console.log(to)
+      console.log(from)
+      this.thisURL = window.location.href
       //   console.log(this.thisURL)
-      }
-    },
-    mounted () {
-      this.recommendFollowAll()
-    },
-    methods: {
+    }
+  },
+  mounted () {
+    this.recommendFollowAll()
+  },
+  methods: {
 
-      recommendFollowAll() {
-  
-        const data = {user_no : this.$store.state.loginUserDTO.user_no,
-                      follow_user : this.$store.state.loginUserDTO.follow_user}
-  
-        this.$axios.post(this.$serverUrl + '/recommendFollowAll', JSON.stringify(data), {
+    recommendFollowAll () {
+      const data = {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        follow_user: this.$store.state.loginUserDTO.follow_user
+      }
+
+      this.$axios.post(this.$serverUrl + '/recommendFollowAll', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/json'
         }
-        }).then((res) => {
-          this.recommendUser = res.data
+      }).then((res) => {
+        this.recommendUser = res.data
+      })
+    },
+    intoProfile (user) {
+      alert(user)
+      const data = { user_no: user }
+
+      console.log('user_nick = ' + data)
+
+      this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        this.$router.push({
+          path: '/main/notmypage'
         })
-      },
-      intoProfile(user) {
-        alert(user)
-        const data = { user_no: user }
-
-          console.log('user_nick = ' + data)
-
-          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            this.$store.commit('addOtherUser', res.data)
-            console.log(this.$store.state.otherUserDTO)
-            this.$router.push({
-              path: '/main/notmypage'
-            })
-          })
-      },
+      })
     }
   }
-  </script>
+}
+</script>
   <style scoped>
       .sidebar {
           /* height: inherit; */

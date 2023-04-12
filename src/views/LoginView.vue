@@ -112,7 +112,6 @@
                             <div class="social mb-2">
                             <GLogin1></GLogin1>
                             <NaverLogin></NaverLogin></div>
-                            
 
                             <div class="bottomWrap">
                               <div class="findWrap">
@@ -179,7 +178,7 @@ export default {
       this.remember = 0
     }
 
-    console.log("google_token = " + this.$store.state.google_token)
+    console.log('google_token = ' + this.$store.state.google_token)
   },
   methods: {
     checkEmail () {
@@ -230,12 +229,10 @@ export default {
             }
           }).then((res) => {
             if (res.data.user_email != null) {
-
               this.$router.push({
                 path: '/main/mainhome'
               })
-              this.$store.commit("addLoginUser", res.data)
-
+              this.$store.commit('addLoginUser', res.data)
             } else if (res.data.user_email == null) {
               alert('일치하는 회원 정보가 없습니다.')
               if (confirm('회원가입을 진행 하시겠습니까?') === true) {
@@ -329,8 +326,8 @@ export default {
         console.log(error)
       })
     },
-    pushGoogle() {
-      this.$router.push ({
+    pushGoogle () {
+      this.$router.push({
         path: '/GLogin1'
       })
     }

@@ -4,7 +4,7 @@
                 <article class="my-3" id="textcardarticle">
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>
-                
+
                 <div>
                   <div id="imageuploadarea">
                     <div>
@@ -194,7 +194,6 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-
         // alert('태그 저장 성공..')
         // location.reload()
         this.$router.go()

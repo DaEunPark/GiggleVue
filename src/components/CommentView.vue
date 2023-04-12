@@ -1,3 +1,4 @@
+<!-- eslint-disable no-irregular-whitespace -->
 <template>
   <div>
     <div id="commentContent">
@@ -7,7 +8,7 @@
             <textarea style="width: 100%;" rows="5" cols="100" placeholder="
             🛸　　　 　🌎　°　　🌓　•　　.°•　　　🚀 ✯.　　　•　° ★　•  ☄
              　　　★　*　　　　　°　　　　🛰 　°·　　   🪐 　　　★　*　　　　🛰
-            .　　　•　° ★　•  ☄🛸　　　 　🌎　°　　🌓　•　　.°•　　　🚀 ✯" 
+           .　　　•　° ★　•  ☄🛸　　　 　🌎　°　　🌓　•　　.°•　　　🚀 ✯"
     v-model="comment_content" ref="content" ></textarea>
           </td>
           <td>
@@ -22,7 +23,7 @@
         <tr id="commentDetail">
           <a href="/main/mypage" v-if="this.$store.state.loginUserDTO.user_no == comment.user_no" ><img :src="comment.profile_image"  width="50" height="50" class="rounded-circle" id="profileimage" alt="user_profile" ></a>
           <a href="#" @click="otherUser(comment.user_no)" v-else><img :src="comment.profile_image"  width="50" height="50" class="rounded-circle" id="profileimage" alt="user_profile" ></a>
-         
+
           <p style="margin-right:10px" id="user_nick">{{ comment.user_nick }}</p>
           <small class="comment_date" text-align="right">{{comment.comment_date}}</small>
         </tr>
@@ -30,7 +31,7 @@
         <div id="commentcontent_delete">
           <p class="txt_left" id="comment_content" style=" rows: 5; cols:100; white-space:pre-line; overflow: hidden; text-overflow: ellipsis; ">{{comment.comment_content}}</p>
           <button id="deletebtn" class="btn btn-mb" @click="getCommentDelete(`${comment.comment_no}`)" v-if="this.$store.state.loginUserDTO.user_no == comment.user_no" >삭제</button>
-         </div>   
+         </div>
     </div>
     <p style="width: 100%; " id="line" ></p>
   </div>
@@ -38,12 +39,11 @@
 
 <script>
 
-
 export default {
 
   props: {
     post_no: Number
-    
+
   },
   data () {
     return {
@@ -75,43 +75,42 @@ export default {
       })
       location.reload()
     },
-   getCommentDelete (cno){
-    alert(cno)
-    alert(this.comment_no)
-    console.log(this.comment_no)
-    const data = { comment_no: this.comment_no }
-    this.$axios.post(this.$serverUrl + '/comment/commentDelete',{
-      comment_no: cno
-    }).then((res) => {
-      alert(res.data)
-    })
-    location.reload()
-   },
-   otherUser(userno){
-    const data = { user_no: userno}
+    getCommentDelete (cno) {
+      alert(cno)
+      alert(this.comment_no)
+      console.log(this.comment_no)
+      // eslint-disable-next-line no-unused-vars
+      const data = { comment_no: this.comment_no }
+      this.$axios.post(this.$serverUrl + '/comment/commentDelete', {
+        comment_no: cno
+      }).then((res) => {
+        alert(res.data)
+      })
+      location.reload()
+    },
+    otherUser (userno) {
+      const data = { user_no: userno }
 
-    this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            this.$store.commit('addOtherUser', res.data)
-            console.log(this.$store.state.otherUserDTO)
-            this.$router.push({
-              path: '/main/notmypage'
-            })
-   })
-     }
-   }
+      this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        this.$router.push({
+          path: '/main/notmypage'
+        })
+      })
+    }
+  }
 }
 
 </script>
 <style scoped>
 #commentContent {
   width: 100%;
-  
- 
-  
+
 }
 #commentContent table {
   width: 100%;
@@ -128,7 +127,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 20px;
   margin-right: 10px;
-  
+
 }
 textarea {
   resize: none;
@@ -139,7 +138,7 @@ textarea {
 #commentListDetail{
   background-color: white;
   border-width: 1px;
-  
+
 }
 #commentList{
   padding-top: 10px;
@@ -149,11 +148,10 @@ textarea {
 }
 div{
   box-shadow: none;
-  
-  
+
 }
 table{
-  
+
   border-style: solid;
   border-right-style: hidden;
   border-left-style: hidden;
@@ -164,8 +162,8 @@ table{
 }
 #user_nick{
   float: left;
-  padding-left: 20px; 
-  
+  padding-left: 20px;
+
 }
 .comment_date{
   color: rgb(126, 126, 126);
@@ -179,7 +177,7 @@ table{
 #commentcontent_delete{
   color:black;
   margin-left: 7%;
-  
+
 }
 #deletebtn{
   float:right;

@@ -158,7 +158,7 @@ export default {
       this.activate == '1'
       // eslint-disable-next-line no-unused-expressions
       stop
-    },
+    }
   }
 }
 

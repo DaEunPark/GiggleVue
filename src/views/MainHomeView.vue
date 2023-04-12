@@ -22,7 +22,7 @@
 
         </div> -->
         <div class="row">
-            <div class="editWrap"> 
+            <div class="editWrap">
                 <EditButton class="edit_btn"></EditButton>
             </div>
             <div class="col-3">
@@ -32,7 +32,7 @@
                 <div>
                     <router-view name="rmain"></router-view>
                 </div>
-                
+
             </div>
             <div  id="side_bar"  class="col-3" >
                 <SideBar></SideBar>
@@ -68,5 +68,4 @@ export default {
         padding : 0;
     }
 
-  
 </style>

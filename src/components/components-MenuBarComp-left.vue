@@ -43,10 +43,10 @@
           </span>
         </button>
 
-<!-- <a href="#editorview" 
+<!-- <a href="#editorview"
 data-bs-toggle="modal"
-data-bs-target="#editorview" 
-class="hover-change-color EditorBtn" 
+data-bs-target="#editorview"
+class="hover-change-color EditorBtn"
 @click="clearAllSearchWords">
     <span class="badge rounded-pill bg-success" style="padding: 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi editorbtn bi-pencil-square" viewBox="0 0 16 16">
@@ -55,8 +55,6 @@ class="hover-change-color EditorBtn"
         </svg>
     </span>
 </a> -->
-
-
 
 <!-- Editor Modal 시작 -->
 <!-- <div
@@ -90,7 +88,6 @@ aria-hidden="true">
     </div>
 </div> -->
 
-
         <button type="button" @click="logout()">
 
           <span>
@@ -102,8 +99,6 @@ aria-hidden="true">
         </button>
       </nav>
     </aside>
-
-
 
     <!-- 알림 Modal 시작 -->
     <div
@@ -170,7 +165,6 @@ aria-hidden="true">
     </div>
     <!-- DM Modal 끝 -->
 
-
   <footer>
     <div class="altmenu">
       <center>
@@ -208,7 +202,7 @@ export default {
   },
   components: { DMBody, AlarmBody/*, EditorBody */ },
   mounted () {
-    console.log("메세지 유무: " + this.$store.state.loginUserDTO.message_yn)
+    console.log('메세지 유무: ' + this.$store.state.loginUserDTO.message_yn)
     this.getAlarmList()
     this.getChatRoomList()
     this.getMessageYN()
@@ -257,42 +251,41 @@ export default {
       })
     },
 
-    getSearch() {
-          this.$router.push({
+    getSearch () {
+      this.$router.push({
         path: '/main/search'
       })
     },
 
-
-    getMessageYN() {
-      //회원번호에 해당하는 새로운 메세지 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
+    getMessageYN () {
+      // 회원번호에 해당하는 새로운 메세지 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
       this.$axios.get(this.$serverUrl + '/mj/getUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
           this.message_yn = res.data
-          console.log("메세지유무: " + this.message_yn)
+          console.log('메세지유무: ' + this.message_yn)
         })
     },
 
     openMessage () {
-      //새로운 메세지 유무 상태를 바꿔준다.
+      // 새로운 메세지 유무 상태를 바꿔준다.
       this.$axios.get(this.$serverUrl + '/mj/updateUserMessageYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          this.message_yn = "N"
+          this.message_yn = 'N'
         })
     },
-    getAlarmYN() {
-      //회원번호에 해당하는 새로운 알람 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
+    getAlarmYN () {
+      // 회원번호에 해당하는 새로운 알람 유무 상태를 가져온다(마운트 될 때마다 새롭게 업데이트 되도록)
       this.$axios.get(this.$serverUrl + '/mj/getUserAlarmYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
           this.alarm_yn = res.data
-          console.log("알람 유무: " + this.alarm_yn)
+          console.log('알람 유무: ' + this.alarm_yn)
         })
     },
     openAlarm () {
-      //새로운 알람 유무 상태를 바꿔준다.
+      // 새로운 알람 유무 상태를 바꿔준다.
       this.$axios.get(this.$serverUrl + '/mj/updateUserAlarmYN/' + this.$store.state.loginUserDTO.user_no)
         .then(res => {
-          this.alarm_yn = "N"
+          this.alarm_yn = 'N'
         })
     }
   },
@@ -302,15 +295,10 @@ export default {
 
 }
 
-
-
 </script>
 <style scoped>
 
-
-
-
-footer{ 
+footer{
   margin: 0;
   padding: 0;
 }
@@ -358,7 +346,7 @@ footer{
     position : fixed;
     right : 50px;
     bottom : 50px;
-} 
+}
 .editorbtn{
     width:50px;
     height:50px;
@@ -595,9 +583,6 @@ span {-webkit-text-fill-color: black;}
   font-size: 12px;
 }
 
-
-
-
 @media screen and (max-width: 320px) {
   .nav__name {
     display: none;
@@ -611,7 +596,7 @@ span {-webkit-text-fill-color: black;}
 }
 @media screen and (min-width: 767px) {
   .nav {
-    height: 4.5rem; 
+    height: 4.5rem;
   }
   .nav__img {
     display: none;

@@ -4,11 +4,11 @@
             <div class="row row-cols-auto">
                 <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="userFeedList_GF">
 
-                         <div class="col"> 
+                         <div class="col">
                             <button type="button" class="pro_btn" @click="Gouserpage(item.user_no)"><img :src="item.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile">
                             <p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></button>
-                     </div> 
-                        
+                     </div>
+
                 </div>
             </div>
         </article>
@@ -19,47 +19,48 @@
 // eslint-disable-next-line no-unused-vars
 import _ from 'lodash'
 export default {
-  props: { 
+  props: {
     items: { type: Object, default: null }
   },
   methods: {
+    // eslint-disable-next-line camelcase
     Gouserpage (user_no) {
       const data = { user_no: user_no }
-     //eslint-disable-next-line camelcase
-      //console.log('Data=' + user_no)
+      // eslint-disable-next-line camelcase
+      // console.log('Data=' + user_no)
       this.$axios.post(this.$serverUrl + '/Gouserpage', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/json'
         }
       }).then(res => {
-        //console.log('res.data.user_no = ' + res.data.user_no)
+        // console.log('res.data.user_no = ' + res.data.user_no)
         // eslint-disable-next-line eqeqeq
         if (this.$store.state.loginUserDTO.user_no != res.data.user_no) {
           const data = { user_no: res.data.user_no }
-          //console.log('const data=' + data)
+          // console.log('const data=' + data)
           this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
             headers: {
               'Content-Type': 'application/json'
             }
           }).then((res) => {
             this.$store.commit('addOtherUser', res.data)
-            //console.log(this.$store.state.otherUserDTO)
+            // console.log(this.$store.state.otherUserDTO)
             this.$router.push({
               path: '/main/notmypage'
             })
           }).catch(error => {
             console.log(error)
           })
-        // // eslint-disable-next-line eqeqeq
-        } else if (this.$store.state.loginUserDTO.user_no == res.data.user_no) {
+        // // eslint-disable-next-line eqeqeq, eqeqeq, eqeqeq
+        } else if (this.$store.state.loginUserDTO.user_no === res.data.user_no) {
           this.$router.push({
             path: '/main/mypage'
           })
         }
       })
-    },
+    }
   }
-  }
+}
 </script>
 
 <style>

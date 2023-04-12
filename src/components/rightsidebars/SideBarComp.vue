@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-unused-components -->
 <template>
     <div class="sidebar">
         <div id="search" class="sticky-top form-group" style="margin-bottom: 0px !important; padding-bottom: 0 !important;" v-show="showURL">
@@ -93,7 +94,7 @@
                             </div>
                             <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
                           </button>
-                          
+
                         <a href="#" @click="pushRecommend()" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
                     </div>
                 </div> <!-- <div class="card bg-light mb-3"> -->
@@ -115,16 +116,16 @@
 
         </div> <!-- test1 -->
 
-
 </div>
 </template>
 
 <script>
-//import { throwStatement } from '@babel/types'
+// import { throwStatement } from '@babel/types'
 import EditorView from '../../views/EditorView.vue'
 
 export default {
-  components : {EditorView},
+  // eslint-disable-next-line vue/no-unused-components
+  components: { EditorView },
   data () {
     return {
       requestBody: {},
@@ -163,9 +164,9 @@ export default {
   methods: {
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      var temp = keyword
-      this.keyword = temp.replace("#", "")
-      
+      const temp = keyword
+      this.keyword = temp.replace('#', '')
+
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
           this.$router.push({
@@ -233,42 +234,43 @@ export default {
       this.keyword = this.top5.replace('#', '')
       this.searchresultshow(this.keyword)
     },
-    recommendFollow() {
-
-      const data = {user_no : this.$store.state.loginUserDTO.user_no,
-                    follow_user : this.$store.state.loginUserDTO.follow_user}
+    recommendFollow () {
+      const data = {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        follow_user: this.$store.state.loginUserDTO.follow_user
+      }
 
       this.$axios.post(this.$serverUrl + '/recommendFollow', JSON.stringify(data), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }).then((res) => {
         this.recommendUser = res.data
-        console.log("recommendUser = " + this.recommendUser[0].user_nick)
+        console.log('recommendUser = ' + this.recommendUser[0].user_nick)
       })
     },
-    pushRecommend() {
-      this.$router.push ({
+    pushRecommend () {
+      this.$router.push({
         path: '/main/recommendFollow'
       })
     },
-    intoProfile(user) {
-        const data = { user_no: user }
+    intoProfile (user) {
+      const data = { user_no: user }
 
-          console.log('user_nick = ' + data)
+      console.log('user_nick = ' + data)
 
-          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            this.$store.commit('addOtherUser', res.data)
-            console.log(this.$store.state.otherUserDTO)
-            this.$router.push({
-              path: '/main/notmypage'
-            })
-          })
-      },
+      this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        this.$router.push({
+          path: '/main/notmypage'
+        })
+      })
+    }
   }
 }
 </script>
@@ -421,7 +423,6 @@ export default {
   margin-left: 45%;
   font-size: 12px;
 }
-
 
     img, svg {
     vertical-align: middle;
