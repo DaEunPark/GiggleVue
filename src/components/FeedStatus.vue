@@ -3,28 +3,6 @@
         <article class="mx-3" id="FeedList">
             <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="FeedList_GF">
 
-                         <!-- <div class="row">
-                            <div class="col-sm-1" style="margin-left:-20px; position: fixed;" >
-                                개인 프로필로 가는 링크
-                                <a v-if="$store.state.loginUserDTO.user_no == item.user_no" href="/main/mypage" ><img :src="$store.state.loginUserDTO.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
-                                <a v-if="$store.state.loginUserDTO.user_no != item.user_no" href="/main/mypage:user_no" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a>
-                            </div> -->
-
-                                <!--개인 프로필로 가는 링크-->
-                            <!-- <div class="col-sm-11" style="margin-left:15px">
-                                <div v-if="$store.state.loginUserDTO.user_no == item.user_no">
-                                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                                    <a href="/main/mypage"><p class="FeedList_username">{{$store.state.loginUserDTO.user_nick}}
-                                    <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
-                                </div>
-                                </div>
-                                <div v-if="$store.state.loginUserDTO.user_no != item.user_no">
-                                <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-                                    <a href="/main/mypage:user_no"><p class="FeedList_username">{{item.user_nick}}
-                                    <small class="FeedList_regdate">{{item.post_date}}</small></p></a>
-                                </div>
-                                </div> -->
-
                 <div class="feed_row px-1">
                     <div class="feed_profile" style="margin-right : 20px">
                         <!--개인 프로필로 가는 링크-->

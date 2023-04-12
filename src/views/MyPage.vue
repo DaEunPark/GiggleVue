@@ -33,7 +33,24 @@
             </div>
           </div>
   </div>
-
+                <div class="tabItems">
+                    <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#myfeedList" aria-selected="false" role="tab" tabindex="-1">feed</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#myLikefeedList" aria-selected="true" role="tab">like</a>
+                    </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content px-3">
+                        <div class="tab-pane fade active show" id="myfeedList" role="tabpanel">
+                          <div><FeedStatus :items="myfeedList"></FeedStatus></div>
+                        </div>
+                        <div class="tab-pane fade" id="myLikefeedList" role="tabpanel">
+                          <div><FeedStatus :items="myLikefeedList"></FeedStatus></div>
+                        </div>
+                    </div>
+                </div>
   </template>
 
 <script>
@@ -41,13 +58,20 @@
 import { Popover, Tooltip } from 'bootstrap/dist/js/bootstrap.min.js'
 // eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
+import FeedStatus from '@/components/FeedStatus.vue'
 
 export default {
+  components: {
+    FeedStatus
+  },
   data () {
     return {
       post_cnt: '',
       follow_cnt: '',
-      follower_cnt: ''
+      follower_cnt: '',
+       myfeedList: {},
+       myLikefeedList: {},
+       user_no:''
     }
   },
   mounted () {
@@ -63,8 +87,11 @@ export default {
     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
       .forEach(popoverNode => new Tooltip(popoverNode))
 
-    this.profileCnt()
-  },
+    this.profileCnt(),
+
+    this.GetmyfeedList(),
+    this.GetmyLikefeedList()
+    },
   methods: {
     pushSetting () {
       this.$router.push({
@@ -85,6 +112,32 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    GetmyfeedList () {
+      this.user_no = this.$store.state.loginUserDTO.user_no
+      this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no )
+       .then((res) => {
+        //console.log("this.myfeedList = "+  this.user_no) 
+        this.user_no == res.data
+        this.myfeedList = res.data
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    },
+    GetmyLikefeedList () {
+      this.user_no = this.$store.state.loginUserDTO.user_no
+      this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no )
+       .then((res) => {
+        //console.log("this.myLikefeedList = "+  this.user_no)
+        this.user_no == res.data
+        this.myLikefeedList = res.data
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
     }
   }
 }
@@ -227,6 +280,19 @@ export default {
 }
 .status_message {
   font-size: 20px;
+}
+
+
+.nav-tabs{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+.nav-item{
+    /* width: 30%; */
+    width: 40%;
+    margin-bottom: 50px;
+    text-align: center;
 }
 
 </style>

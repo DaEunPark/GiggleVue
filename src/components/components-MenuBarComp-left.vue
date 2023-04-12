@@ -55,19 +55,17 @@
           </span>
 </button> -->
 
-        <button>
+<button type="button" @click="logout()">
 
-          <span>
-            <i class="uil uil-bars"> </i>
-            <button type="button" @click="logout()">
-            <span>
-              <span>Logout</span>
-            </span>
-          </button>
-          </span>
-        </button>
-      </nav>
-    </aside>
+<span>
+  <i class="uil uil-bars"> </i>
+  <span>
+    <span>Logout</span>
+  </span>
+</span>
+</button>
+</nav>
+</aside>
 
     <!-- 알림 Modal 시작 -->
     <div
