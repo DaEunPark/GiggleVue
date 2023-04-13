@@ -254,7 +254,7 @@ export default {
 
       await this.uploadImgToImgbb1() // uploadImgToImgbb() 함수 실행
     },
-    permitUpdate() {
+    permitUpdate () {
       window.setTimeout(this.profileUpdate, 500)
     }
 

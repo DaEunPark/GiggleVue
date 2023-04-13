@@ -14,6 +14,7 @@ import Mypage from '../views/MyPage.vue'
 import SearchView from '../views/SearchView.vue'
 import SearchResultView from '../views/SearchResultView.vue'
 import gCallback from '../views/gCallback.vue'
+// eslint-disable-next-line no-unused-vars
 import NaverLoginCallback from '../components/NaverLoginCallback.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 import NotMyPage from '../views/NotMyPage.vue'
@@ -21,7 +22,6 @@ import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
 import FollowingView from '../views/FollowingView.vue'
-
 
 const routes = [
   {

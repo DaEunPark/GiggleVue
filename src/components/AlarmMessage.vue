@@ -100,31 +100,31 @@ export default {
     },
     openUserProfile (otherUser, alarmNo) {
       this.$axios.post(this.$serverUrl + '/otherProfile', {
-            user_no: otherUser
-          }).then((res) => {
-            this.$store.commit('addOtherUser', res.data)
-            console.log(this.$store.state.otherUserDTO)
-            this.deleteAlarm(alarmNo)
-            location.href="/main/notmypage"
-          })
+        user_no: otherUser
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        this.deleteAlarm(alarmNo)
+        location.href = '/main/notmypage'
+      })
     },
     deleteAlarm (alarmNO) {
-      //alert('알람 삭제 합니다~~')
+      // alert('알람 삭제 합니다~~')
       // 알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
       axiox.get(this.$serverUrl + '/mj/deleteAlarm/' + alarmNO)
         .then(res => {
 
         })
     },
-    user_follow(userNo, follower) {
-      //팔로우 해준다.
+    user_follow (userNo, follower) {
+      // 팔로우 해준다.
       axiox.post(this.$serverUrl + '/follow', {
         user_no: userNo,
         follow_user: follower
       })
-      .then(res => {
+        .then(res => {
 
-      })
+        })
     }
   }
 }

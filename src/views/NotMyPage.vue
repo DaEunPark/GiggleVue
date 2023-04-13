@@ -9,10 +9,9 @@
           </h3>
           </button>
 
-
           <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user=='N'">
             <p><span class="text-nowrap" id="blockSpan" v-if="this.block_user=='N'">차단하기</span></p>
-          </button> 
+          </button>
           <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user=='Y'">
             <p><span class="text-nowrap" id="blockSpan2" v-if="this.block_user=='Y'">차단해제</span></p>
           </button>
@@ -115,7 +114,7 @@ export default {
       myfeedList: {},
       myLikefeedList: {},
       user_no: '',
-      feedmei : false,
+      feedmei: false,
       likemei: false,
       block_user: '',
       follow: {
@@ -147,7 +146,6 @@ export default {
     }
   },
   mounted () {
-
     this.userBlockCheck()
 
     this.isFollowing(this.follow)
@@ -204,12 +202,13 @@ export default {
       this.user_no = this.$store.state.otherUserDTO.user_no
       this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no)
         .then((res) => {
-          //console.log( res.data)
-          if( res.data[0] != null ) {
-          this.user_no == res.data
-          this.myfeedList = res.data
-          this.feedmei  = false
-          }else {
+          // console.log( res.data)
+          if (res.data[0] != null) {
+            // eslint-disable-next-line no-unused-expressions, eqeqeq
+            this.user_no == res.data
+            this.myfeedList = res.data
+            this.feedmei = false
+          } else {
             this.feedmei = true
           }
         }).catch((err) => {
@@ -226,13 +225,14 @@ export default {
         // console.log(this.myLikefeedList)
         // console.log( res.data)
           // eslint-disable-next-line no-unused-expressions, eqeqeq
-          if( res.data[0] != null ) {
+          if (res.data[0] != null) {
+            // eslint-disable-next-line no-unused-expressions, eqeqeq
             this.user_no == res.data
-          this.myLikefeedList = res.data
-          this.likemei  = false
-           }else {
+            this.myLikefeedList = res.data
+            this.likemei = false
+          } else {
             this.likemei = true
-           }
+          }
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -241,21 +241,22 @@ export default {
     },
     user_follow () {
       this.user_follow_create(this.follow)
-
     },
-    userBlock() {
+    userBlock () {
       if (confirm(`${this.$store.state.otherUserDTO.user_nick}님을 차단하시겠습니까?`) === true) {
         this.block_user = 'Y'
 
-        const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
-                      blockUser_no : this.$store.state.otherUserDTO.user_no}
-        this.$axios.post(this.$serverUrl+'/userBlock', JSON.stringify(data), {
+        const data = {
+          myUser_no: this.$store.state.loginUserDTO.user_no,
+          blockUser_no: this.$store.state.otherUserDTO.user_no
+        }
+        this.$axios.post(this.$serverUrl + '/userBlock', JSON.stringify(data), {
           headers: {
-              'Content-Type': 'application/json'
-            }
-        }).then ((res) => {
-          console.log("유저 블락")
-          
+            'Content-Type': 'application/json'
+          }
+        }).then((res) => {
+          console.log('유저 블락')
+
           const data = { user_no: this.$store.state.otherUserDTO.user_no }
 
           this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
@@ -265,45 +266,47 @@ export default {
           }).then((res) => {
             this.$store.commit('addOtherUser', res.data)
             console.log(this.$store.state.otherUserDTO)
-            
+
             location.reload()
           })
-
-
-
         })
       } else {
         // eslint-disable-next-line no-unused-expressions
         stop
       }
     },
-    userBlockCancle() {
-      const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
-                      blockUser_no : this.$store.state.otherUserDTO.user_no}
-        this.$axios.post(this.$serverUrl+'/userBlockCancle', JSON.stringify(data), {
-          headers: {
-              'Content-Type': 'application/json'
-            }
-        }).then ((res) => {
-          this.block_user = 'N'    
-        })
+    userBlockCancle () {
+      const data = {
+        myUser_no: this.$store.state.loginUserDTO.user_no,
+        blockUser_no: this.$store.state.otherUserDTO.user_no
+      }
+      this.$axios.post(this.$serverUrl + '/userBlockCancle', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.block_user = 'N'
+      })
     },
-    userBlockCheck() {
-      const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
-                      blockUser_no : this.$store.state.otherUserDTO.user_no}
-        this.$axios.post(this.$serverUrl+'/userBlockCheck', JSON.stringify(data), {
-          headers: {
-              'Content-Type': 'application/json'
-            }
-        }).then ((res) => {
-          if(res.data == 'Y') {
-            this.block_user = 'Y'
-            console.log("this.block_user = " + this.block_user)
-          } else {
-            this.block_user = 'N'
-            console.log("this.block_user = " + this.block_user)
-          }
-        })
+    userBlockCheck () {
+      const data = {
+        myUser_no: this.$store.state.loginUserDTO.user_no,
+        blockUser_no: this.$store.state.otherUserDTO.user_no
+      }
+      this.$axios.post(this.$serverUrl + '/userBlockCheck', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        // eslint-disable-next-line eqeqeq
+        if (res.data == 'Y') {
+          this.block_user = 'Y'
+          console.log('this.block_user = ' + this.block_user)
+        } else {
+          this.block_user = 'N'
+          console.log('this.block_user = ' + this.block_user)
+        }
+      })
     }
   },
   mixins: [Follow]
@@ -532,13 +535,13 @@ export default {
   margin-left: 59%;
 }
 #blockBtn2 *[data-v-5bdfab44] {
-  -webkit-text-fill-color:white; 
+  -webkit-text-fill-color:white;
 }
 /* #blockBtn2:hover {
   background-color: transparent;
 }
 #blockBtn2 *[data-v-5bdfab44]:hover {
-  -webkit-text-fill-color:black; 
+  -webkit-text-fill-color:black;
 } */
 #info1 {
   font-size : 20px;

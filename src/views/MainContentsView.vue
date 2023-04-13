@@ -35,15 +35,15 @@ export default {
 
     fnGetList () {
       this.requestBody = { // 데이터 전송
-        
+
       }
-      
-      this.$axios.get(this.$serverUrl + '/main/mainhome/'+`${this.user_no}`, {
+
+      this.$axios.get(this.$serverUrl + '/main/mainhome/' + `${this.user_no}`, {
         // params: this.requestBody,
         // headers: {},
         params: {
-            user_no: this.user_no
-          }
+          user_no: this.user_no
+        }
       }).then((res) => {
         this.allfeedList = res.data
         // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)

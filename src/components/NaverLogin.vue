@@ -20,7 +20,7 @@ export default {
     })
 
     // 설정 정보를 초기화 하고 연동을 준비
-    this.naverLogin.init();
+    this.naverLogin.init()
 
     this.naverLogin.getLoginStatus((status) => {
       if (status) { // 연동 상태일 때
@@ -35,31 +35,31 @@ export default {
           // 재동의를 위해 다시 동의 페이지로 이동
           this.naverLogin.reprompt()
         } else {
-          //받아온 id 값으로 userDTO를 검색한다.
+          // 받아온 id 값으로 userDTO를 검색한다.
           axios
-          .get(this.$serverUrl + '/mj/naverLogin/' + this.naverLogin.user.id)
-          .then(res => {
-            console.log('네이버 로그인 id 확인 결과: ' + res.data)
-            if (res.data !== '') {  //데이터가 있으면
+            .get(this.$serverUrl + '/mj/naverLogin/' + this.naverLogin.user.id)
+            .then(res => {
+              console.log('네이버 로그인 id 확인 결과: ' + res.data)
+              if (res.data !== '') { // 데이터가 있으면
               // 해당 정보를 vuex에 담고 main으로 넘긴다.
-              this.$store.commit('addLoginUser', res.data)
-              console.log('vuex에 담은 정보: ' + this.$store.state.loginUserDTO)
-              this.$router.replace('/main/mainhome')
-            } else {
+                this.$store.commit('addLoginUser', res.data)
+                console.log('vuex에 담은 정보: ' + this.$store.state.loginUserDTO)
+                this.$router.replace('/main/mainhome')
+              } else {
               // 없으면 id 값, email 을 가지고 회원가입 페이지로 넘어간다.
-              var userDTO = {
-                user_email: this.naverLogin.user.email,
-                naver_token: this.naverLogin.user.id
-              }
-              //console.log("객체 검사: " + userDTO.user_email)
-              this.$store.commit('addLoginUser', userDTO)
-              alert('네이버 등록이 완료 되었습니다.\n추가 정보입력을 위해 회원가입 창으로 넘어갑니다.')
+                const userDTO = {
+                  user_email: this.naverLogin.user.email,
+                  naver_token: this.naverLogin.user.id
+                }
+                // console.log("객체 검사: " + userDTO.user_email)
+                this.$store.commit('addLoginUser', userDTO)
+                alert('네이버 등록이 완료 되었습니다.\n추가 정보입력을 위해 회원가입 창으로 넘어갑니다.')
 
-              //넘어가기 전 연동 상태를 끊어준다.
-              //this.naverLogin.logout();
-              location.href="/register"
-            }
-          })
+                // 넘어가기 전 연동 상태를 끊어준다.
+                // this.naverLogin.logout();
+                location.href = '/register'
+              }
+            })
         }
       } else { // 연동 상태가 아닐 때
         console.log('네이버 로그인 연동 상태가 아닙니다.')

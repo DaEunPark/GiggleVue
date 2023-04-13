@@ -130,7 +130,7 @@ export default ({
       userList: [], // 유저 검색 결과 리스트
       open: false, // 오른쪽 대화창 오픈 유무
       nowChatRoom: 0, // 현재 채팅방 번호
-      nowChatUserNO: 0,       //현재 채팅방 상대 번호
+      nowChatUserNO: 0, // 현재 채팅방 상대 번호
       nowChatUserProfile: '', // 현재 채팅방 상대 프로필
       nowChatUserNick: '', // 현재 채팅방 상대 닉네임
       messageList: [], // 메세지 리스트
@@ -219,8 +219,8 @@ export default ({
         if (this.chatRoomList[i].chatroom_no === chatroomNo) {
           // 클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
 
-          //현재 채팅방 상대 번호를 세팅한다.
-          if(this.chatRoomList[i].user1 === this.$store.state.loginUserDTO.user_no) {
+          // 현재 채팅방 상대 번호를 세팅한다.
+          if (this.chatRoomList[i].user1 === this.$store.state.loginUserDTO.user_no) {
             this.nowChatUserNO = this.chatRoomList[i].user2
           } else {
             this.nowChatUserNO = this.chatRoomList[i].user1
@@ -261,14 +261,14 @@ export default ({
       // 메세지 입력창에 포커스를 준다.
       document.getElementById('chat_content').focus()
     },
-    openUserProfile(otherUser) {
+    openUserProfile (otherUser) {
       this.$axios.post(this.$serverUrl + '/otherProfile', {
-            user_no: otherUser
-          }).then((res) => {
-            this.$store.commit('addOtherUser', res.data)
-            console.log(this.$store.state.otherUserDTO)
-            location.href="/main/notmypage"
-          })
+        user_no: otherUser
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        location.href = '/main/notmypage'
+      })
     },
     sendMessage () {
       // 텍스트 입력창에 입력한 값이 있을 때

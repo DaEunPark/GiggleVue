@@ -95,9 +95,9 @@ export default {
       myfeedList: {},
       myLikefeedList: {},
       user_no: '',
-      feedmei : false,
-      likemei: false,
-      
+      feedmei: false,
+      likemei: false
+
     }
   },
   mounted () {
@@ -125,7 +125,7 @@ export default {
         path: '/main/setting/'
       })
     },
-    pushFollowList() {
+    pushFollowList () {
       this.$router.push({
         path: '/main/myfriend/'
       })
@@ -153,12 +153,13 @@ export default {
       this.user_no = this.$store.state.loginUserDTO.user_no
       this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no)
         .then((res) => {
-          //console.log( res.data)
-          if( res.data[0] != null ) {
-          this.user_no == res.data
-          this.myfeedList = res.data
-          this.feedmei  = false
-          }else {
+          // console.log( res.data)
+          if (res.data[0] != null) {
+            // eslint-disable-next-line no-unused-expressions, eqeqeq
+            this.user_no == res.data
+            this.myfeedList = res.data
+            this.feedmei = false
+          } else {
             this.feedmei = true
           }
         }).catch((err) => {
@@ -175,19 +176,20 @@ export default {
         // console.log(this.myLikefeedList)
         // console.log( res.data)
           // eslint-disable-next-line no-unused-expressions, eqeqeq
-          if( res.data[0] != null ) {
+          if (res.data[0] != null) {
+            // eslint-disable-next-line no-unused-expressions, eqeqeq
             this.user_no == res.data
-          this.myLikefeedList = res.data
-          this.likemei  = false
-           }else {
+            this.myLikefeedList = res.data
+            this.likemei = false
+          } else {
             this.likemei = true
-           }
+          }
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
-    },
+    }
   }
 }
 </script>

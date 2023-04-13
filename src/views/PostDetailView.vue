@@ -192,7 +192,7 @@ export default {
   computed: {
     isMine () {
       return this.item.user_no === this.$store.state.loginUserDTO.user_no
-    },
+    }
   },
   methods: {
 

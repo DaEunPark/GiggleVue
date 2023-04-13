@@ -1,26 +1,27 @@
 export const Like = {
   data () {
     return {
-      //likeResult: ''
+      // likeResult: ''
     }
   },
   methods: {
     fn_pushLike () {
       console.log(this.ike_no)
+      // eslint-disable-next-line no-unused-vars
       const data = { content: this.like_no }
 
       this.$axios.post(`${this.$serverUrl}/pushLike`, {
         user_no: this.$store.state.loginUserDTO.user_no,
         post_no: this.post_no,
         like_no: this.like_no
-        }).then(res => {
-          alert(res.data)
-        //this.likeResult = res.data
-       // console.log(`Like.js ${this.likeResult}`)
+      }).then(res => {
+        alert(res.data)
+        // this.likeResult = res.data
+        // console.log(`Like.js ${this.likeResult}`)
         if (this.likeResult === 'Y') {
-           alert(`like합니다.`)
+          alert('like합니다.')
         } else {
-           alert(` unlike 합니다.`)
+          alert(' unlike 합니다.')
         }
       }).catch(err => {
         console.log(err.data)

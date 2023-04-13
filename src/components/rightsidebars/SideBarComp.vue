@@ -188,8 +188,8 @@ export default {
 
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
-          // this.$router.replace({ 스텍x 
-            this.$router.push({
+          // this.$router.replace({ 스텍x
+          this.$router.push({
             name: 'searchresult',
             params: {
               keyword: this.keyword
@@ -321,9 +321,7 @@ export default {
       }).then((res) => {
         this.$store.commit('addOtherUser', res.data)
         console.log(this.$store.state.otherUserDTO)
-        location.href="/main/notmypage/" + this.$store.state.otherUserDTO.user_nick
-         
-        
+        location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
     }
   },
