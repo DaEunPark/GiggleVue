@@ -42,15 +42,15 @@
                 <div class="item_cnt">
                   <div class="cntWrap">
                     <div class="item profileCnt">게시물</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.count_post}}</div>
+                    <div class="cnt_item">{{ postCount }}</div>
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.follower_user}}</div>
+                    <div class="cnt_item">{{ followerCount }}</div>
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.follow_user}}</div>
+                    <div class="cnt_item">{{ followCount }}</div>
                   </div>
                 <!-- <img src="@/assets/icon_setting.png" id="setting" @click="setting()"> -->
                   </div>
@@ -111,7 +111,6 @@ export default {
       myLikefeedList: {},
       user_no: '',
       block_user: '',
-
       follow: {
         user_no: this.$store.state.loginUserDTO.user_no,
         follow_user: this.$store.state.otherUserDTO.user_no
@@ -120,8 +119,24 @@ export default {
   },
   computed: {
     following () {
-      console.log('NotMyPage computed: ' + this.followResult)
-      return this.followResult
+      console.log('NotMyPage following() computed: ' + this.followResult)
+      if (this.followResult.includes(this.follow.follow_user)) {
+        return 'Y'
+      } else {
+        return this.followResult
+      }
+    },
+    postCount () {
+      console.log('NotMyPage postCount() computed: ' + this.post_cnt)
+      return this.post_cnt
+    },
+    followerCount () {
+      console.log('NotMyPage followerCnt() computed: ' + this.post_cnt)
+      return this.follower_cnt
+    },
+    followCount () {
+      console.log('NotMyPage followCnt() computed: ' + this.post_cnt)
+      return this.follow_cnt
     }
   },
   mounted () {
