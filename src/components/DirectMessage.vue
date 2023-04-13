@@ -67,7 +67,7 @@
             <div v-else style="height: 100%;">
             <!--대화중인 사람의 정보 -->
               <div id="dmInfo">
-                  <img v-bind:src="this.nowChatUserProfile" class="dmWindowImg"/>
+                  <a href="#" @click="openUserProfile(this.nowChatUserNO)"><img v-bind:src="this.nowChatUserProfile" class="dmWindowImg"/></a>
                   <p class="dmWindowNick">{{this.nowChatUserNick}}</p>
                   <button @click="deleteChatRoom" type="button" class="btn btn-success">나가기</button>
               </div>
@@ -130,6 +130,7 @@ export default ({
       userList: [], // 유저 검색 결과 리스트
       open: false, // 오른쪽 대화창 오픈 유무
       nowChatRoom: 0, // 현재 채팅방 번호
+      nowChatUserNO: 0,       //현재 채팅방 상대 번호
       nowChatUserProfile: '', // 현재 채팅방 상대 프로필
       nowChatUserNick: '', // 현재 채팅방 상대 닉네임
       messageList: [], // 메세지 리스트
@@ -217,8 +218,15 @@ export default ({
       for (let i = 0; i < this.chatRoomList.length; i++) {
         if (this.chatRoomList[i].chatroom_no === chatroomNo) {
           // 클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
-          // eslint-disable-next-line eqeqeq
-          if (this.chatRoomList[i].user1 == 0 || this.chatRoomList[i].user2 == 0) {
+
+          //현재 채팅방 상대 번호를 세팅한다.
+          if(this.chatRoomList[i].user1 === this.$store.state.loginUserDTO.user_no) {
+            this.nowChatUserNO = this.chatRoomList[i].user2
+          } else {
+            this.nowChatUserNO = this.chatRoomList[i].user1
+          }
+
+          if (this.chatRoomList[i].user1 === 0 || this.chatRoomList[i].user2 === 0) {
             // 상대방이 나간 채팅방이라면 상대방 정보를 다르게 세팅한다.
             this.nowChatUserNick = '알 수 없음'
             this.nowChatUserProfile = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2I0cfUaQK7bSG8L8q4cImt2i0qhd6XwNdeg&usqp=CAU'
@@ -252,6 +260,15 @@ export default ({
 
       // 메세지 입력창에 포커스를 준다.
       document.getElementById('chat_content').focus()
+    },
+    openUserProfile(otherUser) {
+      this.$axios.post(this.$serverUrl + '/otherProfile', {
+            user_no: otherUser
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            location.href="/main/notmypage"
+          })
     },
     sendMessage () {
       // 텍스트 입력창에 입력한 값이 있을 때
@@ -558,6 +575,7 @@ export default ({
 }
 .dmTo > p {
   margin: 0;
+  word-wrap: break-word;
 }
 .dmToDate {
   float: left;
@@ -597,6 +615,7 @@ export default ({
 .dmFrom > p {
   margin: 0;
   overflow: inherit;
+  word-wrap: break-word;
 }
 .dmFromDate {
   float: right;

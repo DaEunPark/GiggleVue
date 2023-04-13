@@ -168,6 +168,10 @@ export default {
     NaverLogin, GLogin1
   },
   mounted () {
+    //vuex에 로그인 정보가 있으면 로그아웃 한다.
+    if(this.$store.state.loginUserDTO !== null) {
+      this.$store.commit("logoutUser")
+    }
     // eslint-disable-next-line eqeqeq
     if (this.$store.state.checked == 1) {
       this.remember = 1
