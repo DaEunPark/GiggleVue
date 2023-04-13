@@ -29,7 +29,7 @@
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워</div>
-                    <div class="cnt_item">{{this.follower_cnt}}</div>
+                    <div class="cnt_item" @click="pushFollowList()">{{this.follower_cnt}}</div>
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉</div>
@@ -115,6 +115,11 @@ export default {
     pushSetting () {
       this.$router.push({
         path: '/main/setting/'
+      })
+    },
+    pushFollowList() {
+      this.$router.push({
+        path: '/main/myfriend/'
       })
     },
     goBack () {

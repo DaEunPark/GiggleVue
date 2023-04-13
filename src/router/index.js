@@ -20,6 +20,7 @@ import NotMyPage from '../views/NotMyPage.vue'
 import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
+import FollowingView from '../views/FollowingView.vue'
 
 const routes = [
   {
@@ -97,6 +98,13 @@ const routes = [
         name: 'notmypage',
         components: {
           rmain: NotMyPage
+        }
+      },
+      {
+        path: 'myfriend',
+        name: 'myfriend',
+        components: {
+          rmain: FollowingView
         }
       },
       {
