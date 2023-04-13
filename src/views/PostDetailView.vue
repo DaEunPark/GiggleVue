@@ -14,8 +14,8 @@
         <!--개인 프로필로 가는 링크-->
         <div class="feed_contents">
           <!--개인 프로필로 가는 링크-->
-          <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-            <button type="button" class="pro_btn" @click="whichProfile(item.post_no)">
+          <div class="d-flex justify-content-between" id="GoUserprofile">
+            <!-- <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"> -->
               <div class ="content_top mt-1">
                 <div class="feed_profile" style="margin-right : 20px">
                   <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </button>
@@ -27,7 +27,7 @@
                     <span class="FeedList_update" v-if="isMine">
                       <a role="button" class="text-dark" id="modify-post" @click="modifyPost()">수정</a>
                       <a role="button" class="text-dark" id="delete-post" @click="deletePost()">삭제</a>
-                  </span>
+                    </span>
                   </div>
 
                   <div class="FeedList_contents">
@@ -56,7 +56,7 @@
                   </div>
                 </div>
               </div>
-            </button>
+            <!-- </button> -->
             </div>
                 </div>
             </div>
@@ -303,7 +303,9 @@ export default {
 #FeedList_GI:hover {
     background-color: #efefef;
 }
-
+#GoUserprofile {
+  width: 90% !important;
+}
 #GoUserprofile a:hover .FeedList_username {
     /* text-decoration:underline; */
     color: #ed5c9d !important;
@@ -360,6 +362,7 @@ export default {
 .FeedList_regdate {
     color:rgb(126, 126, 126);
     font-size: small;
+    flex-grow: 1;
 }
 .FeedList_activeicont{
   display:flex;
@@ -503,6 +506,10 @@ text-align: center;
 
 #modify-post {
   margin-right: 10px;
+}
+
+.FeedList_update {
+  margin-left: 20px;
 }
 
 .FeedList_update a {
