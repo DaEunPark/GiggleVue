@@ -80,10 +80,15 @@
                     </ul>
                     <div id="myTabContent" class="tab-content px-3">
                         <div class="tab-pane fade active show" id="myfeedList" role="tabpanel">
-                          <div><FeedStatus :items="myfeedList"></FeedStatus></div>
+                          <div> <FeedStatus :items="myfeedList"></FeedStatus>
+                                <h6 v-show="feedmei" style="color:#e83283; text-align: center;" >게시글이 아직 없습니다.</h6>
+                         </div>
                         </div>
+
                         <div class="tab-pane fade" id="myLikefeedList" role="tabpanel">
-                          <div><FeedStatus :items="myLikefeedList"></FeedStatus></div>
+                          <div><FeedStatus :items="myLikefeedList"></FeedStatus>
+                            <h6 v-show="likemei" style="color:#e83283; text-align: center;" >좋아요한 게시글이 아직 없습니다.</h6>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -110,6 +115,8 @@ export default {
       myfeedList: {},
       myLikefeedList: {},
       user_no: '',
+      feedmei : false,
+      likemei: false,
       block_user: '',
       follow: {
         user_no: this.$store.state.loginUserDTO.user_no,
@@ -197,10 +204,14 @@ export default {
       this.user_no = this.$store.state.otherUserDTO.user_no
       this.$axios.post(this.$serverUrl + '/myfeedList/' + this.user_no)
         .then((res) => {
-        // console.log("this.myfeedList = "+  this.user_no)
-          // eslint-disable-next-line no-unused-expressions, eqeqeq
+          //console.log( res.data)
+          if( res.data[0] != null ) {
           this.user_no == res.data
           this.myfeedList = res.data
+          this.feedmei  = false
+          }else {
+            this.feedmei = true
+          }
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -212,9 +223,16 @@ export default {
       this.$axios.post(this.$serverUrl + '/mylikefeedList/' + this.user_no)
         .then((res) => {
         // console.log("this.myLikefeedList = "+  this.user_no)
+        // console.log(this.myLikefeedList)
+        // console.log( res.data)
           // eslint-disable-next-line no-unused-expressions, eqeqeq
-          this.user_no == res.data
+          if( res.data[0] != null ) {
+            this.user_no == res.data
           this.myLikefeedList = res.data
+          this.likemei  = false
+           }else {
+            this.likemei = true
+           }
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')

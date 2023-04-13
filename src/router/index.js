@@ -22,6 +22,7 @@ import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
 import FollowingView from '../views/FollowingView.vue'
 
+
 const routes = [
   {
     path: '/main',
@@ -93,8 +94,15 @@ const routes = [
           rmain: Mypage
         }
       },
+      // {
+      //   path: 'notmypage',
+      //   name: 'notmypage',
+      //   components: {
+      //     rmain: NotMyPage
+      //   }
+      // },
       {
-        path: 'notmypage',
+        path: 'notmypage/:user_nick',
         name: 'notmypage',
         components: {
           rmain: NotMyPage
