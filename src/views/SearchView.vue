@@ -103,7 +103,8 @@ export default {
 
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
         if (keyword !== '') {
-          this.$router.push({
+          // this.$router.replace({ 스텍x 
+            this.$router.push({
             name: 'searchresult',
             params: {
               keyword: this.keyword
