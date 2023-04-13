@@ -267,7 +267,7 @@ export default ({
       }).then((res) => {
         this.$store.commit('addOtherUser', res.data)
         console.log(this.$store.state.otherUserDTO)
-        location.href = '/main/notmypage'
+        location.href = `/main/notmypage/${this.$store.state.otherUserDTO.user_nick}`
       })
     },
     sendMessage () {

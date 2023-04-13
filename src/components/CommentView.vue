@@ -100,7 +100,7 @@ export default {
         this.$store.commit('addOtherUser', res.data)
         console.log(this.$store.state.otherUserDTO)
         this.$router.push({
-          path: '/main/notmypage'
+          path: `/main/notmypage/${this.$store.state.otherUserDTO.user_nick}`
         })
       })
     }
