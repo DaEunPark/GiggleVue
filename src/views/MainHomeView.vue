@@ -22,7 +22,7 @@
 
         </div> -->
         <div class="row">
-            <div class="editWrap">
+            <div class="editWrap"  v-show="showEditorBtn">
                 <EditButton class="edit_btn"></EditButton>
             </div>
             <div class="col-3">
@@ -47,7 +47,22 @@ import MenuBar from '../components/components-MenuBarComp-left.vue'
 import SideBar from '../components/rightsidebars/SideBarComp.vue'
 import EditButton from '../components/EditorButton.vue'
 export default {
-  components: { MenuBar, SideBar, EditButton }
+  data () {
+    return {
+      thisURL: window.location.href
+    }
+  },
+  components: { MenuBar, SideBar, EditButton },
+  computed: {
+    showEditorBtn () {
+      return !this.thisURL.includes('modify')
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.thisURL = window.location.href
+    }
+  }
 
 }
 </script>

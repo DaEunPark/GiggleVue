@@ -174,27 +174,31 @@ export default {
     },
     async uploadImgToServer () {
       // alert('이미지들 업로드 테스트')
-      const body = new FormData()
-      for (let i = 0; i < this.files.length; i++) {
-        body.append('files', this.files[i])
-      }
-      // body.append('files', this.files[0])
-      await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+      if (this.files.length > 0) {
+        const body = new FormData()
+        for (let i = 0; i < this.files.length; i++) {
+          body.append('files', this.files[i])
+        }
+        // body.append('files', this.files[0])
+        await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        }
-      ).then(res => {
-        // alert('이미지들 업로드 테스트' + res.data)
-        if (res.data === 'Y') {
-          // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+        ).then(res => {
+          // alert('이미지들 업로드 테스트' + res.data)
+          if (res.data === 'Y') {
+            // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+          }
+          // this.s3ImgURL = res.data
           this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
-        }
-        // this.s3ImgURL = res.data
-      }).catch(err => {
-        console.log(err)
-      })
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
+      }
     },
     async insertTag () {
       const data = { text_content: this.post.text_content }

@@ -73,7 +73,7 @@
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <div id="test1" class="sticky-top">
+        <div id="test1" class="sticky-top" v-show="showURLRecommendFollow">
             <!-- 팔로우 추천 -->
             <div id="recommendfollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
@@ -93,8 +93,8 @@
                                 <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
                                   {{ user.user_nick }}</div>
                             </div>
-                            <a href="#" v-if="following(user.user_no) === 'N'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
-                            <a href="#" v-if="following(user.user_no) === 'Y'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-primary text-nowrap text-size-custom" style="padding: 8px;">팔로잉</span></a>
+                            <a role="button" v-if="following(user.user_no) === 'N'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <a role="button" v-if="following(user.user_no) === 'Y'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-primary text-nowrap text-size-custom" style="padding: 8px;">팔로잉</span></a>
                           </button>
 
                         <a href="#" @click="pushRecommend()" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
@@ -149,6 +149,9 @@ export default {
   computed: {
     showURL () {
       return !this.thisURL.includes('search')
+    },
+    showURLRecommendFollow () {
+      return !this.thisURL.includes('recommend')
     },
     following () {
       // console.log('NotMyPage following() computed: ' + this.followResult)
