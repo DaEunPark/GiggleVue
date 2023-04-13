@@ -412,7 +412,7 @@ export default ({
   list-style: none;
   margin-top: 10px;
   width: 100%;
-  height: 90%;
+  height: 85%;
   overflow-y: scroll;
   padding: 0;
   z-index: 1 !important;
