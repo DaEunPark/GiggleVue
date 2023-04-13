@@ -20,6 +20,7 @@ import NotMyPage from '../views/NotMyPage.vue'
 import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
+import FollowingView from '../views/FollowingView.vue'
 
 
 const routes = [
@@ -108,6 +109,13 @@ const routes = [
         }
       },
       {
+        path: 'myfriend',
+        name: 'myfriend',
+        components: {
+          rmain: FollowingView
+        }
+      },
+      {
 
         path: 'search',
         name: 'search',
@@ -162,7 +170,6 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    props: true,
     components: {
       rhome: RegisterView
     }
@@ -171,7 +178,7 @@ const routes = [
     path: '/naverLoginCallback',
     name: 'naverLoginCallback',
     components: {
-      rhome: NaverLoginCallback
+      rhome: LoginView
     }
   },
   {

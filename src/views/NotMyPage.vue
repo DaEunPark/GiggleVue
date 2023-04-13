@@ -7,7 +7,16 @@
           <h3 class ="list-group-item text-dark border-primary my-2">
             <font-awesome-icon class="mx-2" style="color:black;" :icon="['fas', 'caret-left']" /> {{ this.$store.state.otherUserDTO.user_nick }}
           </h3>
-        </button>
+          </button>
+
+
+          <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user=='N'">
+            <p><span class="text-nowrap" id="blockSpan" v-if="this.block_user=='N'">차단하기</span></p>
+          </button> 
+          <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user=='Y'">
+            <p><span class="text-nowrap" id="blockSpan2" v-if="this.block_user=='Y'">차단해제</span></p>
+          </button>
+
             <div class="backimg">
                 <img v-bind:src="`${this.$store.state.otherUserDTO.back_image}`" id="backimg"/>
             </div>
@@ -17,11 +26,13 @@
             </div>
             <div class="user_info_box">
                     <div class="user_name">
-                    <p id="user_name_title">{{ this.$store.state.otherUserDTO.user_nick }}</p>
+                    <p id="user_name_title">{{ this.$store.state.otherUserDTO.user_nick }}</p>&nbsp;&nbsp;&nbsp;
+                    <font-awesome-icon icon="fa-solid fa-ban" style="color: #e82167;" v-if="this.block_user=='Y'" id="blockIcon"/>
                     <!-- <div class="user_setting_box"> -->
 
-                        <div v-if="following === 'N'" class="user_follow_btn" @click="user_follow()"> <span class="text-nowrap">팔로우</span></div>
-                        <div v-if="following === 'Y'" class="user_following_btn" @click="user_follow()"> <span class="text-nowrap">팔로잉</span></div>
+                        <div v-if="following === 'N' && this.block_user=='N'" class="user_follow_btn" @click="user_follow()"> <span class="text-nowrap">팔로우</span></div>
+                        <div v-if="following === 'Y' && this.block_user=='N'" class="user_following_btn" @click="user_follow()"> <span class="text-nowrap">팔로잉</span></div>
+                        <div v-if="this.block_user=='Y'" class="user_following_btn"  id="blocking"> <span class="text-nowrap" disabled>차단됨</span></div>
                         <!-- <div onclick="user_setting_modal_on()">
                             <button type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
                         </div> -->
@@ -31,15 +42,15 @@
                 <div class="item_cnt">
                   <div class="cntWrap">
                     <div class="item profileCnt">게시물</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.count_post}}</div>
+                    <div class="cnt_item">{{ postCount }}</div>
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.follower_user}}</div>
+                    <div class="cnt_item">{{ followerCount }}</div>
                   </div>
                   <div class="cntWrap">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉</div>
-                    <div class="cnt_item">{{this.$store.state.otherUserDTO.follow_user}}</div>
+                    <div class="cnt_item">{{ followCount }}</div>
                   </div>
                 <!-- <img src="@/assets/icon_setting.png" id="setting" @click="setting()"> -->
                   </div>
@@ -58,7 +69,7 @@
             </div>
       </div>
  </div>
-                 <div class="tabItems">
+                 <div class="tabItems" v-if="this.block_user=='N'">
                     <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" data-bs-toggle="tab" href="#myfeedList" aria-selected="false" role="tab" tabindex="-1">feed</a>
@@ -81,6 +92,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="block_page" v-if="this.block_user=='Y'">
+                  <p id="info1">{{ this.$store.state.otherUserDTO.user_nick }}님은 차단되어 있습니다.</p>
+                  <p id="info2">{{ this.$store.state.otherUserDTO.user_nick }}님의 글을 보려면 차단을 해제해주세요.</p>
+                </div>
 </template>
 
 <script>
@@ -102,7 +117,7 @@ export default {
       user_no: '',
       feedmei : false,
       likemei: false,
-
+      block_user: '',
       follow: {
         user_no: this.$store.state.loginUserDTO.user_no,
         follow_user: this.$store.state.otherUserDTO.user_no
@@ -111,11 +126,30 @@ export default {
   },
   computed: {
     following () {
-      console.log('NotMyPage computed: ' + this.followResult)
-      return this.followResult
+      console.log('NotMyPage following() computed: ' + this.followResult)
+      if (this.followResult.includes(this.follow.follow_user)) {
+        return 'Y'
+      } else {
+        return this.followResult
+      }
+    },
+    postCount () {
+      console.log('NotMyPage postCount() computed: ' + this.post_cnt)
+      return this.post_cnt
+    },
+    followerCount () {
+      console.log('NotMyPage followerCnt() computed: ' + this.post_cnt)
+      return this.follower_cnt
+    },
+    followCount () {
+      console.log('NotMyPage followCnt() computed: ' + this.post_cnt)
+      return this.follow_cnt
     }
   },
   mounted () {
+
+    this.userBlockCheck()
+
     this.isFollowing(this.follow)
     if (this.$store.state.otherUserDTO.back_image == null) {
       this.$store.state.otherUserDTO.back_image = 'https://i.ibb.co/Mgtq0YC/backdefault.png'
@@ -207,6 +241,69 @@ export default {
     },
     user_follow () {
       this.user_follow_create(this.follow)
+
+    },
+    userBlock() {
+      if (confirm(`${this.$store.state.otherUserDTO.user_nick}님을 차단하시겠습니까?`) === true) {
+        this.block_user = 'Y'
+
+        const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
+                      blockUser_no : this.$store.state.otherUserDTO.user_no}
+        this.$axios.post(this.$serverUrl+'/userBlock', JSON.stringify(data), {
+          headers: {
+              'Content-Type': 'application/json'
+            }
+        }).then ((res) => {
+          console.log("유저 블락")
+          
+          const data = { user_no: this.$store.state.otherUserDTO.user_no }
+
+          this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            
+            location.reload()
+          })
+
+
+
+        })
+      } else {
+        // eslint-disable-next-line no-unused-expressions
+        stop
+      }
+    },
+    userBlockCancle() {
+      const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
+                      blockUser_no : this.$store.state.otherUserDTO.user_no}
+        this.$axios.post(this.$serverUrl+'/userBlockCancle', JSON.stringify(data), {
+          headers: {
+              'Content-Type': 'application/json'
+            }
+        }).then ((res) => {
+          this.block_user = 'N'    
+        })
+    },
+    userBlockCheck() {
+      const data = {myUser_no : this.$store.state.loginUserDTO.user_no,
+                      blockUser_no : this.$store.state.otherUserDTO.user_no}
+        this.$axios.post(this.$serverUrl+'/userBlockCheck', JSON.stringify(data), {
+          headers: {
+              'Content-Type': 'application/json'
+            }
+        }).then ((res) => {
+          if(res.data == 'Y') {
+            this.block_user = 'Y'
+            console.log("this.block_user = " + this.block_user)
+          } else {
+            this.block_user = 'N'
+            console.log("this.block_user = " + this.block_user)
+          }
+        })
     }
   },
   mixins: [Follow]
@@ -402,4 +499,68 @@ export default {
   font-weight: bold;
 
 }
-  </style>
+#blockBtn[data-v-5bdfab44] {
+    margin-left: 59%;
+    background-color: transparent;
+    color: gray;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    width: 10%;
+    height: 40px;
+    border: 3px solid #e8e8e8;
+    border-radius: 50px;
+    cursor: pointer;
+}
+#blockBtn:hover {
+  background-color: deeppink;
+}
+#blockBtn *[data-v-5bdfab44]:hover {
+  -webkit-text-fill-color:white;
+}
+#blockBtn2 {
+  background-color: deeppink;
+  color: gray;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  width: 10%;
+  height: 40px;
+  border: 3px solid #e8e8e8;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-left: 59%;
+}
+#blockBtn2 *[data-v-5bdfab44] {
+  -webkit-text-fill-color:white; 
+}
+/* #blockBtn2:hover {
+  background-color: transparent;
+}
+#blockBtn2 *[data-v-5bdfab44]:hover {
+  -webkit-text-fill-color:black; 
+} */
+#info1 {
+  font-size : 20px;
+  font-weight: bold;
+  text-align: center;
+}
+#info2 {
+  text-align: center;
+  color: gray;
+}
+.block_page {
+  background-color: lightyellow;
+  margin: 0;
+  padding-top: 5%;
+  padding-bottom: 20%;
+}
+#blockIcon {
+  width: 25px;
+  height: 25px;
+  padding-top: 1%;
+}
+#blocking {
+  background-color: gray;
+}
+</style>

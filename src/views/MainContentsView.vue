@@ -22,8 +22,9 @@ export default {
   data () {
     return {
       // requestBody: {}, // 리스트 페이지 데이터 전송
-      allfeedList: {} // 리스트 데이터
+      allfeedList: {}, // 리스트 데이터
       // no: '' // 숫자 처리
+      user_no: this.$store.state.loginUserDTO.user_no
 
     }
   },
@@ -31,14 +32,18 @@ export default {
     this.fnGetList()
   },
   methods: {
+
     fnGetList () {
       this.requestBody = { // 데이터 전송
-
+        
       }
-
-      this.$axios.get(this.$serverUrl + '/main/mainhome', {
+      
+      this.$axios.get(this.$serverUrl + '/main/mainhome/'+`${this.user_no}`, {
         // params: this.requestBody,
-        headers: {}
+        // headers: {},
+        params: {
+            user_no: this.user_no
+          }
       }).then((res) => {
         this.allfeedList = res.data
         // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)

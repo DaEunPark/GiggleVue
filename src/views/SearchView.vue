@@ -96,6 +96,35 @@ export default {
         }
       ]
     },
+    // searchresultshow (keyword) {
+    //   // console.log("searchresultshow 결과화면으로 이동");
+    //   const temp = keyword
+    //   this.keyword = temp.replace('#', '')
+
+    //   const data={keyword : this.keyword, user_no : this.$store.state.loginUserDTO.user_no}
+
+    //   this.$axios.post(this.$serverUrl+'/main/search', JSON.stringify(data), {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then((res) => {
+    //       if (keyword !== '') {
+    //         this.$router.push({
+    //           name: 'searchresult',
+    //           params: {
+    //             keyword: this.keyword
+    //           }
+    //         })
+    //       console.log('"', keyword, '"' + '검색')
+    //       this.allfeedList = res.data
+    //       }
+    //   }).catch((err) => {
+    //       if (err.message.indexOf('Network Error') > -1) {
+    //         alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+    //         alert('특수문자를 제외한 검색어를 입력해주세요')
+    //     }
+    //   })
+    // },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
       const temp = keyword

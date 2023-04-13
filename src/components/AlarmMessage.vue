@@ -4,7 +4,7 @@
       <div v-for="(alarm, idx) in alarmList" :key="idx">
         <!-- 알람 타입: 1 (팔로우 알람) -->
         <div v-if="alarm.alarm_type == '1'" class="alert alert-dismissible alert-primary">
-          <a href="#" @click="openUserProfile(alarm.alarm_user, alarm.alarm_no), deleteAlarm(alarm.alarm_no)" class="alert-link">
+          <a href="#" @click="openUserProfile(alarm.alarm_user, alarm.alarm_no)" class="alert-link">
             <table>
               <tr>
                 <td class="alarmListImg">
@@ -12,14 +12,6 @@
                 </td>
                 <td class="alarmListNick">{{alarm.alarm_user_nick}}</td>
                 <td>님이 회원님을 팔로우합니다.</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-success alarmFollow"
-                  >
-                    팔로우
-                  </button>
-                </td>
                 <td class="alarmTime">{{alarm.alarm_date}}</td>
                 <td class="alarmClose">
                 </td>
@@ -107,23 +99,32 @@ export default {
       }
     },
     openUserProfile (otherUser, alarmNo) {
-      this.$store.commit('addOtherUser', otherUser)
-      console.log(this.$store.state.otherUserDTO)
-      location.href = '/main/notmypage'
-    // },
-    // getPostDetail(postNo) {
-    //   alert("상세페이지로 이동합니다")
-    //   this.$router.push({
-    //     name: 'postdetail', query: { post_no: postNo }
-    //   })
+      this.$axios.post(this.$serverUrl + '/otherProfile', {
+            user_no: otherUser
+          }).then((res) => {
+            this.$store.commit('addOtherUser', res.data)
+            console.log(this.$store.state.otherUserDTO)
+            this.deleteAlarm(alarmNo)
+            location.href="/main/notmypage"
+          })
     },
     deleteAlarm (alarmNO) {
-      alert('알람 삭제 합니다~~')
+      //alert('알람 삭제 합니다~~')
       // 알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
       axiox.get(this.$serverUrl + '/mj/deleteAlarm/' + alarmNO)
         .then(res => {
 
         })
+    },
+    user_follow(userNo, follower) {
+      //팔로우 해준다.
+      axiox.post(this.$serverUrl + '/follow', {
+        user_no: userNo,
+        follow_user: follower
+      })
+      .then(res => {
+
+      })
     }
   }
 }

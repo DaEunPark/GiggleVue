@@ -14,8 +14,8 @@
         <!--개인 프로필로 가는 링크-->
         <div class="feed_contents">
           <!--개인 프로필로 가는 링크-->
-          <div class="d-flex w-50 justify-content-between" id="GoUserprofile">
-            <button type="button" class="pro_btn" @click="whichProfile(item.post_no)">
+          <div class="d-flex justify-content-between" id="GoUserprofile">
+            <!-- <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"> -->
               <div class ="content_top mt-1">
                 <div class="feed_profile" style="margin-right : 20px">
                   <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </button>
@@ -27,7 +27,7 @@
                     <span class="FeedList_update" v-if="isMine">
                       <a role="button" class="text-dark" id="modify-post" @click="modifyPost()">수정</a>
                       <a role="button" class="text-dark" id="delete-post" @click="deletePost()">삭제</a>
-                  </span>
+                    </span>
                   </div>
 
                   <div class="FeedList_contents">
@@ -56,7 +56,7 @@
                   </div>
                 </div>
               </div>
-            </button>
+            <!-- </button> -->
             </div>
                 </div>
             </div>
@@ -81,6 +81,11 @@
               <span class="bottom_cnt">{{ item.like_cnt }}</span>
               </a>
           </div>
+          <div v-if="this.activate == '1'">
+              <ul>
+                  <li>"likuyrte 테스트!"</li>
+              </ul>
+          </div>
           <div class="bottom_btn" id="FL_spanshare">
               <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
               <font-awesome-icon icon="fa-regular fa-share-from-square"/>
@@ -99,6 +104,7 @@
         </div>
       <hr style="color:#b0b0b0; margin:0px;">
       <CommentView :post_no="post_no"></CommentView>
+       <HeartView :post_no="post_no"></HeartView>
     </article>
   </div>
     <!--postInsite 시작-->
@@ -154,9 +160,11 @@
 
 <script>
 import CommentView from '@/components/CommentView.vue'
+import HeartView from '@/components/HeartView.vue'
+
 export default {
   components: {
-    CommentView
+    CommentView, HeartView
   },
   //   props: {
   //     item: { type: Object, default: null }
@@ -184,7 +192,7 @@ export default {
   computed: {
     isMine () {
       return this.item.user_no === this.$store.state.loginUserDTO.user_no
-    }
+    },
   },
   methods: {
 
@@ -303,7 +311,9 @@ export default {
 #FeedList_GI:hover {
     background-color: #efefef;
 }
-
+#GoUserprofile {
+  width: 90% !important;
+}
 #GoUserprofile a:hover .FeedList_username {
     /* text-decoration:underline; */
     color: #ed5c9d !important;
@@ -360,6 +370,7 @@ export default {
 .FeedList_regdate {
     color:rgb(126, 126, 126);
     font-size: small;
+    flex-grow: 1;
 }
 .FeedList_activeicont{
   display:flex;
@@ -503,6 +514,10 @@ text-align: center;
 
 #modify-post {
   margin-right: 10px;
+}
+
+.FeedList_update {
+  margin-left: 20px;
 }
 
 .FeedList_update a {

@@ -82,17 +82,19 @@
                             <span class="text-dark fw-bold">팔로우 추천</span>
                         </div>
 
-                        <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" @click="intoProfile(`${user.user_no}`)">
-                            <div class="profile-wrapper">
+                        <!-- <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" @click="intoProfile(`${user.user_no}`)"> -->
+                          <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" >
+                            <div class="profile-wrapper" @click="intoProfile(`${user.user_no}`)">
                                 <div class="profile-box">
                                     <img :src="`${ user.profile_image }`" id="recUserProfile">
                                 </div>
                             </div>
-                            <div class="profile-user-name">
+                            <div class="profile-user-name" @click="intoProfile(`${user.user_no}`)">
                                 <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
                                   {{ user.user_nick }}</div>
                             </div>
-                            <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <a href="#" v-if="following(user.user_no) === 'N'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <a href="#" v-if="following(user.user_no) === 'Y'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-primary text-nowrap text-size-custom" style="padding: 8px;">팔로잉</span></a>
                           </button>
 
                         <a href="#" @click="pushRecommend()" class="list-group-item text-success" style="text-decoration: none;">더 보기</a>
@@ -122,6 +124,7 @@
 <script>
 // import { throwStatement } from '@babel/types'
 import EditorView from '../../views/EditorView.vue'
+import { Follow } from '../../mixins/Follow'
 
 export default {
   // eslint-disable-next-line vue/no-unused-components
@@ -146,6 +149,22 @@ export default {
   computed: {
     showURL () {
       return !this.thisURL.includes('search')
+    },
+    following () {
+      // console.log('NotMyPage following() computed: ' + this.followResult)
+      // if (this.followResult.includes(item)) {
+      //   return 'Y'
+      // } else {
+      //   return this.followResult
+      // }
+      // return this.followResult
+      return (item) => {
+        if (this.followResult.includes(item)) {
+          return 'Y'
+        } else {
+          return 'N'
+        }
+      }
     }
   },
   watch: {
@@ -186,6 +205,36 @@ export default {
         }
       })
     },
+
+    // searchresultshow (keyword) {
+    //   // console.log("searchresultshow 결과화면으로 이동");
+    //   const temp = keyword
+    //   this.keyword = temp.replace('#', '')
+
+    //   const data={keyword : this.keyword, user_no : this.$store.state.loginUserDTO.user_no}
+
+    //   this.$axios.post(this.$serverUrl+'/main/search', JSON.stringify(data), {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then((res) => {
+    //       if (keyword !== '') {
+    //         this.$router.push({
+    //           name: 'searchresult',
+    //           params: {
+    //             keyword: this.keyword
+    //           }
+    //         })
+    //       console.log('"', keyword, '"' + '검색')
+    //       this.allfeedList = res.data
+    //       }
+    //   }).catch((err) => {
+    //       if (err.message.indexOf('Network Error') > -1) {
+    //         alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+    //         alert('특수문자를 제외한 검색어를 입력해주세요')
+    //     }
+    //   })
+    // },
     clearAllSearchWords () {
     //   alert('clearAllSearchWords')
       // 모두 지우기를 하면 따로 보여줄 거 정하기
@@ -196,7 +245,12 @@ export default {
       this.recentSearchList.splice(item, 1)
     },
     followThisUser (item) {
-      alert('follow this user: ' + item)
+      const follow = {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        follow_user: item
+      }
+      // alert('follow this user: ' + item)
+      this.user_follow_create(follow)
     },
     replaceTo (path) {
     // this.$route.replaceTo(path)
@@ -272,7 +326,8 @@ export default {
         
       })
     }
-  }
+  },
+  mixins: [Follow]
 }
 </script>
 
