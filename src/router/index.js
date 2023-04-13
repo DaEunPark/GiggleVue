@@ -154,7 +154,6 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    props: true,
     components: {
       rhome: RegisterView
     }
@@ -163,7 +162,7 @@ const routes = [
     path: '/naverLoginCallback',
     name: 'naverLoginCallback',
     components: {
-      rhome: NaverLoginCallback
+      rhome: LoginView
     }
   },
   {

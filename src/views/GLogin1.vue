@@ -60,7 +60,11 @@ export default {
           alert('일치하는 회원 정보가 없습니다.')
           // eslint-disable-next-line eqeqeq
           if (confirm('회원가입을 진행 하시겠습니까?') == true) {
-            this.$store.commit('google_token', this.user.email)
+            var userDTO = {
+              google_token: this.user.email
+            }
+            this.$store.commit('addLoginUser', userDTO)
+            //this.$store.commit('google_token', this.user.email)
             this.$router.push({
               path: '/register'
             })
