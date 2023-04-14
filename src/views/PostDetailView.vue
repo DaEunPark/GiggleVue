@@ -298,6 +298,18 @@ export default {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
     }
 
+  },
+  watch: {
+    '$route' (to, from) {
+      console.log('to: ' + to.path)
+      console.log('from: ' + from.path)
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    // alert(from.path)
+    // to()
+    // this.$router.go(0)
+    next()
   }
 }
 </script>
