@@ -87,7 +87,7 @@
               </ul>
           </div>
           <div class="bottom_btn" id="FL_spanshare">
-              <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
+              <a class="btn" @click="sharebtn()">
               <font-awesome-icon icon="fa-regular fa-share-from-square"/>
               </a>
           </div>
@@ -296,6 +296,10 @@ export default {
     },
     modifyPost () {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
+    },
+    sharebtn(){
+      console.log("url주소 = " + location.href)
+      alert(location.href + '                         주소가 복사되었습니다')
     }
 
   }
