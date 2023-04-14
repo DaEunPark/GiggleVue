@@ -137,6 +137,9 @@ const routes = [
         components: {
           rmain: PostDetailView
 
+        },
+        meta: {
+          reload: true
         }
       },
       {

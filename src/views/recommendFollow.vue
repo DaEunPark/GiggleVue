@@ -9,18 +9,20 @@
                             <p id="top">🛸　　　 　🌎　　　　°　　🌓　•　　.°   •　　　🚀　　　 ✯　　　★ 　*　　　°　　　🛰 °     ·   🪐.    　　　•　° ★ 　　　　•  ☄</p>
                         </div>
 
-                        <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" id="tempButton" @click="intoProfile(`${user.user_no}`)">
-                            <div class="profile-wrapper">
+                        <!-- <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" id="tempButton" @click="intoProfile(`${user.user_no}`)"> -->
+                          <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" id="tempButton" >
+                            <div class="profile-wrapper" @click="intoProfile(`${user.user_no}`)">
                                 <div class="profile-box">
                                     <img :src="`${ user.profile_image }`" id="recUserProfile">
                                 </div>
                             </div>
-                            <div class="profile-user-name">
+                            <div class="profile-user-name" @click="intoProfile(`${user.user_no}`)">
                                 <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
                                   {{ user.user_nick }}</div>
                                   <div id="status">{{ user.status_message }}</div>
                             </div>
-                            <a href="#" @click="followThisUser(i)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <a role="button" v-if="following(user.user_no) === 'N'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
+                            <a role="button" v-if="following(user.user_no) === 'Y'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-primary text-nowrap text-size-custom" style="padding: 8px;">팔로잉</span></a>
 
                         </button>
 
@@ -30,7 +32,7 @@
 </template>
 
 <script>
-
+import { Follow } from '../mixins/Follow'
 export default {
   data () {
     return {
@@ -52,6 +54,22 @@ export default {
   computed: {
     showURL () {
       return !this.thisURL.includes('search')
+    },
+    following () {
+      // console.log('NotMyPage following() computed: ' + this.followResult)
+      // if (this.followResult.includes(item)) {
+      //   return 'Y'
+      // } else {
+      //   return this.followResult
+      // }
+      // return this.followResult
+      return (item) => {
+        if (this.followResult.includes(item)) {
+          return 'Y'
+        } else {
+          return 'N'
+        }
+      }
     }
   },
   watch: {
@@ -96,8 +114,17 @@ export default {
         console.log(this.$store.state.otherUserDTO)
         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
+    },
+    followThisUser (item) {
+      const follow = {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        follow_user: item
+      }
+      // alert('follow this user: ' + item)
+      this.user_follow_create(follow)
     }
-  }
+  },
+  mixins: [Follow]
 }
 </script>
   <style scoped>
@@ -154,5 +181,8 @@ export default {
 }
 #top {
   color: orange;
+}
+.text-size-custom {
+        text-size-adjust: auto;
 }
   </style>
