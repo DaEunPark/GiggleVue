@@ -70,12 +70,12 @@
  </div>
                  <div class="tabItems" v-if="this.block_user=='N'">
                     <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#myfeedList" aria-selected="false" role="tab" tabindex="-1">feed</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#myLikefeedList"  aria-selected="true" role="tab">like</a>
-                    </li>
+                      <li class="nav-item" role="presentation">
+                          <a class="nav-link active" data-bs-toggle="tab" href="#myfeedList" aria-selected="false" role="tab" tabindex="-1">feed</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                          <a class="nav-link" data-bs-toggle="tab" href="#myLikefeedList"  aria-selected="true" role="tab">like</a>
+                      </li>
                     </ul>
                     <div id="myTabContent" class="tab-content px-3">
                         <div class="tab-pane fade active show" id="myfeedList" role="tabpanel">

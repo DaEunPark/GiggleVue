@@ -137,6 +137,9 @@ const routes = [
         components: {
           rmain: PostDetailView
 
+        },
+        meta: {
+          reload: true
         }
       },
       {
@@ -178,7 +181,7 @@ const routes = [
     path: '/naverLoginCallback',
     name: 'naverLoginCallback',
     components: {
-      rhome: LoginView
+      rhome: NaverLoginCallback
     }
   },
   {

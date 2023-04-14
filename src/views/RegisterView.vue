@@ -92,8 +92,8 @@ export default {
       nickChecked: 'N',
       user_phone: '',
       // eslint-disable-next-line vue/no-dupe-keys
-      naver_token: '',
-      google_token: ''
+      naver_token: null,
+      google_token: null
     }
   },
   mounted () {
@@ -156,8 +156,7 @@ export default {
       const userPhone = document.getElementById('userPhone')
       const phoneNumber = userPhone.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')
       let phone = ''
-      // eslint-disable-next-line eqeqeq
-      if (phoneNumber == '') {
+      if (phoneNumber === '') {
         userPhone.value = ''
       }
       if (phoneNumber.length < 4) {
@@ -180,8 +179,7 @@ export default {
       console.log(this.$store.state.naverToken)
       console.log('data()의 naver_token: ' + this.naver_token)
       // 필수 입력 항목과 유효성 검사를 진행한다.
-      // eslint-disable-next-line eqeqeq
-      if (this.user_email == '') {
+      if (this.user_email === '') {
         alert('이메일은 필수 입력 항목입니다.')
         this.$refs.email.focus()
         return false
@@ -193,8 +191,7 @@ export default {
           return false
         } else {
           // 이메일 중복 검사를 했는지 확인한다.
-          // eslint-disable-next-line eqeqeq
-          if (this.emailChecked == 'N') {
+          if (this.emailChecked === 'N') {
             alert('이메일 중복 검사를 해주세요.')
             return false
           }
@@ -202,8 +199,7 @@ export default {
       }
 
       // 비밀번호 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_pwd == '') {
+      if (this.user_pwd === '') {
         alert('비밀번호는 필수 입력 항목입니다.')
         this.$refs.pwd.focus()
         return false
@@ -217,23 +213,20 @@ export default {
       }
 
       // 닉네임 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_nick == '') {
+      if (this.user_nick === '') {
         alert('Giggle에서 사용할 닉네임을 입력해주세요.')
         this.$refs.nick.focus()
         return false
       } else {
         // 닉네임 중복 검사를 했는지 확인한다.
-        // eslint-disable-next-line eqeqeq
-        if (this.nickChecked == 'N') {
+        if (this.nickChecked === 'N') {
           alert('닉네임 중복 검사를 해주세요.')
           return false
         }
       }
 
       // 생년월일 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_birth == '') {
+      if (this.user_birth === '') {
         alert('생년월일을 입력해주세요.')
         this.$refs.birth.focus()
         return false
