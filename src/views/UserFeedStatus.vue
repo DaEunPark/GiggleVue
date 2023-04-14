@@ -46,7 +46,9 @@ export default {
           }).then((res) => {
             this.$store.commit('addOtherUser', res.data)
             // console.log(this.$store.state.otherUserDTO)
-              location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+
+            location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+
           }).catch(error => {
             console.log(error)
           })

@@ -467,10 +467,11 @@ export default {
     text-align:center;
 }
 .social {
-    margin:0 30%;
-    padding: 0 20px;
+    margin:0 18%;
+    padding: 0px 20px;
 }
 #G_OAuth_btn {
   z-index: 7;
+  background-color: transparent;
 }
 </style>

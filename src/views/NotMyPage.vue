@@ -9,11 +9,11 @@
           </h3>
           </button>
 
-          <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user=='N'">
-            <p><span class="text-nowrap" id="blockSpan" v-if="this.block_user=='N'">차단하기</span></p>
+          <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user==='N' && this.blocked==='N'">
+            <p><span class="text-nowrap" id="blockSpan" v-if="this.block_user==='N' && this.blocked==='N'">차단하기</span></p>
           </button>
-          <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user=='Y'">
-            <p><span class="text-nowrap" id="blockSpan2" v-if="this.block_user=='Y'">차단해제</span></p>
+          <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user==='Y' && this.blocked==='N'">
+            <p><span class="text-nowrap" id="blockSpan2" v-if="this.block_user==='Y' && this.blocked==='N'">차단해제</span></p>
           </button>
 
             <div class="backimg">
@@ -29,9 +29,9 @@
                     <font-awesome-icon icon="fa-solid fa-ban" style="color: #e82167;" v-if="this.block_user=='Y'" id="blockIcon"/>
                     <!-- <div class="user_setting_box"> -->
 
-                        <div v-if="following === 'N' && this.block_user=='N'" class="user_follow_btn" @click="user_follow()"> <span class="text-nowrap">팔로우</span></div>
-                        <div v-if="following === 'Y' && this.block_user=='N'" class="user_following_btn" @click="user_follow()"> <span class="text-nowrap">팔로잉</span></div>
-                        <div v-if="this.block_user=='Y'" class="user_following_btn"  id="blocking"> <span class="text-nowrap" disabled>차단됨</span></div>
+                        <div v-if="following === 'N' && this.block_user==='N' && this.blocked==='N'" class="user_follow_btn" @click="user_follow()"> <span class="text-nowrap">팔로우</span></div>
+                        <div v-if="following === 'Y' && this.block_user==='N' && this.blocked==='N'" class="user_following_btn" @click="user_follow()"> <span class="text-nowrap">팔로잉</span></div>
+                        <div v-if="this.block_user==='Y'" class="user_following_btn"  id="blocking"> <span class="text-nowrap" disabled>차단됨</span></div>
                         <!-- <div onclick="user_setting_modal_on()">
                             <button type="button" id="settingButton" @click="pushSetting()"><img src="@/assets/icon_setting.png" id="settingImg"/></button>
                         </div> -->
@@ -68,7 +68,7 @@
             </div>
       </div>
  </div>
-                 <div class="tabItems" v-if="this.block_user=='N'">
+                 <div class="tabItems" v-if="this.block_user=='N' && this.blocked=='N'">
                     <ul class="nav nav-tabs" role="tablist">
                       <li class="nav-item" role="presentation">
                           <a class="nav-link active" data-bs-toggle="tab" href="#myfeedList" aria-selected="false" role="tab" tabindex="-1">feed</a>
@@ -91,9 +91,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="block_page" v-if="this.block_user=='Y'">
+                <div class="block_page" v-if="(this.block_user=='Y' && this.blocked=='N')">
                   <p id="info1">{{ this.$store.state.otherUserDTO.user_nick }}님은 차단되어 있습니다.</p>
                   <p id="info2">{{ this.$store.state.otherUserDTO.user_nick }}님의 글을 보려면 차단을 해제해주세요.</p>
+                </div>
+                <div class="blocked_page" v-if="(this.blocked=='Y' && this.block_user == 'N')">
+                  <p id="info3">{{ this.$store.state.otherUserDTO.user_nick }}님의 글을 열람할 수 없습니다.</p>
                 </div>
 </template>
 
@@ -116,11 +119,12 @@ export default {
       user_no: '',
       feedmei: false,
       likemei: false,
-      block_user: '',
+      block_user: 'N',
       follow: {
         user_no: this.$store.state.loginUserDTO.user_no,
         follow_user: this.$store.state.otherUserDTO.user_no
-      }
+      },
+      blocked: ''
     }
   },
   computed: {
@@ -143,10 +147,13 @@ export default {
     followCount () {
       console.log('NotMyPage followCnt() computed: ' + this.post_cnt)
       return this.follow_cnt
-    }
+    },
+    
+
   },
   mounted () {
     this.userBlockCheck()
+    this.blockedCheckSlow()
 
     this.isFollowing(this.follow)
     if (this.$store.state.otherUserDTO.back_image == null) {
@@ -306,7 +313,35 @@ export default {
           this.block_user = 'N'
           console.log('this.block_user = ' + this.block_user)
         }
+
+        
       })
+    },
+    amIBlockCheck() {
+
+      console.log("해당 메서드 실행..")
+      const data = {
+        myUser_no: this.$store.state.loginUserDTO.user_no,
+        blockUser_no: this.$store.state.otherUserDTO.user_no
+        
+      }
+      this.$axios.post(this.$serverUrl + '/amIBlockCheck', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        // eslint-disable-next-line eqeqeq
+        if (res.data == 'Y') {
+          this.blocked = 'Y'
+          console.log("this.blocked =" + res.data)
+        } else if(res.data == 'N') {
+          this.blocked = 'N'
+          console.log("this.blocked =" + res.data)
+        }
+      })      
+    },
+    blockedCheckSlow() {
+      window.setTimeout(this.amIBlockCheck, 100)
     }
   },
   mixins: [Follow]
@@ -565,5 +600,18 @@ export default {
 }
 #blocking {
   background-color: gray;
+}
+#info3 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+  color: black;
+}
+.blocked_page {
+  background-color: lightyellow;
+  margin: 0;
+  padding-top: 5%;
+  padding-bottom: 20%;
+  border-top: gray 3px solid;
 }
 </style>

@@ -27,7 +27,7 @@
             <div class="analitics__postWrap px-4 ">
                 <h5>게시물 인사이트</h5>
                 <div class="analitics__post mb-2">
-
+                  <div id="container"></div>
                 </div>
             </div>
         </div>
@@ -40,6 +40,7 @@
 // export default {
 //   components: { MenuBar, SideBar }
 // }
+
 export default {
   data () {
     return {
@@ -68,6 +69,7 @@ export default {
     }
   }
 }
+
 </script>
 <style scoped>
 .container {
@@ -97,4 +99,5 @@ export default {
 .card-header{
     text-align: center;
 }
+
 </style>

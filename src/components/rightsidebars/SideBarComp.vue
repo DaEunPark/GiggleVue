@@ -125,6 +125,7 @@
 // import { throwStatement } from '@babel/types'
 import EditorView from '../../views/EditorView.vue'
 import { Follow } from '../../mixins/Follow'
+import { mapGetters } from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/no-unused-components
@@ -143,7 +144,8 @@ export default {
       top3: '',
       top4: '',
       top5: '',
-      recommendUser: {}
+      recommendUser: {},
+      user_no: this.$store.state.loginUserDTO.user_no
     }
   },
   computed: {
@@ -189,13 +191,14 @@ export default {
       const temp = keyword
       this.keyword = temp.replace('#', '')
 
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword+'/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
           // this.$router.replace({ 스텍x
           this.$router.push({
             name: 'searchresult',
             params: {
-              keyword: this.keyword
+              keyword: this.keyword,
+              user_no: this.user_no
             }
           })
           console.log('"', keyword, '"' + '검색')
@@ -208,36 +211,6 @@ export default {
         }
       })
     },
-
-    // searchresultshow (keyword) {
-    //   // console.log("searchresultshow 결과화면으로 이동");
-    //   const temp = keyword
-    //   this.keyword = temp.replace('#', '')
-
-    //   const data={keyword : this.keyword, user_no : this.$store.state.loginUserDTO.user_no}
-
-    //   this.$axios.post(this.$serverUrl+'/main/search', JSON.stringify(data), {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }).then((res) => {
-    //       if (keyword !== '') {
-    //         this.$router.push({
-    //           name: 'searchresult',
-    //           params: {
-    //             keyword: this.keyword
-    //           }
-    //         })
-    //       console.log('"', keyword, '"' + '검색')
-    //       this.allfeedList = res.data
-    //       }
-    //   }).catch((err) => {
-    //       if (err.message.indexOf('Network Error') > -1) {
-    //         alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-    //         alert('특수문자를 제외한 검색어를 입력해주세요')
-    //     }
-    //   })
-    // },
     clearAllSearchWords () {
     //   alert('clearAllSearchWords')
       // 모두 지우기를 하면 따로 보여줄 거 정하기

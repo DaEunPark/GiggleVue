@@ -35,6 +35,7 @@
 import _ from 'lodash'
 import FeedStatus from '@/components/FeedStatus.vue'
 import UserFeedStatus from './UserFeedStatus.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -49,7 +50,8 @@ export default {
       // keyword : '',
       keyword: this.$route.params.keyword,
       userfeeddisplay: false,
-      feeddisplay: false
+      feeddisplay: false,
+      user_no: this.$store.state.loginUserDTO.user_no
     }
   },
   mounted () {
@@ -58,7 +60,7 @@ export default {
   methods: {
     fnGetList () {
       // console.log("SearchView에서 이동후 결과 피드화면불러오기");
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then(res => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword +'/userno/' + this.user_no).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
           this.allfeedList = res.data
@@ -107,7 +109,7 @@ export default {
       // console.log("searchResultView에서의 검색");
       console.log('"', keyword, '"' + '검색')
 
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then(res => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword+'/userno/' + this.user_no).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
           this.$router.replace({
