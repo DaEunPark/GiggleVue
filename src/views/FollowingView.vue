@@ -15,13 +15,13 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#follow" aria-selected="true" role="tab">팔로우</a>
                     </li>
                 </ul>
-                <div id="myTabContent" class="tab-content px-3">
-                    <div class="tab-pane fade active show" id="following" role="tabpanel">
-                        <p>내가 팔로우 하는 목록</p>
+                <div id="myTabContent" class="tab-content px-2">
+                    <div class="tab-pane fade active show mb-3" id="following" role="tabpanel">
+                        <myfriend :items="allFollowingList" style="color:black;"></myfriend>
 
                     </div>
-                    <div class="tab-pane fade" id="follow" role="tabpanel">
-                        <p>나를 팔로우 하는 목록</p>
+                    <div class="tab-pane fade mb-3" id="follow" role="tabpanel">
+
                     </div>
                 </div>
             </div>
@@ -30,29 +30,57 @@
   </template>
 
 <script>
+import myfriend from '@/components/FollowList.vue'
 
 export default {
-  mounted () {
-    this.getFollowingList()
+  components:{
+    myfriend
   },
-  methods: {
-    goBack () {
-      // eslint-disable-next-line no-unused-expressions
-      this.$router.go(-1); [2]
+  data() {
+    return{
+        allFollowingList: {},
+        user_no: this.$store.state.loginUserDTO.user_no
+    }
     },
-    getFollowingList () {
-      this.user_no = this.$store.state.loginUserDTO.user_no
-      this.$axios.post(this.$serverUrl + '/followingList/' + this.user_no)
-        .then((res) => {
-          console.log('this.followingList = ' + this.user_no)
-        }).catch((err) => {
-          if (err.message.indexOf('Network Error') > -1) {
-            alert('오류 발생 삐리삐리')
-          }
-        })
+    mounted () {
+        this.getList()
+    },
+    methods: {
+        getList() {
+            this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {
+        // params: this.requestBody,
+        // headers: {},
+            params: {
+            user_no: this.user_no
+            }
+            }).then((res) => {
+            this.allFollowingList = res.data
+            // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
+            }).catch((err) => {
+                if (err.message.indexOf('Network Error') > -1) {
+                alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
+        },
+        // intoProfile (item) {
+        // // alert(user)
+        //     const data = { user_no: item }
+
+        //     console.log('user_nick = ' + data)
+
+        //     this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+        //         headers: {
+        //         'Content-Type': 'application/json'
+        //         }
+        //     }).then((res) => {
+        //         this.$store.commit('addOtherUser', res.data)
+        //         console.log(this.$store.state.otherUserDTO)
+        //         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+        //     })
+        // }
     }
   }
-}
+
 </script>
 <style>
 .nav-tabs{
