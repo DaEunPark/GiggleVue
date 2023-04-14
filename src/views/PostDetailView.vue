@@ -76,15 +76,10 @@
               </ul>
           </div>
           <div class="bottom_btn" id="FL_spanlike">
-              <a class="btn"  @on-click="fn_pushLike()">
+              <a class="btn"  @on-click="fn_pushLike(post_no)">
               <font-awesome-icon  icon="fa-regular fa-heart"/>
               <span class="bottom_cnt">{{ item.like_cnt }}</span>
               </a>
-          </div>
-          <div v-if="this.activate == '1'">
-              <ul>
-                  <li>"likuyrte 테스트!"</li>
-              </ul>
           </div>
           <div class="bottom_btn" id="FL_spanshare">
               <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
@@ -104,7 +99,6 @@
         </div>
       <hr style="color:#b0b0b0; margin:0px;">
       <CommentView :post_no="post_no"></CommentView>
-       <HeartView :post_no="post_no"></HeartView>
     </article>
   </div>
     <!--postInsite 시작-->
@@ -160,11 +154,11 @@
 
 <script>
 import CommentView from '@/components/CommentView.vue'
-import HeartView from '@/components/HeartView.vue'
+
 
 export default {
   components: {
-    CommentView, HeartView
+    CommentView
   },
   //   props: {
   //     item: { type: Object, default: null }
