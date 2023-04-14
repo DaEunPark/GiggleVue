@@ -9,7 +9,7 @@
                         <!-- <a @click="whichProfile(item.post_no)" ><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" > </a> -->
                         <button type="button" class="pro_btn" @click="whichProfile(item.post_no)"><img :src="item.profile_image"  width="50" height="50" class="rounded-circle" alt="user_profile" ></button>
                     </div>
-
+                      
                     <!--개인 프로필로 가는 링크-->
                     <div class="feed_contents">
                       <div class="feed_text">
@@ -75,7 +75,7 @@
                                 
                                 
                                 <div class="bottom_btn" id="FL_spanshare">
-                                    <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
+                                    <a class="btn" @click="sharebtn()">
                                     <font-awesome-icon icon="fa-regular fa-share-from-square"/>
                                     </a>
                                 </div>
@@ -199,6 +199,11 @@ mounted() {
       // eslint-disable-next-line no-unused-expressions
       stop
     },
+
+    sharebtn() {
+      console.log("url주소 = " + location.href)
+    },
+
    fn_pushLike(post_no) {
         console.log(post_no)
         const data = { content: post_no }
@@ -265,6 +270,7 @@ mounted() {
         })
 
       },*/
+
 
   }
   }
