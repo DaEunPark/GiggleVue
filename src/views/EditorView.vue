@@ -93,9 +93,6 @@ export default {
         this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
-              // alert('새로운 게시글이 등록되었습니다. ' + res.data)
-              // window.location.href = 'http://localhost:8080/main/mainhome'
-              /// /this.$router.go(this.$router.currentRoute)
               this.uploadImgToServer()
               this.insertTag()
             } else {
@@ -168,23 +165,25 @@ export default {
       }
     },
     async uploadImgToServer () {
-      const body = new FormData()
-      for (let i = 0; i < this.files.length; i++) {
-        body.append('files', this.files[i])
-      }
-      // body.append('files', this.files[0])
-      await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      if (this.files.length > 0) {
+        const body = new FormData()
+        for (let i = 0; i < this.files.length; i++) {
+          body.append('files', this.files[i])
         }
-      ).then(res => {
-        // console.log('이미지들 업로드 테스트' + res.data)
-        // this.s3ImgURL = res.data
-      }).catch(err => {
-        console.log(err)
-      })
+        // body.append('files', this.files[0])
+        await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        ).then(res => {
+          // console.log('이미지들 업로드 테스트' + res.data)
+          // this.s3ImgURL = res.data
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     },
     async insertTag () {
       const data = { text_content: this.post.text_content }

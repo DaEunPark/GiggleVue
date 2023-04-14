@@ -16,13 +16,13 @@
                   </div>
 
                 <div>
-                 <h3 style="color:#7d7d7d;">user</h3>
-                 <UserFeedStatus :items="alluserfeedList" v-show="!userfeeddisplay"></UserFeedStatus>
-                 <h6  v-show="userfeeddisplay" style="color:#7d7d7d; text-align: center;">해당 유저가 없습니다</h6>
-                 <hr style="color:#7d7d7d; margin:5px;"/>
-                 <h3 style="color:#7d7d7d;">feed</h3>
-                 <FeedStatus :items="allfeedList" v-show="!feeddisplay" ></FeedStatus>
-                 <h6  v-show="feeddisplay" style="color:#7d7d7d; text-align: center;" >해당 게시글이 존재하지 않습니다</h6>
+                  <h3 style="color:#7d7d7d;">user</h3>
+                    <UserFeedStatus :items="alluserfeedList" v-show="!userfeeddisplay"></UserFeedStatus>
+                     <h6  v-show="userfeeddisplay" style="color:#7d7d7d; text-align: center;">해당 유저가 없습니다</h6>
+                  <hr style="color:#7d7d7d; margin:5px;"/>
+                  <h3 style="color:#7d7d7d;">feed</h3>
+                     <FeedStatus :items="allfeedList" v-show="!feeddisplay" ></FeedStatus>
+                       <h6  v-show="feeddisplay" style="color:#7d7d7d; text-align: center;" >해당 게시글이 존재하지 않습니다</h6>
                 </div>
 
         </article>
@@ -64,33 +64,33 @@ export default {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
           this.allfeedList = res.data
-          console.log('피드값있음도출' + res.data[0])
+          //console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false
 
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
             // eslint-disable-next-line eqeqeq
             if (res.data[0] != null) {
               this.alluserfeedList = res.data
-              console.log('유저값있음도출' + res.data[0])
+              //console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
-              console.log('유저값없음도출' + res.data[0])
+              //console.log('유저값없음도출' + res.data[0])
               // alert("해당 유저는 존재하지 않습니다.");
               this.userfeeddisplay = true
               // eslint-disable-next-line no-undef
             }
           })
         } else {
-          console.log('피드값없음도출' + res.data[0])
+          //console.log('피드값없음도출' + res.data[0])
           this.feeddisplay = true
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
             // eslint-disable-next-line eqeqeq
             if (res.data[0] != null) {
               this.alluserfeedList = res.data
-              console.log('유저값있음도출' + res.data)
+              //console.log('유저값있음도출' + res.data)
               this.userfeeddisplay = false
             } else {
-              console.log('유저값없음도출' + res.data)
+              //console.log('유저값없음도출' + res.data)
               // alert("해당 유저는 존재하지 않습니다.");
               this.userfeeddisplay = true
               // eslint-disable-next-line no-undef
@@ -119,7 +119,7 @@ export default {
             }
           })
           this.allfeedList = res.data
-          console.log('피드값있음도출' + res.data[0])
+          //console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false
 
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
@@ -133,17 +133,18 @@ export default {
                 }
               })
               this.alluserfeedList = res.data
-              console.log('유저값있음도출' + res.data[0])
+              //console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
-              console.log('유저값없음도출' + res.data[0])
+              //console.log('유저값없음도출' + res.data[0])
               this.userfeeddisplay = true
               // alert("해당 유저는 존재하지 않습니다.");
               // eslint-disable-next-line no-undef
             }
           })
         } else {
-          console.log('피드값없음도출' + res.data[0])
+          //console.log('피드값없음도출' + res.data[0])
+          location.href = '/main/search/' + this.keyword
           this.feeddisplay = true
 
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
@@ -156,11 +157,11 @@ export default {
                 }
               })
               this.alluserfeedList = res.data
-              console.log('유저값있음도출' + res.data[0])
+              //console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
               // eslint-disable-next-line no-unused-expressions
-              console.log('유저값없음도출' + res.data[0])
+              //console.log('유저값없음도출' + res.data[0])
               this.$router.replace({
                 name: 'searchresult',
                 params: {
@@ -168,9 +169,9 @@ export default {
                 }
               // eslint-disable-next-line no-sequences
               })
-              location.href = '/main/search/' + this.keyword
+              //location.href = '/main/search/' + this.keyword
               // alert(this.keyword + '에 대한 유저/게시글이 존재하지 않습니다.')
-              // this.userfeeddisplay=true
+              this.userfeeddisplay=true
             }
           })
         }

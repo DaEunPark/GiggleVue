@@ -30,7 +30,7 @@
 </table>
         <div id="commentcontent_delete">
           <p class="txt_left" id="comment_content" style=" rows: 5; cols:100; white-space:pre-line; overflow: hidden; text-overflow: ellipsis; ">{{comment.comment_content}}</p>
-          <button id="deletebtn" class="btn btn-mb" @click="getCommentDelete(`${comment.comment_no}`)" v-if="this.$store.state.loginUserDTO.user_no == comment.user_no" >삭제</button>
+          <button id="deletebtn" class="btn btn-outline-dark btn-sm" @click="getCommentDelete(`${comment.comment_no}`)" v-if="this.$store.state.loginUserDTO.user_no == comment.user_no" >삭제</button>
          </div>
     </div>
     <p style="width: 100%; " id="line" ></p>
@@ -81,7 +81,7 @@ export default {
       console.log(this.comment_no)
       // eslint-disable-next-line no-unused-vars
       const data = { comment_no: this.comment_no }
-      this.$axios.post(this.$serverUrl + '/comment/commentDelete', {
+      this.$axios.post(this.$serverUrl + '/comment/commentDelete',  {
         comment_no: cno,
         post_no: this.post_no
       }).then((res) => {
@@ -100,7 +100,7 @@ export default {
         this.$store.commit('addOtherUser', res.data)
         console.log(this.$store.state.otherUserDTO)
         this.$router.push({
-          path: `/main/notmypage/${this.$store.state.otherUserDTO.user_nick}`
+          path: '/main/notmypage'
         })
       })
     }

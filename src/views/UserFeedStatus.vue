@@ -5,7 +5,8 @@
                 <div  v-for="(item , idx) in items" :key="{idx}" class="list-group list-group-flush" id="userFeedList_GF">
 
                          <div class="col">
-                            <button type="button" class="pro_btn" @click="Gouserpage(item.user_no)"><img :src="item.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile">
+                            <button type="button" class="pro_btn" @click="Gouserpage(item.user_no)">
+                              <img :src="item.profile_image"  width="70" height="70" class="rounded-circle" alt="user_profile">
                             <p class="FeedList_username" style="margin:auto">{{item.user_nick}}</p></button>
                      </div>
 
@@ -45,7 +46,9 @@ export default {
           }).then((res) => {
             this.$store.commit('addOtherUser', res.data)
             // console.log(this.$store.state.otherUserDTO)
+
             location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+
           }).catch(error => {
             console.log(error)
           })

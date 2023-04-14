@@ -4,7 +4,7 @@
             <EditorView></EditorView>
           </div>
           <div class="FeedStatus">
-            <FeedStatus :items="allfeedList"></FeedStatus>
+            <FeedStatus :items="allfeedList" :LikeList="LikeList"></FeedStatus>
           </div>
 
    </article>
@@ -24,12 +24,14 @@ export default {
       // requestBody: {}, // 리스트 페이지 데이터 전송
       allfeedList: {}, // 리스트 데이터
       // no: '' // 숫자 처리
-      user_no: this.$store.state.loginUserDTO.user_no
+      user_no: this.$store.state.loginUserDTO.user_no,
+      LikeList: [], 
 
     }
   },
   mounted () {
-    this.fnGetList()
+    this.fnGetList() ,
+    this.getLikeList()
   },
   methods: {
 
@@ -52,7 +54,15 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+    },
+    getLikeList () {
+      this.$axios.get(this.$serverUrl + '/likeList/' + this.$store.state.loginUserDTO.user_no)
+        .then((res) => {
+          this.LikeList = res.data
+          console.log(res.data)
+        })
+    }, 
+    
   }
 }
 

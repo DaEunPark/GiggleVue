@@ -52,8 +52,8 @@
                     <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
 
                     <!-- <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon"> -->
+                    <button class="btn btn-light btn-mb" id="cancel" @click="fnCancel()">취소</button>
                     <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">수정</button>
-
                 </div>
         </div>
     </article>
@@ -68,7 +68,8 @@ export default {
       post_no: this.$route.query.post_no,
       addedYTLink: false,
       files: [],
-      localImages: []
+      localImages: [],
+      isModified: false
 
     }
   },
@@ -91,7 +92,6 @@ export default {
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.post = res.data.post
-        // this.localImages = res.data.postImages
         res.data.postImages.forEach(img => {
           this.localImages.push(img.imagepath)
         })
@@ -114,9 +114,6 @@ export default {
         this.$axios.patch(`${this.$serverUrl}/post/upadtepost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
-              // alert('새로운 게시글이 등록되었습니다. ' + res.data)
-              // window.location.href = 'http://localhost:8080/main/mainhome'
-              /// /this.$router.go(this.$router.currentRoute)
               this.insertTag()
               this.uploadImgToServer()
             } else {
@@ -174,27 +171,33 @@ export default {
     },
     async uploadImgToServer () {
       // alert('이미지들 업로드 테스트')
-      const body = new FormData()
-      for (let i = 0; i < this.files.length; i++) {
-        body.append('files', this.files[i])
-      }
-      // body.append('files', this.files[0])
-      await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+      this.isModified = true
+      if (this.files.length > 0) {
+        const body = new FormData()
+        for (let i = 0; i < this.files.length; i++) {
+          body.append('files', this.files[i])
+        }
+        // body.append('files', this.files[0])
+        await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        }
-      ).then(res => {
-        // alert('이미지들 업로드 테스트' + res.data)
-        if (res.data === 'Y') {
-          // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
-          this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
-        }
-        // this.s3ImgURL = res.data
-      }).catch(err => {
-        console.log(err)
-      })
+        ).then(res => {
+          // alert('이미지들 업로드 테스트' + res.data)
+          if (res.data === 'Y') {
+            // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+          }
+          // this.s3ImgURL = res.data
+          this.$router.replace(`/main/postdetail?post_no=${this.post_no}`, () => { this.$router.go(0) })
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        console.log('asoioivproeirpo')
+        this.$router.replace(`/main/postdetail?post_no=${this.post_no}`, () => { this.$router.go(0) })
+      }
     },
     async insertTag () {
       const data = { text_content: this.post.text_content }
@@ -214,7 +217,7 @@ export default {
       this.files.splice(item, 1)
       if (this.localImages[item].includes('cloudfront')) {
         // const imagepath = this.localImages[item]
-        this.$axios.post(`${this.$serverUrl}/post/deleteimage`, {
+        this.$axios.post(`${this.$serverUrl}/post/beforedeleteimage`, {
           imagepath: this.localImages[item]
         })
           .then(res => {
@@ -229,6 +232,52 @@ export default {
       } else {
         this.localImages.splice(item, 1)
       }
+    },
+    fnCancel () {
+      // this.cancelModify()
+      this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
+    },
+    async cancelModify () {
+      await this.$axios.post(`${this.$serverUrl}/post/cancelupdate`, {
+        post_no: this.post_no
+      })
+        .then(res => {
+          // eslint-disable-next-line no-empty
+          if (res.data === 'Y') {
+            console.log('cancelupdate')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  beforeRouteLeave  (to, from, next) {
+    // 포스트 수정 확인 버튼을 누르면 작동 안 하도록 하기
+    if (!this.isModified) {
+      console.log('log: beforeRouteLeave')
+      const answer = window.confirm('데이터 저장이 되지 않았습니다. 이 페이지를 나가시겠습니까?')
+      if (answer) {
+        // 포스트 수정 취소 => 삭제 예정 Image 표시 취소하기
+        // this.cancelModify()
+        this.$axios.post(`${this.$serverUrl}/post/cancelupdate`, {
+          post_no: this.post_no
+        })
+          .then(res => {
+          // eslint-disable-next-line no-empty
+            if (res.data === 'Y') {
+              console.log('cancelupdate')
+              next()
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        next(false)
+      }
+    } else {
+      next()
     }
   }
 }
@@ -292,6 +341,11 @@ textarea {
     position:   fixed;
     right: 5%;
     bottom: 3%;
+}
+#cancel {
+  position: fixed;
+   right: 18%;
+  bottom: 3%;
 }
 .filelabel {
   display: inline-block;

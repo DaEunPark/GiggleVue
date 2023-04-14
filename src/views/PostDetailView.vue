@@ -76,18 +76,13 @@
               </ul>
           </div>
           <div class="bottom_btn" id="FL_spanlike">
-              <a class="btn"  @on-click="fn_pushLike()">
+              <a class="btn"  @on-click="fn_pushLike(post_no)">
               <font-awesome-icon  icon="fa-regular fa-heart"/>
               <span class="bottom_cnt">{{ item.like_cnt }}</span>
               </a>
           </div>
-          <div v-if="this.activate == '1'">
-              <ul>
-                  <li>"likuyrte 테스트!"</li>
-              </ul>
-          </div>
           <div class="bottom_btn" id="FL_spanshare">
-              <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
+              <a class="btn" @click="sharebtn()">
               <font-awesome-icon icon="fa-regular fa-share-from-square"/>
               </a>
           </div>
@@ -104,7 +99,6 @@
         </div>
       <hr style="color:#b0b0b0; margin:0px;">
       <CommentView :post_no="post_no"></CommentView>
-       <HeartView :post_no="post_no"></HeartView>
     </article>
   </div>
     <!--postInsite 시작-->
@@ -160,11 +154,11 @@
 
 <script>
 import CommentView from '@/components/CommentView.vue'
-import HeartView from '@/components/HeartView.vue'
+
 
 export default {
   components: {
-    CommentView, HeartView
+    CommentView
   },
   //   props: {
   //     item: { type: Object, default: null }
@@ -296,8 +290,24 @@ export default {
     },
     modifyPost () {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
+    },
+    sharebtn(){
+      console.log("url주소 = " + location.href)
+      alert(location.href + '                         주소가 복사되었습니다')
     }
 
+  },
+  watch: {
+    '$route' (to, from) {
+      console.log('to: ' + to.path)
+      console.log('from: ' + from.path)
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    // alert(from.path)
+    // to()
+    // this.$router.go(0)
+    next()
   }
 }
 </script>
