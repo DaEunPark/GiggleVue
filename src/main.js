@@ -26,7 +26,6 @@ import GoogleSignInPlugin from 'vue3-google-signin'
 
 import './assets/css/common.css'
 
-
 // createApp(App).use(store).use(router).mount('#app')
 const app = createApp(App).use(router)
 const emitter = mitt()

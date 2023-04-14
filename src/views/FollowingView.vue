@@ -74,53 +74,53 @@
 import myfriend from '@/components/FollowList.vue'
 
 export default {
-  components:{
+  components: {
     myfriend
   },
-  data() {
-    return{
-        allFollowingList: {},
-        user_no: this.$store.state.loginUserDTO.user_no
+  data () {
+    return {
+      allFollowingList: {},
+      user_no: this.$store.state.loginUserDTO.user_no
     }
-    },
-    mounted () {
-        this.getList()
-    },
-    methods: {
-        getList() {
-            this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {
+  },
+  mounted () {
+    this.getList()
+  },
+  methods: {
+    getList () {
+      this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {
         // params: this.requestBody,
         // headers: {},
-            params: {
-            user_no: this.user_no
-            }
-            }).then((res) => {
-            this.allFollowingList = res.data
-            // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
-            }).catch((err) => {
-                if (err.message.indexOf('Network Error') > -1) {
-                alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-                }
-            })
-        },
-        // intoProfile (item) {
-        // // alert(user)
-        //     const data = { user_no: item }
-
-        //     console.log('user_nick = ' + data)
-
-        //     this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-        //         headers: {
-        //         'Content-Type': 'application/json'
-        //         }
-        //     }).then((res) => {
-        //         this.$store.commit('addOtherUser', res.data)
-        //         console.log(this.$store.state.otherUserDTO)
-        //         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
-        //     })
-        // }
+        params: {
+          user_no: this.user_no
+        }
+      }).then((res) => {
+        this.allFollowingList = res.data
+        // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
     }
+    // intoProfile (item) {
+    // // alert(user)
+    //     const data = { user_no: item }
+
+    //     console.log('user_nick = ' + data)
+
+    //     this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+    //         headers: {
+    //         'Content-Type': 'application/json'
+    //         }
+    //     }).then((res) => {
+    //         this.$store.commit('addOtherUser', res.data)
+    //         console.log(this.$store.state.otherUserDTO)
+    //         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+    //     })
+    // }
   }
+}
 
 </script>
 <style>

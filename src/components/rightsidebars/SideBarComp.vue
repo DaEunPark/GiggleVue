@@ -125,6 +125,7 @@
 // import { throwStatement } from '@babel/types'
 import EditorView from '../../views/EditorView.vue'
 import { Follow } from '../../mixins/Follow'
+// eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
 
 export default {
@@ -191,7 +192,7 @@ export default {
       const temp = keyword
       this.keyword = temp.replace('#', '')
 
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword+'/userno/' + this.user_no).then((res) => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
           // this.$router.replace({ 스텍x
           this.$router.push({

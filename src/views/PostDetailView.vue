@@ -155,7 +155,6 @@
 <script>
 import CommentView from '@/components/CommentView.vue'
 
-
 export default {
   components: {
     CommentView
@@ -291,8 +290,8 @@ export default {
     modifyPost () {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
     },
-    sharebtn(){
-      console.log("url주소 = " + location.href)
+    sharebtn () {
+      console.log('url주소 = ' + location.href)
       alert(location.href + '                         주소가 복사되었습니다')
     }
 

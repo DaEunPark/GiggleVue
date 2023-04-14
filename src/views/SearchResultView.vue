@@ -35,6 +35,7 @@
 import _ from 'lodash'
 import FeedStatus from '@/components/FeedStatus.vue'
 import UserFeedStatus from './UserFeedStatus.vue'
+// eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
 
 export default {
@@ -60,37 +61,37 @@ export default {
   methods: {
     fnGetList () {
       // console.log("SearchView에서 이동후 결과 피드화면불러오기");
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword +'/userno/' + this.user_no).then(res => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
           this.allfeedList = res.data
-          //console.log('피드값있음도출' + res.data[0])
+          // console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false
 
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
             // eslint-disable-next-line eqeqeq
             if (res.data[0] != null) {
               this.alluserfeedList = res.data
-              //console.log('유저값있음도출' + res.data[0])
+              // console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
-              //console.log('유저값없음도출' + res.data[0])
+              // console.log('유저값없음도출' + res.data[0])
               // alert("해당 유저는 존재하지 않습니다.");
               this.userfeeddisplay = true
               // eslint-disable-next-line no-undef
             }
           })
         } else {
-          //console.log('피드값없음도출' + res.data[0])
+          // console.log('피드값없음도출' + res.data[0])
           this.feeddisplay = true
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
             // eslint-disable-next-line eqeqeq
             if (res.data[0] != null) {
               this.alluserfeedList = res.data
-              //console.log('유저값있음도출' + res.data)
+              // console.log('유저값있음도출' + res.data)
               this.userfeeddisplay = false
             } else {
-              //console.log('유저값없음도출' + res.data)
+              // console.log('유저값없음도출' + res.data)
               // alert("해당 유저는 존재하지 않습니다.");
               this.userfeeddisplay = true
               // eslint-disable-next-line no-undef
@@ -109,7 +110,7 @@ export default {
       // console.log("searchResultView에서의 검색");
       console.log('"', keyword, '"' + '검색')
 
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword+'/userno/' + this.user_no).then(res => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
           this.$router.replace({
@@ -119,7 +120,7 @@ export default {
             }
           })
           this.allfeedList = res.data
-          //console.log('피드값있음도출' + res.data[0])
+          // console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false
 
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
@@ -133,17 +134,17 @@ export default {
                 }
               })
               this.alluserfeedList = res.data
-              //console.log('유저값있음도출' + res.data[0])
+              // console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
-              //console.log('유저값없음도출' + res.data[0])
+              // console.log('유저값없음도출' + res.data[0])
               this.userfeeddisplay = true
               // alert("해당 유저는 존재하지 않습니다.");
               // eslint-disable-next-line no-undef
             }
           })
         } else {
-          //console.log('피드값없음도출' + res.data[0])
+          // console.log('피드값없음도출' + res.data[0])
           location.href = '/main/search/' + this.keyword
           this.feeddisplay = true
 
@@ -157,11 +158,11 @@ export default {
                 }
               })
               this.alluserfeedList = res.data
-              //console.log('유저값있음도출' + res.data[0])
+              // console.log('유저값있음도출' + res.data[0])
               this.userfeeddisplay = false
             } else {
               // eslint-disable-next-line no-unused-expressions
-              //console.log('유저값없음도출' + res.data[0])
+              // console.log('유저값없음도출' + res.data[0])
               this.$router.replace({
                 name: 'searchresult',
                 params: {
@@ -169,9 +170,9 @@ export default {
                 }
               // eslint-disable-next-line no-sequences
               })
-              //location.href = '/main/search/' + this.keyword
+              // location.href = '/main/search/' + this.keyword
               // alert(this.keyword + '에 대한 유저/게시글이 존재하지 않습니다.')
-              this.userfeeddisplay=true
+              this.userfeeddisplay = true
             }
           })
         }

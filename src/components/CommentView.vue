@@ -81,7 +81,7 @@ export default {
       console.log(this.comment_no)
       // eslint-disable-next-line no-unused-vars
       const data = { comment_no: this.comment_no }
-      this.$axios.post(this.$serverUrl + '/comment/commentDelete',  {
+      this.$axios.post(this.$serverUrl + '/comment/commentDelete', {
         comment_no: cno,
         post_no: this.post_no
       }).then((res) => {

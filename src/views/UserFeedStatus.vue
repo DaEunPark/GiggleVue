@@ -48,7 +48,6 @@ export default {
             // console.log(this.$store.state.otherUserDTO)
 
             location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
-
           }).catch(error => {
             console.log(error)
           })

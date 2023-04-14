@@ -147,8 +147,7 @@ export default {
     followCount () {
       console.log('NotMyPage followCnt() computed: ' + this.post_cnt)
       return this.follow_cnt
-    },
-    
+    }
 
   },
   mounted () {
@@ -313,17 +312,14 @@ export default {
           this.block_user = 'N'
           console.log('this.block_user = ' + this.block_user)
         }
-
-        
       })
     },
-    amIBlockCheck() {
-
-      console.log("해당 메서드 실행..")
+    amIBlockCheck () {
+      console.log('해당 메서드 실행..')
       const data = {
         myUser_no: this.$store.state.loginUserDTO.user_no,
         blockUser_no: this.$store.state.otherUserDTO.user_no
-        
+
       }
       this.$axios.post(this.$serverUrl + '/amIBlockCheck', JSON.stringify(data), {
         headers: {
@@ -333,14 +329,15 @@ export default {
         // eslint-disable-next-line eqeqeq
         if (res.data == 'Y') {
           this.blocked = 'Y'
-          console.log("this.blocked =" + res.data)
-        } else if(res.data == 'N') {
+          console.log('this.blocked =' + res.data)
+        // eslint-disable-next-line eqeqeq
+        } else if (res.data == 'N') {
           this.blocked = 'N'
-          console.log("this.blocked =" + res.data)
+          console.log('this.blocked =' + res.data)
         }
-      })      
+      })
     },
-    blockedCheckSlow() {
+    blockedCheckSlow () {
       window.setTimeout(this.amIBlockCheck, 100)
     }
   },

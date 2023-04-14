@@ -93,39 +93,39 @@ import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { MenuBar, SideBar },
-  data() {
+  data () {
     return {
-        user_no : this.$store.state.loginUserDTO.user_no,
-        followList: {},
-        state: 0,
-        followerList: {},
-        blockList: {}
+      user_no: this.$store.state.loginUserDTO.user_no,
+      followList: {},
+      state: 0,
+      followerList: {},
+      blockList: {}
     }
   },
-  mounted() {
+  mounted () {
     this.getFollowingList()
   },
   methods: {
-    getFollowingList() {
-        this.followerList = {}
-        this.blockList = {}
-        
-        const data= { user_no : this.user_no }
+    getFollowingList () {
+      this.followerList = {}
+      this.blockList = {}
 
-        this.$axios.post(this.$serverUrl + '/followingList', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            console.log("res = " + res)
-            this.state = 0
-            this.followList = res.data
-          })
+      const data = { user_no: this.user_no }
+
+      this.$axios.post(this.$serverUrl + '/followingList', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        console.log('res = ' + res)
+        this.state = 0
+        this.followList = res.data
+      })
     },
-    getFollowList() {
+    getFollowList () {
 
     },
-    getBlockList() {
+    getBlockList () {
 
     },
     followThisUser () {
@@ -139,7 +139,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-        console.log("팔로우합니다.")
+        console.log('팔로우합니다.')
       })
     },
     intoProfile (user) {
@@ -158,40 +158,40 @@ export default {
         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
     },
-    state0Change() {
-        this.getFollowingList()
+    state0Change () {
+      this.getFollowingList()
     },
-    state1Change() {  
-        this.followList = {}
-        this.blockList = {}
-        const data= { user_no : this.user_no }
+    state1Change () {
+      this.followList = {}
+      this.blockList = {}
+      const data = { user_no: this.user_no }
 
-        this.$axios.post(this.$serverUrl + '/followerList', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            console.log("res = " + res.data)
-            this.state = 1
-            this.followerList = res.data
-          })       
+      this.$axios.post(this.$serverUrl + '/followerList', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        console.log('res = ' + res.data)
+        this.state = 1
+        this.followerList = res.data
+      })
     },
-    state2Change() {  
-        this.followList = {}
-        this.followerList = {}
+    state2Change () {
+      this.followList = {}
+      this.followerList = {}
 
-        const data= { user_no : this.user_no }
+      const data = { user_no: this.user_no }
 
-        this.$axios.post(this.$serverUrl + '/blockList', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            console.log("res = " + res.data)
-            this.state = 2
-            this.blockList = res.data
-          })       
-    },   
+      this.$axios.post(this.$serverUrl + '/blockList', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        console.log('res = ' + res.data)
+        this.state = 2
+        this.blockList = res.data
+      })
+    }
   }
 
 }

@@ -36,8 +36,8 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 // import { thisExpression } from '@babel/types'
+// eslint-disable-next-line no-unused-vars
 import { mapGetters } from 'vuex'
-
 
 export default {
   data () {
@@ -54,7 +54,7 @@ export default {
       top6: '',
       top7: '',
       Trendlist: [],
-      user_no : this.$store.state.loginUserDTO.user_no
+      user_no: this.$store.state.loginUserDTO.user_no
     }
   },
   mounted () {
@@ -103,7 +103,7 @@ export default {
 
       alert(this.user_no)
 
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword+'/userno/' + this.user_no).then((res) => {
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
           // this.$router.replace({ 스텍x
           this.$router.push({

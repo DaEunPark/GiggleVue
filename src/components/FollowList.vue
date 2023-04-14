@@ -24,59 +24,59 @@
 <script>
 // import { Follow } from '../mixins/Follow'
 export default {
-    data () {
-        return {
-            // follow: {
-            // user_no: this.$store.state.loginUserDTO.user_no,
-            // follow_user: this.$store.state.otherUserDTO.user_no
-            // }
-        }
-    },
-    props: { // MainContentsView 의 자식컴포넌트로 사용됨
-        items: { type: Object, default: null }
-    },
-    // computed: {
-    //     following () {
-    //         console.log('FollowList following() computed: ' + this.followResult)
-    //         if (this.followResult.includes(this.follow.follow_user)) {
-    //             return 'Y'
-    //         } else {
-    //             return this.followResult
-    //         }
-    //     }
+  data () {
+    return {
+      // follow: {
+      // user_no: this.$store.state.loginUserDTO.user_no,
+      // follow_user: this.$store.state.otherUserDTO.user_no
+      // }
+    }
+  },
+  props: { // MainContentsView 의 자식컴포넌트로 사용됨
+    items: { type: Object, default: null }
+  },
+  // computed: {
+  //     following () {
+  //         console.log('FollowList following() computed: ' + this.followResult)
+  //         if (this.followResult.includes(this.follow.follow_user)) {
+  //             return 'Y'
+  //         } else {
+  //             return this.followResult
+  //         }
+  //     }
+  // },
+  methods: {
+    // user_follow (user_no) {
+    //     console.log("user_follow에서 user_no = "+ user_no)
+    //     this.user_follow_create(this.follow)
     // },
-    methods:{
-        // user_follow (user_no) {
-        //     console.log("user_follow에서 user_no = "+ user_no)
-        //     this.user_follow_create(this.follow)
-        // },
-        // followThisUser (item) {
-        //     const follow = {
-        //         user_no: this.$store.state.loginUserDTO.user_no,
-        //         follow_user: item
-        //     }
-        //     // alert('follow this user: ' + item)
-        //     this.user_follow_create(follow)
-        // },
-        intoProfile (item) {
-        // alert(user)
-            const data = { user_no: item }
+    // followThisUser (item) {
+    //     const follow = {
+    //         user_no: this.$store.state.loginUserDTO.user_no,
+    //         follow_user: item
+    //     }
+    //     // alert('follow this user: ' + item)
+    //     this.user_follow_create(follow)
+    // },
+    intoProfile (item) {
+      // alert(user)
+      const data = { user_no: item }
 
-            console.log('user_nick = ' + data)
+      console.log('user_nick = ' + data)
 
-            this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
-                headers: {
-                'Content-Type': 'application/json'
-                }
-            }).then((res) => {
-                this.$store.commit('addOtherUser', res.data)
-                console.log(this.$store.state.otherUserDTO)
-                location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
-            })
+      this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
         }
-    },
-    // mixins: [Follow]
-};
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+      })
+    }
+  }
+  // mixins: [Follow]
+}
 </script>
 
 <style scoped>

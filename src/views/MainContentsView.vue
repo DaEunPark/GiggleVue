@@ -25,12 +25,13 @@ export default {
       allfeedList: {}, // 리스트 데이터
       // no: '' // 숫자 처리
       user_no: this.$store.state.loginUserDTO.user_no,
-      LikeList: [], 
+      LikeList: []
 
     }
   },
   mounted () {
-    this.fnGetList() ,
+    // eslint-disable-next-line no-sequences, no-unused-expressions
+    this.fnGetList(),
     this.getLikeList()
   },
   methods: {
@@ -61,8 +62,8 @@ export default {
           this.LikeList = res.data
           console.log(res.data)
         })
-    }, 
-    
+    }
+
   }
 }
 
