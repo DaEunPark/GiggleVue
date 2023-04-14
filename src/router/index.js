@@ -181,7 +181,7 @@ const routes = [
     path: '/naverLoginCallback',
     name: 'naverLoginCallback',
     components: {
-      rhome: LoginView
+      rhome: NaverLoginCallback
     }
   },
   {

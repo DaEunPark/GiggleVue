@@ -47,7 +47,7 @@
           ></button>
         </div>
         <!-- 알람타입: 3(댓글 알람) -->
-        <div v-if="alarm.alarm_type == '3'" class="alert alert-dismissible alert-primary">
+        <div v-if="alarm.alarm_type === '3' & alarm.alarm_user !== this.$store.state.loginUserDTO.user_no" class="alert alert-dismissible alert-primary">
           <a v-bind:href="`/main/postdetail?post_no=${alarm.post_no}`" @click="deleteAlarm(alarm.alarm_no)" class="alert-link">
             <table>
               <tr>
@@ -105,7 +105,7 @@ export default {
         this.$store.commit('addOtherUser', res.data)
         console.log(this.$store.state.otherUserDTO)
         this.deleteAlarm(alarmNo)
-        location.href = '/main/notmypage'
+        location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
     },
     deleteAlarm (alarmNO) {
@@ -172,6 +172,7 @@ export default {
 }
 .alarmListImg img {
   width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 .alarmListNick {

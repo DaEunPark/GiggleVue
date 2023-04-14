@@ -160,7 +160,10 @@ export default ({
       }
       // 검색한 키워드로 유저를 찾아서 뿌려준다.
       axios
-        .get(this.$serverUrl + '/mj/searchUser/' + this.keyword)
+        .post(this.$serverUrl + '/mj/searchUser', {
+          keyword: this.keyword,
+          user_no: this.$store.state.loginUserDTO.user_no
+        })
         .then(res => {
           if (res.data !== '') {
             this.userList = res.data
