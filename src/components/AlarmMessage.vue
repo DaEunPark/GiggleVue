@@ -84,11 +84,6 @@ export default {
       type: Array, default: null
     }
   },
-  mounted () {
-    if (this.alarmList != null) {
-      this.alarmListLength = this.alarmList.length
-    }
-  },
   methods: {
     getMore () {
       if (this.alarmList.length > 5) {
@@ -112,16 +107,6 @@ export default {
       // alert('알람 삭제 합니다~~')
       // 알람 번호에 해당하는 데이터를 삭제한다(다른 페이지로 이동하기 때문에 현재 목록에서 삭제할 필요는 x)
       axiox.get(this.$serverUrl + '/mj/deleteAlarm/' + alarmNO)
-        .then(res => {
-
-        })
-    },
-    user_follow (userNo, follower) {
-      // 팔로우 해준다.
-      axiox.post(this.$serverUrl + '/follow', {
-        user_no: userNo,
-        follow_user: follower
-      })
         .then(res => {
 
         })

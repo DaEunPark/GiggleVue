@@ -191,9 +191,7 @@ export default ({
           // eslint-disable-next-line eqeqeq
           if (count == 0) {
           // 새롭게 추가된 채팅 리스트에 추가해준 후,
-            // this.newChatList.push(res.data)
-            // eslint-disable-next-line vue/no-mutating-props
-            this.chatRoomList.push(res.data)
+            this.chatRoomList.unshift(res.data)
             console.log('채팅방 없음/ 추가함 ')
             console.log(this.newChatList)
             // 해당 채팅방을 열어준다.
@@ -250,6 +248,7 @@ export default ({
           }
         }
       }
+      //해당 채팅방의 메세지 리스트를 불러와서 뿌려준다.
       axios
         .post(this.$serverUrl + '/mj/getMessageList', {
           chatroom_no: chatroomNo,
@@ -533,7 +532,7 @@ export default ({
 #yesChatUl {
   list-style: none;
   overflow-y: scroll;
-  height: 80%;
+  height: 75%;
   padding-left: 30px;
   margin-bottom: 0px;
 }
