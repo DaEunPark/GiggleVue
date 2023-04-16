@@ -98,7 +98,22 @@ export default {
     if (this.$store.state.loginUserDTO !== null) {
      
       // 각각의 토큰값(구분값)을 세팅해준다
-       if (this.$store.state.loginUserDTO.google_token !== undefined) {
+
+      if (this.$store.state.loginUserDTO.naver_token !== null) {
+        // 네이버 토큰 값이 있을 경우
+        // eslint-disable-next-line vue/no-mutating-props
+        this.naver_token = this.$store.state.loginUserDTO.naver_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      } else if (this.$store.state.loginUserDTO.google_token !== null) {
+        // 구글 토큰 값이 있을 경우
+        this.google_token = this.$store.state.loginUserDTO.google_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      }
+
+      // 이메일 입력 칸에 넘어온 이메일 값을 뿌려준다.(편의를 위해)
+      // this.user_email = this.$store.state.loginUserDTO.user_email
+
+/*       if (this.$store.state.loginUserDTO.google_token !== undefined) {
         
         // 구글 토큰 값이 있을 경우
         this.google_token = this.$store.state.loginUserDTO.google_token
@@ -111,7 +126,8 @@ export default {
         this.naver_token = this.$store.state.loginUserDTO.naver_token
         this.user_email = this.$store.state.loginUserDTO.user_email
       }
-      
+      */
+
     }
   },
   methods: {
