@@ -188,14 +188,13 @@ export default {
     this.recommendFollow()
 
     this.getRecentSearch()
-
   },
   methods: {
-    getRecentSearch() {
-      if(this.recentSearchList == null) {
-        this.recentSearchList = ""
+    getRecentSearch () {
+      if (this.recentSearchList == null) {
+        this.recentSearchList = ''
       }
-    },  
+    },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
 
@@ -214,32 +213,33 @@ export default {
           })
           console.log('"', keyword, '"' + '검색')
           this.allfeedList = res.data
-
         }
 
         // 최근 검색 추가한 부분
-        const data={keyword0 : this.keyword, keyword1:this.recentSearchList[0], keyword2:this.recentSearchList[1],
-                    keyword3:this.recentSearchList[2], keyword4:this.recentSearchList[3]}
-            this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }).then((res) => {
-                this.recentSearchList = res.data
-                console.log("res.data = " + res.data)
-                console.log("recentSearchList = " + this.recentSearchList)
-              
-                this.$store.commit('recentSearchList', this.recentSearchList)
-            })
-            
+        const data = {
+          keyword0: this.keyword,
+          keyword1: this.recentSearchList[0],
+          keyword2: this.recentSearchList[1],
+          keyword3: this.recentSearchList[2],
+          keyword4: this.recentSearchList[3]
+        }
+        this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then((res) => {
+          this.recentSearchList = res.data
+          console.log('res.data = ' + res.data)
+          console.log('recentSearchList = ' + this.recentSearchList)
+
+          this.$store.commit('recentSearchList', this.recentSearchList)
+        })
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
-
-
     },
     clearAllSearchWords () {
       // 모두 지우기를 하면 따로 보여줄 거 정하기
@@ -329,7 +329,7 @@ export default {
         console.log(this.$store.state.otherUserDTO)
         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
-    },
+    }
   },
   mixins: [Follow]
 }

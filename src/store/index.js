@@ -56,12 +56,12 @@ export default createStore({
     updatePwd: (state, pwd) => {
       state.loginUserDTO.user_pwd = pwd
     },
-    recentSearchList(state, recentSearchList) {
-      state.recentSearchList = recentSearchList;
+    recentSearchList (state, recentSearchList) {
+      state.recentSearchList = recentSearchList
     },
     deleteRecentSearchList: (state) => {
       state.recentSearchList = null
-    },
+    }
 
   },
   actions: {

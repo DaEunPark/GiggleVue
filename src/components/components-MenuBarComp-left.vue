@@ -305,7 +305,7 @@ footer{
   margin: 0;
   padding: 0;
 }
-/* 
+/*
 .altmenu {
   width: 100%;
   background: transparent;
@@ -344,7 +344,7 @@ footer{
 } */
 
 /*===================================*/
-/* 
+/*
 .EditorBtn {
     position : fixed;
     right : 50px;
@@ -364,7 +364,7 @@ footer{
 /*.sidebar-left {border-radius: 0%; background-color: #eeeeee;}*/
 
 span {-webkit-text-fill-color: black;}
-/* 
+/*
 .user_img_box {
     width: 30%;
     height: 100%;
@@ -586,7 +586,7 @@ span {-webkit-text-fill-color: black;}
   margin-left: 45%;
   font-size: 12px;
 }
-/* 
+/*
 @media screen and (max-width: 320px) {
   .nav__name {
     display: none;

@@ -42,11 +42,11 @@
                                 </div>
                                 <div class="bottom_btn">
                                   <a v-if="item.isLike == 'Y'" @click="fn_pushLike(item.post_no)" role="button">
-                                    <font-awesome-icon  icon="fa-solid fa-heart" style="color:#ed5c9d ;"/> 
+                                    <font-awesome-icon  icon="fa-solid fa-heart" style="color:#ed5c9d ;"/>
                                     <span class="bottom_cnt">{{ item.like_cnt }}</span>
                                   </a>
                                   <a v-else @click="fn_pushLike(item.post_no)" role="button">
-                                    <font-awesome-icon  icon="fa-regular fa-heart" style="color:#ed5c9d ;"/> 
+                                    <font-awesome-icon  icon="fa-regular fa-heart" style="color:#ed5c9d ;"/>
                                     <span class="bottom_cnt">{{ item.like_cnt }}</span>
                                   </a>
                                 </div>
@@ -169,23 +169,26 @@ export default {
     fn_pushLike (postNo) {
       console.log(postNo)
 
-      //게시글 번호로 게시글 리스트에서 현재 게시글 데이터를 찾고, isLike를 반대로 바꿔준다. (like_cnt도 증가시킨다.)
-      for(let i = 0; i < this.items.length; i++) {
-        if(this.items[i].post_no === postNo) {
-          if(this.items[i].isLike === "Y") {
-            this.items[i].isLike = "N"
+      // 게시글 번호로 게시글 리스트에서 현재 게시글 데이터를 찾고, isLike를 반대로 바꿔준다. (like_cnt도 증가시킨다.)
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].post_no === postNo) {
+          if (this.items[i].isLike === 'Y') {
+            // eslint-disable-next-line vue/no-mutating-props
+            this.items[i].isLike = 'N'
+            // eslint-disable-next-line vue/no-mutating-props
             this.items[i].like_cnt = this.items[i].like_cnt - 1
-            console.log("좋아요 취소~~")
+            console.log('좋아요 취소~~')
           } else {
-            this.items[i].isLike = "Y"
+            // eslint-disable-next-line vue/no-mutating-props
+            this.items[i].isLike = 'Y'
+            // eslint-disable-next-line vue/no-mutating-props
             this.items[i].like_cnt = this.items[i].like_cnt + 1
-            console.log("좋아요~~")
+            console.log('좋아요~~')
           }
         }
       }
 
-
-      //게시글 번호와 로그인 유저 번호로 좋아요 데이터를 추가/삭제한다.
+      // 게시글 번호와 로그인 유저 번호로 좋아요 데이터를 추가/삭제한다.
       this.$axios.post(this.$serverUrl + '/pushLike', {
         user_no: this.$store.state.loginUserDTO.user_no,
         post_no: postNo
@@ -207,7 +210,7 @@ export default {
       }).catch(err => {
         console.log(err.data)
       })
-    },
+    }
   }
 }
 

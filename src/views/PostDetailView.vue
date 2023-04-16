@@ -327,7 +327,6 @@ export default {
     },
     modifyPost () {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
-
     },
     sharebtn () {
       console.log('url주소 = ' + location.href)
@@ -335,7 +334,6 @@ export default {
     },
     thisImageActive (index) {
       this.activeIndex = index
-
     }
 
   }

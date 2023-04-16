@@ -264,7 +264,7 @@ export default {
     flex-direction: row;
     align-items: normal;
 }
-/* 
+/*
 .user_info_box > .user_name  > .user_setting_box {
     width: 80px;
     margin-left: 15%;
