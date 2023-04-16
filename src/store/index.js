@@ -10,7 +10,8 @@ export default createStore({
     deleteUserEmail: null,
     deleteUserPwd: null,
     checked: null,
-    updateProfileImage: null
+    updateProfileImage: null,
+    recentSearchList: []
   },
   getters: {
     loginUserDTO: state => state.loginUserDTO,
@@ -20,14 +21,15 @@ export default createStore({
     deleteUserEmail: state => state.deleteUserEmail,
     deleteUserPwd: state => state.deleteUserPwd,
     checked: state => state.checked,
-    updateProfileImage: state => state.updateProfileImage
+    updateProfileImage: state => state.updateProfileImage,
+    recentSearchList: state => state.recentSearchList
 
   },
   mutations: {
     addLoginUser: (state, userDTO) => {
       state.loginUserDTO = userDTO
     },
-    logoutUser: (state, userDTO) => {
+    logoutUser: (state) => {
       state.loginUserDTO = null
     },
     addOtherUser: (state, otherUserDTO) => {
@@ -39,10 +41,10 @@ export default createStore({
     rememberUserPwd: (state, rememberUserPwd) => {
       state.rememberUserPwd = rememberUserPwd
     },
-    deleteUserEmail: (state, rememberUserEmail) => {
+    deleteUserEmail: (state) => {
       state.deleteUserEmail = null
     },
-    deleteUserPwd: (state, rememberUserPwd) => {
+    deleteUserPwd: (state) => {
       state.deleteUserPwd = null
     },
     checked: (state, checked) => {
@@ -53,7 +55,13 @@ export default createStore({
     },
     updatePwd: (state, pwd) => {
       state.loginUserDTO.user_pwd = pwd
-    }
+    },
+    recentSearchList(state, recentSearchList) {
+      state.recentSearchList = recentSearchList;
+    },
+    deleteRecentSearchList: (state) => {
+      state.recentSearchList = null
+    },
 
   },
   actions: {
@@ -62,6 +70,6 @@ export default createStore({
   },
   plugins: [createPersistedState({
     paths: ['loginUserDTO', 'otherUserDTO', 'rememberUserEmail', 'rememberUserPwd',
-      'deleteUserEmail', 'deleteUserPwd', 'checked', 'updateProfileImage']
+      'deleteUserEmail', 'deleteUserPwd', 'checked', 'updateProfileImage', 'recentSearchList']
   })]
 })

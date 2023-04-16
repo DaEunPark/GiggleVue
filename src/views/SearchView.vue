@@ -54,15 +54,22 @@ export default {
       top6: '',
       top7: '',
       Trendlist: [],
-      user_no: this.$store.state.loginUserDTO.user_no
+      user_no: this.$store.state.loginUserDTO.user_no,
+      recentSearchList: this.$store.state.recentSearchList,
     }
   },
   mounted () {
     // eslint-disable-next-line no-unused-expressions, no-sequences
     this.getTrend()
     // eslint-disable-next-line no-unused-expressions, no-sequences
+    this.getRecentSearch()
   },
   methods: {
+    getRecentSearch() {
+      if(this.recentSearchList == null) {
+        this.recentSearchList = ""
+      }
+    },  
     fnGetList (res) {
       this.Trendlist = [
 
@@ -98,10 +105,9 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      const temp = keyword
-      this.keyword = temp.replace('#', '')
-
-      alert(this.user_no)
+      
+      console.log("keyword="+keyword)
+      this.$store.commit('recentSearch', keyword)
 
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
@@ -116,6 +122,22 @@ export default {
           console.log('"', keyword, '"' + '검색')
           this.allfeedList = res.data
         }
+
+                // 최근 검색 추가한 부분
+                const data={keyword0 : this.keyword, keyword1:this.recentSearchList[0], keyword2:this.recentSearchList[1],
+                    keyword3:this.recentSearchList[2], keyword4:this.recentSearchList[3]}
+            this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((res) => {
+                this.recentSearchList = res.data
+                console.log("res.data = " + res.data)
+                console.log("recentSearchList = " + this.recentSearchList)
+              
+                this.$store.commit('recentSearchList', this.recentSearchList)
+            })
+            
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')

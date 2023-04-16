@@ -18,9 +18,9 @@
                         <div class="list-group" style="border-radius: 1em;">
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <span class="text-dark fw-bold">최근 검색어</span>
-                                <a href="#" class="hover-change-color" @click="clearAllSearchWords"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
+                                <a href="#" class="hover-change-color" @click="clearAllSearchWords()"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
-                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in recentSearchList" :key="i">
+                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in this.recentSearchList" :key="i">
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
                                 <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
                             </router-link>
@@ -139,7 +139,7 @@ export default {
       keyword: '',
       isExistSearchWord: true,
       thisURL: window.location.href,
-      recentSearchList: ['솜인형 공구', '순두부 열라면', '코돌비', '컬러리움'],
+      recentSearchList: this.$store.state.recentSearchList,
       top1: '',
       top2: '',
       top3: '',
@@ -185,10 +185,19 @@ export default {
     this.getTrend() // 실시간 트렌드 가져오기
 
     this.recommendFollow()
+
+    this.getRecentSearch()
+
   },
   methods: {
+    getRecentSearch() {
+      if(this.recentSearchList == null) {
+        this.recentSearchList = ""
+      }
+    },  
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
+
       const temp = keyword
       this.keyword = temp.replace('#', '')
 
@@ -204,18 +213,37 @@ export default {
           })
           console.log('"', keyword, '"' + '검색')
           this.allfeedList = res.data
+
         }
+
+        // 최근 검색 추가한 부분
+        const data={keyword0 : this.keyword, keyword1:this.recentSearchList[0], keyword2:this.recentSearchList[1],
+                    keyword3:this.recentSearchList[2], keyword4:this.recentSearchList[3]}
+            this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((res) => {
+                this.recentSearchList = res.data
+                console.log("res.data = " + res.data)
+                console.log("recentSearchList = " + this.recentSearchList)
+              
+                this.$store.commit('recentSearchList', this.recentSearchList)
+            })
+            
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
+
+
     },
     clearAllSearchWords () {
-    //   alert('clearAllSearchWords')
       // 모두 지우기를 하면 따로 보여줄 거 정하기
       this.isExistSearchWord = !this.isExistSearchWord
+      this.$store.commit('deleteRecentSearchList')
     },
     deleteThisSearchWord (item) {
       alert('delete ' + this.recentSearchList[item])
@@ -300,7 +328,7 @@ export default {
         console.log(this.$store.state.otherUserDTO)
         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
       })
-    }
+    },
   },
   mixins: [Follow]
 }
