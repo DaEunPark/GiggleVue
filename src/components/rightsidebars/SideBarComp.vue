@@ -20,10 +20,12 @@
                                 <span class="text-dark fw-bold">최근 검색어</span>
                                 <a href="#" class="hover-change-color" @click="clearAllSearchWords()"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
-                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in this.recentSearchList" :key="i">
+                            <div class="recentSearchDiv list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in this.recentSearchList" :key="i">
+                            <button type="button" id="recentBtn" @click="searchresultshow(recent)" >
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
-                                <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
-                            </router-link>
+                              </button>
+                              <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                          </div>
 
                         </div><!-- <div class="list-group"> -->
                     </div> <!-- <div class="card bg-light mb-3"> -->
@@ -188,6 +190,8 @@ export default {
     this.recommendFollow()
 
     this.getRecentSearch()
+    console.log(this.recentSearchList)
+
   },
   methods: {
     getRecentSearch () {
@@ -197,6 +201,8 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
+
+      this.keyword=''
 
       const temp = keyword
       this.keyword = temp.replace('#', '')
@@ -233,6 +239,7 @@ export default {
           console.log('recentSearchList = ' + this.recentSearchList)
 
           this.$store.commit('recentSearchList', this.recentSearchList)
+          location.reload()
         })
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -244,11 +251,34 @@ export default {
     clearAllSearchWords () {
       // 모두 지우기를 하면 따로 보여줄 거 정하기
       this.isExistSearchWord = !this.isExistSearchWord
-      this.$store.commit('deleteRecentSearchList')
+      this.recentSearchList={}
+      this.$store.commit('recentSearchList', this.recentSearchList)
+      console.log("this.$store.state.recentSearchList = " + this.$store.state.recentSearchList)
     },
     deleteThisSearchWord (item) {
-      alert('delete ' + this.recentSearchList[item])
+      // alert('delete ' + this.recentSearchList[item])
       this.recentSearchList.splice(item, 1)
+      
+      const data={num:this.$store.state.recentSearchList[item],
+                  keyword0: this.recentSearchList[0],
+                  keyword1: this.recentSearchList[1],
+                  keyword2: this.recentSearchList[2],
+                  keyword3: this.recentSearchList[3],
+                  keyword4: this.recentSearchList[4]
+      }
+
+      this.$axios.post(this.$serverUrl + '/deleteThisSearchWord/' , JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+          this.recentSearchList = res.data
+          console.log('res.data = ' + res.data)
+          console.log('recentSearchList = ' + this.recentSearchList)
+          
+          this.$store.commit('recentSearchList', this.recentSearchList)
+          router.go()
+        })
     },
     followThisUser (item) {
       const follow = {
@@ -499,5 +529,18 @@ export default {
     vertical-align: middle;
     width: 20px;
 }
-
+.text-truncate {
+  color: black;
+}
+#recentBtn{
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  padding: 0% 0%;
+  border: none;
+  text-align: left;
+}
+.recentSearchDiv:hover{
+  background-color: lightpink;
+}
 </style>
