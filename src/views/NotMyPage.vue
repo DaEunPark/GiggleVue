@@ -3,18 +3,19 @@
       <!-- :style="{ backgroundImage: `url(${this.$store.state.loginUserDTO.back_image})` }"-->
               <!--프로필 부분-->
                       <!-- <div class="user_profile_box"> -->
+      <div class="notMyTop">
         <button class="btn btn_link" @click="goBack" style = "margin:0; padding:0;">
           <h3 class ="list-group-item text-dark border-primary my-2">
             <font-awesome-icon class="mx-2" style="color:black;" :icon="['fas', 'caret-left']" /> {{ this.$store.state.otherUserDTO.user_nick }}
           </h3>
-          </button>
-
-          <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user==='N' && this.blocked==='N'">
-            <p><span class="text-nowrap" id="blockSpan" v-if="this.block_user==='N' && this.blocked==='N'">차단하기</span></p>
-          </button>
-          <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user==='Y' && this.blocked==='N'">
-            <p><span class="text-nowrap" id="blockSpan2" v-if="this.block_user==='Y' && this.blocked==='N'">차단해제</span></p>
-          </button>
+        </button>
+        <button class="btn btn-sm btn-light" id="blockBtn" @click="userBlock()" v-if="this.block_user=='N'">
+          <span class="text-nowrap" id="blockSpan" v-if="this.block_user=='N'">차단하기</span>
+        </button>
+        <button class="btn btn-sm btn-light" id="blockBtn2" @click="userBlockCancle()" v-if="this.block_user=='Y'">
+          <span class="text-nowrap" id="blockSpan2" v-if="this.block_user=='Y'">차단해제</span>
+        </button>
+      </div>
 
             <div class="backimg">
                 <img v-bind:src="`${this.$store.state.otherUserDTO.back_image}`" id="backimg"/>
@@ -346,13 +347,21 @@ export default {
 </script>
 <style scoped>
   * {-webkit-text-fill-color: black;}
-
+/*
   .user_main_body{
     width: 100%;
     height: 1000px;
     margin: 90px auto 0 auto;
     padding: 30px 20px 0px;
-}
+} */
+  .notMyTop{
+    width : 100%;
+    height : fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   .user_profile_box {
       width: 100%;
@@ -535,13 +544,14 @@ export default {
 
 }
 #blockBtn[data-v-5bdfab44] {
-    margin-left: 59%;
+    /* margin-left: 59%; */
     background-color: transparent;
     color: gray;
-    align-items: center;
+    text-align: center;
+    align-content: center;
     font-size: 15px;
     font-weight: bold;
-    width: 10%;
+    width: 90px;
     height: 40px;
     border: 3px solid #e8e8e8;
     border-radius: 50px;
@@ -556,15 +566,16 @@ export default {
 #blockBtn2 {
   background-color: deeppink;
   color: gray;
-  align-items: center;
+  text-align: center;
+  align-content: center;
   font-size: 15px;
   font-weight: bold;
-  width: 10%;
+  width: 90px;
   height: 40px;
   border: 3px solid #e8e8e8;
   border-radius: 50px;
   cursor: pointer;
-  margin-left: 59%;
+  /* margin-left: 59%; */
 }
 #blockBtn2 *[data-v-5bdfab44] {
   -webkit-text-fill-color:white;

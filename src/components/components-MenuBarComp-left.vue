@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
-    <aside class="sidebar col-3">
+    <aside class="sidebar">
       <header class="sidebar-header  mb-1">
         <!-- <div class="user_img_box"> -->
             <!-- <img class="img_circle user_img" name="profile" id="profic" v-bind:src="`${this.$store.state.loginUserDTO.profile_image}`"> -->
@@ -305,7 +305,7 @@ footer{
   margin: 0;
   padding: 0;
 }
-
+/* 
 .altmenu {
   width: 100%;
   background: transparent;
@@ -341,10 +341,10 @@ footer{
   .altmenu ul li a {
     padding: 10px 10px;
   }
-}
+} */
 
 /*===================================*/
-
+/* 
 .EditorBtn {
     position : fixed;
     right : 50px;
@@ -360,11 +360,11 @@ footer{
 }
 .list-group-item-action:focus, .list-group-item-action:hover {
   color: #000;
-}
+} */
 /*.sidebar-left {border-radius: 0%; background-color: #eeeeee;}*/
 
 span {-webkit-text-fill-color: black;}
-
+/* 
 .user_img_box {
     width: 30%;
     height: 100%;
@@ -376,25 +376,25 @@ span {-webkit-text-fill-color: black;}
     height: 120px;
     object-fit: cover;
     margin: auto;
-    /*display: block;*/
+    /*display: block;
     border-radius: 50%;
 
 }
 
 .hover-change-color:hover span {
     background-color: deeppink !important;
-}
+} */
 
 * {
     box-sizing: border-box;
   }
 
-  body {
+  /* body {
     margin: 0;
     background: #fafafa;
     color: #262626;
-    /*-family: sans-serif;*/
-  }
+    /*-family: sans-serif;
+  } */
 
   .sidebar {
     position: fixed;
@@ -403,6 +403,7 @@ span {-webkit-text-fill-color: black;}
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width : inherit;
     height: 100%;
     padding: 0 10px 30px 10px;
     background: #ffffff;
@@ -411,13 +412,13 @@ span {-webkit-text-fill-color: black;}
   }
   .sidebar-header {
     width: 100%;
-    height : 49.6px;
+    height : fit-content;
     display : flex;
     align-items : center;
     justify-content: left;
   }
   .menu_logo{
-    width : 71px;
+    width :30%;
     height : auto;
     margin-left : 10px;
   }
@@ -453,28 +454,28 @@ span {-webkit-text-fill-color: black;}
     transition: 0.3s;
   }
 
-  @media (width < 580px) {
-    .logo-img {
+  /* @media (max-width < 80%){  */
+   /*  .logo-img {
       display: none;
     }
 
     .logo-icon {
       display: block;
-    }
+    } */
 
-    .sidebar {
-      width: 72px;
-    }
+    /* * {
+      display : none;
+    } */
 
-    .sidebar button > span {
+    /* .sidebar button > span {
       width: 50px;
     }
 
     .sidebar button > span > span {
       opacity: 0;
       visibility: hidden;
-    }
-  }
+    } */
+  /* } */
 
   .sidebar button i {
     position: relative;
@@ -585,7 +586,7 @@ span {-webkit-text-fill-color: black;}
   margin-left: 45%;
   font-size: 12px;
 }
-
+/* 
 @media screen and (max-width: 320px) {
   .nav__name {
     display: none;
@@ -613,6 +614,6 @@ span {-webkit-text-fill-color: black;}
   .nav__link:hover {
     color: hsl(174, 63%, 40%);
   }
-}
+} */
 
 </style>
