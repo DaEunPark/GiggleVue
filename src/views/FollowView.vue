@@ -74,11 +74,21 @@ export default {
   mounted () {
     this.getFollowingList()
     this.getFollowerList()
+    // this.$forceUpdate()
+  },
+  watch: {
+    $route (to, from) {
+      console.log(to)
+      console.log(from)
+      //   console.log(this.thisURL)
+      // this.$forceUpdate()
+    }
   },
   methods: {
     goBack () {
       // eslint-disable-next-line no-unused-expressions
       this.$router.go(-1); [2]
+      // this.$forceUpdate()
     },
     getFollowingList () {
       this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {

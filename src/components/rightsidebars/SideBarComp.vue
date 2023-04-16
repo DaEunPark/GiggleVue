@@ -74,7 +74,7 @@
         </div>
 
         <!-- <div id="test1" class="sticky-top" v-show="showURLRecommendFollow"> -->
-        <!-- <div id="test1" class="sticky-top"> -->
+        <div id="stickyFollowFooter" class="sticky-top">
             <!-- 팔로우 추천 -->
             <div id="recommendfollow" v-show="showURLRecommendFollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
@@ -117,7 +117,7 @@
                 </div>
             </footer>
 
-        <!-- </div> test1 -->
+        </div> <!-- <div id="test1" class="sticky-top"> -->
 
 </div>
 </template>
@@ -147,7 +147,8 @@ export default {
       top4: '',
       top5: '',
       recommendUser: {},
-      user_no: this.$store.state.loginUserDTO.user_no
+      user_no: this.$store.state.loginUserDTO.user_no,
+      isFollowingArr: []
     }
   },
   computed: {
@@ -165,12 +166,16 @@ export default {
       //   return this.followResult
       // }
       // return this.followResult
+      // return (item) => {
+      //   if (this.followResult.includes(item)) {
+      //     return 'Y'
+      //   } else {
+      //     return 'N'
+      //   }
+      // }
       return (item) => {
-        if (this.followResult.includes(item)) {
-          return 'Y'
-        } else {
-          return 'N'
-        }
+        const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+        return this.isFollowingArr[idx].isFollowing
       }
     }
   },
@@ -179,7 +184,8 @@ export default {
       console.log(to)
       console.log(from)
       this.thisURL = window.location.href
-    //   console.log(this.thisURL)
+      //   console.log(this.thisURL)
+      // this.$forceUpdate()
     }
   },
   mounted () {
@@ -188,6 +194,16 @@ export default {
     this.recommendFollow()
 
     this.getRecentSearch()
+
+    if (localStorage.getItem('reloadedSideBar')) {
+      // The page was just reloaded. Clear the value from local storage
+      // so that it will reload the next time this page is visited.
+      localStorage.removeItem('reloadedSideBar')
+    } else {
+      // Set a flag so that we know not to reload the page twice.
+      localStorage.setItem('reloadedSideBar', '1')
+      location.reload()
+    }
   },
   methods: {
     getRecentSearch () {
@@ -257,6 +273,8 @@ export default {
       }
       // alert('follow this user: ' + item)
       this.user_follow_create(follow)
+      const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+      this.isFollowingArr[idx].isFollowing = this.isFollowingArr[idx].isFollowing === 'N' ? 'Y' : 'N'
     },
     replaceTo (path) {
     // this.$route.replaceTo(path)
@@ -307,6 +325,10 @@ export default {
         }
       }).then((res) => {
         this.recommendUser = res.data
+        for (let i = 0; this.recommendUser.length; i++) {
+          const data = { user: this.recommendUser[i].user_no, isFollowing: 'N' }
+          this.isFollowingArr.push(data)
+        }
         console.log('recommendUser = ' + this.recommendUser[0].user_nick)
       })
     },
@@ -407,7 +429,7 @@ export default {
         /* color:orangered; */
         background-color: deeppink !important;
     }
-    #test1 {
+    #stickyFollowFooter {
         top: 3.5em;
         z-index: 0;
     }
