@@ -171,6 +171,8 @@ export default {
     // vuex에 로그인 정보가 있으면 로그아웃 한다.
     if (this.$store.state.loginUserDTO !== null) {
       this.$store.commit('logoutUser')
+      console.log("로그인 정보: ")
+      console.log(this.$store.state.loginUserDTO)
     }
     // eslint-disable-next-line eqeqeq
     if (this.$store.state.checked == 1) {

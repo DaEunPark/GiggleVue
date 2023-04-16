@@ -27,11 +27,11 @@
                     <div class="item profileCnt">게시물</div>
                     <div class="cnt_item">{{this.post_cnt}}</div>
                   </div>
-                  <div class="cntWrap">
+                  <div class="cntWrap"  @click="pushFollowList()">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(0)">팔로워</div>
-                    <div class="cnt_item" @click="pushFollowList()">{{this.follower_cnt}}</div>
+                    <div class="cnt_item">{{this.follower_cnt}}</div>
                   </div>
-                  <div class="cntWrap">
+                  <div class="cntWrap"  @click="pushFollowList()">
                     <div class="item btn_pointer profileCnt" onclick="user_follow_modal_on(1)">팔로잉</div>
                     <div class="cnt_item">{{this.follow_cnt}}</div>
                   </div>
@@ -264,14 +264,14 @@ export default {
     flex-direction: row;
     align-items: normal;
 }
-
+/* 
 .user_info_box > .user_name  > .user_setting_box {
     width: 80px;
     margin-left: 15%;
     padding-top: 10px;
 
     cursor: pointer;
-}
+} */
 .user_info_box > .user_nickname {
     width: 100%;
     height: 20px;
@@ -301,7 +301,7 @@ export default {
 #settingButton {
   border:none;
   background-color: white;
-  margin-left: 40%;
+  /* margin-left: 40%; */
 }
 #settingImg {
   width: 20px;

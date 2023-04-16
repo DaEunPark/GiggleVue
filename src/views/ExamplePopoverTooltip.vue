@@ -111,18 +111,33 @@
       </button>
 
       <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
-            <div class="modal-header bg-light">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+            <div class="modal-header bg-secondary">
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body bg-light">
-              <p>I will not close if you click outside me. Don't even try to press escape key.</p>
-            </div>
-            <div class="modal-footer bg-light">
-              <button type="button" class="btn btn-dark bg-dark" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary bg-primary">Understood</button>
+            <div class="modal-body bg-secondary">
+              <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+              <div class="carousel-inner" style="margin: 0; padding: 0;">
+                    <div class="carousel-item active">
+                      <img src="https://d36nj4zto99jeg.cloudfront.net/raw/f106f45b-a231-4866-9b6e-afdfdd979897.jfif" class="d-block w-100" alt="..." style="width: 1200px; max-height: 800px; height: auto; object-fit: contain;">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://d36nj4zto99jeg.cloudfront.net/raw/fced7579-92cb-4ba5-9c98-f50a5feb9c4b.jpg" class="d-block w-100" alt="..." style="width: 1200px; max-height: 800px; height: auto; object-fit: contain;">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://d36nj4zto99jeg.cloudfront.net/raw/dfdf3b5e-03d2-4380-855b-f9dbfdcba0eb.jpg" class="d-block w-100" alt="..." style="width: 1200px; max-height: 800px; height: auto; object-fit: contain;">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
