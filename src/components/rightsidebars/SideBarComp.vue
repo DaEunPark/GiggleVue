@@ -76,7 +76,7 @@
         <!-- <div id="test1" class="sticky-top" v-show="showURLRecommendFollow"> -->
         <!-- <div id="test1" class="sticky-top"> -->
             <!-- 팔로우 추천 -->
-            <div id="recommendfollow">
+            <div id="recommendfollow" v-show="showURLRecommendFollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
                     <div class="list-group">
                         <div class="list-group-item d-flex justify-content-between align-items-center">

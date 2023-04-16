@@ -59,8 +59,8 @@ export default {
           // eslint-disable-next-line eqeqeq
           if (confirm('회원가입을 진행 하시겠습니까?') == true) {
             const userDTO = {
-              google_token: this.user_email,
-              user_email: this.user_email
+              google_token: this.user.email,
+              user_email: this.user.email
             }
             this.$store.commit('addLoginUser', userDTO)
             // this.$store.commit('google_token', this.user.email)
