@@ -33,41 +33,28 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#following" aria-selected="false" role="tab" tabindex="-1">팔로잉</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#follow" aria-selected="true" role="tab">팔로우</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#follower" aria-selected="true" role="tab">팔로우</a>
                     </li>
                 </ul>
                 <div id="myTabContent" class="tab-content px-2">
                     <div class="tab-pane fade active show mb-3" id="following" role="tabpanel">
                         <myfriend :items="allFollowingList" style="color:black;"></myfriend>
 
-                        <div  v-for="(item , idx) in items" :key="{idx}" class="followListWrap"  @click="intoProfile(`${user.user_no}`)">
-                            <div class="user_row mb-2 px-3">
-                                <div class="profileWrap">
-                                    <div class="profile-img">
-                                        <img :src="`${ item.profile_image }`"  width="50" height="50" class="follow_profileImage rounded-circle my-1" style="margin-right:10px;">
-                                    </div>
-                                    <div class="profile-nick text-dark text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
-                                        {{ item.user_nick }}
-                                    </div>
-                                    <div class="profile-status">
-                                        {{ item.status_message }}
-                                    </div>
-                                </div>
-                                <div v-if="following === 'N'" class="user_follow_btn" @click="followThisUser(item.user_no)"> <span class="text-nowrap + `{idx}`">팔로우</span></div>
-                                <div v-if="following === 'Y'" class="user_following_btn" @click="followThisUser(item.user_no)"> <span class="text-nowrap">팔로잉</span></div>
-                                <div class="tab-pane fade mb-3" id="follow" role="tabpanel">
+                    </div>
+                    <div class="tab-pane fade mb-3" id="follower" role="tabpanel">
+                        <myfriend :items="allFollowerList" style="color:black;"></myfriend>
 
-                                </div>
-                            </div>
-                        </div>
-                  </div>
+                    </div>
+                </div>
+            </div>
+          </div>
                   <div class="tab-pane fade mb-3" id="follow" role="tabpanel">
 
                   </div>
               </div>
-          </div>
+          <!-- </div>
       </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -80,14 +67,20 @@ export default {
   data () {
     return {
       allFollowingList: {},
+      allFollowerList: {},
       user_no: this.$store.state.loginUserDTO.user_no
     }
   },
   mounted () {
-    this.getList()
+    this.getFollowingList()
+    this.getFollowerList()
   },
   methods: {
-    getList () {
+    goBack () {
+      // eslint-disable-next-line no-unused-expressions
+      this.$router.go(-1); [2]
+    },
+    getFollowingList () {
       this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {
         // params: this.requestBody,
         // headers: {},
@@ -96,6 +89,22 @@ export default {
         }
       }).then((res) => {
         this.allFollowingList = res.data
+        // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    },
+    getFollowerList () {
+      this.$axios.get(this.$serverUrl + '/followerList/' + `${this.user_no}`, {
+        // params: this.requestBody,
+        // headers: {},
+        params: {
+          user_no: this.user_no
+        }
+      }).then((res) => {
+        this.allFollowerList = res.data
         // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -120,6 +129,22 @@ export default {
     //     })
     // }
   }
+  // intoProfile (item) {
+  // // alert(user)
+  //     const data = { user_no: item }
+
+  //     console.log('user_nick = ' + data)
+
+  //     this.$axios.post(this.$serverUrl + '/otherProfile', JSON.stringify(data), {
+  //         headers: {
+  //         'Content-Type': 'application/json'
+  //         }
+  //     }).then((res) => {
+  //         this.$store.commit('addOtherUser', res.data)
+  //         console.log(this.$store.state.otherUserDTO)
+  //         location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+  //     })
+  // }
 }
 
 </script>

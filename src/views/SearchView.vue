@@ -105,9 +105,16 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
+
       
       console.log("keyword="+keyword)
       this.$store.commit('recentSearch', keyword)
+
+//      const temp = keyword
+//      this.keyword = temp.replace('#', '')
+
+      //alert(this.user_no)
+
 
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {

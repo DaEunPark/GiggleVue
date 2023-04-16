@@ -32,8 +32,8 @@
 
                   <div class="FeedList_contents">
                     <div id="imageuploadarea">
-                      <div class="wrap">
-                        <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl) in postImgList" :key="imgurl" >
+                      <div class="wrap" v-if="postImgList.length > 0">
+                        <img class="uploadimage" :src="imgurl.imagepath" v-for="(imgurl, index) in postImgList" :key="imgurl" role="button" data-bs-toggle="modal" data-bs-target="#gallaryModal" @click="thisImageActive(index)">
                       </div>
                       <!-- <img :src="imgurltest" style="width: 80%; height: 80%;"> -->
                     </div>
@@ -76,13 +76,18 @@
               </ul>
           </div>
           <div class="bottom_btn" id="FL_spanlike">
-              <a class="btn"  @on-click="fn_pushLike(post_no)">
+              <a class="btn"  @on-click="fn_pushLike()">
               <font-awesome-icon  icon="fa-regular fa-heart"/>
               <span class="bottom_cnt">{{ item.like_cnt }}</span>
               </a>
           </div>
+          <div v-if="this.activate == '1'">
+              <ul>
+                  <li>"likuyrte 테스트!"</li>
+              </ul>
+          </div>
           <div class="bottom_btn" id="FL_spanshare">
-              <a class="btn" @click="sharebtn()">
+              <a class="btn" @on-click="fn_pushLink()" :href="item.post_no">
               <font-awesome-icon icon="fa-regular fa-share-from-square"/>
               </a>
           </div>
@@ -99,14 +104,15 @@
         </div>
       <hr style="color:#b0b0b0; margin:0px;">
       <CommentView :post_no="post_no"></CommentView>
+       <HeartView :post_no="post_no"></HeartView>
     </article>
   </div>
     <!--postInsite 시작-->
-    <div class="modal fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="headerWrap">
+    <div class="modal-postInsite fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog-postInsite modal-dialog-centered" role="document">
+            <div class="modal-content-postInsite">
+                <div class="modal-header-postInsite">
+                    <div class="headerWrap-postInsite">
                         <h3 style="font-size:32px; margin:auto;">게시물 인사이트</h3>
                     </div>
                     <button
@@ -117,7 +123,7 @@
                     >
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body-postInsite">
                     <div class="postAnalitics border-round-radious">
                         <div class="postAnaliticsWrap px-4 ">
                             <div class="analitics__post mb-2">
@@ -150,14 +156,45 @@
             </div>
         </div>
     </div>
+
+    <!-- GallaryModal -->
+    <div class="modal fade" id="gallaryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-secondary">
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-secondary">
+              <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+              <div class="carousel-inner" style="margin: 0; padding: 0;">
+                <div class="carousel-item" v-bind:class="{active: index === this.activeIndex}" v-for="(img, index) in postImgList" :key="img.imagepath">
+                      <img :src="img.imagepath" class="d-block w-100 gallaryImage" alt="...">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </template>
 
 <script>
 import CommentView from '@/components/CommentView.vue'
+import HeartView from '@/components/HeartView.vue'
+// import LineChart from '@/components/LineChart.vue'
 
 export default {
   components: {
-    CommentView
+    CommentView, HeartView
   },
   //   props: {
   //     item: { type: Object, default: null }
@@ -169,7 +206,8 @@ export default {
       rightYTID: false,
       youtubeURL: '',
       showYoutube: false,
-      postImgList: []
+      postImgList: [],
+      activeIndex: 0
 
     }
   },
@@ -289,24 +327,17 @@ export default {
     },
     modifyPost () {
       this.$router.push({ path: '/main/modifypost', query: { post_no: this.post_no } })
+
     },
     sharebtn () {
       console.log('url주소 = ' + location.href)
       alert(location.href + '                         주소가 복사되었습니다')
+    },
+    thisImageActive (index) {
+      this.activeIndex = index
+
     }
 
-  },
-  watch: {
-    '$route' (to, from) {
-      console.log('to: ' + to.path)
-      console.log('from: ' + from.path)
-    }
-  },
-  beforeRouteEnter (to, from, next) {
-    // alert(from.path)
-    // to()
-    // this.$router.go(0)
-    next()
   }
 }
 </script>
@@ -422,15 +453,15 @@ export default {
 .FeedList_activeicont #FL_spanchart a:hover {
     color:  #a532e8;
 }
-.modal {
+.modal-postInsite {
   --bs-modal-width: 100%;
   --bs-modal-height: 100%;
 }
-.modal-dialog {
+.modal-dialog-postInsite {
   width: 50%;
   height: 90%;
 }
-.modal-content {
+.modal-content-postInsite {
   background-color: #fff;
   color: #000;
   width: 100%;
@@ -438,13 +469,13 @@ export default {
   z-index: 7;
 }
 
-.modal-header {
+.modal-header-postInsite {
   margin:32px;
   text-align: center;
   display:flex;
   position: relative;
 }
-.headerWrap {
+.headerWrap-postInsite {
   position:absolute;
   left:50%;
   transform: translateX(-50%);
@@ -453,12 +484,12 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.modal-header > button {
+.modal-header-postInsite > button {
   position:absolute;
   right : 0;
   transform: translateX(-50%);
 }
-.modal-body {
+.modal-body-postInsite {
     border-top: 1px solid #ccc;
     padding: 0px 20px 10px 20px;
     height: 100%;
@@ -510,7 +541,9 @@ text-align: center;
  .wrap {
   display: grid;
   grid-template-columns: repeat(2, minmax(280px, 480px));
-  grid-gap: 1em;
+  grid-auto-rows: minmax(158px, 220px);
+  grid-gap: 0.5em;
+  /* height: 270px; */
 }
 .uploadimage {
   width: 100%;
@@ -536,5 +569,12 @@ text-align: center;
 
 .FeedList_update a:hover {
   color: deeppink !important;
+}
+
+.gallaryImage {
+        width: 1200px;
+        max-height: 800px;
+        height: auto;
+        object-fit: contain;
 }
 </style>

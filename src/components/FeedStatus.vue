@@ -40,31 +40,16 @@
                                         <li>"코멘트 테스트!"</li>
                                     </ul>
                                 </div>
-                                <!-- <div class="bottom_btn" id="FL_spanlike">
-                                    <a class="btn"  @on-click="fn_pushLike(item.post_no)">
-                                    <font-awesome-icon  icon="fa-solid fa-heart"/>
+                                <div class="bottom_btn">
+                                  <a v-if="item.isLike == 'Y'" @click="fn_pushLike(item.post_no)" role="button">
+                                    <font-awesome-icon  icon="fa-solid fa-heart" style="color:#ed5c9d ;"/> 
                                     <span class="bottom_cnt">{{ item.like_cnt }}</span>
-                                    </a>
-                                </div> -->
-
-                                    <div v-for="(Like,idx) in LikeList" :key="{idx}"    >
-                                      <div v-if-only-once="Like.post_no == item.post_no" >
-                                        <a>
-                                          <font-awesome-icon  icon="fa-solid fa-heart" style="color:#ed5c9d ;"/>
-                                        </a>
-
-                                      </div>
-
-                                   <!-- <div v-else ><a ><font-awesome-icon  icon="fa-regular fa-heart" style="color:black;"/> </a></div> -->
-
+                                  </a>
+                                  <a v-else @click="fn_pushLike(item.post_no)" role="button">
+                                    <font-awesome-icon  icon="fa-regular fa-heart" style="color:#ed5c9d ;"/> 
+                                    <span class="bottom_cnt">{{ item.like_cnt }}</span>
+                                  </a>
                                 </div>
-
-                             <!-- <a v-if="this.isLike(item.post_no)" class="btn"  @on-click="fn_pushLike(item.post_no)"><font-awesome-icon  icon="fa-regular fa-heart" /> <span class="bottom_cnt">{{ item.like_cnt }}</span></a> -->
-                             <!-- <a v-else class="btn"  @on-click="fn_pushLike(item.post_no)"><font-awesome-icon  icon="fa-solid fa-heart"/> <span class="bottom_cnt">{{ item.like_cnt }}</span></a> -->
-
-                        <div v-if="likeResult === 'N'" @click="fn_pushLike(item.post_no)"><font-awesome-icon  icon="fa-solid fa-heart"/> <span class="bottom_cnt">{{ item.like_cnt }}</span></div>
-                        <div v-if="likeResult === 'Y'"  @click="fn_pushLike(item.post_no)"><font-awesome-icon  icon="fa-regular fa-heart" style="color:red;"/><span class="bottom_cnt">{{ item.like_cnt }}</span></div>
-
                                 <div class="bottom_btn" id="FL_spanshare">
                                     <a class="btn" @click="sharebtn()">
                                     <font-awesome-icon icon="fa-regular fa-share-from-square"/>
@@ -122,27 +107,12 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      activate: '0',
-      likeResult: 'N',
-
-      isLike: false
+      activate: '0'
     }
   },
   props: { // MainContentsView 의 자식컴포넌트로 사용됨
-    items: { type: Object, default: null },
-    LikeList: { type: Array, default: null }
+    items: { type: Array, default: null }
   },
-  components: {
-    // postAnalitics
-  },
-
-  computed: {
-
-  },
-  mounted () {
-    console.log('N 라잌마운티드 : ' + this.LikeList)
-  },
-
   methods: {
     // eslint-disable-next-line camelcase
     getPostDetail (post_no) {
@@ -196,23 +166,33 @@ export default {
     },
 
     // eslint-disable-next-line camelcase
-    fn_pushLike (post_no) {
-      console.log(post_no)
-      // eslint-disable-next-line no-unused-vars
-      const data = { content: post_no }
+    fn_pushLike (postNo) {
+      console.log(postNo)
 
-      this.$axios.post(`${this.$serverUrl}/pushLike`, {
+      //게시글 번호로 게시글 리스트에서 현재 게시글 데이터를 찾고, isLike를 반대로 바꿔준다. (like_cnt도 증가시킨다.)
+      for(let i = 0; i < this.items.length; i++) {
+        if(this.items[i].post_no === postNo) {
+          if(this.items[i].isLike === "Y") {
+            this.items[i].isLike = "N"
+            this.items[i].like_cnt = this.items[i].like_cnt - 1
+            console.log("좋아요 취소~~")
+          } else {
+            this.items[i].isLike = "Y"
+            this.items[i].like_cnt = this.items[i].like_cnt + 1
+            console.log("좋아요~~")
+          }
+        }
+      }
+
+
+      //게시글 번호와 로그인 유저 번호로 좋아요 데이터를 추가/삭제한다.
+      this.$axios.post(this.$serverUrl + '/pushLike', {
         user_no: this.$store.state.loginUserDTO.user_no,
-        post_no: post_no
+        post_no: postNo
 
       }).then(res => {
-        alert(res.data)
-        this.likeResult = res.data
         console.log(res.data)
-      }).catch(err => {
-        console.log(err.data)
       })
-      location.reload()
     },
     likeCount (like) {
       this.$axios.get(`${this.$serverUrl}/likeCount`, {
@@ -228,43 +208,6 @@ export default {
         console.log(err.data)
       })
     },
-
-    // eslint-disable-next-line camelcase, vue/no-dupe-keys
-    isLike (post_no) {
-      console.log('메서드로 좋아요 하면 : ' + this.LikeList)
-      if (this.LikeList !== null) {
-        let count = 0
-        for (let i = 0; i < this.LikeList.length; i++) {
-          // 해당 게시글 번호가 좋아요 리스트에 있으면 count++
-          // eslint-disable-next-line camelcase
-          if (this.LikeList[i].post_no === post_no) {
-            count++
-          }
-        }
-        if (count !== 0) {
-          return true
-        } else {
-          return false
-        }
-      }
-    }
-    /*
- isLike(post_no) {
-       axios
-        .post(this.$serverUrl + "/isLike", {
-            user_no: this.$store.state.loginUserDTO.user_no,
-            post_no: post_no
-        }).then(res => {
-          console.log(res.data)
-          if(res.data >0 ) {
-            return true
-          }else {
-          return false
-          }
-        })
-
-      }, */
-
   }
 }
 

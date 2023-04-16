@@ -13,7 +13,7 @@
                     </div>
                     <div class="security__newPasswordAgain">
                         <label for="newPasswordAgain" class="col-form-label col-form-label-sm  security__newPasswordAgain mt-2">비밀번호 재입력</label>
-                        <input type="password" v-model="newPwd" class="form-control form-control-sm security__newPasswordAgain" id="security__newPasswordAgain" placeholder="변경할 비밀번호를 다시 한 번 입력해주세요.">
+                        <input type="password" v-model="newPwd" class="form-control form-control-sm security__newPasswordAgain" id="security__newPasswordAgain" placeholder="변경할 비밀번호를 입력해주세요.">
                     </div>
                     <div class="security__passwordBtn">
                         <button @click="changePassWord" type="button" class="btn btn-success btn-rg security__passwordBtn mt-2">OK</button>
