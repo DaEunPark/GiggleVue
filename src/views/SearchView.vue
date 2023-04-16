@@ -101,7 +101,7 @@ export default {
       const temp = keyword
       this.keyword = temp.replace('#', '')
 
-      alert(this.user_no)
+      //alert(this.user_no)
 
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
