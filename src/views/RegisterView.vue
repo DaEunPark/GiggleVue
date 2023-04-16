@@ -79,9 +79,6 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     NaverLogin
   },
-  props: {
-    naver_token: String
-  },
   data () {
     return {
       user_email: '',
@@ -99,18 +96,22 @@ export default {
   mounted () {
     // 소셜 로그인으로 넘어온 경우
     if (this.$store.state.loginUserDTO !== null) {
+     
       // 각각의 토큰값(구분값)을 세팅해준다
-      if (this.$store.state.loginUserDTO.naver_token !== '') {
-        // 네이버 토큰 값이 있을 경우
-        // eslint-disable-next-line vue/no-mutating-props
-        this.naver_token = this.$store.state.loginUserDTO.naver_token
-      } else if (this.$store.state.loginUserDTO.google_token !== '') {
+       if (this.$store.state.loginUserDTO.google_token !== undefined) {
+        
         // 구글 토큰 값이 있을 경우
         this.google_token = this.$store.state.loginUserDTO.google_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+        
       }
-
-      // 이메일 입력 칸에 넘어온 이메일 값을 뿌려준다.(편의를 위해)
-      this.user_email = this.$store.state.loginUserDTO.user_email
+      else if (this.$store.state.loginUserDTO.naver_token !== undefined) {
+        
+        // 네이버 토큰 값이 있을 경우
+        this.naver_token = this.$store.state.loginUserDTO.naver_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      }
+      
     }
   },
   methods: {
