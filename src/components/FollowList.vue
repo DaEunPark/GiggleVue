@@ -27,7 +27,7 @@ export default {
     data () {
         return {
             // follow: {
-            // user_no: this.$store.state.loginUserDTO.user_no,
+            user_no: this.$store.state.loginUserDTO.user_no,
             // follow_user: this.$store.state.otherUserDTO.user_no
             // }
         }

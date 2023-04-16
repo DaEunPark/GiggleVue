@@ -1,47 +1,96 @@
 <template>
-    <div class="container">
-        <form class="card bg-primary border-round-radious">
-            <div class="settingSecurity list-group border-round-radious">
-                <div class="setting__title align-items-center">
-                    <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" :icon="['fas', 'caret-left']" /></a>친구</h3>
-                </div>
-                <div class="tabItems">
-                    <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item" role="presentation">
+    <div class="container" style="padding:0;">
+        <div class="myFriend border-round-radious">
+            <button class="btn btn_link" @click="goBack" style = "margin:0; padding:0;">
+                <h3 class ="list-group-item text-dark border-primary my-2">
+                    <font-awesome-icon class="mx-2" :icon="['fas', 'caret-left']" />My Friend
+                </h3>
+            </button>
+            <div class="tabItems">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item setting_friendNav" role="presentation">
                         <a class="nav-link active" data-bs-toggle="tab" href="#following" aria-selected="false" role="tab" tabindex="-1">팔로잉</a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#follow" aria-selected="true" role="tab">팔로우</a>
+                    <li class="nav-item setting_friendNav" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#follower" aria-selected="true" role="tab">팔로우</a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item setting_friendNav" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#block" aria-selected="true" role="tab">차단</a>
                     </li>
 
-                    </ul>
-                    <div id="myTabContent" class="tab-content px-3">
-                        <div class="tab-pane fade active show" id="following" role="tabpanel">
-                            <p>내가 팔로우 하는 목록</p>
-                        </div>
-                        <div class="tab-pane fade" id="follow" role="tabpanel">
-                            <p>나를 팔로우 하는 목록</p>
-                        </div>
-                        <div class="tab-pane fade" id="block" role="tabpanel">
-                            <p>내가 차단한 목록</p>
-                        </div>
+                </ul>
+                <div id="myTabContent" class="tab-content px-3">
+                    <div class="tab-pane fade active show" id="following" role="tabpanel">
+                        <myfriend :items="allFollowingList" style="color:black;"></myfriend>
+                    </div>
+                    <div class="tab-pane fade" id="follower" role="tabpanel">
+                        <myfriend :items="allFollowerList" style="color:black;"></myfriend>
+                    </div>
+                    <div class="tab-pane fade" id="block" role="tabpanel">
+                        <p>내가 차단한 목록</p>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-  </template>
+</template>
 
 <script>
-import MenuBar from '../../components/components-MenuBarComp-left.vue'
-import SideBar from '../../components/rightsidebars/SideBarComp.vue'
-export default {
-  // eslint-disable-next-line vue/no-unused-components
-  components: { MenuBar, SideBar }
+import myfriend from '@/components/FollowList.vue'
 
+export default {
+  components:{
+    myfriend
+  },
+    data() {
+    return{
+        allFollowingList: {},
+        allFollowerList: {},
+        user_no: this.$store.state.loginUserDTO.user_no
+    }
+    },
+    mounted () {
+        this.getFollowingList(),
+        this.getFollowerList()
+    },
+    methods: {
+        goBack () {
+      // eslint-disable-next-line no-unused-expressions
+            this.$router.go(-1); [2]
+        },
+        getFollowingList() {
+            this.$axios.get(this.$serverUrl + '/followingList/' + `${this.user_no}`, {
+        // params: this.requestBody,
+        // headers: {},
+            params: {
+            user_no: this.user_no
+            }
+            }).then((res) => {
+            this.allFollowingList = res.data
+            // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
+            }).catch((err) => {
+                if (err.message.indexOf('Network Error') > -1) {
+                alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
+        },
+        getFollowerList() {
+            this.$axios.get(this.$serverUrl + '/followerList/' + `${this.user_no}`, {
+        // params: this.requestBody,
+        // headers: {},
+            params: {
+            user_no: this.user_no
+            }
+            }).then((res) => {
+            this.allFollowerList = res.data
+            // 데이터 주체 확인용 console.log("this.allfeddList = "+   this.allfeedList[1].post_no)
+            }).catch((err) => {
+                if (err.message.indexOf('Network Error') > -1) {
+                alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
+        },
+    }
 }
 </script>
 <style>
@@ -50,8 +99,8 @@ export default {
     display: flex;
     justify-content: center;
 }
-.nav-item{
-    width: 30%;
+.setting_friendNav{
+    width: 30% !important;
     text-align: center;
 }
 </style>

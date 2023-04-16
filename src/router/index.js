@@ -21,7 +21,7 @@ import NotMyPage from '../views/NotMyPage.vue'
 import recommendFollow from '../views/recommendFollow.vue'
 import GLogin1 from '../views/GLogin1.vue'
 import ModifyView from '../views/ModifyView.vue'
-import FollowingView from '../views/FollowingView.vue'
+import FollowView from '../views/FollowView.vue'
 
 const routes = [
   {
@@ -112,7 +112,7 @@ const routes = [
         path: 'myfriend',
         name: 'myfriend',
         components: {
-          rmain: FollowingView
+          rmain: FollowView
         }
       },
       {

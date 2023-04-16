@@ -73,7 +73,7 @@
             </div> <!-- <div class="card bg-light mb-3"> -->
         </div>
 
-        <div id="test1" class="sticky-top">
+        <!-- <div id="test1" class="sticky-top"> -->
             <!-- 팔로우 추천 -->
             <div id="recommendfollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
@@ -83,14 +83,14 @@
                         </div>
 
                         <!-- <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" @click="intoProfile(`${user.user_no}`)"> -->
-                          <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center" >
+                          <button type="button" v-for="(user, user_nick) in recommendUser" :key="user_nick" :items="recommendUser" class="list-group-item list-group-item-action align-items-start d-flex justify-content-between align-items-center recommendWrapBtn" >
                             <div class="profile-wrapper" @click="intoProfile(`${user.user_no}`)">
                                 <div class="profile-box">
                                     <img :src="`${ user.profile_image }`" id="recUserProfile">
                                 </div>
                             </div>
                             <div class="profile-user-name" @click="intoProfile(`${user.user_no}`)">
-                                <div class="mb-1 text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
+                                <div class="text-dark d-inline-block text-truncate text-nowrap fw-bold" style="overflow: hidden; width: 7.4em;">
                                   {{ user.user_nick }}</div>
                             </div>
                             <a href="#" v-if="following(user.user_no) === 'N'" @click="followThisUser(user.user_no)" class="hover-change-color"><span class="badge rounded-pill bg-success text-nowrap text-size-custom" style="padding: 8px;">팔로우</span></a>
@@ -116,7 +116,7 @@
                 </div>
             </footer>
 
-        </div> <!-- test1 -->
+        <!-- </div> test1 -->
 
 </div>
 </template>
@@ -346,7 +346,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        width : 350px;
+        width : 100%;
         height: 100%;
         padding : 0;
         background: #ffffff;
@@ -358,30 +358,38 @@ export default {
     }
     .trandWrap, .recommendfollowWrap{
         margin : 0 12px;
-        width : 350px;
+        width : 100%;
         background-color:  #f0f0f0;
 
     }
     #recommendfollow{
-        width : 350px;
+        width : 100%;
     }
     .profile-wrapper {
-        width: 20px;
-        height: 20px;
+        width: 15%;
+        height: 15%;
 
     }
     .profile-box {
+      width : 100%;
+      height : 100%;
         overflow: hidden;
         border-radius: 100%;
         border: 2px solid whitesmoke !important;
     }
-    .profile-img{
+    #recUserProfile{
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        width: 20px;
-        height: auto;
+        width : 100%;
+      height : 100%;
+    }
+    .recommendWrapBtn{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
     }
     .text-size-custom {
         text-size-adjust: auto;
@@ -401,11 +409,14 @@ export default {
         margin-top: -20px !important;
         padding-top: 0 !important;
         }
+    footer{
+      width: 100%;
+    }
     .footer_row{
         display : flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-left : 12px;
+        margin : 0 12px;
         padding : 0 20px;
     }
     .list-group {

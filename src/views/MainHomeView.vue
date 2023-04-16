@@ -25,14 +25,11 @@
             <div class="editWrap">
                 <EditButton class="edit_btn"></EditButton>
             </div>
-            <div class="col-3">
+            <div id="menu_bar" class="col-3">
                 <MenuBar></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
-                <div>
-                    <router-view name="rmain"></router-view>
-                </div>
-
+                <router-view name="rmain"></router-view>
             </div>
             <div  id="side_bar"  class="col-3" >
                 <SideBar></SideBar>
@@ -52,14 +49,26 @@ export default {
 }
 </script>
 <style scoped>
-    @media screen and (max-width: 1320px) {
+
+.row {
+    align-content: center;
+}
+    @media screen and (max-width < 1320px) {
         #side_bar {
-            display: none;
+            display : none;
 
             padding: 0;
             margin: 0;
             z-index : -1;
         }
+        #menu_bar {
+            display : none;
+
+            padding: 0;
+            margin: 0;
+            z-index : -1;
+        }
+
     }
     #main_contents {
         min-width: 620px;
