@@ -317,9 +317,7 @@ export default {
     // eslint-disable-next-line camelcase
     deletePost () {
       // eslint-disable-next-line camelcase
-      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`, JSON.stringify(data),{ headers: {
-              'Content-Type': 'application/json'
-            }})
+      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`)
         .then(res => {
           console.log(res.data)
           if (res.data === 'Y') {
