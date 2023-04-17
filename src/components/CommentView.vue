@@ -71,13 +71,13 @@ export default {
         post_no: this.post_no,
         comment_content: this.comment_content
       }).then((res) => {
-        alert(res.data)
+        // alert(res.data)
       })
       location.reload()
     },
     getCommentDelete (cno) {
-      alert(cno)
-      alert(this.comment_no)
+      // alert(cno)
+      // alert(this.comment_no)
       console.log(this.comment_no)
       // eslint-disable-next-line no-unused-vars
       const data = { comment_no: this.comment_no }
@@ -85,7 +85,7 @@ export default {
         comment_no: cno,
         post_no: this.post_no
       }).then((res) => {
-        alert(res.data)
+        // alert(res.data)
       })
       location.reload()
     },

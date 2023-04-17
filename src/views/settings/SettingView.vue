@@ -41,11 +41,11 @@
 // import SideBar from '../../components/rightsidebars/SideBarComp.vue'
 
 export default {
-  methods:{
+  methods: {
     goBack () {
       // eslint-disable-next-line no-unused-expressions
       this.$router.go(-1); [2]
-    },
+    }
   }
 }
 </script>

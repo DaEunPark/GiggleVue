@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    
+
     goBack () {
       // eslint-disable-next-line no-unused-expressions
       this.$router.go(-1); [2]

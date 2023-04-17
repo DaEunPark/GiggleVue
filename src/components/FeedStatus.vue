@@ -64,11 +64,11 @@
                                         @on-click = "fn_pushInsite()">
                                         <font-awesome-icon icon="fa-solid fa-chart-simple"/>
                                     </a> -->
-                                    <a class="btn" v-if="item.imgCnt > 0" style="pointer-events: none;">
+                                    <a class="btn" v-show="item.imgCnt > 0" style="pointer-events: none;">
                                       <font-awesome-icon icon="fa-regular fa-images" />
                                       <span class="bottom_cnt">{{ item.imgCnt }}</span>
                                     </a>
-                                    <a class="btn" v-if="item.imgCnt <= 0" style="pointer-events: none; opacity: 0;">
+                                    <a class="btn" v-show="item.imgCnt <= 0" style="pointer-events: none; opacity: 0;">
                                       <font-awesome-icon icon="fa-regular fa-images" />
                                       <span class="bottom_cnt">{{ item.imgCnt }}</span>
                                     </a>
@@ -120,6 +120,11 @@ export default {
   },
   props: { // MainContentsView 의 자식컴포넌트로 사용됨
     items: { type: Array, default: null }
+  },
+  computed: {
+    showImgIcon () {
+      return this.item.imgCnt > 0
+    }
   },
   methods: {
     // eslint-disable-next-line camelcase
@@ -338,7 +343,7 @@ export default {
   color: #000;
   width: 100%;
   height: 100%;
-  z-index: 7;
+  /* z-index: 7; */
 
 }
 

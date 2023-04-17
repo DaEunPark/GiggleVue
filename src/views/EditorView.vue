@@ -279,7 +279,8 @@ textarea {
 }
 
 .image-delete {
-  float: inline-end;
+  /* float: inline-end; */
+  float: right;
   top: 40px;
   padding-inline-end: 10px;
   position: relative;
@@ -288,6 +289,7 @@ textarea {
 .wrap {
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 280px));
+  /* grid-auto-rows: minmax(145px, 158px); */
   grid-gap: 1em;
 }
 .uploadimage {
@@ -297,6 +299,6 @@ textarea {
 }
 
 #imageuploadarea {
-  margin: 1em 1em 1.4em 1em;
+  margin: 1em 1em 2.5em 1em;
 }
 </style>

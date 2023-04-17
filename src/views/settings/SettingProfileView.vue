@@ -11,7 +11,8 @@
       <form class="border-round-radious">
           <div class="settingProfile border-round-radious">
               <div class="setting__title align-items-center">
-                <img :src="back_image" id="backimg"/>
+                <!-- <img :src="back_image" id="backimg"/> -->
+                <img src="https://i.ibb.co/Mgtq0YC/backdefault.png" id="backimg">
                   <!-- <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" color="black" :icon="['fas', 'caret-left']" /></a>프로필</h3> -->
               </div>
 

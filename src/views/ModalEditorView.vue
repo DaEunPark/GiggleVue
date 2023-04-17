@@ -281,6 +281,7 @@ textarea {
   top: 40px;
   padding-inline-end: 10px;
   position: relative;
+  float: right;
 }
 
 .wrap {
@@ -295,6 +296,6 @@ textarea {
 }
 
 #imageuploadarea {
-  margin: 1em 1em 1.4em 1em;
+  margin: 1em 1em 2.5em 1em;
 }
 </style>
