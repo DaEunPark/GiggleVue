@@ -84,10 +84,11 @@ export default {
   },
   methods: {
     getPostDetail () {
-      this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
+      this.$axios.get(`${this.$serverUrl}/post/postdetail`,
         {
           params: {
-            post_no: this.post_no
+            post_no: this.post_no,
+            user_no: this.$store.state.loginUserDTO.user_no
           }
         }).then(res => {
         console.log(`Query: ${this.post_no}`)
