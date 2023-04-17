@@ -106,11 +106,13 @@ export default {
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
 
-      console.log('keyword=' + keyword)
-      this.$store.commit('recentSearch', keyword)
+      this.keyword =''
 
-      //      const temp = keyword
-      //      this.keyword = temp.replace('#', '')
+      console.log('keyword=' + keyword)
+      // this.$store.commit('recentSearch', keyword)
+
+      const temp = keyword
+      this.keyword = temp.replace('#', '')
 
       // alert(this.user_no)
 

@@ -59,7 +59,7 @@ export default createStore({
     recentSearchList (state, recentSearchList) {
       state.recentSearchList = recentSearchList
     },
-    deleteRecentSearchList: (state) => {
+    deleteRecentSearchList: (state, recentSearchList) => {
       state.recentSearchList = null
     }
 
