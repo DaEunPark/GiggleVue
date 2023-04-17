@@ -44,29 +44,29 @@
 
         <!-- 트렌드 -->
         <div id="trend" v-show="showURL">
-            <div class="trandWrap mb-2 border-round-radius" >
-                <div class="list-group">
+            <div class="trendWrap mb-2 border-round-radius" >
+                <div class="list-group trandListWrap">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-dark fw-bold">나를 위한 트렌드</span>
                     </div>
                     <!-- <router-link to="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="i in 5" :key="i" :items="top(i)"> -->
-                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch1()">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start trendBtnWrap" @click="goSearch1()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top1 }}</h6>
                     </button>
-                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch2()">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start trendBtnWrap" @click="goSearch2()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top2 }}</h6>
                     </button>
-                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch3()">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start trendBtnWrap" @click="goSearch3()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top3 }}</h6>
                     </button>
-                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch4()">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start trendBtnWrap" @click="goSearch4()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top4 }}</h6>
                     </button>
-                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start" @click="goSearch5()">
+                    <button type="button" class="list-group-item list-group-item-action flex-column align-items-start trendBtnWrap" @click="goSearch5()">
                         <small class="text-muted" style="color: darkgray !important;">실시간 트렌드</small>
                         <h6 class="mb-1 text-dark d-inline-block text-truncate text-nowrap" style="width: 16em;">{{ this.top5 }}</h6>
                     </button>
@@ -406,18 +406,28 @@ export default {
         margin : 0 12px;
         width : 100%;
     }
-    .trandWrap, .recommendfollowWrap{
+    #trend{
+      width: 100%;
+    }
+    .trendWrap, .recommendfollowWrap{
         margin : 0 12px;
         width : 100%;
         background-color:  #f0f0f0;
 
     }
+    .trendListWrap{
+      width: 100%;
+    }
+    .trendBtnWrap{
+      display: flex;
+      flex-direction: column;
+    }
     #recommendfollow{
         width : 100%;
     }
     .profile-wrapper {
-        width: 15%;
-        height: 15%;
+        width: 40px;
+        height: 40px;
 
     }
     .profile-box {
@@ -450,6 +460,9 @@ export default {
     .hover-change-color:hover span {
         /* color:orangered; */
         background-color: deeppink !important;
+    }
+    .sticky-top{
+      width: 100%;
     }
     #stickyFollowFooter {
         top: 3.5em;

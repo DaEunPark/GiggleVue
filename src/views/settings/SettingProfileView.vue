@@ -1,9 +1,15 @@
 <!-- eslint-disable eqeqeq -->
 <!-- eslint-disable no-var -->
 <template>
-  <div class="container">
-      <form class="card border-round-radious">
-          <div class="settingProfile list-group border-round-radious">
+  <div class="container mb-4">
+    <button class="btn btn_link" @click="goBack" style = "margin:0; padding:0;">
+      <h3 class ="list-group-item text-dark border-primary my-2">
+        <font-awesome-icon class="mx-2" style="color:black;" :icon="['fas', 'caret-left']" /> Profile
+      </h3>
+    </button>
+    <hr class="setting__bar mb-2">
+      <form class="border-round-radious">
+          <div class="settingProfile border-round-radious">
               <div class="setting__title align-items-center">
                 <img :src="back_image" id="backimg"/>
                   <!-- <h3 class ="list-group-item text-dark border-primary my-2"><a href="/main/setting"><font-awesome-icon class="mx-2" color="black" :icon="['fas', 'caret-left']" /></a>프로필</h3> -->
@@ -18,7 +24,7 @@
 
                 <div class="filebox">
                   <label for="img-files-test">
-                    <img id="addImage" src='@/assets/image.png'>프로필수정
+                    <img id="addImage" src='@/assets/image.png'>Edit
                   </label>
                     <input type="file" ref="profileimg" id="img-files-test" @change="handleFileUpload1(event)" accept="image/jpg, image/jpeg, image/png, image/gif">
                 </div>
@@ -32,10 +38,9 @@
 
 <!--이미지 추가 버튼 끝-->
 
-<hr id="devideProfile"/>
-
+<hr class="setting__bar mb-2">
                   <div class="profile__nickname">
-                      <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname mt-2">닉네임</label>
+                      <label for="nickname" class="col-form-label col-form-label-sm  profile__nickname">닉네임</label>
                   </div>
                   <div>
                       <input type="text" class="form-control-sm profile__nickname" id="profile__nickname"
@@ -55,7 +60,7 @@
                       <input type="text" class="form-control-sm profile__location" id="user__location"
                       v-model="user_location" v-bind:placeholder="`${this.$store.state.loginUserDTO.user_location}`">
                   </div>
-                  <div class="sm-3 profile__birthday" id="user_birthday">
+                  <div class="profile__birthday" id="user_birthday">
                     <label for="birth" class="col-form-label col-form-label-sm  profile__birth mt-2">생년월일</label>
                           <div class="form-floating">
                               <!-- <input type="date" class="form-control-sm" v-bind:value="`${this.$store.state.loginUserDTO.user_birth}`" v-model="user_birth" ref="birth" name="trip-start"/> -->
@@ -63,7 +68,7 @@
                             </div>
                           </div>
                   <div class="profile__passwordBtn">
-                      <button type="button" class="btn btn-success btn-rg profile__passwordBtn mt-2" @click="permitUpdate()">OK</button>
+                      <button type="button" class="btn btn-success btn-rg profile__passwordBtn my-4" @click="permitUpdate()">OK</button>
                   </div>
               </div>
           </div>
@@ -139,6 +144,10 @@ export default {
     }
   },
   methods: {
+    goBack () {
+      // eslint-disable-next-line no-unused-expressions
+      this.$router.go(-1); [2]
+    },
     profileUpdate () {
       // eslint-disable-next-line eqeqeq
       if (this.user_nick == '') {
@@ -267,6 +276,12 @@ export default {
 .container {
   height : 100vh;
   margin : 0;
+}
+.setting__bar{
+
+width:100%;
+margin : 0 auto;
+color : gray;
 }
 .profile__image{
   width : 100%;

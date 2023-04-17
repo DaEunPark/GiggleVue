@@ -583,9 +583,12 @@ span {-webkit-text-fill-color: black;}
 }
 .YN {
   color: #FFF;
-  margin-top: 5%;
-  margin-left: 45%;
+  /* margin-top: 5%;
+  margin-left: 45%; */
   font-size: 12px;
+  position: absolute;
+  right : 10%;
+  margin : auto 0;
 }
 /*
 @media screen and (max-width: 320px) {

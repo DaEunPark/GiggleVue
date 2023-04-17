@@ -6,6 +6,7 @@
                     <font-awesome-icon class="mx-2" :icon="['fas', 'caret-left']" />My Friend
                 </h3>
             </button>
+            <hr class="setting__bar mb-2">
             <div class="tabItems">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item setting_friendNav" role="presentation">
@@ -131,5 +132,11 @@ export default {
 #profileBtn {
     background-color: transparent;
     border: none;
+}
+.setting__bar{
+
+width:100%;
+margin : 0 auto;
+color : gray;
 }
 </style>
