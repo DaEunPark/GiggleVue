@@ -75,11 +75,15 @@
                   <li>"코멘트 테스트!"</li>
               </ul>
           </div>
-          <div class="bottom_btn" id="FL_spanlike">
-              <a class="btn"  @on-click="fn_pushLike()">
-              <font-awesome-icon  icon="fa-regular fa-heart"/>
+          <div class="bottom_btn">
+            <a v-if="item.isLike == 'Y'" @click="fn_pushLike(item.post_no)" role="button">
+              <font-awesome-icon  icon="fa-solid fa-heart" style="color:#ed5c9d ;"/>
               <span class="bottom_cnt">{{ item.like_cnt }}</span>
-              </a>
+            </a>
+            <a v-else @click="fn_pushLike(item.post_no)" role="button">
+              <font-awesome-icon  icon="fa-regular fa-heart" style="color:#ed5c9d ;"/>
+              <span class="bottom_cnt">{{ item.like_cnt }}</span>
+            </a>
           </div>
           <div v-if="this.activate == '1'">
               <ul>
@@ -235,13 +239,12 @@ export default {
       this.getThisPostDetail()
     },
     async getThisPostDetail () {
-      await this.$axios.get(`${this.$serverUrl}/post/postdetail/${this.post_no}`,
-
-        {
-          params: {
-            post_no: this.post_no
+      await this.$axios.get(`${this.$serverUrl}/post/postdetail`, {
+        params: {
+          post_no: this.post_no,
+          user_no: this.$store.state.loginUserDTO.user_no 
           }
-        }).then(res => {
+          }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data.post
         this.postImgList = res.data.postImages
@@ -334,6 +337,31 @@ export default {
     },
     thisImageActive (index) {
       this.activeIndex = index
+    },
+    fn_pushLike (postNo) {
+      console.log(postNo)
+
+      // 게시글의 좋아요 상태를 바꿔준다.
+      if (this.item.isLike === 'Y') {
+        // 좋아요를 누른 상태일 때
+        this.item.isLike = 'N'
+        this.item.like_cnt = this.item.like_cnt - 1
+        console.log('좋아요 취소~~')
+      } else {
+        // 좋아요를 누르지 않은 상태일 때
+        this.item.isLike = 'Y'
+        this.item.like_cnt = this.item.like_cnt + 1
+        console.log('좋아요~~')
+      }
+
+      // 게시글 번호와 로그인 유저 번호로 좋아요 데이터를 추가/삭제한다.
+      this.$axios.post(this.$serverUrl + '/pushLike', {
+        user_no: this.$store.state.loginUserDTO.user_no,
+        post_no: postNo
+
+      }).then(res => {
+        console.log(res.data)
+      })
     }
 
   }
