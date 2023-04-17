@@ -108,7 +108,7 @@
         </div>
       <hr style="color:#b0b0b0; margin:0px;">
       <CommentView :post_no="post_no"></CommentView>
-       <HeartView :post_no="post_no"></HeartView>
+       <!-- <HeartView :post_no="post_no"></HeartView> -->
     </article>
   </div>
     <!--postInsite 시작-->
@@ -242,9 +242,9 @@ export default {
       await this.$axios.get(`${this.$serverUrl}/post/postdetail`, {
         params: {
           post_no: this.post_no,
-          user_no: this.$store.state.loginUserDTO.user_no 
-          }
-          }).then(res => {
+          user_no: this.$store.state.loginUserDTO.user_no
+        }
+      }).then(res => {
         console.log(`Query: ${this.post_no}`)
         this.item = res.data.post
         this.postImgList = res.data.postImages
