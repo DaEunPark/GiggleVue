@@ -12,7 +12,7 @@
     v-model="comment_content" ref="content" ></textarea>
           </td>
           <td>
-            <button class="btn btn-primary btn-mb" @click="getCommentRegister" id="upload"><small>등록하기</small></button>
+            <button class="btn btn-primary btn-mb" @click="getCommentRegister" id="upload"><small>등록</small></button>
           </td>
           </tr>
         </table>
@@ -98,10 +98,13 @@ export default {
         }
       }).then((res) => {
         this.$store.commit('addOtherUser', res.data)
-        console.log(this.$store.state.otherUserDTO)
-        this.$router.push({
-          path: '/main/notmypage'
-        })
+            console.log(this.$store.state.otherUserDTO)
+            this.$router.push({
+              path: `/main/notmypage/${this.$store.state.otherUserDTO.user_nick}`
+            })
+            // location.href = '/main/notmypage/' + this.$store.state.otherUserDTO.user_nick
+          }).catch(error => {
+            console.log(error)
       })
     }
   }

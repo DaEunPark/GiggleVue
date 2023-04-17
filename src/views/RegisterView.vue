@@ -121,7 +121,7 @@ export default {
       }
     }
     // 이메일 입력 칸에 넘어온 이메일 값을 뿌려준다.(편의를 위해)
-    this.user_email = this.$store.state.loginUserDTO.user_email
+   // this.user_email = this.$store.state.loginUserDTO.user_email
   },
   methods: {
     emailCheck () {
