@@ -35,10 +35,6 @@ export default {
   methods: {
 
     fnGetList () {
-      this.requestBody = { // 데이터 전송
-
-      }
-
       this.$axios.get(this.$serverUrl + '/main/mainhome/' + `${this.user_no}`, {
         // params: this.requestBody,
         // headers: {},

@@ -111,12 +111,12 @@
        <!-- <HeartView :post_no="post_no"></HeartView> -->
     </article>
   </div>
-    <!--postInsite 시작-->
-    <div class="modal-postInsite fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog-postInsite modal-dialog-centered" role="document">
-            <div class="modal-content-postInsite">
-                <div class="modal-header-postInsite">
-                    <div class="headerWrap-postInsite">
+   <!--postInsite 시작-->
+   <div class="modal modal-postInsite fade" id="postInsite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog-postInsite modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content-postInsite modal-content">
+                <div class="modal-header-postInsite modal-header">
+                    <div class="headerWrap-postInsite headerWrap">
                         <h3 style="font-size:32px; margin:auto;">게시물 인사이트</h3>
                     </div>
                     <button
@@ -127,7 +127,7 @@
                     >
                     </button>
                 </div>
-                <div class="modal-body-postInsite">
+                <div class="modal-body-postInsite modal-body">
                     <div class="postAnalitics border-round-radious">
                         <div class="postAnaliticsWrap px-4 ">
                             <div class="analitics__post mb-2">
@@ -154,6 +154,7 @@
                         <hr class="setting__bar mb-2">
                         <div class="analitics__postWrap px-4 ">
                             <h5>내 게시물을 본 사람</h5>
+                            <img src="@/assets/linechart.jpg" style="width: 95%; height: 100%; margin-left: 20px">
                         </div>
                     </div>
                 </div>
@@ -194,7 +195,6 @@
 <script>
 import CommentView from '@/components/CommentView.vue'
 import HeartView from '@/components/HeartView.vue'
-// import LineChart from '@/components/LineChart.vue'
 
 export default {
   components: {
@@ -317,7 +317,9 @@ export default {
     // eslint-disable-next-line camelcase
     deletePost () {
       // eslint-disable-next-line camelcase
-      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`)
+      this.$axios.delete(`${this.$serverUrl}/post/deletepost/${this.post_no}`, JSON.stringify(data),{ headers: {
+              'Content-Type': 'application/json'
+            }})
         .then(res => {
           console.log(res.data)
           if (res.data === 'Y') {
