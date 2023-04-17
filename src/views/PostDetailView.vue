@@ -198,6 +198,7 @@ import HeartView from '@/components/HeartView.vue'
 
 export default {
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     CommentView, HeartView
   },
   //   props: {
