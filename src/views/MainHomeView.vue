@@ -26,13 +26,13 @@
                 <EditButton class="edit_btn"></EditButton>
             </div>
             <div id="menu_bar" class="col-3">
-                <MenuBar></MenuBar>
+                <MenuBar ></MenuBar>
             </div>
             <div id="main_contents" class="col-6">
-                <router-view name="rmain"></router-view>
+                <router-view name="rmain" @refresh-sidebar="rerenderSideBar"></router-view>
             </div>
             <div  id="side_bar"  class="col-3" >
-                <SideBar></SideBar>
+                <SideBar :key="compKey" ></SideBar>
             </div>
 
         </div>
@@ -46,7 +46,8 @@ import EditButton from '../components/EditorButton.vue'
 export default {
   data () {
     return {
-      thisURL: window.location.href
+      thisURL: window.location.href,
+      compKey: 0
     }
   },
   components: { MenuBar, SideBar, EditButton },
@@ -58,6 +59,12 @@ export default {
   watch: {
     $route (to, from) {
       this.thisURL = window.location.href
+    }
+  },
+  methods: {
+    rerenderSideBar () {
+      this.compKey += 1
+    //   alert('SideBar emit' + this.compKey)
     }
   }
 

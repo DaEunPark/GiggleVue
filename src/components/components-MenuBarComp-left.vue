@@ -252,6 +252,7 @@ export default {
       this.$router.push({
         path: '/main/mypage'
       })
+      // this.$emit('refresh-sidebar')
     },
 
     getSearch () {

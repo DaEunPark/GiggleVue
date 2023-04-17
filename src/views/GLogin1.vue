@@ -40,7 +40,6 @@ export default {
       console.log(userObject)
       this.user = userObject
 
-
       const data = { google_token: this.user.email }
 
       this.$axios.post(this.$serverUrl + '/googlelogin', JSON.stringify(data), {
@@ -48,7 +47,6 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-
         // eslint-disable-next-line eqeqeq
         if (res.data.google_token == this.user.email) {
           this.$router.push({
