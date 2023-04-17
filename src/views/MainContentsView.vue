@@ -1,6 +1,6 @@
 <template>
     <article>
-          <div class="EditorView card mb-3" style = "margin : 0; z-index: 9999;">
+          <div class="EditorView card mb-3" style = "margin : 0; z-index: 7;">
             <EditorView></EditorView>
           </div>
           <div class="FeedStatus">
