@@ -67,7 +67,7 @@
             <div v-else style="height: 100%;">
             <!--대화중인 사람의 정보 -->
               <div id="dmInfo">
-                  <img v-bind:src="this.nowChatUserProfile" class="dmWindowImg"/>
+                  <a href="#" @click="openUserProfile(this.nowChatUserNO)"><img v-bind:src="this.nowChatUserProfile" class="dmWindowImg"/></a>
                   <p class="dmWindowNick">{{this.nowChatUserNick}}</p>
                   <button @click="deleteChatRoom" type="button" class="btn btn-success">나가기</button>
               </div>
@@ -130,6 +130,7 @@ export default ({
       userList: [], // 유저 검색 결과 리스트
       open: false, // 오른쪽 대화창 오픈 유무
       nowChatRoom: 0, // 현재 채팅방 번호
+      nowChatUserNO: 0, // 현재 채팅방 상대 번호
       nowChatUserProfile: '', // 현재 채팅방 상대 프로필
       nowChatUserNick: '', // 현재 채팅방 상대 닉네임
       messageList: [], // 메세지 리스트
@@ -159,7 +160,10 @@ export default ({
       }
       // 검색한 키워드로 유저를 찾아서 뿌려준다.
       axios
-        .get(this.$serverUrl + '/mj/searchUser/' + this.keyword)
+        .post(this.$serverUrl + '/mj/searchUser', {
+          keyword: this.keyword,
+          user_no: this.$store.state.loginUserDTO.user_no
+        })
         .then(res => {
           if (res.data !== '') {
             this.userList = res.data
@@ -187,9 +191,8 @@ export default ({
           // eslint-disable-next-line eqeqeq
           if (count == 0) {
           // 새롭게 추가된 채팅 리스트에 추가해준 후,
-            // this.newChatList.push(res.data)
             // eslint-disable-next-line vue/no-mutating-props
-            this.chatRoomList.push(res.data)
+            this.chatRoomList.unshift(res.data)
             console.log('채팅방 없음/ 추가함 ')
             console.log(this.newChatList)
             // 해당 채팅방을 열어준다.
@@ -217,8 +220,15 @@ export default ({
       for (let i = 0; i < this.chatRoomList.length; i++) {
         if (this.chatRoomList[i].chatroom_no === chatroomNo) {
           // 클릭한 채팅방 번호로 해당 채팅방 정보를 찾고
-          // eslint-disable-next-line eqeqeq
-          if (this.chatRoomList[i].user1 == 0 || this.chatRoomList[i].user2 == 0) {
+
+          // 현재 채팅방 상대 번호를 세팅한다.
+          if (this.chatRoomList[i].user1 === this.$store.state.loginUserDTO.user_no) {
+            this.nowChatUserNO = this.chatRoomList[i].user2
+          } else {
+            this.nowChatUserNO = this.chatRoomList[i].user1
+          }
+
+          if (this.chatRoomList[i].user1 === 0 || this.chatRoomList[i].user2 === 0) {
             // 상대방이 나간 채팅방이라면 상대방 정보를 다르게 세팅한다.
             this.nowChatUserNick = '알 수 없음'
             this.nowChatUserProfile = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2I0cfUaQK7bSG8L8q4cImt2i0qhd6XwNdeg&usqp=CAU'
@@ -239,6 +249,7 @@ export default ({
           }
         }
       }
+      // 해당 채팅방의 메세지 리스트를 불러와서 뿌려준다.
       axios
         .post(this.$serverUrl + '/mj/getMessageList', {
           chatroom_no: chatroomNo,
@@ -252,6 +263,15 @@ export default ({
 
       // 메세지 입력창에 포커스를 준다.
       document.getElementById('chat_content').focus()
+    },
+    openUserProfile (otherUser) {
+      this.$axios.post(this.$serverUrl + '/otherProfile', {
+        user_no: otherUser
+      }).then((res) => {
+        this.$store.commit('addOtherUser', res.data)
+        console.log(this.$store.state.otherUserDTO)
+        location.href = `/main/notmypage/${this.$store.state.otherUserDTO.user_nick}`
+      })
     },
     sendMessage () {
       // 텍스트 입력창에 입력한 값이 있을 때
@@ -286,6 +306,9 @@ export default ({
             this.chatRoomList[i].recent_message = this.message
           }
         }
+        // 해당 채팅방을 제일 앞으로 배치한다.
+        this.changeArray(this.chatRoomList)
+        console.log(this.chatRoomList)
 
         // db에 저장한다.
         axios
@@ -328,6 +351,12 @@ export default ({
       // 메세지 리스트 ul의 스크롤을 내린다.
       const messageUl = document.getElementById('yesChatUl')
       messageUl.scrollTop = messageUl.scrollHeight
+    },
+    changeArray (arr) {
+      // 채팅방 리스트 중 현재 채팅방을 제일 앞으로 가져온다.
+      return arr.filter((x) => x.chatroom_no === this.nowChatRoom).concat(
+        arr.filter((x) => x.chatroom_no !== this.nowChatRoom)
+      )
     }
   }
 })
@@ -403,7 +432,7 @@ export default ({
   list-style: none;
   margin-top: 10px;
   width: 100%;
-  height: 444px;
+  height: 85%;
   overflow-y: scroll;
   padding: 0;
   z-index: 1 !important;
@@ -504,8 +533,9 @@ export default ({
 #yesChatUl {
   list-style: none;
   overflow-y: scroll;
-  height: 380px;
+  height: 80%;
   padding-left: 30px;
+  margin-bottom: 0px;
 }
 #yesChatUl::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
@@ -548,6 +578,7 @@ export default ({
 }
 .dmTo > p {
   margin: 0;
+  word-wrap: break-word;
 }
 .dmToDate {
   float: left;
@@ -587,6 +618,7 @@ export default ({
 .dmFrom > p {
   margin: 0;
   overflow: inherit;
+  word-wrap: break-word;
 }
 .dmFromDate {
   float: right;

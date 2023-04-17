@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import EditorView from '../views/EditorView.vue'
+import EditorView from '../views/ModalEditorView.vue'
 
 export default {
   components: { EditorView }

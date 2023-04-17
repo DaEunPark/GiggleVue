@@ -29,14 +29,14 @@
 
                 <div class="card-footer" id="footer">
                     <!-- Image Upload Test Start -->
-                    <label for="img-files" class="filelabel">
+                    <label for="img-files-modal" class="filelabel">
                       <img id="addImage" src='../assets/image.png' class="icon">
                     </label>
-                    <input type="file" ref="imgfiles" id="img-files" v-on:change="handleImageFileUpload()" accept="image/jpg, image/jpeg, image/png, image/gif" multiple>
+                    <input type="file" ref="modalimgfiles" id="img-files-modal" v-on:change="handleImageFileUpload()" accept="image/jpg, image/jpeg, image/png, image/gif" multiple>
 
                     <!-- 유튜브 링크 등록 시작 -->
                     <div class="dropdown d-inline-flex" id="addYoutube">
-                        <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" ref="YTIcon">
+                        <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" ref="YTIconModal">
                             <img v-if="!addedYTLink" src="../assets/youtube.png"  id="addYoutube" class="icon">
                             <img v-if="addedYTLink" src="../assets/youtube.png"  id="addYoutube" class="icon" style="filter: contrast(0%);">
                         </a>
@@ -126,13 +126,13 @@ export default {
         alert('유튜브 링크를 입력하세요')
       } else {
         this.addedYTLink = true
-        this.$refs.YTIcon.style.pointerEvents = 'none'
-        this.$refs.YTIcon.style.color = '#ffffff'
+        this.$refs.YTIconModal.style.pointerEvents = 'none'
+        this.$refs.YTIconModal.style.color = '#ffffff'
         this.imgurltest = 'dfsdfdsf'
       }
     },
     clearYoutube () {
-      this.$refs.YTIcon.style.pointerEvents = ''
+      this.$refs.YTIconModal.style.pointerEvents = ''
       this.post.post_link = ''
       this.addedYTLink = false
     },
@@ -149,7 +149,7 @@ export default {
       return `${uuid}.${fileExtension}`
     },
     handleImageFileUpload () {
-      const tempArr = this.$refs.imgfiles.files
+      const tempArr = this.$refs.modalimgfiles.files
       console.log(tempArr)
       if (tempArr.length > 4 || this.localImages.length + tempArr.length > 4) {
         alert('사진 파일 1 ~ 4개 선택하세요.')
@@ -165,25 +165,23 @@ export default {
       }
     },
     async uploadImgToServer () {
-      if (this.files.length > 0) {
-        const body = new FormData()
-        for (let i = 0; i < this.files.length; i++) {
-          body.append('files', this.files[i])
-        }
-        // body.append('files', this.files[0])
-        await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        ).then(res => {
-          // console.log('이미지들 업로드 테스트' + res.data)
-          // this.s3ImgURL = res.data
-        }).catch(err => {
-          console.log(err)
-        })
+      const body = new FormData()
+      for (let i = 0; i < this.files.length; i++) {
+        body.append('files', this.files[i])
       }
+      // body.append('files', this.files[0])
+      await this.$axios.post(`${this.$serverUrl}/post/uploadimages`, body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(res => {
+        // console.log('이미지들 업로드 테스트' + res.data)
+        // this.s3ImgURL = res.data
+      }).catch(err => {
+        console.log(err)
+      })
     },
     async insertTag () {
       const data = { text_content: this.post.text_content }
@@ -274,22 +272,21 @@ textarea {
   vertical-align: middle;
   cursor: pointer;
 }
-#img-files {
+#img-files-modal {
   display: none;
 }
 
 .image-delete {
-  /* float: inline-end; */
-  float: right;
+  float: inline-end;
   top: 40px;
   padding-inline-end: 10px;
   position: relative;
+  float: right;
 }
 
 .wrap {
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 280px));
-  /* grid-auto-rows: minmax(145px, 158px); */
   grid-gap: 1em;
 }
 .uploadimage {

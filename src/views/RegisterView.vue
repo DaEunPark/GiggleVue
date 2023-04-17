@@ -58,12 +58,8 @@
                             정책에 동의하게 됩니다. Giggle로부터 SMS 알림을 받을 수 있으며 알림은
                             언제든지 옵트 아웃할 수 있습니다.
                           </p>
-                          <button type="button" id="submitBtn" class="btn btn-primary" @click="register">가입</button>
+                          <button type="button" id="submitBtn" class="btn btn-primary" @click="register()">가입</button>
                       </form>
-                      <div class="social">
-                        <GoogleLogin></GoogleLogin>
-                        <NaverLogin></NaverLogin>
-                      </div>
                       <hr/>
                       <div id="registerSec02">
                         <p>계정이 있으신가요?</p>
@@ -78,13 +74,10 @@
 <script>
 import axios from 'axios'
 import NaverLogin from '../components/NaverLogin.vue'
-import GoogleLogin from '../views/GoogleLogin.vue'
 export default {
   components: {
-    NaverLogin, GoogleLogin
-  },
-  props: {
-    naver_token: String
+    // eslint-disable-next-line vue/no-unused-components
+    NaverLogin
   },
   data () {
     return {
@@ -96,8 +89,39 @@ export default {
       nickChecked: 'N',
       user_phone: '',
       // eslint-disable-next-line vue/no-dupe-keys
-      naver_token: this.$store.state.naverToken
+      naver_token: null,
+      google_token: null
     }
+  },
+  mounted () {
+    // 소셜 로그인으로 넘어온 경우
+    if (this.$store.state.loginUserDTO !== null) {
+      // 각각의 토큰값(구분값)을 세팅해준다
+      /*
+      if (this.$store.state.loginUserDTO.naver_token !== null) {
+        // 네이버 토큰 값이 있을 경우
+        // eslint-disable-next-line vue/no-mutating-props
+        this.naver_token = this.$store.state.loginUserDTO.naver_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      } else if (this.$store.state.loginUserDTO.google_token !== null) {
+        // 구글 토큰 값이 있을 경우
+        this.google_token = this.$store.state.loginUserDTO.google_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      }
+*/
+
+      if (this.$store.state.loginUserDTO.google_token !== undefined) {
+        // 구글 토큰 값이 있을 경우
+        this.google_token = this.$store.state.loginUserDTO.google_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      } else if (this.$store.state.loginUserDTO.naver_token !== undefined) {
+        // 네이버 토큰 값이 있을 경우
+        this.naver_token = this.$store.state.loginUserDTO.naver_token
+        this.user_email = this.$store.state.loginUserDTO.user_email
+      }
+    }
+    // 이메일 입력 칸에 넘어온 이메일 값을 뿌려준다.(편의를 위해)
+    // this.user_email = this.$store.state.loginUserDTO.user_email
   },
   methods: {
     emailCheck () {
@@ -142,8 +166,7 @@ export default {
       const userPhone = document.getElementById('userPhone')
       const phoneNumber = userPhone.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')
       let phone = ''
-      // eslint-disable-next-line eqeqeq
-      if (phoneNumber == '') {
+      if (phoneNumber === '') {
         userPhone.value = ''
       }
       if (phoneNumber.length < 4) {
@@ -166,8 +189,7 @@ export default {
       console.log(this.$store.state.naverToken)
       console.log('data()의 naver_token: ' + this.naver_token)
       // 필수 입력 항목과 유효성 검사를 진행한다.
-      // eslint-disable-next-line eqeqeq
-      if (this.user_email == '') {
+      if (this.user_email === '') {
         alert('이메일은 필수 입력 항목입니다.')
         this.$refs.email.focus()
         return false
@@ -179,8 +201,7 @@ export default {
           return false
         } else {
           // 이메일 중복 검사를 했는지 확인한다.
-          // eslint-disable-next-line eqeqeq
-          if (this.emailChecked == 'N') {
+          if (this.emailChecked === 'N') {
             alert('이메일 중복 검사를 해주세요.')
             return false
           }
@@ -188,8 +209,7 @@ export default {
       }
 
       // 비밀번호 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_pwd == '') {
+      if (this.user_pwd === '') {
         alert('비밀번호는 필수 입력 항목입니다.')
         this.$refs.pwd.focus()
         return false
@@ -203,23 +223,20 @@ export default {
       }
 
       // 닉네임 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_nick == '') {
+      if (this.user_nick === '') {
         alert('Giggle에서 사용할 닉네임을 입력해주세요.')
         this.$refs.nick.focus()
         return false
       } else {
         // 닉네임 중복 검사를 했는지 확인한다.
-        // eslint-disable-next-line eqeqeq
-        if (this.nickChecked == 'N') {
+        if (this.nickChecked === 'N') {
           alert('닉네임 중복 검사를 해주세요.')
           return false
         }
       }
 
       // 생년월일 검사
-      // eslint-disable-next-line eqeqeq
-      if (this.user_birth == '') {
+      if (this.user_birth === '') {
         alert('생년월일을 입력해주세요.')
         this.$refs.birth.focus()
         return false
@@ -243,7 +260,8 @@ export default {
         user_nick: this.user_nick,
         user_birth: this.user_birth,
         user_phone: this.user_phone,
-        naver_token: this.naver_token
+        naver_token: this.naver_token,
+        google_token: this.google_token
       })
         .then(res => {
           console.log(res.data.user_birth)

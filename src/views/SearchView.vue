@@ -5,7 +5,7 @@
 
               <article class="my-3" id="AinputSearch">
                   <div class="input-group mb-3" style="margin-top:10px;">
-                      <span class="input-group-text bg-primary" style="border-bottom-left-radius: 20px; border-top-left-radius: 20px; ">
+                      <span class="input-group-text bg-primary">
                           <font-awesome-icon icon="fa-solid fa-magnifying-glass" style="color:#ffffff"/></span>
                           <input type="text"
                           v-model="keyword"
@@ -35,7 +35,9 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { thisExpression } from '@babel/types'
+// import { thisExpression } from '@babel/types'
+// eslint-disable-next-line no-unused-vars
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -51,17 +53,23 @@ export default {
       top5: '',
       top6: '',
       top7: '',
-      Trendlist: []
+      Trendlist: [],
+      user_no: this.$store.state.loginUserDTO.user_no,
+      recentSearchList: this.$store.state.recentSearchList
     }
   },
   mounted () {
     // eslint-disable-next-line no-unused-expressions, no-sequences
-    this.getTrend(),
+    this.getTrend()
     // eslint-disable-next-line no-unused-expressions, no-sequences
-    // 나중에 this.Trendlist 가져올때 사용할 메서드
-    this.searchresultshow() // 검색시 스프링 연동 검색및 화면 result 전환
+    this.getRecentSearch()
   },
   methods: {
+    getRecentSearch () {
+      if (this.recentSearchList == null) {
+        this.recentSearchList = ''
+      }
+    },
     fnGetList (res) {
       this.Trendlist = [
 
@@ -97,22 +105,54 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
-      this.keyword = keyword
-      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword).then((res) => {
+
+      this.keyword = ''
+
+      console.log('keyword=' + keyword)
+      // this.$store.commit('recentSearch', keyword)
+
+      const temp = keyword
+      this.keyword = temp.replace('#', '')
+
+      // alert(this.user_no)
+
+      this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then((res) => {
         if (keyword !== '') {
+          // this.$router.replace({ 스텍x
           this.$router.push({
             name: 'searchresult',
             params: {
-              keyword: this.keyword
+              keyword: this.keyword,
+              user_no: this.user_no
             }
           })
           console.log('"', keyword, '"' + '검색')
           this.allfeedList = res.data
         }
+
+        // 최근 검색 추가한 부분
+        const data = {
+          keyword0: this.keyword,
+          keyword1: this.recentSearchList[0],
+          keyword2: this.recentSearchList[1],
+          keyword3: this.recentSearchList[2],
+          keyword4: this.recentSearchList[3]
+        }
+        this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then((res) => {
+          this.recentSearchList = res.data
+          console.log('res.data = ' + res.data)
+          console.log('recentSearchList = ' + this.recentSearchList)
+
+          this.$store.commit('recentSearchList', this.recentSearchList)
+        })
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           // alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          alert('검색어를 입력해주세요')
+          alert('특수문자를 제외한 검색어를 입력해주세요')
         }
       })
     },
@@ -129,29 +169,17 @@ export default {
           this.fnGetList(res)
         })
     }
-
   }
 }
 </script>
 
 <style scoped>
-/* 임시배경
-.Sbackground{
-   background: slategray;
-} */
 .input-group >input {
-  border-radius: 12.5rem;
-  border: 1px solid #cdcdcd;
+  border: 2px solid #e83283;
   color: #000;
-  border-color: #adadad;
 }
 .input-group > input::placeholder{
   color: #7d7d7d;
-}
-.input-group > input:focus {
-  border-radius: 12.5rem;
-  border: 2px solid #e83283;
-  color: #000;
 }
 
 .searchtd{

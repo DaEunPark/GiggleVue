@@ -1,6 +1,6 @@
 <template>
-    <article class="mb-1" id="cardarticle">
-        <div class="card" id="card" style="z-index: 1; margin : 0; box-shadow: none;">
+    <article class="mb-3" id="cardarticle">
+        <div class="card" id="card" style="z-index: 1; margin : 0;">
                 <article class="my-3" id="textcardarticle">
                     <textarea name="text" id="text" cols="50" rows="5" placeholder="Giggle Giggle😘" v-model="post.text_content"></textarea>
                 </article>
@@ -52,8 +52,8 @@
                     <img src="../assets/link.png" onclick="addLink()" id="addLink" class="icon">
 
                     <!-- <img src="../assets/statistics.png" onclick="statistics()" id="statistics" class="icon"> -->
-                    <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">등록</button>
-
+                    <button class="btn btn-light btn-mb" id="cancel" @click="fnCancel()">취소</button>
+                    <button class="btn btn-primary btn-mb" id="upload" @click="fnSave()">수정</button>
                 </div>
         </div>
     </article>
@@ -64,19 +64,17 @@
 export default {
   data () {
     return {
-      post: {
-        user_no: this.$store.state.loginUserDTO.user_no,
-        text_content: '',
-        post_link: ''
-      },
+      post: {},
+      post_no: this.$route.query.post_no,
       addedYTLink: false,
       files: [],
-      localImages: []
+      localImages: [],
+      isModified: false
 
     }
   },
   mounted () {
-
+    this.getPostDetail()
   },
   computed: {
     showImgList () {
@@ -85,16 +83,40 @@ export default {
     }
   },
   methods: {
+    getPostDetail () {
+      this.$axios.get(`${this.$serverUrl}/post/postdetail`,
+        {
+          params: {
+            post_no: this.post_no,
+            user_no: this.$store.state.loginUserDTO.user_no
+          }
+        }).then(res => {
+        console.log(`Query: ${this.post_no}`)
+        this.post = res.data.post
+        res.data.postImages.forEach(img => {
+          this.localImages.push(img.imagepath)
+        })
+        if (this.post.post_link === '' || this.post.post_link === null || this.post.post_link === undefined) {
+          this.addedYTLink = false
+        } else {
+          this.addedYTLink = true
+        }
+      }).catch(err => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    },
     fnSave () {
       if (this.post.text_content === '' || this.post.text_content === null || this.post.text_content === undefined) {
         alert('내용 입력은 필수입니다.')
       } else {
         //   alert('등록 가능')
-        this.$axios.post(`${this.$serverUrl}/post/uploadpost`, this.post)
+        this.$axios.patch(`${this.$serverUrl}/post/upadtepost`, this.post)
           .then(res => {
             if (res.data === 'Y') {
-              this.uploadImgToServer()
               this.insertTag()
+              this.uploadImgToServer()
             } else {
               alert('실패 실패 실패 새로운 게시글이 등록되었습니다. ' + res.data)
             }
@@ -103,22 +125,6 @@ export default {
               alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
             }
           })
-
-        // 태그 설정 부분 시작
-
-        // const data = { text_content: this.post.text_content }
-
-        // this.$axios.post(this.$serverUrl + '/tag/insertTag', JSON.stringify(data), {
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   }
-        // }).then((res) => {
-        //   console.log('태그 저장 성공..')
-        //   location.reload()
-        // }
-        // )
-
-        // 태그 설정 부분 끝
       }
     },
     addYoutube () {
@@ -165,6 +171,8 @@ export default {
       }
     },
     async uploadImgToServer () {
+      // alert('이미지들 업로드 테스트')
+      this.isModified = true
       if (this.files.length > 0) {
         const body = new FormData()
         for (let i = 0; i < this.files.length; i++) {
@@ -178,11 +186,18 @@ export default {
             }
           }
         ).then(res => {
-          // console.log('이미지들 업로드 테스트' + res.data)
+          // alert('이미지들 업로드 테스트' + res.data)
+          if (res.data === 'Y') {
+            // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+          }
           // this.s3ImgURL = res.data
+          this.$router.replace(`/main/postdetail?post_no=${this.post_no}`, () => { this.$router.go(0) })
         }).catch(err => {
           console.log(err)
         })
+      } else {
+        console.log('asoioivproeirpo')
+        this.$router.replace(`/main/postdetail?post_no=${this.post_no}`, () => { this.$router.go(0) })
       }
     },
     async insertTag () {
@@ -194,14 +209,76 @@ export default {
         }
       }).then((res) => {
         // alert('태그 저장 성공..')
-        // location.reload()
-        this.$router.go()
+        // this.$router.push({ path: '/main/postdetail', query: { post_no: this.post_no } })
+        // this.$router.go(-1)
       }
       )
     },
     deleteThisImage (item) {
       this.files.splice(item, 1)
-      this.localImages.splice(item, 1)
+      if (this.localImages[item].includes('cloudfront')) {
+        // const imagepath = this.localImages[item]
+        this.$axios.post(`${this.$serverUrl}/post/beforedeleteimage`, {
+          imagepath: this.localImages[item]
+        })
+          .then(res => {
+            console.log(res.data)
+            if (res.data === 'Y') {
+              this.localImages.splice(item, 1)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.localImages.splice(item, 1)
+      }
+    },
+    fnCancel () {
+      // this.cancelModify()
+      this.$router.replace(`/main/postdetail?post_no=${this.post_no}`)
+    },
+    async cancelModify () {
+      await this.$axios.post(`${this.$serverUrl}/post/cancelupdate`, {
+        post_no: this.post_no
+      })
+        .then(res => {
+          // eslint-disable-next-line no-empty
+          if (res.data === 'Y') {
+            console.log('cancelupdate')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  beforeRouteLeave  (to, from, next) {
+    // 포스트 수정 확인 버튼을 누르면 작동 안 하도록 하기
+    if (!this.isModified) {
+      console.log('log: beforeRouteLeave')
+      const answer = window.confirm('데이터 저장이 되지 않았습니다. 이 페이지를 나가시겠습니까?')
+      if (answer) {
+        // 포스트 수정 취소 => 삭제 예정 Image 표시 취소하기
+        // this.cancelModify()
+        this.$axios.post(`${this.$serverUrl}/post/cancelupdate`, {
+          post_no: this.post_no
+        })
+          .then(res => {
+          // eslint-disable-next-line no-empty
+            if (res.data === 'Y') {
+              console.log('cancelupdate')
+              next()
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        next(false)
+      }
+    } else {
+      next()
     }
   }
 }
@@ -266,6 +343,11 @@ textarea {
     right: 5%;
     bottom: 3%;
 }
+#cancel {
+  position: fixed;
+   right: 18%;
+  bottom: 3%;
+}
 .filelabel {
   display: inline-block;
   color: #fff;
@@ -279,17 +361,16 @@ textarea {
 }
 
 .image-delete {
-  /* float: inline-end; */
-  float: right;
+  float: inline-end;
   top: 40px;
   padding-inline-end: 10px;
   position: relative;
+  float: right;
 }
 
 .wrap {
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 280px));
-  /* grid-auto-rows: minmax(145px, 158px); */
   grid-gap: 1em;
 }
 .uploadimage {
