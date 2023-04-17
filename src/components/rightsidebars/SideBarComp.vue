@@ -199,8 +199,6 @@ export default {
 
     console.log(this.recentSearchList)
 
-
-
     if (localStorage.getItem('reloadedSideBar')) {
       // The page was just reloaded. Clear the value from local storage
       // so that it will reload the next time this page is visited.
@@ -210,7 +208,6 @@ export default {
       localStorage.setItem('reloadedSideBar', '1')
       location.reload()
     }
-
   },
   methods: {
     getRecentSearch () {
@@ -221,7 +218,7 @@ export default {
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
 
-      this.keyword=''
+      this.keyword = ''
 
       const temp = keyword
       this.keyword = temp.replace('#', '')
@@ -270,34 +267,35 @@ export default {
     clearAllSearchWords () {
       // 모두 지우기를 하면 따로 보여줄 거 정하기
       this.isExistSearchWord = !this.isExistSearchWord
-      this.recentSearchList={}
+      this.recentSearchList = {}
       this.$store.commit('recentSearchList', this.recentSearchList)
-      console.log("this.$store.state.recentSearchList = " + this.$store.state.recentSearchList)
+      console.log('this.$store.state.recentSearchList = ' + this.$store.state.recentSearchList)
     },
     deleteThisSearchWord (item) {
       // alert('delete ' + this.recentSearchList[item])
       this.recentSearchList.splice(item, 1)
-      
-      const data={num:this.$store.state.recentSearchList[item],
-                  keyword0: this.recentSearchList[0],
-                  keyword1: this.recentSearchList[1],
-                  keyword2: this.recentSearchList[2],
-                  keyword3: this.recentSearchList[3],
-                  keyword4: this.recentSearchList[4]
+
+      const data = {
+        num: this.$store.state.recentSearchList[item],
+        keyword0: this.recentSearchList[0],
+        keyword1: this.recentSearchList[1],
+        keyword2: this.recentSearchList[2],
+        keyword3: this.recentSearchList[3],
+        keyword4: this.recentSearchList[4]
       }
 
-      this.$axios.post(this.$serverUrl + '/deleteThisSearchWord/' , JSON.stringify(data), {
+      this.$axios.post(this.$serverUrl + '/deleteThisSearchWord/', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-          this.recentSearchList = res.data
-          console.log('res.data = ' + res.data)
-          console.log('recentSearchList = ' + this.recentSearchList)
-          
-          this.$store.commit('recentSearchList', this.recentSearchList)
-          router.go()
-        })
+        this.recentSearchList = res.data
+        console.log('res.data = ' + res.data)
+        console.log('recentSearchList = ' + this.recentSearchList)
+
+        this.$store.commit('recentSearchList', this.recentSearchList)
+        router.go()
+      })
     },
     followThisUser (item) {
       const follow = {
