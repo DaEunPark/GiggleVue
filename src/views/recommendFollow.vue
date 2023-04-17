@@ -48,7 +48,8 @@ export default {
       top3: '',
       top4: '',
       top5: '',
-      recommendUser: {}
+      recommendUser: {},
+      isFollowingArr: []
     }
   },
   computed: {
@@ -63,12 +64,16 @@ export default {
       //   return this.followResult
       // }
       // return this.followResult
+      // return (item) => {
+      //   if (this.followResult.includes(item)) {
+      //     return 'Y'
+      //   } else {
+      //     return 'N'
+      //   }
+      // }
       return (item) => {
-        if (this.followResult.includes(item)) {
-          return 'Y'
-        } else {
-          return 'N'
-        }
+        const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+        return this.isFollowingArr[idx].isFollowing
       }
     }
   },
@@ -97,6 +102,10 @@ export default {
         }
       }).then((res) => {
         this.recommendUser = res.data
+        for (let i = 0; this.recommendUser.length; i++) {
+          const data = { user: this.recommendUser[i].user_no, isFollowing: 'N' }
+          this.isFollowingArr.push(data)
+        }
       })
     },
     intoProfile (user) {
@@ -122,6 +131,8 @@ export default {
       }
       // alert('follow this user: ' + item)
       this.user_follow_create(follow)
+      const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+      this.isFollowingArr[idx].isFollowing = this.isFollowingArr[idx].isFollowing === 'N' ? 'Y' : 'N'
     }
   },
   mixins: [Follow]

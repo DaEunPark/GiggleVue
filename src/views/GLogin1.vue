@@ -40,7 +40,7 @@ export default {
       console.log(userObject)
       this.user = userObject
 
-      const data = { google_token: this.user_email }
+      const data = { google_token: this.user.email }
 
       this.$axios.post(this.$serverUrl + '/googlelogin', JSON.stringify(data), {
         headers: {
@@ -48,13 +48,13 @@ export default {
         }
       }).then((res) => {
         // eslint-disable-next-line eqeqeq
-        if (res.data.google_token == this.user_email) {
+        if (res.data.google_token == this.user.email) {
           this.$router.push({
             path: '/main/mainhome'
           })
           this.$store.commit('addLoginUser', res.data)
         // eslint-disable-next-line eqeqeq
-        } else if (res.data.google_token != this.user_email) {
+        } else if (res.data.google_token != this.user.email) {
           alert('일치하는 회원 정보가 없습니다.')
           // eslint-disable-next-line eqeqeq
           if (confirm('회원가입을 진행 하시겠습니까?') == true) {

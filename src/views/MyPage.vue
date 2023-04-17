@@ -118,6 +118,15 @@ export default {
 
     this.GetmyfeedList(),
     this.GetmyLikefeedList()
+    if (localStorage.getItem('reloadedSideBar')) {
+      // The page was just reloaded. Clear the value from local storage
+      // so that it will reload the next time this page is visited.
+      localStorage.removeItem('reloadedSideBar')
+    } else {
+      // Set a flag so that we know not to reload the page twice.
+      localStorage.setItem('reloadedSideBar', '1')
+      this.$emit('refresh-sidebar')
+    }
   },
   methods: {
     pushSetting () {

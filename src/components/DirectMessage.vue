@@ -533,7 +533,7 @@ export default ({
 #yesChatUl {
   list-style: none;
   overflow-y: scroll;
-  height: 75%;
+  height: 80%;
   padding-left: 30px;
   margin-bottom: 0px;
 }

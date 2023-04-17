@@ -14,7 +14,6 @@
                             placeholder="검색어를 입력하세요"
                             @keydown.enter="searchresultshow(keyword)">
                   </div>
-
                 <div>
                   <h3 style="color:#7d7d7d;">user</h3>
                     <UserFeedStatus :items="alluserfeedList" v-show="!userfeeddisplay"></UserFeedStatus>
@@ -76,26 +75,6 @@ export default {
           // console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false
 
-          // 최근 검색 추가한 부분
-          const data = {
-            keyword0: this.keyword,
-            keyword1: this.recentSearchList[0],
-            keyword2: this.recentSearchList[1],
-            keyword3: this.recentSearchList[2],
-            keyword4: this.recentSearchList[3]
-          }
-          this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then((res) => {
-            this.recentSearchList = res.data
-            console.log('res.data = ' + res.data)
-            console.log('recentSearchList = ' + this.recentSearchList)
-
-            this.$store.commit('recentSearchList', this.recentSearchList)
-          })
-
           this.$axios.post(this.$serverUrl + '/main/searchuser/' + this.keyword).then(res => {
             // eslint-disable-next-line eqeqeq
             if (res.data[0] != null) {
@@ -138,6 +117,30 @@ export default {
       // console.log("searchResultView에서의 검색");
       console.log('"', keyword, '"' + '검색')
 
+      this.keyword = ''
+      this.keyword = keyword
+
+      // 최근 검색 추가한 부분
+
+      const data = {
+        keyword0: this.keyword,
+        keyword1: this.recentSearchList[0],
+        keyword2: this.recentSearchList[1],
+        keyword3: this.recentSearchList[2],
+        keyword4: this.recentSearchList[3]
+      }
+      this.$axios.post(this.$serverUrl + '/main/recentSearch', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.recentSearchList = res.data
+        console.log('res.data = ' + res.data)
+        console.log('recentSearchList = ' + this.recentSearchList)
+
+        this.$store.commit('recentSearchList', this.recentSearchList)
+      })
+
       this.$axios.get(this.$serverUrl + '/main/search/' + this.keyword + '/userno/' + this.user_no).then(res => {
         // eslint-disable-next-line eqeqeq
         if (res.data[0] != null) {
@@ -147,6 +150,7 @@ export default {
               keyword: this.keyword
             }
           })
+
           this.allfeedList = res.data
           // console.log('피드값있음도출' + res.data[0])
           this.feeddisplay = false

@@ -20,10 +20,12 @@
                                 <span class="text-dark fw-bold">최근 검색어</span>
                                 <a href="#" class="hover-change-color" @click="clearAllSearchWords()"><span class="badge rounded-pill bg-success" style="padding: 8px;">모두 지우기</span></a>
                             </div>
-                            <router-link to="#" class="list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in this.recentSearchList" :key="i">
+                            <div class="recentSearchDiv list-group-item list-group-item-action text-info d-flex justify-content-between align-items-center " v-for="(recent ,i) in this.recentSearchList" :key="i">
+                            <button type="button" id="recentBtn" @click="searchresultshow(recent)" >
                                 <span class="d-inline-block text-truncate" style="margin-right: 20px;">{{ recent }}</span>
-                                <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
-                            </router-link>
+                              </button>
+                              <a role="button" class="hover-change-color" @click="deleteThisSearchWord(i)"><font-awesome-icon class="" icon="fa-solid fa-xmark" size="lg" style="color: #6f52ff;" /></a>
+                          </div>
 
                         </div><!-- <div class="list-group"> -->
                     </div> <!-- <div class="card bg-light mb-3"> -->
@@ -74,7 +76,7 @@
         </div>
 
         <!-- <div id="test1" class="sticky-top" v-show="showURLRecommendFollow"> -->
-        <!-- <div id="test1" class="sticky-top"> -->
+        <div id="stickyFollowFooter" class="sticky-top">
             <!-- 팔로우 추천 -->
             <div id="recommendfollow" v-show="showURLRecommendFollow">
                 <div class="recommendfollowWrap mb-2 border-round-radius">
@@ -117,7 +119,7 @@
                 </div>
             </footer>
 
-        <!-- </div> test1 -->
+        </div> <!-- <div id="test1" class="sticky-top"> -->
 
 </div>
 </template>
@@ -147,7 +149,8 @@ export default {
       top4: '',
       top5: '',
       recommendUser: {},
-      user_no: this.$store.state.loginUserDTO.user_no
+      user_no: this.$store.state.loginUserDTO.user_no,
+      isFollowingArr: []
     }
   },
   computed: {
@@ -165,12 +168,16 @@ export default {
       //   return this.followResult
       // }
       // return this.followResult
+      // return (item) => {
+      //   if (this.followResult.includes(item)) {
+      //     return 'Y'
+      //   } else {
+      //     return 'N'
+      //   }
+      // }
       return (item) => {
-        if (this.followResult.includes(item)) {
-          return 'Y'
-        } else {
-          return 'N'
-        }
+        const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+        return this.isFollowingArr[idx].isFollowing
       }
     }
   },
@@ -179,7 +186,8 @@ export default {
       console.log(to)
       console.log(from)
       this.thisURL = window.location.href
-    //   console.log(this.thisURL)
+      //   console.log(this.thisURL)
+      // this.$forceUpdate()
     }
   },
   mounted () {
@@ -188,6 +196,8 @@ export default {
     this.recommendFollow()
 
     this.getRecentSearch()
+
+    console.log(this.recentSearchList)
   },
   methods: {
     getRecentSearch () {
@@ -197,6 +207,8 @@ export default {
     },
     searchresultshow (keyword) {
       // console.log("searchresultshow 결과화면으로 이동");
+
+      this.keyword = ''
 
       const temp = keyword
       this.keyword = temp.replace('#', '')
@@ -233,6 +245,7 @@ export default {
           console.log('recentSearchList = ' + this.recentSearchList)
 
           this.$store.commit('recentSearchList', this.recentSearchList)
+          location.reload()
         })
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -244,11 +257,36 @@ export default {
     clearAllSearchWords () {
       // 모두 지우기를 하면 따로 보여줄 거 정하기
       this.isExistSearchWord = !this.isExistSearchWord
-      this.$store.commit('deleteRecentSearchList')
+      this.recentSearchList = {}
+      this.$store.commit('recentSearchList', this.recentSearchList)
+      console.log('this.$store.state.recentSearchList = ' + this.$store.state.recentSearchList)
     },
     deleteThisSearchWord (item) {
-      alert('delete ' + this.recentSearchList[item])
+      // alert('delete ' + this.recentSearchList[item])
       this.recentSearchList.splice(item, 1)
+
+      const data = {
+        num: this.$store.state.recentSearchList[item],
+        keyword0: this.recentSearchList[0],
+        keyword1: this.recentSearchList[1],
+        keyword2: this.recentSearchList[2],
+        keyword3: this.recentSearchList[3],
+        keyword4: this.recentSearchList[4]
+      }
+
+      this.$axios.post(this.$serverUrl + '/deleteThisSearchWord/', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.recentSearchList = res.data
+        console.log('res.data = ' + res.data)
+        console.log('recentSearchList = ' + this.recentSearchList)
+
+        this.$store.commit('recentSearchList', this.recentSearchList)
+        // eslint-disable-next-line no-undef
+        router.go()
+      })
     },
     followThisUser (item) {
       const follow = {
@@ -257,6 +295,8 @@ export default {
       }
       // alert('follow this user: ' + item)
       this.user_follow_create(follow)
+      const idx = this.isFollowingArr.findIndex((element, index, array) => element.user === item)
+      this.isFollowingArr[idx].isFollowing = this.isFollowingArr[idx].isFollowing === 'N' ? 'Y' : 'N'
     },
     replaceTo (path) {
     // this.$route.replaceTo(path)
@@ -307,6 +347,10 @@ export default {
         }
       }).then((res) => {
         this.recommendUser = res.data
+        for (let i = 0; this.recommendUser.length; i++) {
+          const data = { user: this.recommendUser[i].user_no, isFollowing: 'N' }
+          this.isFollowingArr.push(data)
+        }
         console.log('recommendUser = ' + this.recommendUser[0].user_nick)
       })
     },
@@ -407,7 +451,7 @@ export default {
         /* color:orangered; */
         background-color: deeppink !important;
     }
-    #test1 {
+    #stickyFollowFooter {
         top: 3.5em;
         z-index: 0;
     }
@@ -499,5 +543,18 @@ export default {
     vertical-align: middle;
     width: 20px;
 }
-
+.text-truncate {
+  color: black;
+}
+#recentBtn{
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  padding: 0% 0%;
+  border: none;
+  text-align: left;
+}
+.recentSearchDiv:hover{
+  background-color: lightpink;
+}
 </style>

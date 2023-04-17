@@ -57,12 +57,20 @@
                                 </div>
                                 <div class="bottom_btn" id="FL_spanchart">
                                     <!--<a class="btn"  @on-click="fn_pushInsite()">-->
-                                    <a href="#postInsite"
+                                    <!-- <a href="#postInsite"
                                         class = "btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#postInsite"
                                         @on-click = "fn_pushInsite()">
                                         <font-awesome-icon icon="fa-solid fa-chart-simple"/>
+                                    </a> -->
+                                    <a class="btn" v-if="item.imgCnt > 0" style="pointer-events: none;">
+                                      <font-awesome-icon icon="fa-regular fa-images" />
+                                      <span class="bottom_cnt">{{ item.imgCnt }}</span>
+                                    </a>
+                                    <a class="btn" v-if="item.imgCnt <= 0" style="pointer-events: none; opacity: 0;">
+                                      <font-awesome-icon icon="fa-regular fa-images" />
+                                      <span class="bottom_cnt">{{ item.imgCnt }}</span>
                                     </a>
                                 </div>
                             </div>
